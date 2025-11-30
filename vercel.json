@@ -1,0 +1,18 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/about-us", "destination": "/about-us.html" },
+    { "source": "/directory", "destination": "/directory.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Vercel-Skip-Toolbar",
+          "value": "1"
+        }
+      ]
+    }
+  ]
+}

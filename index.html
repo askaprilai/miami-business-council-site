@@ -1545,6 +1545,57 @@
         </div>
     </section>
 
+    <!-- Last Breakfast Gallery Section -->
+    <section id="breakfast-gallery" class="breakfast-gallery" style="padding: 6rem 0; background: #0a0a0b; position: relative; overflow: hidden;">
+        <div class="container">
+            <h2 style="font-size: 2.5em; font-weight: 300; text-align: center; margin-bottom: 1rem; background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);">Last Breakfast Event</h2>
+            <p style="text-align: center; color: #ccc; font-size: 1.1em; margin-bottom: 4rem; max-width: 600px; margin-left: auto; margin-right: auto;">Highlights from our recent networking breakfast with Miami's business leaders</p>
+            
+            <!-- Carousel Container -->
+            <div style="position: relative; max-width: 800px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                <!-- Carousel Images -->
+                <div class="carousel-container" style="position: relative; width: 100%; height: 400px; overflow: hidden;">
+                    <div class="carousel-slide active" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.6s ease-in-out;">
+                        <img src="Images/IMG_2442.jpeg" alt="Breakfast Event Photo 1" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 2rem; color: white;">
+                            <p style="margin: 0; font-size: 1.1em;">Networking and collaboration at Global Furniture</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s ease-in-out;">
+                        <img src="Images/IMG_2445.jpeg" alt="Breakfast Event Photo 2" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 2rem; color: white;">
+                            <p style="margin: 0; font-size: 1.1em;">Business leaders connecting over breakfast</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s ease-in-out;">
+                        <img src="Images/IMG_2447.jpeg" alt="Breakfast Event Photo 3" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 2rem; color: white;">
+                            <p style="margin: 0; font-size: 1.1em;">Building Miami's business community</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s ease-in-out;">
+                        <img src="Images/IMG_2450.jpeg" alt="Breakfast Event Photo 4" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 2rem; color: white;">
+                            <p style="margin: 0; font-size: 1.1em;">Inspiring conversations and partnerships</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Arrows -->
+                <button class="carousel-prev" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: rgba(212, 175, 55, 0.9); color: #000; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5em; cursor: pointer; transition: all 0.3s ease; z-index: 10;" onmouseover="this.style.background='rgba(212, 175, 55, 1)'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.background='rgba(212, 175, 55, 0.9)'; this.style.transform='translateY(-50%) scale(1)'">&lt;</button>
+                <button class="carousel-next" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: rgba(212, 175, 55, 0.9); color: #000; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5em; cursor: pointer; transition: all 0.3s ease; z-index: 10;" onmouseover="this.style.background='rgba(212, 175, 55, 1)'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.background='rgba(212, 175, 55, 0.9)'; this.style.transform='translateY(-50%) scale(1)'">&gt;</button>
+                
+                <!-- Dots Indicator -->
+                <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10;">
+                    <div class="carousel-dot active" style="width: 12px; height: 12px; border-radius: 50%; background: #d4af37; cursor: pointer; transition: all 0.3s ease;" onclick="currentSlide(1)"></div>
+                    <div class="carousel-dot" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s ease;" onclick="currentSlide(2)"></div>
+                    <div class="carousel-dot" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s ease;" onclick="currentSlide(3)"></div>
+                    <div class="carousel-dot" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s ease;" onclick="currentSlide(4)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Resources Section -->
     <section id="resources" class="resources" style="padding: 6rem 0; background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0f0f0f 100%);">
         <div class="container">
@@ -2201,6 +2252,56 @@
                 } else {
                     floatingCta.classList.remove('visible');
                 }
+            }
+        });
+
+        // Breakfast Carousel Functionality
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.style.opacity = '0');
+            dots.forEach(dot => {
+                dot.style.background = 'rgba(255,255,255,0.5)';
+                dot.classList.remove('active');
+            });
+            
+            // Show current slide
+            if (slides[index]) {
+                slides[index].style.opacity = '1';
+                dots[index].style.background = '#d4af37';
+                dots[index].classList.add('active');
+            }
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(currentSlideIndex);
+        }
+
+        function prevSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+            showSlide(currentSlideIndex);
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+        }
+
+        // Add event listeners for carousel navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const prevBtn = document.querySelector('.carousel-prev');
+            const nextBtn = document.querySelector('.carousel-next');
+            
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', prevSlide);
+                nextBtn.addEventListener('click', nextSlide);
+                
+                // Auto-play carousel every 5 seconds
+                setInterval(nextSlide, 5000);
             }
         });
     </script>

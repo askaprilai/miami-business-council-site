@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakfast Networking Registration | Miami Business Council</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Register for Miami Business Council's monthly breakfast networking event. Connect with business leaders, enjoy complimentary breakfast, and grow your network in Miami.">
+    <meta name="keywords" content="Miami business breakfast, networking event registration, business council Miami, professional networking">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Breakfast Networking Registration - Miami Business Council">
+    <meta property="og:description" content="Join Miami's premier business breakfast networking event. Register now for exclusive access.">
+    <meta property="og:image" content="https://miamibusinesscouncil.com/Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    
+    <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #e8eaed;
+            background: #0a0a0b;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 15px;
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .back-link {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 50vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('Images/IMG_2442.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5em;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3em;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Registration Section */
+        .registration {
+            padding: 6rem 0;
+            background: #0a0a0b;
+        }
+
+        .registration-content {
+            display: grid;
+            grid-template-columns: 1fr 500px;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .event-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .event-info h2 {
+            color: #d4af37;
+            font-size: 2em;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .event-details {
+            margin-bottom: 2rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.1em;
+        }
+
+        .event-detail .icon {
+            background: #d4af37;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .highlights {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #d4af37;
+            margin-top: 2rem;
+        }
+
+        .highlights h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        .highlights ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .highlights li {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .highlights li:before {
+            content: "✓";
+            color: #d4af37;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Registration Form */
+        .registration-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            color: #333;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .registration-form h3 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 0.5rem;
+        }
+
+        .registration-form .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: #d4af37;
+            color: #000;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .registration-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .registration-form {
+                position: static;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5em;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
+                    <div class="logo-text">Miami Business Council</div>
+                </a>
+                <a href="index.html" class="back-link">← Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Monthly Breakfast Networking</h1>
+            <p>Join Miami's premier business leaders for monthly networking, collaboration, and growth opportunities</p>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="registration">
+        <div class="container">
+            <div class="registration-content">
+                <!-- Event Information -->
+                <div class="event-info">
+                    <h2>Event Details</h2>
+                    
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <div class="icon">📅</div>
+                            <div>
+                                <strong>When:</strong> Monthly (Dates TBD)<br>
+                                <span style="color: #ccc;">8:30 AM - 10:30 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-detail">
+                            <div class="icon">📍</div>
+                            <div>
+                                <strong>Where:</strong> Global Furniture<br>
+                                <span style="color: #ccc;">112 NE 41st St, 6th Floor<br>Miami, FL 33137</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-detail">
+                            <div class="icon">☕</div>
+                            <div>
+                                <strong>Includes:</strong> Complimentary breakfast & coffee<br>
+                                <span style="color: #ccc;">Light breakfast provided</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-detail">
+                            <div class="icon">💰</div>
+                            <div>
+                                <strong>Cost:</strong> Free for Members<br>
+                                <span style="color: #ccc;">Invitation required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlights">
+                        <h3>What to Expect:</h3>
+                        <ul>
+                            <li>Network with 20-30 Miami business leaders</li>
+                            <li>Learn about Miami Business Council initiatives</li>
+                            <li>Connect with founders and innovators</li>
+                            <li>Explore collaboration opportunities</li>
+                            <li>Enjoy premium breakfast in a professional setting</li>
+                            <li>Build meaningful business relationships</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="registration-form">
+                    <h3>Register for Breakfast Series</h3>
+                    <p class="subtitle">Join our waitlist to receive invitations to upcoming breakfast events</p>
+                    
+                    <form id="registrationForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company">Company/Organization *</label>
+                            <input type="text" id="company" name="company" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title">Job Title *</label>
+                            <input type="text" id="title" name="title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <select id="industry" name="industry">
+                                <option value="">Select Industry</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="Design">Design</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interests">What interests you most about our breakfast series?</label>
+                            <textarea id="interests" name="interests" placeholder="Share what you hope to gain from attending our breakfast networking events..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">Register for Breakfast Series</button>
+                        
+                        <div class="success-message" id="successMessage">
+                            Thank you for registering! You'll receive email invitations to upcoming breakfast events.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Registration Form Handler
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Registering...';
+            submitBtn.disabled = true;
+            
+            // Get form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                company: document.getElementById('company').value,
+                title: document.getElementById('title').value,
+                industry: document.getElementById('industry').value,
+                interests: document.getElementById('interests').value,
+                source: 'Breakfast Registration Page'
+            };
+            
+            try {
+                // Here you can integrate with your existing Google Sheets or email system
+                // For now, simulate success after 2 seconds
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Show success message
+                this.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Track with Google Analytics if available
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'breakfast_registration', {
+                        'event_category': 'engagement',
+                        'event_label': 'breakfast_series'
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again or contact us directly.');
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership | Miami Business Council</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join Miami Business Council with flexible membership options. Individual, Non-Profit, and Business memberships available. Connect with Miami's premier business community.">
+    <meta name="keywords" content="Miami business membership, business council membership, Miami networking membership, professional membership Miami">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Membership - Miami Business Council">
+    <meta property="og:description" content="Join Miami's premier business community with flexible membership options starting at $250.">
+    <meta property="og:image" content="https://miamibusinesscouncil.com/Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    
+    <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #e8eaed;
+            background: #0a0a0b;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 15px;
+        }
+
+        .logo-image {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .back-link {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0 4rem;
+            background: linear-gradient(135deg, #0a0a0b 0%, #1a1a2e 50%, #16213e 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Membership Plans */
+        .membership-plans {
+            padding: 6rem 0;
+            background: #0a0a0b;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8em;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            color: #e8eaed;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+        }
+
+        .plan-card.featured {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .plan-card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #d4af37;
+            color: #000;
+            padding: 0.5rem 3rem;
+            font-size: 0.8em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transform: rotate(45deg);
+        }
+
+        .plan-type {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .plan-price {
+            font-size: 3em;
+            font-weight: 300;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price .currency {
+            font-size: 0.6em;
+            vertical-align: super;
+        }
+
+        .plan-period {
+            color: #ccc;
+            margin-bottom: 2rem;
+            font-size: 1.1em;
+        }
+
+        .plan-description {
+            color: #ccc;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            margin-bottom: 1rem;
+            color: #e8eaed;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .plan-button {
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .plan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .plan-button.secondary {
+            background: transparent;
+            color: #d4af37;
+            border: 2px solid #d4af37;
+        }
+
+        .plan-button.secondary:hover {
+            background: #d4af37;
+            color: #000;
+        }
+
+        /* Benefits Section */
+        .membership-benefits {
+            padding: 6rem 0;
+            background: #1a1a1a;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .benefit {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .benefit h3 {
+            font-size: 1.3em;
+            color: #e8eaed;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .benefit p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 0;
+            background: #0a0a0b;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: #e8eaed;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #ccc;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
+                    <div class="logo-text">Miami Business Council</div>
+                </a>
+                <a href="index.html" class="back-link">← Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Join Miami's Premier Business Community</h1>
+            <p>Choose the membership that fits your goals and connect with Miami's most influential business leaders.</p>
+        </div>
+    </section>
+
+    <!-- Membership Plans -->
+    <section class="membership-plans">
+        <div class="container">
+            <h2 class="section-title">Membership Options</h2>
+            <div class="plans-grid">
+                <!-- Individual Plan -->
+                <div class="plan-card">
+                    <div class="plan-type">Individual</div>
+                    <div class="plan-price"><span class="currency">$</span>250</div>
+                    <div class="plan-period">Annual Membership</div>
+                    <div class="plan-description">Perfect for entrepreneurs, freelancers, and individual professionals looking to expand their network.</div>
+                    <ul class="plan-features">
+                        <li>Access to monthly breakfast networking events</li>
+                        <li>Member directory access</li>
+                        <li>Exclusive event invitations</li>
+                        <li>Networking opportunities</li>
+                        <li>Member-only communications</li>
+                        <li>Professional development workshops</li>
+                    </ul>
+                    <button class="plan-button">Apply for Individual Membership</button>
+                </div>
+
+                <!-- Non-Profit Plan -->
+                <div class="plan-card featured">
+                    <div class="plan-type">Non-Profit</div>
+                    <div class="plan-price"><span class="currency">$</span>350</div>
+                    <div class="plan-period">Annual Membership</div>
+                    <div class="plan-description">Designed for non-profit organizations making a positive impact in the Miami community.</div>
+                    <ul class="plan-features">
+                        <li>All Individual membership benefits</li>
+                        <li>Organization listing in member directory</li>
+                        <li>Speaking opportunities at events</li>
+                        <li>Volunteer opportunity postings</li>
+                        <li>Partnership collaboration opportunities</li>
+                        <li>Special non-profit networking sessions</li>
+                        <li>Grant and funding opportunity alerts</li>
+                    </ul>
+                    <button class="plan-button">Apply for Non-Profit Membership</button>
+                </div>
+
+                <!-- Business Plan -->
+                <div class="plan-card">
+                    <div class="plan-type">Business</div>
+                    <div class="plan-price"><span class="currency">$</span>450</div>
+                    <div class="plan-period">Annual Membership</div>
+                    <div class="plan-description">Comprehensive membership for businesses ready to lead and grow in Miami's dynamic market.</div>
+                    <ul class="plan-features">
+                        <li>All Individual and Non-Profit benefits</li>
+                        <li>Premium business directory listing</li>
+                        <li>Sponsorship opportunities</li>
+                        <li>Speaking and presentation slots</li>
+                        <li>Business showcase opportunities</li>
+                        <li>Lead generation and referrals</li>
+                        <li>Exclusive business roundtables</li>
+                        <li>Priority event access</li>
+                    </ul>
+                    <button class="plan-button">Apply for Business Membership</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Benefits -->
+    <section class="membership-benefits">
+        <div class="container">
+            <h2 class="section-title">Why Leaders Choose Miami Business Council</h2>
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <div class="benefit-icon">🤝</div>
+                    <h3>Quality Connections</h3>
+                    <p>Connect with vetted business leaders, entrepreneurs, and decision-makers across Miami's most dynamic industries.</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Business Growth</h3>
+                    <p>Access opportunities for partnerships, collaborations, and business development through our extensive network.</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Exclusive Events</h3>
+                    <p>Attend member-only events, workshops, and networking sessions designed for meaningful business interactions.</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">🏆</div>
+                    <h3>Industry Recognition</h3>
+                    <p>Gain visibility and recognition as a leader in Miami's business community through speaking and sponsorship opportunities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    What's included in my membership?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    All memberships include access to our monthly breakfast networking events, member directory, exclusive event invitations, and professional development opportunities. Higher tiers include additional benefits like sponsorship opportunities and premium listings.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How often are events held?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    We hold monthly breakfast networking events, with additional workshops and special events throughout the year exclusively for members.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I upgrade my membership?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes, you can upgrade your membership at any time. We'll prorate the difference and apply it to your account immediately.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Is there a trial period?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    We offer a satisfaction guarantee for new members. Contact us within the first 30 days if you're not completely satisfied with your membership experience.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('span');
+                
+                answer.classList.toggle('active');
+                icon.textContent = answer.classList.contains('active') ? '−' : '+';
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

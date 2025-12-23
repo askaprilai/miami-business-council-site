@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miami Business Council | Premier Business Networking & Professional Development in Miami, FL</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join Miami's premier business council. Network with industry leaders, access exclusive events, and accelerate your business growth in South Florida's dynamic market. Join today!">
+    <meta name="keywords" content="Miami business council, Miami networking, business community, professional development, Miami business council, South Florida business, Design District networking, Brickell business events, Miami professional organizations, business growth Miami">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miamibusinesscouncil.com/">
+    <meta property="og:title" content="Miami Business Council - Premier Business Community">
+    <meta property="og:description" content="Join Miami's premier business community. Connect with industry leaders, access exclusive networking events, and grow your business.">
+    <meta property="og:image" content="https://miamibusinesscouncil.com/Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://miamibusinesscouncil.com/">
+    <meta property="twitter:title" content="Miami Business Council - Premier Business Community">
+    <meta property="twitter:description" content="Join Miami's premier business community. Connect with industry leaders, access exclusive networking events, and grow your business.">
+    <meta property="twitter:image" content="https://miamibusinesscouncil.com/Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <link rel="canonical" href="https://miamibusinesscouncil.com/">
+    <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Miami Business Council">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #e8eaed;
+            background: #0a0a0b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.98) !important;
+            backdrop-filter: blur(20px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 9999;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+            transition: box-shadow 0.3s ease;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #fff !important;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-text .council {
+            color: #fff !important;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        nav a:hover {
+            color: #d4af37 !important;
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #fff !important;
+            transition: all 0.3s ease;
+        }
+
+        /* Section 1: Hero */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('Images/hero.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 11, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.4em;
+            color: #e8eaed;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            border: 2px solid #d4af37;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: #d4af37;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Section 2: What We Are */
+        .what-we-are {
+            padding: 6rem 0;
+            background: #1a1a1a;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8em;
+            font-weight: 300;
+            margin-bottom: 4rem;
+            color: #e8eaed;
+            letter-spacing: -1px;
+        }
+
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pillar {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pillar:hover {
+            transform: translateY(-5px);
+        }
+
+        .pillar h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        .pillar p {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        /* Section 3: Upcoming Events */
+        .upcoming-events {
+            padding: 6rem 0;
+            background: #0a0a0b;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            padding: 3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            border-left: 4px solid #d4af37;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-card h3 {
+            font-size: 1.8em;
+            color: #e8eaed;
+            margin-bottom: 1rem;
+        }
+
+        .event-meta {
+            color: #d4af37;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .event-description {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        /* Section 4: Membership Benefits */
+        .membership-benefits {
+            padding: 6rem 0;
+            background: #1a1a1a;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .benefit {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .benefit h3 {
+            font-size: 1.2em;
+            color: #e8eaed;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .benefit p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Section 5: Community Photos */
+        .community-photos {
+            padding: 6rem 0;
+            background: #0a0a0b;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        .photos-caption {
+            text-align: center;
+            color: #ccc;
+            font-style: italic;
+            margin-top: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Section 6: Sponsors */
+        .sponsors {
+            padding: 6rem 0;
+            background: #1a1a1a;
+        }
+
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .sponsor-logo {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            color: #e8eaed;
+        }
+
+        .sponsor-logo:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Section 7: CTA Strip */
+        .cta-strip {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #0a0a0b 0%, #1a1a2e 50%, #16213e 100%);
+            text-align: center;
+            color: #fff;
+        }
+
+        .cta-strip h2 {
+            font-size: 3em;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-strip p {
+            font-size: 1.3em;
+            color: #e8eaed;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: #fff;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-size: 1.2em;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #d4af37;
+        }
+
+        .email-signup {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .email-signup input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .email-signup button {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 2rem;
+            text-align: center;
+            color: #999;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #ccc;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #d4af37;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero p {
+                font-size: 1.2em;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 2.2em;
+            }
+            
+            .pillars {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .photos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sponsors-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cta-strip h2 {
+                font-size: 2.2em;
+            }
+            
+            .email-signup {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
+                    <div class="logo-text">
+                        Miami Business <span class="council">Council</span>
+                    </div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#membership">Membership</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Miami's Business Community for Growth-Minded Leaders</h1>
+            <p>Connect. Collaborate. Build the future of Miami alongside founders, innovators, and industry leaders committed to elevating our city.</p>
+            <div class="hero-buttons">
+                <a href="#membership" class="btn-primary">Join the Council</a>
+                <a href="#events" class="btn-secondary">Upcoming Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: What We Are -->
+    <section id="about" class="what-we-are">
+        <div class="container">
+            <h2 class="section-title">A Community Built for Connection and Growth</h2>
+            <div class="pillars">
+                <div class="pillar">
+                    <h3>Meaningful Networking</h3>
+                    <p>Real relationships with leaders across Miami's most dynamic industries.</p>
+                </div>
+                <div class="pillar">
+                    <h3>Insight & Collaboration</h3>
+                    <p>Workshops, breakfasts, and roundtables designed to spark ideas and solve real business challenges.</p>
+                </div>
+                <div class="pillar">
+                    <h3>A Collective Voice</h3>
+                    <p>Strengthening Miami's business ecosystem together — one partnership at a time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Upcoming Events Preview -->
+    <section id="events" class="upcoming-events">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="event-card">
+                <h3>Monthly Breakfast Networking</h3>
+                <div class="event-meta">Dates TBD • 8:30-10:30 AM • Global Furniture</div>
+                <p class="event-description">Join us for our monthly breakfast networking event! Meet fellow business leaders, learn about our mission, and connect with Miami's design and business leaders. Complimentary light breakfast and coffee.</p>
+                <a href="#" class="btn-primary">RSVP</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Membership Benefits -->
+    <section id="membership" class="membership-benefits">
+        <div class="container">
+            <h2 class="section-title">Why Leaders Join the Miami Business Council</h2>
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <div class="benefit-icon">●</div>
+                    <h3>Exclusive Access</h3>
+                    <p>Networking breakfasts and member-only events designed for meaningful connections.</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">●</div>
+                    <h3>Peer Community</h3>
+                    <p>A supportive network of growth-minded leaders committed to mutual success.</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">●</div>
+                    <h3>Visibility Opportunities</h3>
+                    <p>Sponsorship and speaking opportunities to showcase your expertise.</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">●</div>
+                    <h3>City Impact</h3>
+                    <p>A platform to contribute to Miami's business growth and economic development.</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#contact" class="btn-primary">Explore Membership</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Community Photos -->
+    <section class="community-photos">
+        <div class="container">
+            <h2 class="section-title">A Snapshot of Our Community</h2>
+            <div class="photos-grid">
+                <div class="photo-placeholder">Event Photo 1</div>
+                <div class="photo-placeholder">Event Photo 2</div>
+                <div class="photo-placeholder">Event Photo 3</div>
+                <div class="photo-placeholder">Event Photo 4</div>
+                <div class="photo-placeholder">Event Photo 5</div>
+                <div class="photo-placeholder">Event Photo 6</div>
+            </div>
+            <p class="photos-caption">Leaders from across Miami coming together to share ideas, build relationships, and make an impact.</p>
+        </div>
+    </section>
+
+    <!-- Section 6: Sponsors -->
+    <section class="sponsors">
+        <div class="container">
+            <h2 class="section-title">Partners & Sponsors</h2>
+            <div class="sponsors-grid">
+                <div class="sponsor-logo">
+                    <strong>24 Seven Talent</strong>
+                </div>
+                <div class="sponsor-logo">
+                    <strong>Global Furniture</strong>
+                </div>
+                <div class="sponsor-logo">
+                    <strong>Partner Logo 3</strong>
+                </div>
+                <div class="sponsor-logo">
+                    <strong>Partner Logo 4</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: CTA Strip -->
+    <section class="cta-strip">
+        <div class="container">
+            <h2>Be Part of Miami's Growing Business Movement</h2>
+            <p>Join a connected, collaborative community designed to help you grow your business and your network.</p>
+            <a href="#contact" class="btn-primary">Join the Council</a>
+        </div>
+    </section>
+
+    <!-- Section 8: Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Miami Business Council</h4>
+                    <p>Building a stronger business community through collaboration, innovation, and excellence.</p>
+                    <div class="social-links">
+                        <a href="#">Email</a>
+                        <a href="#">Phone</a>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#membership">Membership</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#sponsors">Sponsors</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>Miami, FL</li>
+                        <li>info@miamibusinesscouncil.com</li>
+                        <li>(305) 123-4567</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Stay Connected</h4>
+                    <p>Get updates on upcoming events and opportunities.</p>
+                    <div class="email-signup">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Miami Business Council. All rights reserved. | Domestic Non-Profit Organization</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const nav = document.querySelector('nav ul');
+        
+        mobileToggle.addEventListener('click', () => {
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>

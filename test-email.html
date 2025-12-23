@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Welcome Email</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0b;
+            color: #fff;
+            padding: 50px;
+            text-align: center;
+        }
+        .test-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        button {
+            background: #d4af37;
+            color: #000;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #f4f1e8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .error { background: rgba(244, 67, 54, 0.2); color: #F44336; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test Welcome Email</h1>
+        <p>Click the button below to send a test welcome email to info@miamibusinesscouncil.com</p>
+        
+        <button onclick="sendTestEmail()">Send Test Welcome Email</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function sendTestEmail() {
+            const button = document.querySelector('button');
+            const result = document.getElementById('result');
+            
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/test-welcome-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.className = 'result success';
+                    result.textContent = '✅ Test email sent successfully! Check info@miamibusinesscouncil.com';
+                } else {
+                    result.className = 'result error';
+                    result.textContent = '❌ Failed to send email: ' + data.error;
+                }
+            } catch (error) {
+                result.className = 'result error';
+                result.textContent = '❌ Error: ' + error.message;
+            }
+            
+            result.style.display = 'block';
+            button.textContent = 'Send Test Welcome Email';
+            button.disabled = false;
+        }
+    </script>
+</body>
+</html>

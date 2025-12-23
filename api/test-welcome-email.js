@@ -119,7 +119,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Miami Business Council <welcome@miamibusinesscouncil.com>',
+        from: 'Miami Business Council <onboarding@resend.dev>',
         to: ['info@miamibusinesscouncil.com'],
         subject: `[TEST] Welcome to Miami Business Council, ${testData.firstName}! Your ${testData.membershipType} membership is active`,
         html: welcomeEmailHtml

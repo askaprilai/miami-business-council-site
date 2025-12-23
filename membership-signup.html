@@ -524,17 +524,20 @@
             submitBtn.textContent = 'Processing...';
             submitBtn.disabled = true;
             
-            // Stripe product codes and URLs
+            // Stripe checkout URLs - you need to provide the actual checkout links
             let stripeUrl = '';
             switch (data.membershipType) {
                 case 'individual':
-                    stripeUrl = `https://buy.stripe.com/checkout/${encodeURIComponent('prod_TeS3I8G2hUpjvY')}`; // $250/year Individual
+                    // Replace with your actual Stripe checkout URL for Individual membership ($250)
+                    stripeUrl = 'YOUR_INDIVIDUAL_STRIPE_CHECKOUT_URL'; // prod_TeS3I8G2hUpjvY
                     break;
                 case 'nonprofit':
-                    stripeUrl = `https://buy.stripe.com/checkout/${encodeURIComponent('prod_TeS4itUH5TaBUY')}`; // $350/year Non-Profit
+                    // Replace with your actual Stripe checkout URL for Non-Profit membership ($350)
+                    stripeUrl = 'YOUR_NONPROFIT_STRIPE_CHECKOUT_URL'; // prod_TeS4itUH5TaBUY
                     break;
                 case 'business':
-                    stripeUrl = `https://buy.stripe.com/checkout/${encodeURIComponent('prod_TeS44EPJeqBmAs')}`; // $450/year Business
+                    // Replace with your actual Stripe checkout URL for Business membership ($450)
+                    stripeUrl = 'YOUR_BUSINESS_STRIPE_CHECKOUT_URL'; // prod_TeS44EPJeqBmAs
                     break;
                 default:
                     showMessage('Please select a membership type.', 'error');
@@ -546,15 +549,18 @@
             // Store form data in localStorage for post-payment processing
             localStorage.setItem('membershipApplication', JSON.stringify(data));
             
-            // Redirect to Stripe (replace with actual implementation)
-            setTimeout(() => {
-                showMessage('Redirecting to payment...', 'success');
-                // window.location.href = stripeUrl; // Uncomment when you add real Stripe links
-                
-                // For demo purposes, reset form
+            // Check if we have a valid Stripe URL
+            if (stripeUrl.includes('YOUR_') || !stripeUrl) {
+                showMessage('Payment processing not yet configured. Please contact us directly.', 'error');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
-                showMessage('Form submitted successfully! (Demo mode - add your Stripe links)', 'success');
+                return;
+            }
+            
+            // Redirect to Stripe checkout
+            setTimeout(() => {
+                showMessage('Redirecting to payment...', 'success');
+                window.location.href = stripeUrl;
             }, 1500);
         });
         

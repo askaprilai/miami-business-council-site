@@ -205,6 +205,24 @@
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
         }
 
+        .btn-register {
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
@@ -264,10 +282,13 @@
         <!-- Next Event Info -->
         <div class="event-info">
             <h3>Next Breakfast Networking Event</h3>
-            <p><span class="highlight">January 29th, 2025</span></p>
+            <p><span class="highlight">January 28th, 2025</span></p>
             <p><span class="highlight">9:00 AM - 10:30 AM</span></p>
             <p>Miami Design District</p>
-            <p style="margin-top: 1rem; font-size: 0.9em; color: #ccc;">Exact address and registration details will be sent via email</p>
+            <p style="margin-top: 1rem; font-size: 0.9em; color: #ccc;">Exact address provided upon registration approval</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="https://luma.com/36c5vtn6" class="luma-checkout--button btn-register" data-luma-action="checkout" data-luma-event-id="36c5vtn6">Register for January 28th Event</a>
+            </div>
         </div>
 
         <!-- Contact Section -->
@@ -298,5 +319,8 @@
         //     window.location.href = 'index.html';
         // }, 60000);
     </script>
+
+    <!-- Luma Event Registration Script -->
+    <script id="luma-checkout" src="https://embed.lu.ma/checkout-button.js"></script>
 </body>
 </html>

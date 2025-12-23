@@ -480,6 +480,71 @@
             </form>
         </div>
 
+        <!-- FAQ Section -->
+        <div class="faq-section" style="margin-top: 4rem; background: rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 3rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+            <h2 style="color: #d4af37; font-size: 2em; margin-bottom: 2rem; text-align: center; font-weight: 300;">Frequently Asked Questions</h2>
+            
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    What's included in my membership?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    All memberships include access to our monthly breakfast networking events, member directory, exclusive event invitations, and professional development opportunities.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    How often are events held?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    We hold monthly breakfast networking events on the last Wednesday of each month from 9:00 AM - 10:30 AM in the Miami Design District. Additional special events and workshops are held throughout the year exclusively for members.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    What are the membership requirements?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    All business and individual members must have an incorporated business entity (LLC, Corporation, etc.). Non-profit members must have 501(c)(3) status or equivalent. We welcome entrepreneurs, business leaders, and professionals committed to Miami's business community growth.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    Where are the breakfast events held?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    Our monthly breakfast networking events are held in premium venues throughout the Miami Design District. The exact address is provided upon registration approval to ensure an intimate, professional setting for our members.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    How do I access the member directory?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    Our comprehensive member portal is launching in early 2026! Once available, you'll receive access credentials to view the member directory, connect with other members, and stay updated on exclusive opportunities. In the meantime, we'll keep you connected through email updates and our monthly breakfast events.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    What is your refund policy?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    We offer a satisfaction guarantee for new members. Contact us within the first 30 days if you're not completely satisfied with your membership experience and we'll work with you to address any concerns.
+                </div>
+            </div>
+        </div>
+
         <!-- Footer Note -->
         <div class="footer-note">
             <p><strong>Note:</strong> This application will redirect you to secure payment processing. Your membership will be activated upon successful payment verification.</p>
@@ -644,6 +709,17 @@
             if (value === 'nonprofit') {
                 document.getElementById('nonprofit').checked = true;
             }
+        });
+        
+        // FAQ Toggle functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('span');
+                
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+                icon.textContent = answer.style.display === 'block' ? '−' : '+';
+            });
         });
     </script>
 </body>

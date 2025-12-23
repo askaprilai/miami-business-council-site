@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
     // Sample data for testing
     const testData = {
-      email: 'info@miamibusinesscouncil.com',
+      email: 'april@aprilsabral.com',
       firstName: 'John',
       lastName: 'Smith',
       membershipType: 'BUSINESS'
@@ -120,7 +120,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: 'Miami Business Council <onboarding@resend.dev>',
-        to: ['info@miamibusinesscouncil.com'],
+        to: ['april@aprilsabral.com'],
         subject: `[TEST] Welcome to Miami Business Council, ${testData.firstName}! Your ${testData.membershipType} membership is active`,
         html: welcomeEmailHtml
       })
@@ -137,7 +137,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ 
       success: true, 
-      message: 'Test welcome email sent to info@miamibusinesscouncil.com',
+      message: 'Test welcome email sent to april@aprilsabral.com',
       emailId: data.id 
     });
 

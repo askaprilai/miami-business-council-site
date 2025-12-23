@@ -524,20 +524,17 @@
             submitBtn.textContent = 'Processing...';
             submitBtn.disabled = true;
             
-            // Stripe checkout URLs - you need to provide the actual checkout links
+            // Stripe checkout URLs
             let stripeUrl = '';
             switch (data.membershipType) {
                 case 'individual':
-                    // Replace with your actual Stripe checkout URL for Individual membership ($250)
-                    stripeUrl = 'YOUR_INDIVIDUAL_STRIPE_CHECKOUT_URL'; // prod_TeS3I8G2hUpjvY
+                    stripeUrl = 'https://buy.stripe.com/8x2eVf91t8rwb2T1Jpasg02'; // $250/year Individual
                     break;
                 case 'nonprofit':
-                    // Replace with your actual Stripe checkout URL for Non-Profit membership ($350)
-                    stripeUrl = 'YOUR_NONPROFIT_STRIPE_CHECKOUT_URL'; // prod_TeS4itUH5TaBUY
+                    stripeUrl = 'https://buy.stripe.com/6oU00lgtV2383Ar2Ntasg01'; // $350/year Non-Profit
                     break;
                 case 'business':
-                    // Replace with your actual Stripe checkout URL for Business membership ($450)
-                    stripeUrl = 'YOUR_BUSINESS_STRIPE_CHECKOUT_URL'; // prod_TeS44EPJeqBmAs
+                    stripeUrl = 'https://buy.stripe.com/4gMfZj0uX8rw8UL4VBasg00'; // $450/year Business
                     break;
                 default:
                     showMessage('Please select a membership type.', 'error');

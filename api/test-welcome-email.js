@@ -53,7 +53,7 @@ export default async function handler(req, res) {
                 Join fellow business leaders for meaningful networking and collaboration.
               </p>
               <div style="margin-top: 15px;">
-                <a href="https://luma.com/au2tl4nm" style="background: #d4af37; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Register for January 28th Event</a>
+                <a href="https://miamibusinesscouncil.com/membership-success.html" style="background: #d4af37; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Register for January 28th Event</a>
               </div>
             </div>
 

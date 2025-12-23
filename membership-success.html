@@ -314,6 +314,88 @@
             });
         }
 
+        // Send welcome email when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get member info from localStorage (saved during application)
+            const membershipData = localStorage.getItem('membershipApplication');
+            
+            if (membershipData) {
+                try {
+                    const data = JSON.parse(membershipData);
+                    
+                    // Send welcome email
+                    fetch('/api/send-welcome-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: data.email,
+                            firstName: data.firstName,
+                            lastName: data.lastName,
+                            membershipType: data.membershipType.toUpperCase()
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            console.log('Welcome email sent successfully');
+                            // Optionally show a notification to user
+                            showWelcomeEmailNotification();
+                        } else {
+                            console.error('Failed to send welcome email:', result.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error sending welcome email:', error);
+                    });
+                } catch (error) {
+                    console.error('Error parsing membership data:', error);
+                }
+            }
+        });
+
+        function showWelcomeEmailNotification() {
+            // Create a small notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #d4af37;
+                color: #000;
+                padding: 15px 20px;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.textContent = '📧 Welcome email sent! Check your inbox.';
+            
+            // Add slide-in animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
         // Optional: Auto-redirect to homepage after 60 seconds
         // setTimeout(() => {
         //     window.location.href = 'index.html';

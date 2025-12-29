@@ -316,6 +316,10 @@
 
         // Send welcome email when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Check URL parameters for successful payment
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFromStripe = urlParams.has('session_id') || urlParams.has('payment_intent') || document.referrer.includes('stripe.com');
+            
             // Get member info from localStorage (saved during application)
             const membershipData = localStorage.getItem('membershipApplication');
             
@@ -340,8 +344,9 @@
                     .then(result => {
                         if (result.success) {
                             console.log('Welcome email sent successfully');
-                            // Optionally show a notification to user
                             showWelcomeEmailNotification();
+                            // Clear localStorage after successful email
+                            localStorage.removeItem('membershipApplication');
                         } else {
                             console.error('Failed to send welcome email:', result.error);
                         }
@@ -352,6 +357,24 @@
                 } catch (error) {
                     console.error('Error parsing membership data:', error);
                 }
+            } else if (isFromStripe) {
+                // If coming from Stripe but no localStorage, show notice
+                console.log('Payment successful but no member data found. Please contact support.');
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #f4af37;
+                    color: #000;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    z-index: 1000;
+                    max-width: 300px;
+                `;
+                notification.textContent = '✅ Payment successful! You\'ll receive a welcome email within 24 hours.';
+                document.body.appendChild(notification);
             }
         });
 

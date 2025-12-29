@@ -593,13 +593,13 @@
             let stripeUrl = '';
             switch (data.membershipType) {
                 case 'individual':
-                    stripeUrl = 'https://buy.stripe.com/8x2eVf91t8rwb2T1Jpasg02'; // $250/year Individual
+                    stripeUrl = 'https://buy.stripe.com/8x2eVf91t8rwb2T1Jpasg02?redirect_to=https://miamibusinesscouncil.com/membership-success.html'; // $250/year Individual
                     break;
                 case 'nonprofit':
-                    stripeUrl = 'https://buy.stripe.com/6oU00lgtV2383Ar2Ntasg01'; // $350/year Non-Profit
+                    stripeUrl = 'https://buy.stripe.com/6oU00lgtV2383Ar2Ntasg01?redirect_to=https://miamibusinesscouncil.com/membership-success.html'; // $350/year Non-Profit
                     break;
                 case 'business':
-                    stripeUrl = 'https://buy.stripe.com/4gMfZj0uX8rw8UL4VBasg00'; // $450/year Business
+                    stripeUrl = 'https://buy.stripe.com/4gMfZj0uX8rw8UL4VBasg00?redirect_to=https://miamibusinesscouncil.com/membership-success.html'; // $450/year Business
                     break;
                 default:
                     showMessage('Please select a membership type.', 'error');

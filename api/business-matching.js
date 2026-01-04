@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const supabase = createSupabaseClient();
+  const supabase = createSupabaseClient(true); // Use service key for admin operations
   
   if (!supabase) {
     return res.status(500).json({ error: 'Database connection failed' });

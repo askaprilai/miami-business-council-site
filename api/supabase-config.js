@@ -2,19 +2,21 @@
 // This file should be included in your Vercel environment variables
 
 export const supabaseConfig = {
-  url: process.env.SUPABASE_URL || 'YOUR_SUPABASE_URL',
-  anonKey: process.env.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY'
+  url: process.env.SUPABASE_URL || 'https://vsnvtujkkkbjpuuwxvyd.supabase.co',
+  anonKey: process.env.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY',
+  serviceKey: process.env.SUPABASE_SERVICE_KEY || 'sb_secret_aJXyfJ-CPzHri9Fd8nFgcw_kdfcoCBB'
 };
 
 // Initialize Supabase client
-export function createSupabaseClient() {
+export function createSupabaseClient(useServiceKey = false) {
   if (typeof window !== 'undefined') {
-    // Client-side
+    // Client-side - always use anon key
     return window.supabase?.createClient(supabaseConfig.url, supabaseConfig.anonKey);
   } else {
-    // Server-side
+    // Server-side - use service key for admin operations or anon key for user operations
     const { createClient } = require('@supabase/supabase-js');
-    return createClient(supabaseConfig.url, supabaseConfig.anonKey);
+    const key = useServiceKey ? supabaseConfig.serviceKey : supabaseConfig.anonKey;
+    return createClient(supabaseConfig.url, key);
   }
 }
 

@@ -2,7 +2,7 @@
 import { createSupabaseClient, TABLES } from './supabase-config.js';
 
 export default async function handler(req, res) {
-  const supabase = createSupabaseClient();
+  const supabase = createSupabaseClient(true); // Use service key for admin operations
   
   if (!supabase) {
     return res.status(500).json({ error: 'Database connection failed' });

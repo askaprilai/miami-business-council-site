@@ -458,9 +458,9 @@
                             <h3 class="card-title">Quick Actions</h3>
                             <span class="card-icon">⚡</span>
                         </div>
-                        <p><a href="#" style="color: #d4af37;">Update Profile</a></p>
-                        <p><a href="#" style="color: #d4af37;">Browse Directory</a></p>
-                        <p><a href="#" style="color: #d4af37;">View Events</a></p>
+                        <p><a href="#" onclick="showSection('profile')" style="color: #d4af37; cursor: pointer;">Update Profile</a></p>
+                        <p><a href="#" onclick="showSection('directory')" style="color: #d4af37; cursor: pointer;">Browse Directory</a></p>
+                        <p><a href="#" onclick="showSection('events')" style="color: #d4af37; cursor: pointer;">View Events</a></p>
                     </div>
                 </div>
             </section>
@@ -510,8 +510,8 @@
                             <span class="member-tag">Development</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <a href="#" class="linkedin-btn">
-                            📍 LinkedIn Profile
+                        <a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with Tommy Martinez" class="linkedin-btn">
+                            📧 Connect
                         </a>
                     </div>
 
@@ -529,8 +529,8 @@
                             <span class="member-tag">Digital</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <a href="#" class="linkedin-btn">
-                            📍 LinkedIn Profile
+                        <a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with FAN Team" class="linkedin-btn">
+                            📧 Connect
                         </a>
                     </div>
 
@@ -548,8 +548,8 @@
                             <span class="member-tag">Design</span>
                             <span class="member-tag">Retail</span>
                         </div>
-                        <a href="#" class="linkedin-btn">
-                            📍 LinkedIn Profile
+                        <a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with Ilmoda Team" class="linkedin-btn">
+                            📧 Connect
                         </a>
                     </div>
                 </div>
@@ -662,6 +662,19 @@
     </div>
 
     <script>
+        // Show section function for quick actions
+        function showSection(sectionId) {
+            // Remove active class from all links and sections
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            
+            // Add active class to corresponding nav link
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+            
+            // Show corresponding section
+            document.getElementById(sectionId).classList.add('active');
+        }
+
         // Navigation functionality
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -681,27 +694,67 @@
         });
 
         // Search functionality
-        document.querySelector('.search-input').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const memberCards = document.querySelectorAll('.member-card');
-            
-            memberCards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const memberCards = document.querySelectorAll('.member-card');
+                    
+                    memberCards.forEach(card => {
+                        const text = card.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
         });
 
         // Register button functionality
-        document.querySelectorAll('.register-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (this.textContent === 'Register Now') {
-                    window.open('https://luma.com/event-au2tl4nm', '_blank');
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.register-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (this.textContent.trim() === 'Register Now') {
+                        window.open('https://luma.com/event-au2tl4nm', '_blank');
+                    } else if (this.textContent.trim() === 'Edit Profile') {
+                        alert('Profile editing feature coming soon!');
+                    } else if (this.textContent.trim() === 'Coming Soon') {
+                        alert('Event registration will open soon!');
+                    }
+                });
             });
+        });
+
+        // Member connection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.linkedin-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (this.href.includes('mailto:')) {
+                        // Show connection confirmation for email connections
+                        const memberName = this.href.split('Connect with ')[1]?.split('"')[0];
+                        if (memberName && !confirm(`Send connection request to ${memberName}?`)) {
+                            e.preventDefault();
+                        }
+                    }
+                });
+            });
+        });
+
+        // Dashboard stats animation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate numbers on dashboard load
+            setTimeout(() => {
+                const statsElements = document.querySelectorAll('.dashboard-card p strong');
+                statsElements.forEach(el => {
+                    if (el.nextSibling && el.nextSibling.textContent.match(/\d+/)) {
+                        el.parentElement.style.animation = 'fadeIn 0.5s ease-in';
+                    }
+                });
+            }, 500);
         });
     </script>
 </body>

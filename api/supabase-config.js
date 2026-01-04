@@ -3,7 +3,7 @@
 
 export const supabaseConfig = {
   url: process.env.SUPABASE_URL || 'https://vsnvtujkkkbjpuuwxvyd.supabase.co',
-  anonKey: process.env.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY',
+  anonKey: process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA',
   serviceKey: process.env.SUPABASE_SERVICE_KEY || 'sb_secret_aJXyfJ-CPzHri9Fd8nFgcw_kdfcoCBB'
 };
 

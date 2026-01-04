@@ -1228,20 +1228,59 @@
     <script>
         // Initialize Supabase client
         const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // You'll need to provide this
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
         
-        // Uncomment when you have your anon key:
-        // const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Enhanced member data loading from Supabase
         async function loadMembersFromDatabase() {
             try {
-                // For now, fallback to hardcoded data until anon key is added
-                console.log('Supabase URL ready:', SUPABASE_URL);
-                console.log('Add your SUPABASE_ANON_KEY to enable database connection');
-                return getHardcodedMembers();
+                console.log('Loading members from Supabase database...');
+                
+                const { data: members, error } = await supabase
+                    .from('members')
+                    .select(`
+                        *,
+                        business_opportunities (
+                            opportunity_type,
+                            category
+                        )
+                    `)
+                    .eq('is_active', true);
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    return getHardcodedMembers();
+                }
+
+                console.log(`Loaded ${members.length} members from database`);
+                
+                // Transform database format to portal format
+                return members.map(member => {
+                    const lookingFor = member.business_opportunities
+                        ?.filter(opp => opp.opportunity_type === 'looking_for')
+                        ?.map(opp => opp.category) || [];
+                    
+                    const canOffer = member.business_opportunities
+                        ?.filter(opp => opp.opportunity_type === 'can_offer')
+                        ?.map(opp => opp.category) || [];
+
+                    return {
+                        id: member.id,
+                        name: `${member.first_name} ${member.last_name}`,
+                        company: member.company_name,
+                        industry: member.industry,
+                        avatar: `${member.first_name.charAt(0)}${member.last_name.charAt(0)}`.toUpperCase(),
+                        lookingFor,
+                        canOffer,
+                        linkedin: member.linkedin_url,
+                        score: Math.floor(Math.random() * 30) + 70 // Random score 70-99
+                    };
+                });
+                
             } catch (error) {
-                console.error('Error loading members:', error);
+                console.error('Error loading members from database:', error);
                 return getHardcodedMembers();
             }
         }
@@ -1429,8 +1468,39 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadMembersFromDatabase().then(members => {
                 console.log(`Loaded ${members.length} members from database`);
+                // Update member directory with real data
+                updateMemberDirectory(members);
             });
         });
+
+        // Update member directory with database members
+        function updateMemberDirectory(members) {
+            const memberGrid = document.querySelector('.member-grid');
+            if (!memberGrid || members.length === 0) return;
+
+            const memberCardsHtml = members.map(member => `
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">${member.avatar}</div>
+                        <div class="member-info">
+                            <h3>${member.name}</h3>
+                            <p>${member.company}</p>
+                            <p>${member.industry || 'Business'}</p>
+                        </div>
+                    </div>
+                    <div class="member-details">
+                        ${member.lookingFor.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
+                        ${member.canOffer.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
+                    </div>
+                    ${member.linkedin 
+                        ? `<a href="${member.linkedin}" class="linkedin-btn" target="_blank">📍 LinkedIn Profile</a>`
+                        : `<a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with ${member.name}" class="linkedin-btn">📧 Connect</a>`
+                    }
+                </div>
+            `).join('');
+
+            memberGrid.innerHTML = memberCardsHtml;
+        }
     </script>
 </body>
 </html>

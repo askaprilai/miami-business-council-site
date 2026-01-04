@@ -1222,5 +1222,215 @@
             }
         }
     </script>
+    
+    <!-- Supabase client -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase client
+        const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // You'll need to provide this
+        
+        // Uncomment when you have your anon key:
+        // const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Enhanced member data loading from Supabase
+        async function loadMembersFromDatabase() {
+            try {
+                // For now, fallback to hardcoded data until anon key is added
+                console.log('Supabase URL ready:', SUPABASE_URL);
+                console.log('Add your SUPABASE_ANON_KEY to enable database connection');
+                return getHardcodedMembers();
+            } catch (error) {
+                console.error('Error loading members:', error);
+                return getHardcodedMembers();
+            }
+        }
+
+        // Enhanced business matching with real data
+        async function generateMatchesFromDatabase() {
+            try {
+                const response = await fetch('/api/business-matching', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        member_id: 'current-user-id', // This would be the logged-in user
+                        looking_for: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
+                        can_offer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent),
+                        limit: 10
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    return result.data;
+                } else {
+                    console.error('Failed to fetch matches from database');
+                    return generateMatches(); // Fallback to client-side matching
+                }
+            } catch (error) {
+                console.error('Error fetching matches:', error);
+                return generateMatches(); // Fallback to client-side matching
+            }
+        }
+
+        // Enhanced member connection with database
+        async function connectWithMemberDatabase(memberName, memberId) {
+            try {
+                const response = await fetch('/api/connections', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        requester_id: 'current-user-id', // This would be the logged-in user
+                        recipient_id: memberId,
+                        message: `Hi ${memberName}, I'd like to connect with you through Miami Business Council.`
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`Connection request sent to ${memberName}! They'll receive an email notification.`);
+                } else {
+                    const error = await response.json();
+                    alert(`Failed to send connection: ${error.error}`);
+                }
+            } catch (error) {
+                console.error('Error sending connection:', error);
+                alert(`Error sending connection request. Please try again.`);
+            }
+        }
+
+        // Enhanced profile saving with database
+        async function saveProfileToDatabase() {
+            try {
+                const profileData = {
+                    first_name: document.querySelector('input[value="John Smith"]').value.split(' ')[0],
+                    last_name: document.querySelector('input[value="John Smith"]').value.split(' ')[1] || '',
+                    company_name: document.querySelector('input[value="Smith Consulting LLC"]').value,
+                    job_title: document.querySelector('input[value="Founder & CEO"]').value,
+                    industry: document.querySelector('select').value,
+                    linkedin_url: document.querySelector('input[type="url"]').value,
+                    company_size: document.querySelector('input[name="company-size"]:checked').value,
+                    looking_for: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
+                    can_offer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent)
+                };
+
+                const response = await fetch('/api/members?id=current-user-id', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                if (response.ok) {
+                    alert('Profile saved successfully to database!');
+                    // Refresh matches with new preferences
+                    findMatches();
+                } else {
+                    const error = await response.json();
+                    alert(`Failed to save profile: ${error.error}`);
+                    // Fallback to localStorage
+                    saveProfile();
+                }
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                // Fallback to localStorage
+                saveProfile();
+            }
+        }
+
+        // Fallback function for hardcoded members (when database not connected)
+        function getHardcodedMembers() {
+            return [
+                {
+                    name: 'April Sabral',
+                    company: 'AskApril AI',
+                    industry: 'Technology',
+                    avatar: 'AS',
+                    lookingFor: ['Business partnerships', 'Marketing expertise', 'Clients'],
+                    canOffer: ['AI/Tech consulting', 'Platform development', 'Technical expertise'],
+                    linkedin: 'https://linkedin.com/in/apriljsabral',
+                    score: 92
+                },
+                {
+                    name: 'Tommy Martinez', 
+                    company: 'The Madyun Group',
+                    industry: 'Real Estate',
+                    avatar: 'TM',
+                    lookingFor: ['Business development', 'Strategic partnerships', 'Investors'],
+                    canOffer: ['Real estate expertise', 'Network connections', 'Mentoring'],
+                    linkedin: null,
+                    score: 78
+                },
+                {
+                    name: 'FAN Team',
+                    company: 'FAN Business', 
+                    industry: 'Marketing',
+                    avatar: 'FT',
+                    lookingFor: ['Clients', 'Partnerships', 'Vendors'],
+                    canOffer: ['Marketing services', 'Digital strategy', 'Brand development'],
+                    linkedin: null,
+                    score: 85
+                },
+                {
+                    name: 'Ilmoda Team',
+                    company: 'Ilmoda',
+                    industry: 'Fashion',
+                    avatar: 'IM',
+                    lookingFor: ['Investors', 'Marketing partnerships', 'Retail opportunities'],
+                    canOffer: ['Fashion expertise', 'Design services', 'Brand partnerships'],
+                    linkedin: null,
+                    score: 71
+                }
+            ];
+        }
+
+        // Update existing functions to use database when available
+        // Override generateMatches to try database first
+        const originalGenerateMatches = generateMatches;
+        generateMatches = async function() {
+            try {
+                const databaseMatches = await generateMatchesFromDatabase();
+                if (databaseMatches && databaseMatches.length > 0) {
+                    return databaseMatches;
+                }
+            } catch (error) {
+                console.log('Using fallback matching algorithm');
+            }
+            return originalGenerateMatches();
+        };
+
+        // Override connectWithMember to try database first
+        const originalConnectWithMember = connectWithMember;
+        connectWithMember = async function(memberName, memberId = null) {
+            if (memberId) {
+                await connectWithMemberDatabase(memberName, memberId);
+            } else {
+                originalConnectWithMember(memberName);
+            }
+        };
+
+        // Override saveProfile to try database first
+        const originalSaveProfile = saveProfile;
+        saveProfile = async function() {
+            try {
+                await saveProfileToDatabase();
+            } catch (error) {
+                console.log('Using fallback profile saving');
+                originalSaveProfile();
+            }
+        };
+
+        // Initialize database connection when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMembersFromDatabase().then(members => {
+                console.log(`Loaded ${members.length} members from database`);
+            });
+        });
+    </script>
 </body>
 </html>

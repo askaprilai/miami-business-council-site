@@ -353,6 +353,160 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        /* Profile Styles */
+        .profile-field {
+            margin-bottom: 1rem;
+        }
+
+        .profile-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e8eaed;
+        }
+
+        .profile-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e8eaed;
+            font-size: 1em;
+        }
+
+        .profile-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        .opportunity-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .opportunity-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .opportunity-tag.active {
+            background: rgba(212, 175, 55, 0.3);
+            color: #d4af37;
+            border-color: #d4af37;
+        }
+
+        .opportunity-tag:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            accent-color: #d4af37;
+        }
+
+        .radio-option span {
+            color: #e8eaed;
+        }
+
+        /* Match Cards */
+        .match-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .match-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .match-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .match-header h4 {
+            margin: 0;
+            color: #e8eaed;
+            font-size: 1.1em;
+        }
+
+        .match-header p {
+            margin: 0;
+            color: #ccc;
+            font-size: 0.9em;
+        }
+
+        .match-score {
+            background: #d4af37;
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .match-details {
+            margin-bottom: 1rem;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .match-details p {
+            margin-bottom: 0.5rem;
+        }
+
+        .match-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .connect-btn {
+            background: #d4af37;
+            color: #000;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .connect-btn:hover {
+            background: #f4af37;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .portal-container {
@@ -380,6 +534,15 @@
 
             .member-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .tag-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .match-actions {
+                flex-direction: column;
             }
         }
     </style>
@@ -642,20 +805,152 @@
             <!-- Profile Section -->
             <section id="profile" class="content-section">
                 <div class="section-header">
-                    <h1 class="section-title">My Profile</h1>
-                    <p>Manage your business profile and preferences</p>
+                    <h1 class="section-title">My Business Profile</h1>
+                    <p>Optimize your profile for better business matching and opportunities</p>
                 </div>
 
-                <div style="max-width: 600px;">
+                <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; max-width: 1000px;">
+                    <!-- Business Information -->
                     <div class="dashboard-card">
-                        <h3>Business Information</h3>
-                        <p><strong>Name:</strong> John Smith</p>
-                        <p><strong>Company:</strong> Smith Consulting LLC</p>
-                        <p><strong>Title:</strong> Founder & CEO</p>
-                        <p><strong>Industry:</strong> Consulting</p>
-                        <p><strong>LinkedIn:</strong> <a href="#" style="color: #d4af37;">linkedin.com/in/johnsmith</a></p>
-                        <button class="register-btn" style="margin-top: 1rem;">Edit Profile</button>
+                        <h3 style="color: #d4af37; margin-bottom: 1rem;">Business Information</h3>
+                        <div class="profile-field">
+                            <label><strong>Name:</strong></label>
+                            <input type="text" value="John Smith" class="profile-input">
+                        </div>
+                        <div class="profile-field">
+                            <label><strong>Company:</strong></label>
+                            <input type="text" value="Smith Consulting LLC" class="profile-input">
+                        </div>
+                        <div class="profile-field">
+                            <label><strong>Title:</strong></label>
+                            <input type="text" value="Founder & CEO" class="profile-input">
+                        </div>
+                        <div class="profile-field">
+                            <label><strong>Industry:</strong></label>
+                            <select class="profile-input">
+                                <option value="Consulting" selected>Consulting</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Design">Design</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label><strong>LinkedIn:</strong></label>
+                            <input type="url" value="linkedin.com/in/johnsmith" class="profile-input">
+                        </div>
                     </div>
+
+                    <!-- Business Opportunities -->
+                    <div class="dashboard-card">
+                        <h3 style="color: #d4af37; margin-bottom: 1rem;">Business Matching</h3>
+                        
+                        <div class="opportunity-section">
+                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🎯 What I'm Looking For:</h4>
+                            <div class="tag-container">
+                                <span class="opportunity-tag active" onclick="toggleTag(this)">Clients</span>
+                                <span class="opportunity-tag active" onclick="toggleTag(this)">Partnerships</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Investors</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Mentors</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Vendors</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Co-founders</span>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-section">
+                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">💼 What I Can Offer:</h4>
+                            <div class="tag-container">
+                                <span class="opportunity-tag active" onclick="toggleTag(this)">Business Strategy</span>
+                                <span class="opportunity-tag active" onclick="toggleTag(this)">Consulting</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Funding</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Mentoring</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Services</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Expertise</span>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-section">
+                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🏢 Company Size:</h4>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="company-size" value="solo" checked>
+                                    <span>Solo/Freelancer (1)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="company-size" value="small">
+                                    <span>Small Team (2-10)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="company-size" value="medium">
+                                    <span>Medium Business (11-50)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="company-size" value="large">
+                                    <span>Large Company (50+)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matching Results -->
+                <div class="dashboard-card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title">🤝 Potential Business Matches</h3>
+                        <button class="register-btn" onclick="findMatches()" style="padding: 0.5rem 1rem;">Find New Matches</button>
+                    </div>
+                    
+                    <div class="match-grid" id="matchResults">
+                        <div class="match-card">
+                            <div class="match-header">
+                                <div class="member-avatar">AS</div>
+                                <div>
+                                    <h4>April Sabral</h4>
+                                    <p>AskApril AI • Technology</p>
+                                </div>
+                                <div class="match-score">92%</div>
+                            </div>
+                            <div class="match-details">
+                                <p><strong>Looking for:</strong> Business partnerships, Marketing expertise</p>
+                                <p><strong>Can offer:</strong> AI/Tech consulting, Platform development</p>
+                                <p><strong>Match reason:</strong> Needs business strategy consulting</p>
+                            </div>
+                            <div class="match-actions">
+                                <button class="connect-btn" onclick="connectWithMember('April Sabral')">Connect</button>
+                                <button class="linkedin-btn" onclick="window.open('https://linkedin.com/in/apriljsabral', '_blank')">LinkedIn</button>
+                            </div>
+                        </div>
+
+                        <div class="match-card">
+                            <div class="match-header">
+                                <div class="member-avatar">TM</div>
+                                <div>
+                                    <h4>Tommy Martinez</h4>
+                                    <p>The Madyun Group • Real Estate</p>
+                                </div>
+                                <div class="match-score">78%</div>
+                            </div>
+                            <div class="match-details">
+                                <p><strong>Looking for:</strong> Business development, Strategic partnerships</p>
+                                <p><strong>Can offer:</strong> Real estate expertise, Network connections</p>
+                                <p><strong>Match reason:</strong> Mutual partnership interests</p>
+                            </div>
+                            <div class="match-actions">
+                                <button class="connect-btn" onclick="connectWithMember('Tommy Martinez')">Connect</button>
+                                <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon')">LinkedIn</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-actions" style="text-align: center; margin-top: 2rem;">
+                    <button class="register-btn" onclick="saveProfile()" style="margin-right: 1rem;">Save Profile</button>
+                    <button class="register-btn" onclick="shareProfile()" style="background: rgba(255,255,255,0.1); color: #e8eaed;">Share Profile</button>
                 </div>
             </section>
         </main>
@@ -756,6 +1051,176 @@
                 });
             }, 500);
         });
+
+        // Business matching functionality
+        function toggleTag(tag) {
+            tag.classList.toggle('active');
+            // Auto-update matches when preferences change
+            setTimeout(findMatches, 500);
+        }
+
+        function findMatches() {
+            const matchResults = document.getElementById('matchResults');
+            const loadingHtml = '<div style="text-align: center; padding: 2rem; color: #ccc;">🔍 Finding new business matches...</div>';
+            
+            matchResults.innerHTML = loadingHtml;
+            
+            // Simulate matching algorithm
+            setTimeout(() => {
+                const matches = generateMatches();
+                displayMatches(matches);
+            }, 1500);
+        }
+
+        function generateMatches() {
+            // Get user preferences
+            const lookingFor = Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active'))
+                .map(tag => tag.textContent);
+            const canOffer = Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active'))
+                .map(tag => tag.textContent);
+            
+            // Sample member database for matching
+            const members = [
+                {
+                    name: 'April Sabral',
+                    company: 'AskApril AI',
+                    industry: 'Technology',
+                    avatar: 'AS',
+                    lookingFor: ['Business partnerships', 'Marketing expertise', 'Clients'],
+                    canOffer: ['AI/Tech consulting', 'Platform development', 'Technical expertise'],
+                    linkedin: 'https://linkedin.com/in/apriljsabral',
+                    score: 92
+                },
+                {
+                    name: 'Tommy Martinez', 
+                    company: 'The Madyun Group',
+                    industry: 'Real Estate',
+                    avatar: 'TM',
+                    lookingFor: ['Business development', 'Strategic partnerships', 'Investors'],
+                    canOffer: ['Real estate expertise', 'Network connections', 'Mentoring'],
+                    linkedin: null,
+                    score: 78
+                },
+                {
+                    name: 'FAN Team',
+                    company: 'FAN Business', 
+                    industry: 'Marketing',
+                    avatar: 'FT',
+                    lookingFor: ['Clients', 'Partnerships', 'Vendors'],
+                    canOffer: ['Marketing services', 'Digital strategy', 'Brand development'],
+                    linkedin: null,
+                    score: 85
+                },
+                {
+                    name: 'Ilmoda Team',
+                    company: 'Ilmoda',
+                    industry: 'Fashion',
+                    avatar: 'IM',
+                    lookingFor: ['Investors', 'Marketing partnerships', 'Retail opportunities'],
+                    canOffer: ['Fashion expertise', 'Design services', 'Brand partnerships'],
+                    linkedin: null,
+                    score: 71
+                }
+            ];
+
+            // Calculate match scores based on complementary needs
+            return members.map(member => {
+                let matchReasons = [];
+                
+                // Check if what they're looking for matches what user can offer
+                const mutualBenefit1 = member.lookingFor.some(need => 
+                    canOffer.some(offer => offer.toLowerCase().includes(need.toLowerCase()) || 
+                                         need.toLowerCase().includes(offer.toLowerCase())));
+                
+                // Check if what user is looking for matches what they can offer  
+                const mutualBenefit2 = lookingFor.some(need =>
+                    member.canOffer.some(offer => offer.toLowerCase().includes(need.toLowerCase()) ||
+                                                need.toLowerCase().includes(offer.toLowerCase())));
+
+                if (mutualBenefit1) matchReasons.push('You can help with their needs');
+                if (mutualBenefit2) matchReasons.push('They can help with your needs');
+                if (mutualBenefit1 && mutualBenefit2) matchReasons.push('Mutual partnership potential');
+
+                return {
+                    ...member,
+                    matchReason: matchReasons.length > 0 ? matchReasons.join(', ') : 'Industry synergy and networking opportunity'
+                };
+            }).sort((a, b) => b.score - a.score);
+        }
+
+        function displayMatches(matches) {
+            const matchResults = document.getElementById('matchResults');
+            
+            if (matches.length === 0) {
+                matchResults.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ccc;">No matches found. Try adjusting your preferences.</div>';
+                return;
+            }
+
+            const matchesHtml = matches.map(match => `
+                <div class="match-card">
+                    <div class="match-header">
+                        <div class="member-avatar">${match.avatar}</div>
+                        <div>
+                            <h4>${match.name}</h4>
+                            <p>${match.company} • ${match.industry}</p>
+                        </div>
+                        <div class="match-score">${match.score}%</div>
+                    </div>
+                    <div class="match-details">
+                        <p><strong>Looking for:</strong> ${match.lookingFor.join(', ')}</p>
+                        <p><strong>Can offer:</strong> ${match.canOffer.join(', ')}</p>
+                        <p><strong>Match reason:</strong> ${match.matchReason}</p>
+                    </div>
+                    <div class="match-actions">
+                        <button class="connect-btn" onclick="connectWithMember('${match.name}')">Connect</button>
+                        <button class="linkedin-btn" onclick="${match.linkedin ? `window.open('${match.linkedin}', '_blank')` : `alert('LinkedIn profile coming soon')`}">LinkedIn</button>
+                    </div>
+                </div>
+            `).join('');
+
+            matchResults.innerHTML = matchesHtml;
+        }
+
+        function connectWithMember(memberName) {
+            if (confirm(`Send a connection request to ${memberName}?`)) {
+                // In a real app, this would send an email or notification
+                alert(`Connection request sent to ${memberName}! They'll be notified via email.`);
+            }
+        }
+
+        function saveProfile() {
+            // Get all form data
+            const profileData = {
+                name: document.querySelector('input[value="John Smith"]').value,
+                company: document.querySelector('input[value="Smith Consulting LLC"]').value,
+                title: document.querySelector('input[value="Founder & CEO"]').value,
+                industry: document.querySelector('select').value,
+                linkedin: document.querySelector('input[type="url"]').value,
+                lookingFor: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
+                canOffer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent),
+                companySize: document.querySelector('input[name="company-size"]:checked').value
+            };
+
+            // In a real app, this would save to database
+            localStorage.setItem('memberProfile', JSON.stringify(profileData));
+            alert('Profile saved successfully! Your matching preferences have been updated.');
+        }
+
+        function shareProfile() {
+            const profileUrl = window.location.href.split('?')[0] + '?member=johnsmith';
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Miami Business Council Profile',
+                    text: 'Connect with me on Miami Business Council',
+                    url: profileUrl
+                });
+            } else {
+                navigator.clipboard.writeText(profileUrl).then(() => {
+                    alert('Profile link copied to clipboard!');
+                });
+            }
+        }
     </script>
 </body>
 </html>

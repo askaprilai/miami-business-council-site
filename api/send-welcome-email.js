@@ -115,7 +115,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         from: 'Miami Business Council <welcome@miamibusinesscouncil.com>',
         to: [email],
-        subject: `Welcome to Miami Business Council, ${firstName}! Your ${membershipType} membership is active`,
+        subject: `Thank you for your membership, ${firstName}! Welcome to Miami Business Council`,
         html: welcomeEmailHtml
       })
     });

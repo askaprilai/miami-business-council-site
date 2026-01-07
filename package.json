@@ -1,0 +1,15 @@
+{
+  "name": "miami-business-council-site",
+  "version": "1.0.0",
+  "description": "Miami Business Council website with API endpoints",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build step required for static site'",
+    "start": "echo 'Static site served by Vercel'"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.x"
+  }
+}

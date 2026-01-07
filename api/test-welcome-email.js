@@ -33,15 +33,17 @@ export default async function handler(req, res) {
             <p><strong>Business:</strong> $450/year</p>
           </div>
           
-          <a href="https://miamibusinesscouncil.com/membership-signup.html?source=email&t=${Date.now()}" 
+          <a href="https://miamibusinesscouncil.com/membership-signup.html" 
              style="background: #d4af37; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px; display: inline-block;">
-             JOIN NOW - STRIPE SIGNUP ✅
+             🔥 STRIPE MEMBERSHIP SIGNUP 🔥
           </a>
         </div>
 
         <div style="background: #ff6b6b; color: white; padding: 20px; margin: 20px 0; text-align: center; border-radius: 5px;">
-          <strong>🔥 FORCE UPDATE: ${new Date().toISOString()}</strong><br>
-          Button should go to: membership-signup.html (Stripe page)
+          <strong>🔥 DEBUG TEST - JAN 7 2026</strong><br>
+          Button should go to: <strong>membership-signup.html</strong><br>
+          NOT membership.html (public page)<br>
+          The Stripe page with $250/$350/$450 pricing
         </div>
 
         <div style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">

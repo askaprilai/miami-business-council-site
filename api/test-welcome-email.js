@@ -33,9 +33,9 @@ export default async function handler(req, res) {
             <p><strong>Business:</strong> $450/year</p>
           </div>
           
-          <a href="https://miamibusinesscouncil.com/membership-signup.html" 
+          <a href="https://miamibusinesscouncil.com/membership-signup.html?source=email&t=${Date.now()}" 
              style="background: #d4af37; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px; display: inline-block;">
-             JOIN NOW - STRIPE SIGNUP
+             JOIN NOW - STRIPE SIGNUP ✅
           </a>
         </div>
 

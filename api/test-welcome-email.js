@@ -14,11 +14,11 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Email service not configured' });
     }
 
-    // Sample data for testing - using mbarrios@gmail.com to test
+    // Sample data for testing - using verified address
     const testData = {
-      email: 'mbarrios@gmail.com',
-      firstName: 'Test',
-      lastName: 'Member',
+      email: 'april@aprilsabral.com', 
+      firstName: 'Member',
+      lastName: 'Barrios',
       membershipType: 'BUSINESS'
     };
 
@@ -120,7 +120,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: 'Miami Business Council <onboarding@resend.dev>',
-        to: ['mbarrios@gmail.com'],
+        to: ['april@aprilsabral.com'],
         subject: `[TEST] Welcome to Miami Business Council, ${testData.firstName}! Your ${testData.membershipType} membership is active`,
         html: welcomeEmailHtml
       })
@@ -137,7 +137,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ 
       success: true, 
-      message: 'Test welcome email sent to mbarrios@gmail.com',
+      message: 'Test welcome email sent to april@aprilsabral.com',
       emailId: data.id 
     });
 

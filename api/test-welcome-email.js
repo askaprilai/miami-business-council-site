@@ -43,7 +43,7 @@ export default async function handler(req, res) {
               <li>Exclusive workshops and development opportunities</li>
               <li>Priority access to partnerships and sponsorships</li>
             </ul>
-            <a href="https://miamibusinesscouncil.com/membership.html" style="background: #d4af37; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block; margin-top: 15px;">Become a Member Today</a>
+            <a href="https://miamibusinesscouncil.com/membership-signup.html" style="background: #d4af37; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block; margin-top: 15px;">Become a Member Today</a>
           </div>
 
           <!-- Upcoming Events -->

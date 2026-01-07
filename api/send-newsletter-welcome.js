@@ -48,7 +48,7 @@ export default async function handler(req, res) {
                 Join Miami's premier business community and unlock exclusive networking opportunities, monthly breakfast events, and business partnerships.
               </p>
               <div style="margin-top: 15px;">
-                <a href="https://miamibusinesscouncil.com/membership.html" style="background: #d4af37; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Join Now - View Membership Plans</a>
+                <a href="https://miamibusinesscouncil.com/membership-signup.html" style="background: #d4af37; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Join Now - View Membership Plans</a>
               </div>
             </div>
 

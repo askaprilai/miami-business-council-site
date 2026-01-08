@@ -988,6 +988,394 @@
             background: rgba(220, 53, 69, 0.3);
         }
 
+        /* Privacy Settings Styles */
+        .privacy-setting {
+            margin-bottom: 1rem;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .privacy-toggle {
+            display: none;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 13px;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .privacy-toggle:checked + .toggle-label .toggle-switch {
+            background: #d4af37;
+            border-color: #d4af37;
+        }
+
+        .privacy-toggle:checked + .toggle-label .toggle-switch::before {
+            left: 26px;
+            background: #000;
+        }
+
+        .toggle-text {
+            color: #e8eaed;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .setting-description {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+            margin-left: 3.25rem;
+        }
+
+        /* Email Button Styles */
+        .email-btn {
+            background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .email-btn:hover {
+            background: linear-gradient(135deg, #005885 0%, #003d5c 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
+        }
+
+        .email-btn:active {
+            transform: translateY(0);
+        }
+
+        .email-btn.disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .email-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ccc;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-clear-btn:hover {
+            background: rgba(220, 53, 69, 0.3);
+            color: #ff6b6b;
+        }
+
+        .member-card.hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #ccc;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .no-results h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        /* Member Actions */
+        .member-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .member-actions .linkedin-btn,
+        .member-actions .email-btn {
+            flex: 1;
+            min-width: 90px;
+            text-align: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            padding: 0.5rem 0.75rem;
+        }
+
+        /* Referral System Styles */
+        .referral-points-badge {
+            background: #d4af37;
+            color: #000;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .referral-link-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .referral-link-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .copy-link-btn {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .copy-link-btn:hover {
+            background: #f4af37;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn.email {
+            background: #0077b5;
+            color: white;
+        }
+
+        .share-btn.linkedin {
+            background: #0a66c2;
+            color: white;
+        }
+
+        .share-btn.sms {
+            background: #25d366;
+            color: white;
+        }
+
+        .share-btn.generic {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .referral-stats {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .reward-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .reward-card.unlocked {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.3);
+        }
+
+        .reward-card.locked {
+            opacity: 0.6;
+        }
+
+        .reward-card:hover.unlocked {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .reward-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-title {
+            font-weight: 600;
+            color: #e8eaed;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-description {
+            color: #ccc;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-cost {
+            color: #d4af37;
+            font-weight: 500;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .claim-reward-btn {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .claim-reward-btn:hover:not(.disabled) {
+            background: #f4af37;
+        }
+
+        .claim-reward-btn.disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: #666;
+            cursor: not-allowed;
+        }
+
         /* Match Cards */
         .match-grid {
             display: grid;
@@ -1292,7 +1680,8 @@
                 </div>
 
                 <div class="search-bar">
-                    <input type="text" class="search-input" placeholder="Search members by name, company, or industry...">
+                    <input type="text" class="search-input" id="memberSearchInput" placeholder="Search members by name, company, or industry..." oninput="filterMembers()">
+                    <button class="search-clear-btn" id="clearSearchBtn" onclick="clearMemberSearch()" style="display: none;">✕</button>
                 </div>
 
                 <div class="member-grid">
@@ -1310,16 +1699,21 @@
                             <span class="member-tag">AI/ML</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <a href="https://linkedin.com/in/apriljsabral" class="linkedin-btn" target="_blank">
-                            📍 LinkedIn Profile
-                        </a>
+                        <div class="member-actions">
+                            <a href="https://linkedin.com/in/apriljsabral" class="linkedin-btn" target="_blank">
+                                📍 LinkedIn
+                            </a>
+                            <button class="email-btn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'April J. Sabral Consulting')">
+                                📧 Email
+                            </button>
+                        </div>
                     </div>
 
                     <div class="member-card">
                         <div class="member-header">
-                            <div class="member-avatar">TM</div>
+                            <div class="member-avatar">AM</div>
                             <div class="member-info">
-                                <h3>Tommy Martinez</h3>
+                                <h3>Atiba Madyun</h3>
                                 <p>Principal</p>
                                 <p>The Madyun Group</p>
                             </div>
@@ -1329,9 +1723,14 @@
                             <span class="member-tag">Development</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with Tommy Martinez" class="linkedin-btn">
-                            📧 Connect
-                        </a>
+                        <div class="member-actions">
+                            <button class="email-btn" onclick="sendMBCEmail('atiba@themadyungroup.com', 'Atiba Madyun', 'The Madyun Group')">
+                                📧 Email
+                            </button>
+                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
+                                📍 LinkedIn
+                            </button>
+                        </div>
                     </div>
 
                     <div class="member-card">
@@ -1348,9 +1747,14 @@
                             <span class="member-tag">Digital</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with FAN Team" class="linkedin-btn">
-                            📧 Connect
-                        </a>
+                        <div class="member-actions">
+                            <button class="email-btn" onclick="sendMBCEmail('team@fanbusiness.com', 'FAN Team', 'FAN Business')">
+                                📧 Email
+                            </button>
+                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
+                                📍 LinkedIn
+                            </button>
+                        </div>
                     </div>
 
                     <div class="member-card">
@@ -1367,9 +1771,14 @@
                             <span class="member-tag">Design</span>
                             <span class="member-tag">Retail</span>
                         </div>
-                        <a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with Ilmoda Team" class="linkedin-btn">
-                            📧 Connect
-                        </a>
+                        <div class="member-actions">
+                            <button class="email-btn" onclick="sendMBCEmail('contact@ilmoda.com', 'Ilmoda Team', 'Ilmoda')">
+                                📧 Email
+                            </button>
+                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
+                                📍 LinkedIn
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1574,6 +1983,174 @@
                             <li>Company logos should be clear and high-resolution</li>
                             <li>Supported formats: JPG, PNG, GIF (max 5MB)</li>
                             <li>Square images (1:1 ratio) display best</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Privacy & Communication Preferences -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color: #d4af37;">🔒 Privacy & Communication Preferences</h3>
+                    </div>
+                    <p style="color: #ccc; margin-bottom: 1.5rem;">Control how other members can contact you and what information is shared.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">📧 Email Preferences</h4>
+                            <div class="privacy-setting">
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="allowMemberEmails" class="privacy-toggle" checked>
+                                    <label for="allowMemberEmails" class="toggle-label">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-text">Allow members to email me directly</span>
+                                    </label>
+                                </div>
+                                <p class="setting-description">When enabled, other members can email you with a pre-filled template that identifies them as MBC members.</p>
+                            </div>
+                            
+                            <div class="privacy-setting" style="margin-top: 1rem;">
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="includePhoneInEmails" class="privacy-toggle">
+                                    <label for="includePhoneInEmails" class="toggle-label">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-text">Include my phone number in email template</span>
+                                    </label>
+                                </div>
+                                <p class="setting-description">Your phone number will be included in the email template for easier follow-up.</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">👁️ Profile Visibility</h4>
+                            <div class="privacy-setting">
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="showEmailInDirectory" class="privacy-toggle">
+                                    <label for="showEmailInDirectory" class="toggle-label">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-text">Show email address in member directory</span>
+                                    </label>
+                                </div>
+                                <p class="setting-description">Other members will see your email address directly in the directory.</p>
+                            </div>
+                            
+                            <div class="privacy-setting" style="margin-top: 1rem;">
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="allowLinkedInConnection" class="privacy-toggle" checked>
+                                    <label for="allowLinkedInConnection" class="toggle-label">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-text">Show LinkedIn profile link</span>
+                                    </label>
+                                </div>
+                                <p class="setting-description">Members can connect with you on LinkedIn through your profile.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(40, 167, 69, 0.1); border-radius: 8px; border-left: 4px solid #51cf66;">
+                        <p style="color: #51cf66; font-weight: 500; margin-bottom: 0.5rem;">✅ Email Security</p>
+                        <ul style="color: #ccc; font-size: 0.9rem; margin-left: 1rem;">
+                            <li>All emails include MBC member verification for authenticity</li>
+                            <li>Your email address is never shared without your permission</li>
+                            <li>Email templates include professional MBC branding</li>
+                            <li>You can change these preferences anytime</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Member Referral & Rewards System -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color: #d4af37;">🎁 Invite & Earn Rewards</h3>
+                        <span class="referral-points-badge" id="memberPoints">250 pts</span>
+                    </div>
+                    <p style="color: #ccc; margin-bottom: 1.5rem;">Grow the Miami Business Council community and earn exclusive rewards, speaking opportunities, and benefits!</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">🔗 Your Referral Link</h4>
+                            <div class="referral-link-container">
+                                <input type="text" class="referral-link-input" id="referralLinkInput" value="https://miamibusinesscouncil.com/join?ref=AS2025" readonly>
+                                <button class="copy-link-btn" onclick="copyReferralLink()">📋 Copy</button>
+                            </div>
+                            <div class="share-buttons" style="margin-top: 1rem;">
+                                <button class="share-btn email" onclick="shareViaEmail()">📧 Email</button>
+                                <button class="share-btn linkedin" onclick="shareOnLinkedIn()">💼 LinkedIn</button>
+                                <button class="share-btn sms" onclick="shareViaSMS()">💬 SMS</button>
+                                <button class="share-btn generic" onclick="shareGeneric()">🔗 Share</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">📊 Your Referral Stats</h4>
+                            <div class="referral-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number" id="totalInvites">12</span>
+                                    <span class="stat-label">Total Invites Sent</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="successfulReferrals">3</span>
+                                    <span class="stat-label">Successful Referrals</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="conversionRate">25%</span>
+                                    <span class="stat-label">Conversion Rate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rewards-section">
+                        <h4 style="color: #e8eaed; margin-bottom: 1rem;">🏆 Available Rewards</h4>
+                        <div class="rewards-grid">
+                            <div class="reward-card unlocked">
+                                <div class="reward-icon">🎤</div>
+                                <div class="reward-details">
+                                    <div class="reward-title">Speaking Opportunity</div>
+                                    <div class="reward-description">Present at next MBC event</div>
+                                    <div class="reward-cost">500 points</div>
+                                </div>
+                                <button class="claim-reward-btn" onclick="claimReward('speaking')">Claim</button>
+                            </div>
+                            
+                            <div class="reward-card unlocked">
+                                <div class="reward-icon">💰</div>
+                                <div class="reward-details">
+                                    <div class="reward-title">Affiliate Commission</div>
+                                    <div class="reward-description">20% commission on referrals</div>
+                                    <div class="reward-cost">300 points</div>
+                                </div>
+                                <button class="claim-reward-btn" onclick="claimReward('affiliate')">Claim</button>
+                            </div>
+                            
+                            <div class="reward-card locked">
+                                <div class="reward-icon">🎟️</div>
+                                <div class="reward-details">
+                                    <div class="reward-title">VIP Event Access</div>
+                                    <div class="reward-description">Exclusive networking events</div>
+                                    <div class="reward-cost">750 points</div>
+                                </div>
+                                <button class="claim-reward-btn disabled">Need 750 pts</button>
+                            </div>
+                            
+                            <div class="reward-card locked">
+                                <div class="reward-icon">👑</div>
+                                <div class="reward-details">
+                                    <div class="reward-title">Board Advisory Role</div>
+                                    <div class="reward-description">Join MBC advisory board</div>
+                                    <div class="reward-cost">1000 points</div>
+                                </div>
+                                <button class="claim-reward-btn disabled">Need 1000 pts</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #d4af37;">
+                        <p style="color: #d4af37; font-weight: 500; margin-bottom: 0.5rem;">💡 How It Works</p>
+                        <ul style="color: #ccc; font-size: 0.9rem; margin-left: 1rem;">
+                            <li><strong>Invite:</strong> Share your unique referral link with quality business contacts</li>
+                            <li><strong>Earn:</strong> Get 100 points for each successful member referral</li>
+                            <li><strong>Redeem:</strong> Use points for speaking slots, affiliate commissions, or exclusive access</li>
+                            <li><strong>Grow:</strong> Help build Miami's premier business community while earning rewards</li>
                         </ul>
                     </div>
                 </div>
@@ -2027,10 +2604,10 @@
                 },
                 {
                     id: 'tommy',
-                    name: 'Tommy Martinez',
+                    name: 'Atiba Madyun',
                     company: 'The Madyun Group',
                     industry: 'Real Estate',
-                    avatar: 'TM',
+                    avatar: 'AM',
                     services: ['Real Estate Development', 'Property Investment', 'Market Analysis'],
                     idealClient: {
                         industries: ['Technology', 'Finance', 'Legal'],
@@ -2662,7 +3239,7 @@
 
             const members = [
                 { id: 'april', name: 'April Sabral', company: 'April J. Sabral Consulting', lastMessage: 'Great meeting you at the event!', time: '2 hours ago', unread: 2 },
-                { id: 'tommy', name: 'Tommy Martinez', company: 'The Madyun Group', lastMessage: 'Thanks for the referral', time: '1 day ago', unread: 0 },
+                { id: 'tommy', name: 'Atiba Madyun', company: 'The Madyun Group', lastMessage: 'Thanks for the referral', time: '1 day ago', unread: 0 },
                 { id: 'fan', name: 'FAN Team', company: 'FAN Business', lastMessage: 'Let\'s discuss the partnership', time: '3 days ago', unread: 1 },
                 { id: 'ilmoda', name: 'Ilmoda Team', company: 'Ilmoda', lastMessage: 'Looking forward to our collaboration', time: '1 week ago', unread: 0 }
             ];
@@ -2858,10 +3435,477 @@
             alert(`Viewing full profile for ${currentChatMember.name} - This will open their complete business profile.`);
         }
 
+        // Member Directory Search Functionality
+        function filterMembers() {
+            const searchInput = document.getElementById('memberSearchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const memberCards = document.querySelectorAll('.member-card');
+            const memberGrid = document.querySelector('.member-grid');
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            // Show/hide clear button
+            if (searchTerm.length > 0) {
+                clearBtn.style.display = 'flex';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+            
+            let visibleCount = 0;
+            
+            memberCards.forEach(card => {
+                const name = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                const company = card.querySelector('.member-info p:last-child')?.textContent.toLowerCase() || '';
+                const title = card.querySelector('.member-info p:first-child')?.textContent.toLowerCase() || '';
+                const tags = Array.from(card.querySelectorAll('.member-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+                
+                const searchableText = `${name} ${company} ${title} ${tags}`;
+                
+                if (searchTerm === '' || searchableText.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            // Remove existing no-results message
+            const existingNoResults = memberGrid.querySelector('.no-results');
+            if (existingNoResults) {
+                existingNoResults.remove();
+            }
+            
+            // Show no results message if needed
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                const noResultsDiv = document.createElement('div');
+                noResultsDiv.className = 'no-results';
+                noResultsDiv.innerHTML = `
+                    <h3>🔍 No members found</h3>
+                    <p>No members match your search for "<strong>${searchInput.value}</strong>"</p>
+                    <p>Try searching by name, company, or industry.</p>
+                    <button class="register-btn" onclick="clearMemberSearch()" style="margin-top: 1rem;">Clear Search</button>
+                `;
+                memberGrid.appendChild(noResultsDiv);
+            }
+            
+            // Update search results count
+            updateSearchResultsCount(visibleCount, searchTerm);
+        }
+
+        function clearMemberSearch() {
+            const searchInput = document.getElementById('memberSearchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const memberCards = document.querySelectorAll('.member-card');
+            const memberGrid = document.querySelector('.member-grid');
+            
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            
+            // Show all member cards
+            memberCards.forEach(card => {
+                card.classList.remove('hidden');
+            });
+            
+            // Remove no-results message
+            const noResultsDiv = memberGrid.querySelector('.no-results');
+            if (noResultsDiv) {
+                noResultsDiv.remove();
+            }
+            
+            // Clear search results count
+            updateSearchResultsCount(memberCards.length, '');
+            
+            // Focus back on search input
+            searchInput.focus();
+        }
+
+        function updateSearchResultsCount(count, searchTerm) {
+            const sectionHeader = document.querySelector('#directory .section-header p');
+            if (!sectionHeader) return;
+            
+            if (searchTerm && searchTerm.length > 0) {
+                sectionHeader.textContent = `Found ${count} member${count !== 1 ? 's' : ''} matching "${searchTerm}"`;
+            } else {
+                sectionHeader.textContent = 'Connect with fellow Miami business leaders';
+            }
+        }
+
+        // Privacy Settings Functionality
+        function initializePrivacySettings() {
+            // Load saved privacy settings
+            const savedSettings = localStorage.getItem('memberPrivacySettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                
+                // Apply saved settings
+                Object.keys(settings).forEach(key => {
+                    const checkbox = document.getElementById(key);
+                    if (checkbox) {
+                        checkbox.checked = settings[key];
+                    }
+                });
+            }
+            
+            // Add change listeners to privacy toggles
+            const privacyToggles = document.querySelectorAll('.privacy-toggle');
+            privacyToggles.forEach(toggle => {
+                toggle.addEventListener('change', savePrivacySettings);
+            });
+        }
+
+        function savePrivacySettings() {
+            const settings = {};
+            const privacyToggles = document.querySelectorAll('.privacy-toggle');
+            
+            privacyToggles.forEach(toggle => {
+                settings[toggle.id] = toggle.checked;
+            });
+            
+            localStorage.setItem('memberPrivacySettings', JSON.stringify(settings));
+            
+            // Show brief confirmation
+            const confirmationDiv = document.createElement('div');
+            confirmationDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(40, 167, 69, 0.9);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            confirmationDiv.innerHTML = '✅ Privacy settings saved';
+            document.body.appendChild(confirmationDiv);
+            
+            setTimeout(() => {
+                confirmationDiv.remove();
+            }, 2000);
+        }
+
+        // MBC Email Functionality
+        function sendMBCEmail(memberEmail, memberName, memberCompany) {
+            // Get current user info from session
+            const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
+            const currentUserName = memberAuth.name || 'MBC Member';
+            
+            // Check if recipient allows member emails (simulate check - in real app this would be from database)
+            const allowsEmails = true; // This would come from their privacy settings
+            
+            if (!allowsEmails) {
+                alert(`${memberName} has disabled direct member emails. Try connecting through LinkedIn or the chat system instead.`);
+                return;
+            }
+            
+            // Get current date
+            const currentDate = new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Create professional email template with MBC verification
+            const subject = encodeURIComponent(`Miami Business Council Member Connection Request from ${currentUserName}`);
+            
+            const emailBody = encodeURIComponent(`Dear ${memberName},
+
+I hope this email finds you well. I am reaching out to you as a fellow member of the Miami Business Council.
+
+MEMBER VERIFICATION:
+✅ This email is from a verified Miami Business Council member
+✅ Member Name: ${currentUserName}
+✅ Sent via MBC Member Portal on ${currentDate}
+✅ For verification, please visit: https://miamibusinesscouncil.com/member-portal
+
+INTRODUCTION:
+I came across your profile in our member directory and was impressed by your work at ${memberCompany}. I believe there may be opportunities for collaboration or mutual benefit between our businesses.
+
+NEXT STEPS:
+I would love to schedule a brief call or coffee meeting to discuss potential synergies. Please let me know if you're interested and available for a conversation.
+
+Best regards,
+
+${currentUserName}
+Miami Business Council Member
+
+---
+📧 This email was generated through the Miami Business Council Member Portal
+🔒 Your email preferences can be managed at: https://miamibusinesscouncil.com/member-portal
+🤝 Miami Business Council - Connecting Miami's Business Leaders
+https://miamibusinesscouncil.com`);
+            
+            // Create mailto link
+            const mailtoLink = `mailto:${memberEmail}?subject=${subject}&body=${emailBody}`;
+            
+            // Show confirmation dialog
+            const confirmMessage = `Send professional MBC member introduction email to ${memberName} at ${memberCompany}?\n\nThe email will include:\n• MBC member verification\n• Professional introduction template\n• Your contact information\n• Meeting request`;
+            
+            if (confirm(confirmMessage)) {
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Log the interaction (in real app, this would save to database)
+                logEmailInteraction(memberEmail, memberName, memberCompany);
+                
+                // Show success message
+                setTimeout(() => {
+                    const successDiv = document.createElement('div');
+                    successDiv.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: rgba(40, 167, 69, 0.9);
+                        color: white;
+                        padding: 1rem 1.5rem;
+                        border-radius: 8px;
+                        z-index: 1000;
+                        max-width: 300px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    `;
+                    successDiv.innerHTML = `
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">📧 Email Opened</div>
+                        <div style="font-size: 0.9rem;">Professional MBC introduction email created for ${memberName}</div>
+                    `;
+                    document.body.appendChild(successDiv);
+                    
+                    setTimeout(() => {
+                        successDiv.remove();
+                    }, 5000);
+                }, 1000);
+            }
+        }
+
+        function logEmailInteraction(memberEmail, memberName, memberCompany) {
+            // Save email interaction to localStorage for analytics
+            const interactions = JSON.parse(localStorage.getItem('emailInteractions') || '[]');
+            
+            interactions.push({
+                recipientEmail: memberEmail,
+                recipientName: memberName,
+                recipientCompany: memberCompany,
+                timestamp: new Date().toISOString(),
+                type: 'mbc_introduction_email'
+            });
+            
+            // Keep only last 50 interactions
+            if (interactions.length > 50) {
+                interactions.splice(0, interactions.length - 50);
+            }
+            
+            localStorage.setItem('emailInteractions', JSON.stringify(interactions));
+        }
+
+        // Enhanced Smart Match Email Integration
+        function sendSmartIntro(memberId, memberName) {
+            // Get member data for smart intro
+            const members = [
+                { id: 'april', email: 'april@apriljsabral.com', company: 'April J. Sabral Consulting' },
+                { id: 'tommy', email: 'atiba@themadyungroup.com', company: 'The Madyun Group' },
+                { id: 'fan', email: 'team@fanbusiness.com', company: 'FAN Business' },
+                { id: 'ilmoda', email: 'contact@ilmoda.com', company: 'Ilmoda' }
+            ];
+            
+            const member = members.find(m => m.id === memberId);
+            if (member) {
+                sendMBCEmail(member.email, memberName, member.company);
+            }
+        }
+
+        // Referral System Functionality
+        function copyReferralLink() {
+            const linkInput = document.getElementById('referralLinkInput');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(linkInput.value);
+            
+            const copyBtn = document.querySelector('.copy-link-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✅ Copied!';
+            copyBtn.style.background = '#51cf66';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = '#d4af37';
+            }, 2000);
+        }
+
+        function shareViaEmail() {
+            const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
+            const currentUserName = memberAuth.name || 'MBC Member';
+            const referralLink = document.getElementById('referralLinkInput').value;
+            
+            const subject = encodeURIComponent(`Join Miami Business Council - Invitation from ${currentUserName}`);
+            const body = encodeURIComponent(`Hi there!
+
+I wanted to personally invite you to join the Miami Business Council, Miami's premier networking organization for business leaders.
+
+As a current member, I can tell you that MBC has been instrumental in growing my network and business opportunities. Here's what makes it special:
+
+✅ AI-powered smart matching with ideal business partners
+✅ Direct member-to-member communication platform  
+✅ Monthly networking events with high-quality attendees
+✅ Exclusive member directory and collaboration opportunities
+✅ Professional development and speaking opportunities
+
+JOIN HERE: ${referralLink}
+
+When you join through my referral link, you'll get:
+• Priority access to upcoming events
+• Direct introduction to relevant members
+• Access to our exclusive member portal
+
+I'd be happy to introduce you to other members who align with your business goals once you join.
+
+Best regards,
+${currentUserName}
+Miami Business Council Member
+
+P.S. - The member portal has some amazing features including smart matching and direct messaging that have really helped me connect with the right people.`);
+            
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+            updateInviteStats();
+        }
+
+        function shareOnLinkedIn() {
+            const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
+            const currentUserName = memberAuth.name || 'MBC Member';
+            const referralLink = document.getElementById('referralLinkInput').value;
+            
+            const text = encodeURIComponent(`I'm excited to be part of Miami Business Council, where AI-powered networking meets real business growth! 🚀
+
+If you're a Miami business leader looking to:
+• Connect with ideal clients & partners through smart matching
+• Access exclusive networking events
+• Join a curated community of entrepreneurs
+
+You should check this out: ${referralLink}
+
+The member portal is incredibly well-designed with features like direct messaging and intelligent business matching. It's like LinkedIn but specifically for Miami's business community.
+
+#MiamiBusinessCouncil #Networking #BusinessGrowth #Miami #Entrepreneurship`);
+            
+            const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLink)}&text=${text}`;
+            window.open(linkedInUrl, '_blank');
+            updateInviteStats();
+        }
+
+        function shareViaSMS() {
+            const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
+            const currentUserName = memberAuth.name || 'MBC Member';
+            const referralLink = document.getElementById('referralLinkInput').value;
+            
+            const message = encodeURIComponent(`Hey! I'm a member of Miami Business Council and thought you'd be interested. It's an exclusive networking org for Miami business leaders with AI-powered matching and great events. Check it out: ${referralLink} - ${currentUserName}`);
+            
+            window.location.href = `sms:?body=${message}`;
+            updateInviteStats();
+        }
+
+        function shareGeneric() {
+            const referralLink = document.getElementById('referralLinkInput').value;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join Miami Business Council',
+                    text: 'Join Miami\'s premier business networking organization with AI-powered matching and exclusive events.',
+                    url: referralLink
+                });
+            } else {
+                copyReferralLink();
+                alert('Referral link copied to clipboard! Share it with potential members.');
+            }
+            updateInviteStats();
+        }
+
+        function updateInviteStats() {
+            // Update invite count
+            const totalInvites = parseInt(document.getElementById('totalInvites').textContent) + 1;
+            document.getElementById('totalInvites').textContent = totalInvites;
+            
+            // Save to localStorage
+            const stats = JSON.parse(localStorage.getItem('referralStats') || '{"totalInvites": 0, "successfulReferrals": 3}');
+            stats.totalInvites = totalInvites;
+            localStorage.setItem('referralStats', JSON.stringify(stats));
+            
+            // Update conversion rate
+            const conversionRate = Math.round((stats.successfulReferrals / totalInvites) * 100);
+            document.getElementById('conversionRate').textContent = conversionRate + '%';
+        }
+
+        function claimReward(rewardType) {
+            const currentPoints = parseInt(document.getElementById('memberPoints').textContent);
+            let cost, rewardName, message;
+            
+            switch(rewardType) {
+                case 'speaking':
+                    cost = 500;
+                    rewardName = 'Speaking Opportunity';
+                    message = 'Speaking slot reserved! We\'ll contact you about upcoming event opportunities.';
+                    break;
+                case 'affiliate':
+                    cost = 300;
+                    rewardName = 'Affiliate Commission';
+                    message = 'Affiliate program activated! You\'ll now earn 20% commission on successful referrals.';
+                    break;
+                default:
+                    return;
+            }
+            
+            if (currentPoints >= cost) {
+                if (confirm(`Claim ${rewardName} for ${cost} points?\n\nThis will deduct ${cost} points from your account.`)) {
+                    // Deduct points
+                    const newPoints = currentPoints - cost;
+                    document.getElementById('memberPoints').textContent = newPoints + ' pts';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('memberPoints', newPoints);
+                    
+                    // Show success message
+                    alert(`🎉 ${rewardName} claimed successfully!\n\n${message}\n\nRemaining points: ${newPoints}`);
+                    
+                    // Update reward card to claimed state
+                    const rewardCard = event.target.closest('.reward-card');
+                    const claimBtn = rewardCard.querySelector('.claim-reward-btn');
+                    claimBtn.textContent = 'Claimed ✅';
+                    claimBtn.disabled = true;
+                    claimBtn.style.background = '#51cf66';
+                    claimBtn.style.color = '#000';
+                }
+            } else {
+                alert(`Not enough points! You need ${cost} points but only have ${currentPoints} points.\n\nEarn more points by referring new members (100 points each).`);
+            }
+        }
+
+        function initializeReferralSystem() {
+            // Load saved stats
+            const stats = JSON.parse(localStorage.getItem('referralStats') || '{"totalInvites": 12, "successfulReferrals": 3}');
+            document.getElementById('totalInvites').textContent = stats.totalInvites;
+            document.getElementById('successfulReferrals').textContent = stats.successfulReferrals;
+            
+            const conversionRate = Math.round((stats.successfulReferrals / stats.totalInvites) * 100);
+            document.getElementById('conversionRate').textContent = conversionRate + '%';
+            
+            // Load saved points
+            const points = localStorage.getItem('memberPoints') || '250';
+            document.getElementById('memberPoints').textContent = points + ' pts';
+            
+            // Generate unique referral code based on member info
+            const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
+            if (memberAuth.name) {
+                const initials = memberAuth.name.split(' ').map(n => n[0]).join('');
+                const year = new Date().getFullYear();
+                const referralCode = `${initials}${year}`;
+                document.getElementById('referralLinkInput').value = `https://miamibusinesscouncil.com/join?ref=${referralCode}`;
+            }
+        }
+
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', () => {
             setupPhotoUpload();
             initializeChatSystem();
+            initializePrivacySettings();
+            initializeReferralSystem();
         });
     </script>
     

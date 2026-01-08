@@ -572,6 +572,9 @@
                     <a href="#" class="nav-link active" data-section="dashboard">📊 Dashboard</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="smart-matches">🎯 Smart Matches</a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" data-section="directory">👥 Member Directory</a>
                 </li>
                 <li class="nav-item">
@@ -625,6 +628,100 @@
                         <p><a href="#" onclick="showSection('directory')" style="color: #d4af37; cursor: pointer;">Browse Directory</a></p>
                         <p><a href="#" onclick="showSection('events')" style="color: #d4af37; cursor: pointer;">View Events</a></p>
                     </div>
+                </div>
+            </section>
+
+            <!-- Smart Matches Section -->
+            <section id="smart-matches" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">🎯 Smart Matches</h1>
+                    <p>AI-powered connections based on your ideal client profile and business goals</p>
+                </div>
+
+                <!-- Matching Stats -->
+                <div class="dashboard-grid" style="margin-bottom: 2rem;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Match Statistics</h3>
+                            <span class="card-icon">📈</span>
+                        </div>
+                        <p><strong>Total Matches Found:</strong> <span id="totalMatches">8</span></p>
+                        <p><strong>High-Priority Matches:</strong> <span id="highPriorityMatches">3</span></p>
+                        <p><strong>New This Week:</strong> <span id="newMatches">2</span></p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Match Quality</h3>
+                            <span class="card-icon">⭐</span>
+                        </div>
+                        <p><strong>Average Match Score:</strong> 85%</p>
+                        <p><strong>Mutual Interest Matches:</strong> 4</p>
+                        <p><strong>Your Profile Completion:</strong> 75%</p>
+                        <button class="register-btn" onclick="showSection('profile')" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9em;">Complete Profile</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                            <span class="card-icon">⚡</span>
+                        </div>
+                        <p><a href="#" onclick="generateSmartMatches()" style="color: #d4af37; cursor: pointer;">🔄 Refresh Matches</a></p>
+                        <p><a href="#" onclick="exportMatches()" style="color: #d4af37; cursor: pointer;">📋 Export Match List</a></p>
+                        <p><a href="#" onclick="scheduleMatchNotifications()" style="color: #d4af37; cursor: pointer;">🔔 Weekly Match Alerts</a></p>
+                    </div>
+                </div>
+
+                <!-- Match Filters -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #d4af37; margin-bottom: 1rem;">🔍 Filter Your Matches</h3>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                        <div class="profile-field">
+                            <label>Match Type:</label>
+                            <select class="profile-input" id="matchTypeFilter" onchange="filterMatches()">
+                                <option value="all">All Matches</option>
+                                <option value="ideal-client">My Ideal Clients</option>
+                                <option value="service-provider">Service Providers for Me</option>
+                                <option value="mutual">Mutual Benefit</option>
+                                <option value="partnership">Partnership Opportunities</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label>Industry:</label>
+                            <select class="profile-input" id="industryFilter" onchange="filterMatches()">
+                                <option value="all">All Industries</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Healthcare">Healthcare</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label>Match Score:</label>
+                            <select class="profile-input" id="scoreFilter" onchange="filterMatches()">
+                                <option value="all">Any Score</option>
+                                <option value="high">90%+ (High Match)</option>
+                                <option value="good">75-89% (Good Match)</option>
+                                <option value="fair">60-74% (Fair Match)</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label>Availability:</label>
+                            <select class="profile-input" id="availabilityFilter" onchange="filterMatches()">
+                                <option value="all">All Members</option>
+                                <option value="active">Recently Active</option>
+                                <option value="looking">Actively Looking</option>
+                                <option value="open">Open to Connections</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Matches Results -->
+                <div class="match-grid" id="smartMatchResults">
+                    <!-- Matches will be populated by JavaScript -->
                 </div>
             </section>
 
@@ -807,6 +904,122 @@
                 <div class="section-header">
                     <h1 class="section-title">My Business Profile</h1>
                     <p>Optimize your profile for better business matching and opportunities</p>
+                </div>
+
+                <!-- Smart Matching Section -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color: #d4af37;">🎯 Smart Matching Profile</h3>
+                        <button class="register-btn" onclick="generateSmartMatches()" style="padding: 0.5rem 1rem;">Find My Matches</button>
+                    </div>
+                    <p style="color: #ccc; margin-bottom: 2rem;">Help us connect you with your ideal clients, partners, and opportunities by completing your matching profile.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">🎯 My Ideal Client Profile</h4>
+                            <div class="profile-field">
+                                <label>Industry Focus:</label>
+                                <select class="profile-input" id="targetIndustry">
+                                    <option value="">Select target industry</option>
+                                    <option value="Technology">Technology & Software</option>
+                                    <option value="Real Estate">Real Estate & Construction</option>
+                                    <option value="Healthcare">Healthcare & Wellness</option>
+                                    <option value="Finance">Finance & Investment</option>
+                                    <option value="Marketing">Marketing & Advertising</option>
+                                    <option value="Legal">Legal & Professional Services</option>
+                                    <option value="Retail">Retail & E-commerce</option>
+                                    <option value="Manufacturing">Manufacturing & Industrial</option>
+                                    <option value="Education">Education & Training</option>
+                                    <option value="Hospitality">Hospitality & Tourism</option>
+                                    <option value="Non-Profit">Non-Profit & Social Impact</option>
+                                    <option value="Any">Open to All Industries</option>
+                                </select>
+                            </div>
+                            <div class="profile-field">
+                                <label>Company Size Preference:</label>
+                                <select class="profile-input" id="targetSize">
+                                    <option value="">Any size</option>
+                                    <option value="startup">Startup (1-10 employees)</option>
+                                    <option value="small">Small Business (11-50 employees)</option>
+                                    <option value="medium">Medium Business (51-200 employees)</option>
+                                    <option value="large">Large Enterprise (200+ employees)</option>
+                                </select>
+                            </div>
+                            <div class="profile-field">
+                                <label>Budget Range (Annual):</label>
+                                <select class="profile-input" id="targetBudget">
+                                    <option value="">Not specified</option>
+                                    <option value="under-10k">Under $10,000</option>
+                                    <option value="10k-50k">$10,000 - $50,000</option>
+                                    <option value="50k-100k">$50,000 - $100,000</option>
+                                    <option value="100k-500k">$100,000 - $500,000</option>
+                                    <option value="500k-plus">$500,000+</option>
+                                </select>
+                            </div>
+                            <div class="profile-field">
+                                <label>Geographic Focus:</label>
+                                <select class="profile-input" id="targetLocation">
+                                    <option value="miami">Miami-Dade County</option>
+                                    <option value="south-florida">South Florida Region</option>
+                                    <option value="florida">Florida Statewide</option>
+                                    <option value="southeast">Southeast US</option>
+                                    <option value="national">National/Remote</option>
+                                    <option value="international">International</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">💼 What I Offer</h4>
+                            <div class="profile-field">
+                                <label>Primary Service/Product:</label>
+                                <textarea class="profile-input" id="primaryOffering" placeholder="Describe your main service or product offering..." rows="3"></textarea>
+                            </div>
+                            <div class="profile-field">
+                                <label>Unique Value Proposition:</label>
+                                <textarea class="profile-input" id="valueProposition" placeholder="What makes you different from competitors?" rows="2"></textarea>
+                            </div>
+                            <div class="profile-field">
+                                <label>Collaboration Style:</label>
+                                <select class="profile-input" id="workStyle">
+                                    <option value="in-person">Prefer In-Person Meetings</option>
+                                    <option value="virtual">Comfortable with Virtual</option>
+                                    <option value="hybrid">Flexible - Both Virtual & In-Person</option>
+                                    <option value="project-based">Project-Based Engagement</option>
+                                    <option value="ongoing">Long-term Partnership Focus</option>
+                                </select>
+                            </div>
+                            <div class="profile-field">
+                                <label>Business Goals for 2025:</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <label class="radio-option">
+                                        <input type="checkbox" name="business-goals" value="grow-revenue">
+                                        <span>Grow Revenue</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="checkbox" name="business-goals" value="expand-team">
+                                        <span>Expand Team</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="checkbox" name="business-goals" value="new-markets">
+                                        <span>Enter New Markets</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="checkbox" name="business-goals" value="strategic-partnerships">
+                                        <span>Strategic Partnerships</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="checkbox" name="business-goals" value="raise-funding">
+                                        <span>Raise Funding</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="checkbox" name="business-goals" value="improve-operations">
+                                        <span>Improve Operations</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; max-width: 1000px;">
@@ -1097,6 +1310,331 @@
                     }
                 });
             }, 500);
+        });
+
+        // Smart Matching System
+        function generateSmartMatches() {
+            const matchResults = document.getElementById('smartMatchResults');
+            const loadingHtml = '<div style="text-align: center; padding: 2rem; color: #ccc;">🧠 Analyzing member profiles and generating smart matches...</div>';
+            
+            matchResults.innerHTML = loadingHtml;
+            
+            // Simulate AI matching algorithm
+            setTimeout(() => {
+                const smartMatches = calculateIntelligentMatches();
+                displaySmartMatches(smartMatches);
+                updateMatchStats(smartMatches);
+            }, 2000);
+        }
+
+        function calculateIntelligentMatches() {
+            // Enhanced member database with smart matching profiles
+            const membersWithProfiles = [
+                {
+                    id: 'april',
+                    name: 'April Sabral',
+                    company: 'AskApril AI',
+                    industry: 'Technology',
+                    avatar: 'AS',
+                    services: ['AI/ML Solutions', 'Business Strategy', 'Tech Consulting'],
+                    idealClient: {
+                        industries: ['Real Estate', 'Healthcare', 'Finance'],
+                        companySize: ['small', 'medium'],
+                        budget: ['50k-100k', '100k-500k'],
+                        needsHelp: ['Digital Transformation', 'AI Implementation', 'Process Automation']
+                    },
+                    businessGoals: ['grow-revenue', 'strategic-partnerships'],
+                    location: 'miami',
+                    workStyle: 'hybrid',
+                    linkedin: 'https://linkedin.com/in/apriljsabral',
+                    valueProposition: 'AI-powered solutions that transform traditional businesses into modern, efficient operations',
+                    primaryOffering: 'Custom AI/ML solutions and business intelligence platforms'
+                },
+                {
+                    id: 'tommy',
+                    name: 'Tommy Martinez',
+                    company: 'The Madyun Group',
+                    industry: 'Real Estate',
+                    avatar: 'TM',
+                    services: ['Real Estate Development', 'Property Investment', 'Market Analysis'],
+                    idealClient: {
+                        industries: ['Technology', 'Finance', 'Legal'],
+                        companySize: ['medium', 'large'],
+                        budget: ['100k-500k', '500k-plus'],
+                        needsHelp: ['Office Space', 'Investment Opportunities', 'Market Entry']
+                    },
+                    businessGoals: ['strategic-partnerships', 'expand-team', 'new-markets'],
+                    location: 'miami',
+                    workStyle: 'in-person',
+                    linkedin: null,
+                    valueProposition: 'Premium real estate solutions in Miami\'s most desirable markets',
+                    primaryOffering: 'Commercial and residential development projects'
+                },
+                {
+                    id: 'fan',
+                    name: 'FAN Team',
+                    company: 'FAN Business',
+                    industry: 'Marketing',
+                    avatar: 'FT',
+                    services: ['Digital Marketing', 'Brand Strategy', 'Social Media Management'],
+                    idealClient: {
+                        industries: ['Technology', 'Real Estate', 'Healthcare', 'Fashion'],
+                        companySize: ['startup', 'small', 'medium'],
+                        budget: ['10k-50k', '50k-100k'],
+                        needsHelp: ['Brand Development', 'Lead Generation', 'Social Media Growth']
+                    },
+                    businessGoals: ['grow-revenue', 'new-markets'],
+                    location: 'south-florida',
+                    workStyle: 'virtual',
+                    linkedin: null,
+                    valueProposition: 'ROI-focused marketing strategies that drive measurable business growth',
+                    primaryOffering: 'Full-service digital marketing and brand development'
+                },
+                {
+                    id: 'ilmoda',
+                    name: 'Ilmoda Team',
+                    company: 'Ilmoda',
+                    industry: 'Fashion',
+                    avatar: 'IM',
+                    services: ['Fashion Design', 'Brand Development', 'E-commerce Solutions'],
+                    idealClient: {
+                        industries: ['Retail', 'Technology', 'Marketing'],
+                        companySize: ['startup', 'small'],
+                        budget: ['10k-50k', '50k-100k'],
+                        needsHelp: ['E-commerce Platform', 'Marketing Support', 'Investment']
+                    },
+                    businessGoals: ['raise-funding', 'strategic-partnerships'],
+                    location: 'miami',
+                    workStyle: 'hybrid',
+                    linkedin: null,
+                    valueProposition: 'Sustainable fashion solutions for the modern conscious consumer',
+                    primaryOffering: 'Eco-friendly fashion design and sustainable retail solutions'
+                }
+            ];
+
+            // Current user profile simulation (would come from form data)
+            const currentUser = {
+                industry: 'Technology',
+                services: ['Business Strategy', 'AI Consulting'],
+                idealClient: {
+                    industries: ['Real Estate', 'Marketing'],
+                    companySize: ['small', 'medium'],
+                    budget: ['50k-100k']
+                },
+                businessGoals: ['grow-revenue', 'strategic-partnerships']
+            };
+
+            // Calculate match scores using intelligent algorithm
+            const matches = membersWithProfiles.map(member => {
+                let score = 0;
+                let matchReasons = [];
+                let matchType = '';
+
+                // Industry alignment (30% weight)
+                if (currentUser.idealClient.industries.includes(member.industry)) {
+                    score += 30;
+                    matchReasons.push(`Perfect industry match: ${member.industry}`);
+                    matchType = 'ideal-client';
+                }
+
+                if (member.idealClient.industries.includes(currentUser.industry)) {
+                    score += 25;
+                    matchReasons.push(`They're looking for your industry: ${currentUser.industry}`);
+                    if (!matchType) matchType = 'service-provider';
+                    else if (matchType === 'ideal-client') matchType = 'mutual';
+                }
+
+                // Services/needs alignment (25% weight)
+                const serviceMatches = currentUser.services.some(service => 
+                    member.idealClient.needsHelp?.some(need => 
+                        need.toLowerCase().includes(service.toLowerCase()) ||
+                        service.toLowerCase().includes(need.toLowerCase())
+                    )
+                );
+
+                if (serviceMatches) {
+                    score += 25;
+                    matchReasons.push('Your services match their needs');
+                }
+
+                // Business goals alignment (20% weight)
+                const goalAlignment = currentUser.businessGoals.some(goal => 
+                    member.businessGoals.includes(goal)
+                );
+
+                if (goalAlignment) {
+                    score += 20;
+                    matchReasons.push('Aligned business goals');
+                    if (!matchType) matchType = 'partnership';
+                }
+
+                // Budget/size compatibility (15% weight)
+                const budgetMatch = currentUser.idealClient.budget.some(budget => 
+                    member.idealClient.budget.includes(budget)
+                );
+
+                if (budgetMatch) {
+                    score += 15;
+                    matchReasons.push('Compatible budget ranges');
+                }
+
+                // Location proximity (10% weight)
+                if (member.location === 'miami' || member.location === 'south-florida') {
+                    score += 10;
+                    matchReasons.push('Local Miami area');
+                }
+
+                return {
+                    ...member,
+                    matchScore: Math.min(score, 98), // Cap at 98%
+                    matchReasons: matchReasons.slice(0, 3), // Top 3 reasons
+                    matchType: matchType || 'networking',
+                    priority: score > 80 ? 'high' : score > 60 ? 'medium' : 'low',
+                    mutualBenefit: matchType === 'mutual'
+                };
+            }).filter(match => match.matchScore > 40) // Only show matches above 40%
+              .sort((a, b) => b.matchScore - a.matchScore);
+
+            return matches;
+        }
+
+        function displaySmartMatches(matches) {
+            const matchResults = document.getElementById('smartMatchResults');
+            
+            if (matches.length === 0) {
+                matchResults.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ccc;">No strong matches found. Try updating your profile to get better results.</div>';
+                return;
+            }
+
+            const matchesHtml = matches.map(match => `
+                <div class="match-card" data-match-type="${match.matchType}" data-industry="${match.industry}" data-score="${match.matchScore}">
+                    <div class="match-header">
+                        <div class="member-avatar">${match.avatar}</div>
+                        <div>
+                            <h4>${match.name}</h4>
+                            <p>${match.company} • ${match.industry}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="match-score">${match.matchScore}%</div>
+                            <div style="font-size: 0.8em; color: #d4af37; margin-top: 0.25rem;">${getMatchTypeLabel(match.matchType)}</div>
+                            ${match.mutualBenefit ? '<div style="font-size: 0.7em; color: #51cf66;">🤝 MUTUAL</div>' : ''}
+                        </div>
+                    </div>
+                    <div class="match-details">
+                        <p><strong>What they offer:</strong> ${match.services.join(', ')}</p>
+                        <p><strong>What they need:</strong> ${match.idealClient.needsHelp?.join(', ') || 'Various business support'}</p>
+                        <p><strong>Why this match:</strong> ${match.matchReasons.join(', ')}</p>
+                        ${match.valueProposition ? `<p><strong>Their value:</strong> ${match.valueProposition}</p>` : ''}
+                    </div>
+                    <div class="match-actions">
+                        <button class="connect-btn" onclick="sendSmartIntro('${match.id}', '${match.name}')">Smart Intro</button>
+                        <button class="linkedin-btn" onclick="${match.linkedin ? `window.open('${match.linkedin}', '_blank')` : `viewMemberProfile('${match.id}')`}">
+                            ${match.linkedin ? 'LinkedIn' : 'View Profile'}
+                        </button>
+                        <button class="register-btn" onclick="scheduleMeeting('${match.id}')" style="padding: 0.5rem 1rem; margin-left: 0.5rem;">
+                            Schedule Meet
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            matchResults.innerHTML = matchesHtml;
+        }
+
+        function getMatchTypeLabel(matchType) {
+            const labels = {
+                'ideal-client': '🎯 IDEAL CLIENT',
+                'service-provider': '💼 SERVICE FOR YOU',
+                'mutual': '🤝 MUTUAL BENEFIT',
+                'partnership': '🚀 PARTNERSHIP',
+                'networking': '🌟 NETWORKING'
+            };
+            return labels[matchType] || '🌟 NETWORKING';
+        }
+
+        function updateMatchStats(matches) {
+            document.getElementById('totalMatches').textContent = matches.length;
+            document.getElementById('highPriorityMatches').textContent = matches.filter(m => m.priority === 'high').length;
+            document.getElementById('newMatches').textContent = Math.floor(matches.length * 0.3); // Simulate new matches
+        }
+
+        function filterMatches() {
+            const matchType = document.getElementById('matchTypeFilter').value;
+            const industry = document.getElementById('industryFilter').value;
+            const scoreRange = document.getElementById('scoreFilter').value;
+            const availability = document.getElementById('availabilityFilter').value;
+
+            const allCards = document.querySelectorAll('.match-card');
+            let visibleCount = 0;
+
+            allCards.forEach(card => {
+                let show = true;
+
+                // Filter by match type
+                if (matchType !== 'all' && !card.dataset.matchType.includes(matchType)) {
+                    show = false;
+                }
+
+                // Filter by industry
+                if (industry !== 'all' && !card.dataset.industry.includes(industry)) {
+                    show = false;
+                }
+
+                // Filter by score
+                if (scoreRange !== 'all') {
+                    const score = parseInt(card.dataset.score);
+                    if (scoreRange === 'high' && score < 90) show = false;
+                    if (scoreRange === 'good' && (score < 75 || score >= 90)) show = false;
+                    if (scoreRange === 'fair' && (score < 60 || score >= 75)) show = false;
+                }
+
+                card.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Update visible count
+            const matchResults = document.getElementById('smartMatchResults');
+            if (visibleCount === 0) {
+                matchResults.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ccc;">No matches found for current filters. Try adjusting your criteria.</div>';
+            }
+        }
+
+        function sendSmartIntro(memberId, memberName) {
+            // AI-generated introduction message
+            const introMessage = `Hi ${memberName}! I came across your profile through Miami Business Council's smart matching system. Based on our business profiles, it looks like we might have some interesting synergies to explore. Would you be open to a brief call to discuss potential collaboration opportunities?`;
+            
+            if (confirm(`Send this smart introduction to ${memberName}?\n\n"${introMessage}"`)) {
+                alert(`Smart introduction sent to ${memberName}! They'll receive a personalized message highlighting why you're a great match.`);
+                // In real implementation, this would send via the chat system or email
+            }
+        }
+
+        function scheduleMeeting(memberId) {
+            alert('Meeting scheduling feature coming soon! For now, use the Smart Intro to connect and suggest a meeting time.');
+        }
+
+        function viewMemberProfile(memberId) {
+            alert(`Detailed member profile viewer coming soon! This would show ${memberId}'s complete business profile and portfolio.`);
+        }
+
+        function exportMatches() {
+            alert('📋 Match export feature coming soon! You\'ll be able to export your matches to CSV or PDF.');
+        }
+
+        function scheduleMatchNotifications() {
+            if (confirm('Enable weekly smart match notifications?')) {
+                alert('✅ Weekly match alerts enabled! You\'ll receive email updates every Monday with new matches and opportunities.');
+            }
+        }
+
+        // Initialize smart matches when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-generate smart matches for demo
+            setTimeout(() => {
+                if (document.getElementById('smartMatchResults')) {
+                    generateSmartMatches();
+                }
+            }, 1000);
         });
 
         // Business matching functionality

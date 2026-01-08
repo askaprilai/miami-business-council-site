@@ -1,2 +1,2 @@
-<!-- TBD updates deployment trigger 2024-12-01 -->
-Deploy trigger Tue Jan  6 22:57:37 EST 2026
+<!-- Member Portal Launch Deployment Trigger -->
+Deploy trigger Wed Jan  8 20:45:00 EST 2025 - MEMBER PORTAL LIVE

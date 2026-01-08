@@ -435,6 +435,559 @@
             color: #e8eaed;
         }
 
+        /* Notification Badge */
+        .notification-badge {
+            background: #d4af37;
+            color: #000;
+            font-size: 0.7em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        /* Chat Styles */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: 600px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-sidebar {
+            background: rgba(255, 255, 255, 0.02);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .chat-search {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .chat-search::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .conversation-list {
+            padding: 0;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .conversation-item:hover,
+        .conversation-item.active {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .conversation-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 600;
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .conversation-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-name {
+            font-weight: 600;
+            color: #e8eaed;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .conversation-preview {
+            color: #ccc;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .conversation-meta {
+            text-align: right;
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        .conversation-unread {
+            background: #d4af37;
+            color: #000;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 0.2rem;
+            display: inline-block;
+        }
+
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-window-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-window-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-window-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 600;
+            margin-right: 0.75rem;
+        }
+
+        .chat-window-details h4 {
+            color: #e8eaed;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .chat-window-details p {
+            color: #ccc;
+            margin: 0;
+            font-size: 0.8rem;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8eaed;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .chat-action-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.own {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin: 0 0.5rem;
+        }
+
+        .message.own .message-avatar {
+            background: #ccc;
+        }
+
+        .message-content {
+            max-width: 70%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .message.own .message-content {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .message-text {
+            color: #e8eaed;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            color: #999;
+            font-size: 0.7rem;
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.9rem;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        .chat-send-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .chat-send-btn {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send-btn:hover {
+            background: #f4af37;
+        }
+
+        .chat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .chat-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #ccc;
+            text-align: center;
+        }
+
+        .chat-placeholder h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        /* Chat Container Styles */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+            height: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-sidebar-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .chat-sidebar-header h3 {
+            color: #d4af37;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .conversations-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .conversation-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .conversation-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .conversation-item.unread {
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid #d4af37;
+        }
+
+        .conversation-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .conversation-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .conversation-name {
+            font-weight: 500;
+            color: #e8eaed;
+            font-size: 0.9rem;
+        }
+
+        .conversation-time {
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        .conversation-preview {
+            font-size: 0.8rem;
+            color: #ccc;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .unread-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #d4af37;
+            color: #000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-member-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .chat-member-name {
+            font-weight: 500;
+            color: #e8eaed;
+        }
+
+        .chat-member-company {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        /* Photo Upload Styles */
+        .photo-upload-section {
+            text-align: center;
+        }
+
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .photo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-placeholder p {
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .upload-btn, .remove-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .upload-btn {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .upload-btn:hover {
+            background: #f4af37;
+        }
+
+        .remove-btn {
+            background: rgba(220, 53, 69, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .remove-btn:hover {
+            background: rgba(220, 53, 69, 0.3);
+        }
+
         /* Match Cards */
         .match-grid {
             display: grid;
@@ -573,6 +1126,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="smart-matches">🎯 Smart Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="messages">💬 Messages <span id="messageNotificationBadge" class="notification-badge" style="display: none;">3</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="directory">👥 Member Directory</a>
@@ -818,6 +1374,57 @@
                 </div>
             </section>
 
+            <!-- Messages Section -->
+            <section id="messages" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">💬 Messages</h1>
+                    <p>Connect and chat with fellow members</p>
+                </div>
+
+                <div class="chat-container">
+                    <!-- Chat Sidebar -->
+                    <div class="chat-sidebar">
+                        <div class="chat-sidebar-header">
+                            <h3>Conversations</h3>
+                        </div>
+                        <div class="conversations-list" id="conversationsList">
+                            <!-- Conversations will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Chat Area -->
+                    <div class="chat-main">
+                        <!-- Chat Placeholder -->
+                        <div class="chat-placeholder" id="chatPlaceholder">
+                            <h3>💬 Start a Conversation</h3>
+                            <p>Select a member from the left to start chatting</p>
+                            <p>Build meaningful business relationships through direct communication</p>
+                        </div>
+
+                        <!-- Active Chat -->
+                        <div class="chat-area" id="chatArea" style="display: none;">
+                            <!-- Chat Header -->
+                            <div class="chat-header" id="chatHeader">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+
+                            <!-- Messages Container -->
+                            <div class="messages-container" id="messagesContainer">
+                                <!-- Messages will be populated by JavaScript -->
+                            </div>
+
+                            <!-- Chat Input -->
+                            <div class="chat-input-container">
+                                <textarea class="chat-input" id="chatInput" placeholder="Type your message..."></textarea>
+                                <div class="chat-send-container">
+                                    <button class="chat-send-btn" id="sendMessageBtn">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Events Section -->
             <section id="events" class="content-section">
                 <div class="section-header">
@@ -907,6 +1514,68 @@
                 <div class="section-header">
                     <h1 class="section-title">My Business Profile</h1>
                     <p>Optimize your profile for better business matching and opportunities</p>
+                </div>
+
+                <!-- Profile Photo Section -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color: #d4af37;">📸 Profile Photo & Company Logo</h3>
+                    </div>
+                    <p style="color: #ccc; margin-bottom: 1.5rem;">Add your personal photo or company logo to help other members recognize and connect with you.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">👤 Personal Photo</h4>
+                            <div class="photo-upload-section">
+                                <div class="photo-preview" id="personalPhotoPreview">
+                                    <div class="photo-placeholder">
+                                        <span class="photo-icon">👤</span>
+                                        <p>No photo uploaded</p>
+                                    </div>
+                                </div>
+                                <div class="upload-controls">
+                                    <input type="file" id="personalPhotoUpload" accept="image/*" style="display: none;">
+                                    <button type="button" class="upload-btn" onclick="document.getElementById('personalPhotoUpload').click()">
+                                        📷 Upload Photo
+                                    </button>
+                                    <button type="button" class="remove-btn" id="removePersonalPhoto" style="display: none;" onclick="removePhoto('personal')">
+                                        🗑️ Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: #e8eaed; margin-bottom: 1rem;">🏢 Company Logo</h4>
+                            <div class="photo-upload-section">
+                                <div class="photo-preview" id="companyLogoPreview">
+                                    <div class="photo-placeholder">
+                                        <span class="photo-icon">🏢</span>
+                                        <p>No logo uploaded</p>
+                                    </div>
+                                </div>
+                                <div class="upload-controls">
+                                    <input type="file" id="companyLogoUpload" accept="image/*" style="display: none;">
+                                    <button type="button" class="upload-btn" onclick="document.getElementById('companyLogoUpload').click()">
+                                        🖼️ Upload Logo
+                                    </button>
+                                    <button type="button" class="remove-btn" id="removeCompanyLogo" style="display: none;" onclick="removePhoto('company')">
+                                        🗑️ Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #d4af37;">
+                        <p style="color: #d4af37; font-weight: 500; margin-bottom: 0.5rem;">📋 Photo Guidelines</p>
+                        <ul style="color: #ccc; font-size: 0.9rem; margin-left: 1rem;">
+                            <li>Personal photos work best when they're professional headshots</li>
+                            <li>Company logos should be clear and high-resolution</li>
+                            <li>Supported formats: JPG, PNG, GIF (max 5MB)</li>
+                            <li>Square images (1:1 ratio) display best</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Smart Matching Section -->
@@ -1872,6 +2541,328 @@
                 });
             }
         }
+
+        // Photo Upload Functionality
+        function setupPhotoUpload() {
+            const personalUpload = document.getElementById('personalPhotoUpload');
+            const companyUpload = document.getElementById('companyLogoUpload');
+
+            personalUpload.addEventListener('change', (e) => handlePhotoUpload(e, 'personal'));
+            companyUpload.addEventListener('change', (e) => handlePhotoUpload(e, 'company'));
+
+            // Load existing photos from localStorage
+            loadExistingPhotos();
+        }
+
+        function handlePhotoUpload(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                alert('Photo must be smaller than 5MB');
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imageData = e.target.result;
+                displayPhoto(imageData, type);
+                savePhotoToStorage(imageData, type);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayPhoto(imageData, type) {
+            const previewId = type === 'personal' ? 'personalPhotoPreview' : 'companyLogoPreview';
+            const removeId = type === 'personal' ? 'removePersonalPhoto' : 'removeCompanyLogo';
+            
+            const preview = document.getElementById(previewId);
+            const removeBtn = document.getElementById(removeId);
+
+            preview.innerHTML = `<img src="${imageData}" alt="${type} photo">`;
+            removeBtn.style.display = 'inline-block';
+        }
+
+        function removePhoto(type) {
+            const previewId = type === 'personal' ? 'personalPhotoPreview' : 'companyLogoPreview';
+            const removeId = type === 'personal' ? 'removePersonalPhoto' : 'removeCompanyLogo';
+            const storageKey = type === 'personal' ? 'memberPersonalPhoto' : 'memberCompanyLogo';
+            
+            const preview = document.getElementById(previewId);
+            const removeBtn = document.getElementById(removeId);
+            const icon = type === 'personal' ? '👤' : '🏢';
+            const text = type === 'personal' ? 'No photo uploaded' : 'No logo uploaded';
+
+            preview.innerHTML = `
+                <div class="photo-placeholder">
+                    <span class="photo-icon">${icon}</span>
+                    <p>${text}</p>
+                </div>
+            `;
+            removeBtn.style.display = 'none';
+            localStorage.removeItem(storageKey);
+        }
+
+        function savePhotoToStorage(imageData, type) {
+            const storageKey = type === 'personal' ? 'memberPersonalPhoto' : 'memberCompanyLogo';
+            localStorage.setItem(storageKey, imageData);
+        }
+
+        function loadExistingPhotos() {
+            const personalPhoto = localStorage.getItem('memberPersonalPhoto');
+            const companyLogo = localStorage.getItem('memberCompanyLogo');
+
+            if (personalPhoto) {
+                displayPhoto(personalPhoto, 'personal');
+            }
+
+            if (companyLogo) {
+                displayPhoto(companyLogo, 'company');
+            }
+        }
+
+        // Chat System Functionality
+        let currentChatMember = null;
+        let chatHistory = {};
+
+        function initializeChatSystem() {
+            // Load chat history from localStorage
+            const savedChats = localStorage.getItem('memberChats');
+            if (savedChats) {
+                chatHistory = JSON.parse(savedChats);
+            }
+
+            // Setup chat event listeners
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendMessageBtn');
+
+            if (chatInput && sendBtn) {
+                sendBtn.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+
+            loadConversationList();
+        }
+
+        function loadConversationList() {
+            const conversationsList = document.getElementById('conversationsList');
+            if (!conversationsList) return;
+
+            const members = [
+                { id: 'april', name: 'April Sabral', company: 'April J. Sabral Consulting', lastMessage: 'Great meeting you at the event!', time: '2 hours ago', unread: 2 },
+                { id: 'tommy', name: 'Tommy Martinez', company: 'The Madyun Group', lastMessage: 'Thanks for the referral', time: '1 day ago', unread: 0 },
+                { id: 'fan', name: 'FAN Team', company: 'FAN Business', lastMessage: 'Let\'s discuss the partnership', time: '3 days ago', unread: 1 },
+                { id: 'ilmoda', name: 'Ilmoda Team', company: 'Ilmoda', lastMessage: 'Looking forward to our collaboration', time: '1 week ago', unread: 0 }
+            ];
+
+            const conversationsHtml = members.map(member => `
+                <div class="conversation-item ${member.unread > 0 ? 'unread' : ''}" onclick="openChat('${member.id}', '${member.name}', '${member.company}')">
+                    <div class="conversation-avatar">${member.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="conversation-details">
+                        <div class="conversation-header">
+                            <span class="conversation-name">${member.name}</span>
+                            <span class="conversation-time">${member.time}</span>
+                        </div>
+                        <div class="conversation-preview">
+                            ${member.lastMessage}
+                        </div>
+                    </div>
+                    ${member.unread > 0 ? `<div class="unread-badge">${member.unread}</div>` : ''}
+                </div>
+            `).join('');
+
+            conversationsList.innerHTML = conversationsHtml;
+        }
+
+        function openChat(memberId, memberName, memberCompany) {
+            currentChatMember = { id: memberId, name: memberName, company: memberCompany };
+            
+            // Update chat header
+            const chatHeader = document.getElementById('chatHeader');
+            if (chatHeader) {
+                chatHeader.innerHTML = `
+                    <div class="chat-member-info">
+                        <div class="chat-avatar">${memberName.split(' ').map(n => n[0]).join('')}</div>
+                        <div>
+                            <div class="chat-member-name">${memberName}</div>
+                            <div class="chat-member-company">${memberCompany}</div>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="chat-action-btn" onclick="scheduleCall('${memberId}')">📞</button>
+                        <button class="chat-action-btn" onclick="viewMemberProfile('${memberId}')">👤</button>
+                    </div>
+                `;
+            }
+
+            // Load conversation history
+            loadConversationHistory(memberId);
+
+            // Show chat area, hide placeholder
+            const chatPlaceholder = document.getElementById('chatPlaceholder');
+            const chatArea = document.getElementById('chatArea');
+            
+            if (chatPlaceholder) chatPlaceholder.style.display = 'none';
+            if (chatArea) chatArea.style.display = 'flex';
+
+            // Mark conversation as read
+            markConversationAsRead(memberId);
+        }
+
+        function loadConversationHistory(memberId) {
+            const messagesContainer = document.getElementById('messagesContainer');
+            if (!messagesContainer) return;
+
+            const messages = chatHistory[memberId] || [];
+            
+            if (messages.length === 0) {
+                // Add welcome message for new conversations
+                messages.push({
+                    id: Date.now(),
+                    text: "Hi! Great to connect with you through Miami Business Council. Looking forward to our conversation!",
+                    sender: memberId,
+                    timestamp: new Date().toISOString(),
+                    isOwn: false
+                });
+                chatHistory[memberId] = messages;
+                saveChatHistory();
+            }
+
+            const messagesHtml = messages.map(message => `
+                <div class="message ${message.isOwn ? 'own' : ''}">
+                    <div class="message-avatar">${message.isOwn ? 'ME' : currentChatMember.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="message-content">
+                        <div class="message-text">${message.text}</div>
+                        <div class="message-time">${formatMessageTime(message.timestamp)}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            messagesContainer.innerHTML = messagesHtml;
+            scrollToBottom();
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            if (!chatInput || !currentChatMember) return;
+
+            const messageText = chatInput.value.trim();
+            if (!messageText) return;
+
+            const message = {
+                id: Date.now(),
+                text: messageText,
+                sender: 'me',
+                timestamp: new Date().toISOString(),
+                isOwn: true
+            };
+
+            // Add to chat history
+            if (!chatHistory[currentChatMember.id]) {
+                chatHistory[currentChatMember.id] = [];
+            }
+            chatHistory[currentChatMember.id].push(message);
+
+            // Clear input
+            chatInput.value = '';
+
+            // Reload conversation
+            loadConversationHistory(currentChatMember.id);
+
+            // Save chat history
+            saveChatHistory();
+
+            // Simulate response after a delay
+            setTimeout(() => simulateResponse(), 1000 + Math.random() * 2000);
+        }
+
+        function simulateResponse() {
+            if (!currentChatMember) return;
+
+            const responses = [
+                "Thanks for reaching out! I'd love to learn more about your business.",
+                "That sounds like a great opportunity. When would be a good time to discuss this further?",
+                "I appreciate you thinking of me for this project. Let me review and get back to you.",
+                "Absolutely! I think there could be some great synergies between our businesses.",
+                "That's an interesting perspective. I'd like to explore this idea more.",
+                "Great to hear from you! Let's schedule a call to discuss this in detail."
+            ];
+
+            const response = {
+                id: Date.now(),
+                text: responses[Math.floor(Math.random() * responses.length)],
+                sender: currentChatMember.id,
+                timestamp: new Date().toISOString(),
+                isOwn: false
+            };
+
+            chatHistory[currentChatMember.id].push(response);
+            loadConversationHistory(currentChatMember.id);
+            saveChatHistory();
+
+            // Update conversation list to show new message
+            loadConversationList();
+        }
+
+        function markConversationAsRead(memberId) {
+            // Remove unread styling
+            const conversationItem = document.querySelector(`[onclick*="${memberId}"]`);
+            if (conversationItem) {
+                conversationItem.classList.remove('unread');
+                const unreadBadge = conversationItem.querySelector('.unread-badge');
+                if (unreadBadge) {
+                    unreadBadge.style.display = 'none';
+                }
+            }
+        }
+
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('messagesContainer');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+
+        function formatMessageTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+
+            if (diffInMinutes < 1) return 'now';
+            if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+            if (diffInMinutes < 24 * 60) return `${Math.floor(diffInMinutes / 60)}h ago`;
+            return date.toLocaleDateString();
+        }
+
+        function saveChatHistory() {
+            localStorage.setItem('memberChats', JSON.stringify(chatHistory));
+        }
+
+        function scheduleCall(memberId) {
+            alert(`Call scheduling with ${currentChatMember.name} - This feature will integrate with calendar systems soon!`);
+        }
+
+        function viewMemberProfile(memberId) {
+            alert(`Viewing full profile for ${currentChatMember.name} - This will open their complete business profile.`);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setupPhotoUpload();
+            initializeChatSystem();
+        });
     </script>
     
     <!-- Supabase client -->

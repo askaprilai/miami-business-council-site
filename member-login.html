@@ -248,10 +248,17 @@
             loginBtn.textContent = 'Verifying...';
 
             try {
+                // Debug: log what we're checking
+                console.log('Email entered:', email);
+                console.log('Password entered:', password);
+                console.log('Available emails:', Object.keys(memberCredentials));
+                
                 // Check credentials
                 const member = memberCredentials[email];
+                console.log('Found member:', member);
                 
                 if (!member || password !== member.password) {
+                    console.log('Login failed - member:', member, 'password match:', password === member?.password);
                     errorMessage.textContent = 'Invalid email or access code. Please try again.';
                     errorMessage.style.display = 'block';
                     return;

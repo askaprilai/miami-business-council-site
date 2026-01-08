@@ -1,4 +1,6 @@
 {
+  "buildCommand": "echo 'No build required for static site'",
+  "outputDirectory": ".",
   "cleanUrls": false,
   "rewrites": [
     { "source": "/about-us", "destination": "/about-us.html" },

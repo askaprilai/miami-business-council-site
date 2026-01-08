@@ -2,7 +2,9 @@
   "cleanUrls": false,
   "rewrites": [
     { "source": "/about-us", "destination": "/about-us.html" },
-    { "source": "/directory", "destination": "/directory.html" }
+    { "source": "/directory", "destination": "/directory.html" },
+    { "source": "/member-login", "destination": "/member-login.html" },
+    { "source": "/member-portal", "destination": "/member-portal.html" }
   ],
   "headers": [
     {

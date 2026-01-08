@@ -556,9 +556,9 @@
                 <span>Member Portal</span>
             </div>
             <div class="user-info">
-                <div class="user-avatar">JS</div>
-                <span>John Smith</span>
-                <a href="#" class="logout-btn">Logout</a>
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <span id="userName">John Smith</span>
+                <a href="#" class="logout-btn" onclick="logout()">Logout</a>
             </div>
         </div>
     </header>
@@ -957,6 +957,53 @@
     </div>
 
     <script>
+        // Authentication check
+        function checkAuthentication() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) {
+                window.location.href = 'member-login.html';
+                return false;
+            }
+            
+            try {
+                const auth = JSON.parse(memberAuth);
+                const loginTime = new Date(auth.loginTime);
+                const now = new Date();
+                const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
+                
+                // Session valid for 8 hours
+                if (hoursSinceLogin >= 8) {
+                    sessionStorage.removeItem('memberAuth');
+                    window.location.href = 'member-login.html';
+                    return false;
+                }
+                
+                // Update user info in header
+                document.getElementById('userName').textContent = auth.name;
+                const initials = auth.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.getElementById('userAvatar').textContent = initials;
+                
+                return true;
+            } catch (error) {
+                sessionStorage.removeItem('memberAuth');
+                window.location.href = 'member-login.html';
+                return false;
+            }
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('memberAuth');
+                window.location.href = 'member-login.html';
+            }
+        }
+
+        // Check authentication when page loads
+        window.addEventListener('load', () => {
+            checkAuthentication();
+        });
+
         // Show section function for quick actions
         function showSection(sectionId) {
             // Remove active class from all links and sections

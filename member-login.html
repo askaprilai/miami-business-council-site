@@ -227,7 +227,9 @@
             'april@apriljsabral.com': { password: 'MBC2025-AS', name: 'April Sabral' },
             'tommy@themadyungroup.com': { password: 'MBC2025-TM', name: 'Tommy Martinez' },
             'team@fanbusiness.com': { password: 'MBC2025-FB', name: 'FAN Team' },
-            'contact@ilmoda.com': { password: 'MBC2025-IM', name: 'Ilmoda Team' }
+            'contact@ilmoda.com': { password: 'MBC2025-IM', name: 'Ilmoda Team' },
+            // Simple test credentials
+            'test@test.com': { password: 'test123', name: 'Test User' }
         };
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -257,9 +259,16 @@
                 const member = memberCredentials[email];
                 console.log('Found member:', member);
                 
-                if (!member || password !== member.password) {
-                    console.log('Login failed - member:', member, 'password match:', password === member?.password);
-                    errorMessage.textContent = 'Invalid email or access code. Please try again.';
+                if (!member) {
+                    console.log('No member found for email:', email);
+                    errorMessage.textContent = 'Email not found. Please check your email address.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                if (password !== member.password) {
+                    console.log('Password mismatch. Expected:', member.password, 'Got:', password);
+                    errorMessage.textContent = 'Incorrect access code. Please check your access code.';
                     errorMessage.style.display = 'block';
                     return;
                 }

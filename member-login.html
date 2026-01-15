@@ -250,14 +250,28 @@
             loginBtn.textContent = 'Verifying...';
 
             try {
+                // Check for new member credentials first
+                const newMemberData = localStorage.getItem('newMemberCredentials');
+                let member = null;
+                
+                if (newMemberData) {
+                    const newMember = JSON.parse(newMemberData);
+                    if (newMember.email === email) {
+                        member = { password: newMember.password, name: newMember.name };
+                        console.log('Found new member:', member);
+                    }
+                }
+                
+                // If not a new member, check existing credentials
+                if (!member) {
+                    member = memberCredentials[email];
+                    console.log('Found existing member:', member);
+                }
+                
                 // Debug: log what we're checking
                 console.log('Email entered:', email);
                 console.log('Password entered:', password);
                 console.log('Available emails:', Object.keys(memberCredentials));
-                
-                // Check credentials
-                const member = memberCredentials[email];
-                console.log('Found member:', member);
                 
                 if (!member) {
                     console.log('No member found for email:', email);

@@ -7,6 +7,27 @@
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
     
+    <!-- SEO and Social Sharing -->
+    <meta name="description" content="Miami Business Council Member Portal - Connect with business leaders through AI-powered matching, direct chat, and exclusive networking events">
+    <meta name="keywords" content="Miami Business Council, networking, business leaders, AI matching, member portal">
+    
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Miami Business Council Member Portal">
+    <meta property="og:description" content="Connect with Miami's business leaders through AI-powered smart matching, direct messaging, and exclusive networking opportunities">
+    <meta property="og:image" content="https://miamibusinesscouncil.com/Images/portal-preview.png">
+    <meta property="og:url" content="https://miamibusinesscouncil.com/member-portal.html">
+    <meta property="og:site_name" content="Miami Business Council">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Miami Business Council Member Portal">
+    <meta name="twitter:description" content="Connect with Miami's business leaders through AI-powered smart matching and direct messaging">
+    <meta name="twitter:image" content="https://miamibusinesscouncil.com/Images/portal-preview.png">
+    
+    <!-- LinkedIn -->
+    <meta property="article:author" content="Miami Business Council">
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
     
@@ -1206,6 +1227,91 @@
             padding: 0.5rem 0.75rem;
         }
 
+        /* Member Card Styles */
+        .member-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #000;
+            font-size: 1.8rem;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            border: 3px solid rgba(212, 175, 55, 0.6);
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .member-card:hover .member-avatar {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-info h3 {
+            margin: 0 0 0.25rem 0;
+            color: #e8eaed;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .member-info p {
+            margin: 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .member-details {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .member-tag {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
         /* Referral System Styles */
         .referral-points-badge {
             background: #d4af37;
@@ -1407,6 +1513,25 @@
             display: none;
             z-index: 1000;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .pwa-close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #000;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .pwa-close-btn:hover {
+            opacity: 1;
         }
 
         .pwa-install-content {
@@ -1768,6 +1893,7 @@
 
     <!-- PWA Install Banner -->
     <div class="pwa-install-banner" id="pwaInstallBanner">
+        <button class="pwa-close-btn" id="pwaCloseBtn">&times;</button>
         <div class="pwa-install-content">
             <div class="pwa-install-text">
                 <div class="pwa-install-title">📱 Install MBC Portal</div>
@@ -4224,6 +4350,7 @@ The member portal is incredibly well-designed with features like direct messagin
             const banner = document.getElementById('pwaInstallBanner');
             const installBtn = document.getElementById('pwaInstallBtn');
             const dismissBtn = document.getElementById('pwaDismissBtn');
+            const closeBtn = document.getElementById('pwaCloseBtn');
             
             // Don't show if already dismissed or installed
             if (localStorage.getItem('pwaInstallDismissed') || isInStandaloneMode) {
@@ -4253,6 +4380,12 @@ The member portal is incredibly well-designed with features like direct messagin
             
             // Handle dismiss button
             dismissBtn.addEventListener('click', () => {
+                banner.style.display = 'none';
+                localStorage.setItem('pwaInstallDismissed', Date.now());
+            });
+
+            // Handle close button (X)
+            closeBtn.addEventListener('click', () => {
                 banner.style.display = 'none';
                 localStorage.setItem('pwaInstallDismissed', Date.now());
             });
@@ -4448,6 +4581,261 @@ You'll then have quick access to chat with members and manage your business conn
             initializeMobileNavigation();
             initializeMobileChat();
         }
+
+        // Portal Preview and Screenshot Functionality
+        function generatePortalPreview() {
+            // Create a preview modal showing the portal in action
+            const previewModal = document.createElement('div');
+            previewModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.9);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(10px);
+            `;
+            
+            previewModal.innerHTML = `
+                <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; max-width: 90vw; max-height: 90vh; overflow: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="color: #d4af37; margin: 0;">📸 Portal Preview Gallery</h2>
+                        <button onclick="this.closest('div').parentElement.remove()" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">✕</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <!-- Dashboard Preview -->
+                        <div style="text-align: center;">
+                            <h3 style="color: #e8eaed; margin-bottom: 1rem;">🏠 Dashboard</h3>
+                            <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                                        <div>Member Dashboard</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.7;">Events • Stats • Quick Actions</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Smart Matches Preview -->
+                        <div style="text-align: center;">
+                            <h3 style="color: #e8eaed; margin-bottom: 1rem;">🎯 Smart Matches</h3>
+                            <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
+                                        <div>AI-Powered Matching</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.7;">Find Ideal Clients • Partners</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Preview -->
+                        <div style="text-align: center;">
+                            <h3 style="color: #e8eaed; margin-bottom: 1rem;">💬 Messages</h3>
+                            <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+                                        <div>Direct Member Chat</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.7;">Real-time Messaging</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Directory Preview -->
+                        <div style="text-align: center;">
+                            <h3 style="color: #e8eaed; margin-bottom: 1rem;">👥 Directory</h3>
+                            <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏢</div>
+                                        <div>Member Directory</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.7;">Search • Connect • Email</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Referral System Preview -->
+                        <div style="text-align: center;">
+                            <h3 style="color: #e8eaed; margin-bottom: 1rem;">🎁 Referrals</h3>
+                            <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏆</div>
+                                        <div>Invite & Earn</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.7;">Rewards • Speaking Slots</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mobile App Preview -->
+                        <div style="text-align: center;">
+                            <h3 style="color: #e8eaed; margin-bottom: 1rem;">📱 Mobile App</h3>
+                            <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📲</div>
+                                        <div>Progressive Web App</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.7;">Install • Offline • Notifications</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button onclick="sharePortalPreview()" style="background: #d4af37; color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 0.5rem;">
+                            📤 Share Preview
+                        </button>
+                        <button onclick="downloadPreviewInstructions()" style="background: rgba(255,255,255,0.1); color: #e8eaed; border: 1px solid rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 8px; font-weight: 500; cursor: pointer; margin: 0.5rem;">
+                            📋 Screenshot Guide
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(previewModal);
+        }
+
+        // Share portal preview functionality
+        function sharePortalPreview() {
+            const shareText = `🚀 Check out the Miami Business Council Member Portal!
+
+Features include:
+🎯 AI-powered smart business matching
+💬 Direct member-to-member messaging  
+👥 Comprehensive member directory
+🎁 Referral system with rewards
+📱 Mobile app (PWA) functionality
+📊 Analytics and networking insights
+
+Perfect for Miami business leaders looking to grow their network and find ideal clients!
+
+#MiamiBusinessCouncil #Networking #BusinessGrowth #AI #Miami`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Miami Business Council Member Portal',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(shareText + '\\n\\n' + window.location.href).then(() => {
+                    alert('Preview description copied to clipboard!');
+                });
+            }
+        }
+
+        // Download instructions for taking screenshots
+        function downloadPreviewInstructions() {
+            const instructions = `📸 PORTAL SCREENSHOT GUIDE
+
+To create professional preview images for the MBC Portal:
+
+DESKTOP SCREENSHOTS (1280x720):
+1. Dashboard View: Show main dashboard with cards and navigation
+2. Smart Matches: Display the AI matching interface with member matches
+3. Member Directory: Show the searchable member directory
+4. Chat Interface: Display the messaging system in action
+
+MOBILE SCREENSHOTS (750x1334):
+1. Mobile Dashboard: Vertical layout on phone
+2. Chat Mobile: Mobile messaging interface
+3. Mobile Navigation: Show the slide-out menu
+4. PWA Install: Show the install prompt
+
+TIPS FOR GREAT SCREENSHOTS:
+• Use full browser window at specified dimensions
+• Hide personal/test data - use sample member names
+• Show the portal in its best state (populated with data)
+• Use consistent lighting and clear text
+• Show interactive elements like hover states
+• Include the gold accent colors prominently
+
+TOOLS RECOMMENDED:
+• Browser DevTools device simulator
+• Screenshotting tools: Cleanshot X, Snagit, or built-in browser tools
+• Image editing: Figma, Canva, or Photoshop for final touches
+
+Once created, save as:
+• /Images/portal-preview-desktop.png
+• /Images/portal-preview-mobile.png  
+• /Images/portal-smart-matches.png
+• /Images/portal-member-directory.png
+• /Images/portal-preview.png (main social sharing image)
+
+This will enable beautiful previews when sharing the portal link on social media and in the mobile app store!`;
+
+            // Create downloadable text file
+            const blob = new Blob([instructions], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'MBC-Portal-Screenshot-Guide.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Hidden admin function - add to browser console for preview generation
+        window.generatePortalScreenshots = function() {
+            console.log('%c📸 MBC Portal Screenshot Mode', 'color: #d4af37; font-size: 16px; font-weight: bold;');
+            console.log('Use these browser dimensions for optimal screenshots:');
+            console.log('Desktop: 1280x720 (16:9)');
+            console.log('Mobile: 750x1334 (iPhone)');
+            console.log('Take screenshots of each section for the preview gallery.');
+            
+            // Add visual guidelines
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(212, 175, 55, 0.1);
+                border: 3px dashed #d4af37;
+                pointer-events: none;
+                z-index: 9999;
+            `;
+            
+            const label = document.createElement('div');
+            label.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #d4af37;
+                color: #000;
+                padding: 1rem;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 10000;
+                pointer-events: auto;
+                cursor: pointer;
+            `;
+            label.textContent = '📸 Screenshot Mode (Click to Exit)';
+            label.onclick = () => {
+                overlay.remove();
+                label.remove();
+            };
+            
+            document.body.appendChild(overlay);
+            document.body.appendChild(label);
+            
+            setTimeout(() => {
+                overlay.remove();
+                label.remove();
+            }, 10000);
+        };
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', () => {

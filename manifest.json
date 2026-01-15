@@ -26,16 +26,32 @@
   ],
   "screenshots": [
     {
-      "src": "/Images/MBC BLACK LOGO NONTRANSPARENT (1).png",
-      "type": "image/png",
+      "src": "/Images/portal-preview-desktop.png",
+      "type": "image/png", 
       "sizes": "1280x720",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "Miami Business Council Member Portal - Desktop Dashboard"
     },
     {
-      "src": "/Images/MBC BLACK LOGO NONTRANSPARENT (1).png", 
+      "src": "/Images/portal-preview-mobile.png",
       "type": "image/png",
+      "sizes": "750x1334", 
+      "form_factor": "narrow",
+      "label": "Miami Business Council Member Portal - Mobile Chat"
+    },
+    {
+      "src": "/Images/portal-smart-matches.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide", 
+      "label": "AI-Powered Smart Business Matching"
+    },
+    {
+      "src": "/Images/portal-member-directory.png",
+      "type": "image/png", 
       "sizes": "750x1334",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Member Directory and Networking"
     }
   ],
   "shortcuts": [

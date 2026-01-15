@@ -274,8 +274,25 @@
                 <div class="step">
                     <div class="step-number">3</div>
                     <h3>Member Portal Access</h3>
-                    <p>Our member portal launches in early 2026. You'll receive access credentials as soon as it's available.</p>
+                    <p>Your portal login credentials have been sent to your email. Access your member dashboard, chat with other members, and discover business opportunities!</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- Portal Access Section -->
+        <div class="event-info" style="background: rgba(40, 167, 69, 0.1); border: 1px solid #51cf66;">
+            <h3 style="color: #51cf66;">🚀 Access Your Member Portal Now</h3>
+            <div id="portalCredentials" style="display: none; margin: 1.5rem 0;">
+                <p style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <strong>Email:</strong> <span id="memberEmail" style="color: #d4af37;"></span><br>
+                    <strong>Access Code:</strong> <span id="accessCode" style="color: #d4af37; font-family: monospace;"></span>
+                </p>
+                <p style="font-size: 0.9em; color: #ccc; margin-bottom: 1rem;">
+                    💡 Save these credentials - they've also been sent to your email
+                </p>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <a href="member-portal.html" class="btn-register" style="background: #51cf66; color: #000;">Access Member Portal</a>
             </div>
         </div>
 
@@ -327,7 +344,13 @@
                 try {
                     const data = JSON.parse(membershipData);
                     
-                    // Send welcome email
+                    // Generate access code
+                    const accessCode = generateAccessCode();
+                    
+                    // Display credentials on page
+                    displayPortalCredentials(data.email, accessCode);
+                    
+                    // Send welcome email with portal credentials
                     fetch('/api/send-welcome-email', {
                         method: 'POST',
                         headers: {
@@ -337,7 +360,9 @@
                             email: data.email,
                             firstName: data.firstName,
                             lastName: data.lastName,
-                            membershipType: data.membershipType.toUpperCase()
+                            membershipType: data.membershipType.toUpperCase(),
+                            accessCode: accessCode,
+                            portalUrl: `${window.location.origin}/member-portal.html`
                         })
                     })
                     .then(response => response.json())
@@ -378,6 +403,35 @@
             }
         });
 
+        function generateAccessCode() {
+            // Generate a secure 8-character access code
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let accessCode = '';
+            for (let i = 0; i < 8; i++) {
+                accessCode += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return accessCode;
+        }
+
+        function displayPortalCredentials(email, accessCode) {
+            // Update the portal credentials section
+            document.getElementById('memberEmail').textContent = email;
+            document.getElementById('accessCode').textContent = accessCode;
+            document.getElementById('portalCredentials').style.display = 'block';
+            
+            // Store credentials for portal access
+            const memberCredentials = {
+                email: email.toLowerCase(),
+                password: accessCode.toLowerCase(),
+                name: JSON.parse(localStorage.getItem('membershipApplication')).firstName + ' ' + JSON.parse(localStorage.getItem('membershipApplication')).lastName,
+                membershipType: JSON.parse(localStorage.getItem('membershipApplication')).membershipType,
+                joinDate: new Date().toISOString()
+            };
+            
+            // Add to localStorage for immediate portal access
+            localStorage.setItem('newMemberCredentials', JSON.stringify(memberCredentials));
+        }
+
         function showWelcomeEmailNotification() {
             // Create a small notification
             const notification = document.createElement('div');
@@ -394,7 +448,7 @@
                 box-shadow: 0 4px 12px rgba(0,0,0,0.2);
                 animation: slideIn 0.3s ease-out;
             `;
-            notification.textContent = '📧 Welcome email sent! Check your inbox.';
+            notification.textContent = '📧 Welcome email with portal access sent!';
             
             // Add slide-in animation
             const style = document.createElement('style');

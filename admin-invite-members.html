@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invite Members | Miami Business Council Admin</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #d4af37;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        button {
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .bulk-section {
+            margin-top: 30px;
+            border-top: 2px solid #d4af37;
+            padding-top: 30px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .generated-code {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ffeaa7;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Invite New Members</h1>
+        <p class="subtitle">Send portal invitations with auto-generated access codes</p>
+
+        <!-- Single Member Invitation -->
+        <div class="form-section">
+            <h3>📧 Invite Individual Member</h3>
+            <form id="singleInviteForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required placeholder="e.g., John">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required placeholder="e.g., Smith">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" required placeholder="john@company.com">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company">Company/Business *</label>
+                        <input type="text" id="company" required placeholder="e.g., Smith Consulting">
+                    </div>
+                    <div class="form-group">
+                        <label for="membershipType">Membership Type</label>
+                        <select id="membershipType">
+                            <option value="business">Business ($450/year)</option>
+                            <option value="individual">Individual ($250/year)</option>
+                            <option value="nonprofit">Non-Profit ($350/year)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="personalNote">Personal Note (Optional)</label>
+                    <textarea id="personalNote" rows="3" placeholder="Add a personal message to the invitation..."></textarea>
+                </div>
+                
+                <button type="submit">🚀 Generate Code & Send Invitation</button>
+            </form>
+        </div>
+
+        <!-- Bulk Member Invitation -->
+        <div class="form-section bulk-section">
+            <h3>📋 Bulk Invite Multiple Members</h3>
+            <p style="color: #666; margin-bottom: 15px;">Enter one member per line in format: First Name, Last Name, Email, Company</p>
+            <form id="bulkInviteForm">
+                <div class="form-group">
+                    <label for="bulkMembers">Member List *</label>
+                    <textarea id="bulkMembers" rows="8" placeholder="Example:
+John, Smith, john@company.com, Smith Consulting
+Jane, Doe, jane@startup.com, Doe Innovations
+Mike, Johnson, mike@agency.com, Johnson Marketing"></textarea>
+                </div>
+                
+                <button type="submit">📤 Send Bulk Invitations</button>
+            </form>
+        </div>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        // Generate secure access code
+        function generateAccessCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        // Single member invitation
+        document.getElementById('singleInviteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const button = e.target.querySelector('button');
+            const result = document.getElementById('result');
+            const originalText = button.textContent;
+            
+            // Get form data
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const company = document.getElementById('company').value.trim();
+            const membershipType = document.getElementById('membershipType').value;
+            const personalNote = document.getElementById('personalNote').value.trim();
+            
+            // Validation
+            if (!firstName || !lastName || !email || !company) {
+                showResult('Please fill in all required fields.', 'error');
+                return;
+            }
+            
+            // Show loading
+            button.disabled = true;
+            button.textContent = '⚡ Generating code & sending invitation...';
+            
+            try {
+                // Generate access code
+                const accessCode = generateAccessCode();
+                
+                // Show generated code immediately
+                showResult(`
+                    <h3>✅ Access Code Generated!</h3>
+                    <div class="generated-code">
+                        ${email} → ${accessCode}
+                    </div>
+                    <p>Sending welcome email...</p>
+                `, 'info');
+                
+                // Send welcome email with portal access
+                const response = await fetch('/api/send-welcome-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        membershipType: membershipType,
+                        accessCode: accessCode,
+                        portalUrl: window.location.origin + '/member-portal.html',
+                        company: company,
+                        personalNote: personalNote
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store credentials for immediate portal access
+                    const memberCredentials = {
+                        email: email.toLowerCase(),
+                        password: accessCode.toLowerCase(),
+                        name: firstName + ' ' + lastName,
+                        company: company,
+                        membershipType: membershipType,
+                        joinDate: new Date().toISOString()
+                    };
+                    
+                    // Add to localStorage for portal authentication
+                    localStorage.setItem('newMember_' + email.toLowerCase(), JSON.stringify(memberCredentials));
+                    
+                    showResult(`
+                        <h3>🎉 Invitation Sent Successfully!</h3>
+                        <div class="generated-code">
+                            Portal Access: ${email} → ${accessCode}
+                        </div>
+                        <p><strong>✅ Welcome email sent to:</strong> ${email}</p>
+                        <p><strong>✅ Company:</strong> ${company}</p>
+                        <p><strong>✅ Access Code:</strong> ${accessCode}</p>
+                        <p><strong>✅ Portal URL:</strong> <a href="${window.location.origin}/member-portal.html" target="_blank">miamibusinesscouncil.com/member-portal.html</a></p>
+                        <p><strong>Email ID:</strong> ${data.emailId}</p>
+                        <hr>
+                        <p style="color: #666; font-size: 14px;">
+                            💡 The member can log in immediately. Their credentials are stored for instant portal access.
+                        </p>
+                    `, 'success');
+                    
+                    // Clear form
+                    e.target.reset();
+                    
+                } else {
+                    throw new Error(data.error || 'Failed to send invitation');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showResult(`
+                    <h3>❌ Error Sending Invitation</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>Please try again or contact support.</p>
+                `, 'error');
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        });
+
+        // Bulk member invitation
+        document.getElementById('bulkInviteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const button = e.target.querySelector('button');
+            const result = document.getElementById('result');
+            const originalText = button.textContent;
+            const bulkMembers = document.getElementById('bulkMembers').value.trim();
+            
+            if (!bulkMembers) {
+                showResult('Please enter member information.', 'error');
+                return;
+            }
+            
+            // Parse member data
+            const members = bulkMembers.split('\n').filter(line => line.trim()).map(line => {
+                const parts = line.split(',').map(part => part.trim());
+                if (parts.length >= 4) {
+                    return {
+                        firstName: parts[0],
+                        lastName: parts[1],
+                        email: parts[2],
+                        company: parts[3]
+                    };
+                }
+                return null;
+            }).filter(member => member !== null);
+            
+            if (members.length === 0) {
+                showResult('No valid member data found. Please check the format.', 'error');
+                return;
+            }
+            
+            button.disabled = true;
+            button.textContent = `⚡ Processing ${members.length} invitations...`;
+            
+            let results = [];
+            let successCount = 0;
+            
+            try {
+                for (let i = 0; i < members.length; i++) {
+                    const member = members[i];
+                    const accessCode = generateAccessCode();
+                    
+                    try {
+                        const response = await fetch('/api/send-welcome-email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                email: member.email,
+                                firstName: member.firstName,
+                                lastName: member.lastName,
+                                membershipType: 'business',
+                                accessCode: accessCode,
+                                portalUrl: window.location.origin + '/member-portal.html',
+                                company: member.company
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // Store credentials
+                            const memberCredentials = {
+                                email: member.email.toLowerCase(),
+                                password: accessCode.toLowerCase(),
+                                name: member.firstName + ' ' + member.lastName,
+                                company: member.company,
+                                membershipType: 'business',
+                                joinDate: new Date().toISOString()
+                            };
+                            localStorage.setItem('newMember_' + member.email.toLowerCase(), JSON.stringify(memberCredentials));
+                            
+                            results.push(`✅ ${member.firstName} ${member.lastName} (${member.email}) → ${accessCode}`);
+                            successCount++;
+                        } else {
+                            results.push(`❌ ${member.firstName} ${member.lastName} (${member.email}) → Failed`);
+                        }
+                    } catch (error) {
+                        results.push(`❌ ${member.firstName} ${member.lastName} (${member.email}) → Error: ${error.message}`);
+                    }
+                    
+                    // Update progress
+                    button.textContent = `⚡ Processing... ${i + 1}/${members.length}`;
+                }
+                
+                showResult(`
+                    <h3>📊 Bulk Invitation Results</h3>
+                    <p><strong>Successfully sent:</strong> ${successCount}/${members.length} invitations</p>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                        <pre style="margin: 0; white-space: pre-wrap; font-size: 14px;">${results.join('\n')}</pre>
+                    </div>
+                    <p>All successful members can now log in to the portal immediately!</p>
+                `, successCount === members.length ? 'success' : 'info');
+                
+                if (successCount === members.length) {
+                    e.target.reset();
+                }
+                
+            } catch (error) {
+                showResult(`
+                    <h3>❌ Bulk Invitation Error</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `, 'error');
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        });
+
+        function showResult(message, type) {
+            const result = document.getElementById('result');
+            result.className = `result ${type}`;
+            result.innerHTML = message;
+            result.style.display = 'block';
+            
+            // Scroll to result
+            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

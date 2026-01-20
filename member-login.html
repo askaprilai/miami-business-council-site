@@ -251,19 +251,30 @@
             loginBtn.textContent = 'Verifying...';
 
             try {
-                // Check for new member credentials first
-                const newMemberData = localStorage.getItem('newMemberCredentials');
+                // Check for dynamically added members first
                 let member = null;
                 
+                // Check for new member credentials (from signup flow)
+                const newMemberData = localStorage.getItem('newMemberCredentials');
                 if (newMemberData) {
                     const newMember = JSON.parse(newMemberData);
                     if (newMember.email === email) {
                         member = { password: newMember.password, name: newMember.name };
-                        console.log('Found new member:', member);
+                        console.log('Found new member from signup:', member);
                     }
                 }
                 
-                // If not a new member, check existing credentials
+                // Check for admin-invited members
+                if (!member) {
+                    const invitedMemberData = localStorage.getItem('newMember_' + email);
+                    if (invitedMemberData) {
+                        const invitedMember = JSON.parse(invitedMemberData);
+                        member = { password: invitedMember.password, name: invitedMember.name };
+                        console.log('Found admin-invited member:', member);
+                    }
+                }
+                
+                // If not found in localStorage, check hardcoded credentials
                 if (!member) {
                     member = memberCredentials[email];
                     console.log('Found existing member:', member);

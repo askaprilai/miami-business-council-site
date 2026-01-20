@@ -1958,6 +1958,33 @@
                     console.error('Google Sheets error:', error);
                 }
                 
+                // 4. Send membership invitation email
+                try {
+                    console.log('Sending membership invitation email...');
+                    const invitationResponse = await fetch('/api/send-membership-invitation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            name: name,
+                            company: company || ''
+                        })
+                    });
+                    
+                    if (invitationResponse.ok) {
+                        const invitationData = await invitationResponse.json();
+                        console.log('Membership invitation email sent:', invitationData);
+                        successCount++;
+                    } else {
+                        console.error('Failed to send membership invitation:', await invitationResponse.text());
+                    }
+                } catch (error) {
+                    console.error('Membership invitation error:', error);
+                    console.log('Membership invitation failed but form data still captured');
+                }
+                
                 // Track form submission event with GTM
                 if (typeof dataLayer !== 'undefined') {
                     dataLayer.push({
@@ -1971,13 +1998,21 @@
                 }
                 
                 // Show success message with email confirmation
-                if (successCount >= 2) {
-                    let successMsg = '🎉 <strong>Welcome to the waitlist!</strong><br><br>';
-                    successMsg += '✅ <strong>Confirmation email sent to your inbox</strong><br>';
+                if (successCount >= 3) {
+                    let successMsg = '🎉 <strong>Welcome to Miami Business Council!</strong><br><br>';
+                    successMsg += '✅ <strong>Membership invitation sent to your inbox</strong><br>';
+                    successMsg += '✅ <strong>Confirmation email sent</strong><br>';
                     successMsg += '✅ Successfully added to our database<br>';
                     successMsg += '✅ Admin notification sent<br>';
-                    successMsg += '<br><strong>Check your email</strong> for welcome message!<br>';
-                    successMsg += 'Thank you for joining Miami\'s premier business community!';
+                    successMsg += '<br><strong>Check your email</strong> for your membership invitation!<br>';
+                    successMsg += 'You\'ll receive details about joining Miami\'s premier business community.';
+                    showMessage(successMsg, 'success');
+                } else if (successCount >= 2) {
+                    let successMsg = '🎉 <strong>Welcome to Miami Business Council!</strong><br><br>';
+                    successMsg += '✅ <strong>Membership invitation sent to your inbox</strong><br>';
+                    successMsg += '✅ Successfully added to our database<br>';
+                    successMsg += '<br><strong>Check your email</strong> for your membership invitation!<br>';
+                    successMsg += 'You\'ll receive details about joining Miami\'s premier business community.';
                     showMessage(successMsg, 'success');
                 } else if (successCount >= 1) {
                     let successMsg = '🎉 <strong>Welcome to the waitlist!</strong><br><br>';

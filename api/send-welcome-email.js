@@ -95,7 +95,7 @@ export default async function handler(req, res) {
               Your first networking breakfast as a member!
             </p>
             <div style="text-align: center;">
-              <a href="https://luma.com/event-au2tl4nm" style="background: #d4af37; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Register for January 28th Event</a>
+              <a href="https://luma.com/au2tl4nm" style="background: #d4af37; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Register for January 28th Event</a>
             </div>
           </div>
 

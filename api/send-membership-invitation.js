@@ -118,6 +118,9 @@ export default async function handler(req, res) {
             <p style="color: #666; margin: 0; font-size: 14px;">
               Join us for meaningful conversations, strategic connections, and partnership opportunities in an elegant Design District setting.
             </p>
+            <div style="text-align: center; margin-top: 15px;">
+              <a href="https://luma.com/au2tl4nm" style="background: #2f9e44; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Preview Event Details</a>
+            </div>
           </div>
 
           <!-- Call to Action -->

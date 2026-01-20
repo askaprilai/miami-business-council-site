@@ -102,6 +102,29 @@
             color: #999;
         }
 
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 0;
+            z-index: 1;
+        }
+
+        .password-toggle:hover {
+            color: #d4af37;
+        }
+
         .btn-login {
             width: 100%;
             background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
@@ -205,13 +228,20 @@
 
             <div class="form-group">
                 <label for="password">Access Code</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Enter your access code" required>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your access code" required>
+                    <button type="button" class="password-toggle" id="passwordToggle">👁️</button>
+                </div>
             </div>
 
             <button type="submit" class="btn-login" id="loginBtn">
                 Access Member Portal
             </button>
         </form>
+
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="#" id="forgotPasswordLink" style="color: #d4af37; text-decoration: none; font-size: 0.9rem;">Forgot your access code?</a>
+        </div>
 
         <div class="help-text">
             <p>Access codes are provided via email to active members.<br>
@@ -222,6 +252,66 @@
     </div>
 
     <script>
+        // Password toggle functionality
+        document.getElementById('passwordToggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.getElementById('passwordToggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        });
+
+        // Forgot password functionality
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            
+            if (!email) {
+                alert('Please enter your email address first, then click "Forgot your access code?"');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address first.');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            if (confirm(`Send access code recovery email to ${email}?`)) {
+                // Send password recovery email
+                fetch('/api/send-password-reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ Access code recovery instructions have been sent to your email. Please check your inbox and spam folder.');
+                    } else {
+                        alert('❌ Could not send recovery email. Please contact info@miamibusinesscouncil.com for assistance.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Password reset error:', error);
+                    alert('❌ Could not send recovery email. Please contact info@miamibusinesscouncil.com for assistance.');
+                });
+            }
+        });
+
         // Simple member authentication with access codes
         const memberCredentials = {
             'april@apriljsabral.com': { password: 'april123', name: 'April Sabral' },

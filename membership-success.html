@@ -344,14 +344,8 @@
                 try {
                     const data = JSON.parse(membershipData);
                     
-                    // Generate access code
-                    const accessCode = generateAccessCode();
-                    
-                    // Display credentials on page
-                    displayPortalCredentials(data.email, accessCode);
-                    
-                    // Send welcome email with portal credentials
-                    fetch('/api/send-welcome-email', {
+                    // Process paid member - generates access code and sends portal credentials
+                    fetch('/api/process-paid-member', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -360,15 +354,20 @@
                             email: data.email,
                             firstName: data.firstName,
                             lastName: data.lastName,
-                            membershipType: data.membershipType.toUpperCase(),
-                            accessCode: accessCode,
-                            portalUrl: `${window.location.origin}/member-portal.html`
+                            membershipType: data.membershipType,
+                            paymentAmount: getPaymentAmount(data.membershipType)
                         })
                     })
                     .then(response => response.json())
                     .then(result => {
                         if (result.success) {
-                            console.log('Welcome email sent successfully');
+                            console.log('Paid member processed successfully');
+                            
+                            // Display portal credentials on page
+                            if (result.memberCredentials) {
+                                displayPortalCredentials(result.memberCredentials.email, result.memberCredentials.accessCode);
+                            }
+                            
                             showWelcomeEmailNotification();
                             // Clear localStorage after successful email
                             localStorage.removeItem('membershipApplication');
@@ -403,14 +402,13 @@
             }
         });
 
-        function generateAccessCode() {
-            // Generate a secure 8-character access code
-            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let accessCode = '';
-            for (let i = 0; i < 8; i++) {
-                accessCode += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return accessCode;
+        function getPaymentAmount(membershipType) {
+            const amounts = {
+                'individual': '$250',
+                'nonprofit': '$350', 
+                'business': '$450'
+            };
+            return amounts[membershipType] || '$450';
         }
 
         function displayPortalCredentials(email, accessCode) {
@@ -419,16 +417,27 @@
             document.getElementById('accessCode').textContent = accessCode;
             document.getElementById('portalCredentials').style.display = 'block';
             
-            // Store credentials for portal access
+            // Store credentials for immediate portal access
             const memberCredentials = {
                 email: email.toLowerCase(),
                 password: accessCode.toLowerCase(),
-                name: JSON.parse(localStorage.getItem('membershipApplication')).firstName + ' ' + JSON.parse(localStorage.getItem('membershipApplication')).lastName,
-                membershipType: JSON.parse(localStorage.getItem('membershipApplication')).membershipType,
+                name: document.getElementById('memberEmail').textContent.split('@')[0], // Fallback name
+                membershipType: 'business',
                 joinDate: new Date().toISOString()
             };
             
-            // Add to localStorage for immediate portal access
+            try {
+                const membershipData = localStorage.getItem('membershipApplication');
+                if (membershipData) {
+                    const data = JSON.parse(membershipData);
+                    memberCredentials.name = data.firstName + ' ' + data.lastName;
+                    memberCredentials.membershipType = data.membershipType;
+                }
+            } catch (e) {
+                console.log('Using fallback member data');
+            }
+            
+            // Store for immediate portal access
             localStorage.setItem('newMemberCredentials', JSON.stringify(memberCredentials));
         }
 

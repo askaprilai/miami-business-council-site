@@ -2500,7 +2500,7 @@
                         </div>
                         <p><a href="#" onclick="showSection('directory')" style="color: #d4af37; cursor: pointer;">🔍 Find New Connections</a></p>
                         <p><a href="#" onclick="showSection('smart-matches')" style="color: #d4af37; cursor: pointer;">🎯 Smart Matching</a></p>
-                        <p><a href="#" onclick="exportConnections()" style="color: #d4af37; cursor: pointer;">📋 Export Connections</a></p>
+                        <p><a href="#" onclick="showSection('messages')" style="color: #d4af37; cursor: pointer;">💬 Message Connections</a></p>
                     </div>
                 </div>
 
@@ -4527,10 +4527,6 @@
 
         function showPendingRequests() {
             showSection('connections');
-        }
-
-        function exportConnections() {
-            alert('📋 Connection export feature coming soon! You\'ll be able to export your network to CSV or LinkedIn format.');
         }
 
         // Initialize connection badge on page load

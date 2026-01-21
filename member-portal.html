@@ -1459,6 +1459,32 @@
             font-size: 1rem;
         }
 
+        /* Connection Request Styles */
+        .connection-request {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .connection-request:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .connection-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .connection-actions .profile-action-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
         .member-info {
             flex: 1;
         }
@@ -2109,6 +2135,9 @@
                     <a href="#" class="nav-link" data-section="messages">💬 Messages <span id="messageNotificationBadge" class="notification-badge" style="display: none;">3</span></a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="connections">🤝 Connections <span id="connectionNotificationBadge" class="notification-badge" style="display: none;">2</span></a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" data-section="directory">👥 Member Directory</a>
                 </li>
                 <li class="nav-item">
@@ -2394,6 +2423,129 @@
                                 <div class="chat-send-container">
                                     <button class="chat-send-btn" id="sendMessageBtn">Send</button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Connections Section -->
+            <section id="connections" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">🤝 Connections</h1>
+                    <p>Manage your connection requests and network</p>
+                </div>
+
+                <!-- Connection Stats -->
+                <div class="dashboard-grid" style="margin-bottom: 2rem;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Pending Requests</h3>
+                            <span class="card-icon">📩</span>
+                        </div>
+                        <p><strong>Incoming:</strong> <span id="incomingRequests">2</span> requests</p>
+                        <p><strong>Outgoing:</strong> <span id="outgoingRequests">1</span> sent</p>
+                        <button class="register-btn" onclick="showPendingRequests()" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9em;">View Pending</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Active Connections</h3>
+                            <span class="card-icon">✅</span>
+                        </div>
+                        <p><strong>Total Connections:</strong> 3</p>
+                        <p><strong>This Month:</strong> 2 new</p>
+                        <p><strong>Response Rate:</strong> 85%</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                            <span class="card-icon">⚡</span>
+                        </div>
+                        <p><a href="#" onclick="showSection('directory')" style="color: #d4af37; cursor: pointer;">🔍 Find New Connections</a></p>
+                        <p><a href="#" onclick="showSection('smart-matches')" style="color: #d4af37; cursor: pointer;">🎯 Smart Matching</a></p>
+                        <p><a href="#" onclick="exportConnections()" style="color: #d4af37; cursor: pointer;">📋 Export Connections</a></p>
+                    </div>
+                </div>
+
+                <!-- Connection Requests -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">📩 Pending Connection Requests</h3>
+                    
+                    <div id="connectionRequests">
+                        <!-- Incoming Requests -->
+                        <div class="connection-request">
+                            <div class="member-header" style="margin-bottom: 1rem;">
+                                <div class="member-avatar">JS</div>
+                                <div class="member-info">
+                                    <h4>Joy Sabral</h4>
+                                    <p>Retail Consultant • Owner Retail</p>
+                                    <p style="color: #ccc; font-size: 0.9rem;">Wants to connect with you</p>
+                                </div>
+                                <div style="text-align: right; color: #d4af37; font-size: 0.9rem;">
+                                    2 hours ago
+                                </div>
+                            </div>
+                            <div class="connection-message" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid #d4af37;">
+                                <p style="color: #e8eaed; font-style: italic;">"Hi! I'd love to connect and explore potential collaboration opportunities in the retail space. Looking forward to networking!"</p>
+                            </div>
+                            <div class="connection-actions" style="display: flex; gap: 1rem;">
+                                <button class="profile-action-btn primary" onclick="acceptConnection('joy', 'Joy Sabral')">✅ Accept</button>
+                                <button class="profile-action-btn secondary" onclick="declineConnection('joy', 'Joy Sabral')">❌ Decline</button>
+                                <button class="profile-action-btn secondary" onclick="openMemberProfile('joy', 'Joy Sabral', 'Retail Consultant', 'Owner Retail', 'JS', ['Retail', 'Consulting', 'Operations'], 'sabral@me.com', null)">👤 View Profile</button>
+                            </div>
+                        </div>
+
+                        <div class="connection-request">
+                            <div class="member-header" style="margin-bottom: 1rem;">
+                                <div class="member-avatar">AM</div>
+                                <div class="member-info">
+                                    <h4>Atiba Madyun</h4>
+                                    <p>Principal • The Madyun Group</p>
+                                    <p style="color: #ccc; font-size: 0.9rem;">Wants to connect with you</p>
+                                </div>
+                                <div style="text-align: right; color: #d4af37; font-size: 0.9rem;">
+                                    1 day ago
+                                </div>
+                            </div>
+                            <div class="connection-message" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid #d4af37;">
+                                <p style="color: #e8eaed; font-style: italic;">"Great to connect with fellow Miami business leaders. I see potential synergies between our businesses."</p>
+                            </div>
+                            <div class="connection-actions" style="display: flex; gap: 1rem;">
+                                <button class="profile-action-btn primary" onclick="acceptConnection('atiba', 'Atiba Madyun')">✅ Accept</button>
+                                <button class="profile-action-btn secondary" onclick="declineConnection('atiba', 'Atiba Madyun')">❌ Decline</button>
+                                <button class="profile-action-btn secondary" onclick="openMemberProfile('atiba', 'Atiba Madyun', 'Principal', 'The Madyun Group', 'AM', ['Real Estate', 'Development', 'Business'], 'atiba@themadyungroup.com', null)">👤 View Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Connections -->
+                <div class="dashboard-card">
+                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">✅ Active Connections</h3>
+                    
+                    <div class="member-grid">
+                        <div class="member-card" onclick="openMemberProfile('april', 'April Sabral', 'Founder & CEO', 'AskApril AI', 'AS', ['Technology', 'AI/ML', 'Business'], 'april@apriljsabral.com', 'https://linkedin.com/in/apriljsabral')">
+                            <div class="member-header">
+                                <div class="member-avatar">AS</div>
+                                <div class="member-info">
+                                    <h3>April Sabral</h3>
+                                    <p>Founder & CEO</p>
+                                    <p>AskApril AI</p>
+                                </div>
+                            </div>
+                            <div class="member-details">
+                                <span class="member-tag">Connected Jan 15</span>
+                                <span class="member-tag">3 messages</span>
+                            </div>
+                            <div class="member-actions" onclick="event.stopPropagation()">
+                                <button class="email-btn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'AskApril AI')">
+                                    📧 Email
+                                </button>
+                                <button class="linkedin-btn" onclick="startChat('april', 'April Sabral', 'AskApril AI')">
+                                    💬 Chat
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -4007,10 +4159,95 @@
 
         function requestConnection(memberId, memberName) {
             if (confirm(`Send a connection request to ${memberName}?`)) {
+                // Add to connection requests (in real app, this would be stored in database)
+                const connections = JSON.parse(localStorage.getItem('connectionRequests') || '[]');
+                connections.push({
+                    id: memberId,
+                    name: memberName,
+                    timestamp: new Date().toISOString(),
+                    status: 'sent'
+                });
+                localStorage.setItem('connectionRequests', JSON.stringify(connections));
+                
                 alert(`Connection request sent to ${memberName}! They'll be notified and can accept or decline your request.`);
                 closeMemberProfile();
+                updateConnectionBadge();
             }
         }
+
+        // Connection management functions
+        function acceptConnection(memberId, memberName) {
+            if (confirm(`Accept connection request from ${memberName}?`)) {
+                // Remove from pending requests
+                const requestElement = event.target.closest('.connection-request');
+                requestElement.style.opacity = '0.5';
+                requestElement.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    requestElement.remove();
+                    updateConnectionStats();
+                }, 300);
+                
+                // Start chat automatically
+                alert(`✅ You're now connected with ${memberName}! You can now chat directly.`);
+                
+                // Update badge count
+                updateConnectionBadge();
+            }
+        }
+
+        function declineConnection(memberId, memberName) {
+            if (confirm(`Decline connection request from ${memberName}?`)) {
+                const requestElement = event.target.closest('.connection-request');
+                requestElement.style.opacity = '0.5';
+                requestElement.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    requestElement.remove();
+                    updateConnectionStats();
+                }, 300);
+                
+                alert(`Connection request from ${memberName} has been declined.`);
+                
+                // Update badge count
+                updateConnectionBadge();
+            }
+        }
+
+        function updateConnectionStats() {
+            const pendingRequests = document.querySelectorAll('.connection-request').length;
+            document.getElementById('incomingRequests').textContent = pendingRequests;
+            
+            if (pendingRequests === 0) {
+                const requestsContainer = document.getElementById('connectionRequests');
+                requestsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ccc;">🎉 No pending connection requests. Great job staying connected!</div>';
+            }
+        }
+
+        function updateConnectionBadge() {
+            const pendingRequests = document.querySelectorAll('.connection-request').length;
+            const badge = document.getElementById('connectionNotificationBadge');
+            
+            if (pendingRequests > 0) {
+                badge.textContent = pendingRequests;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function showPendingRequests() {
+            showSection('connections');
+        }
+
+        function exportConnections() {
+            alert('📋 Connection export feature coming soon! You\'ll be able to export your network to CSV or LinkedIn format.');
+        }
+
+        // Initialize connection badge on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateConnectionBadge();
+        });
 
         // Close modal when clicking outside
         document.addEventListener('click', function(e) {

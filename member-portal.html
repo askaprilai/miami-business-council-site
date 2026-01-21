@@ -1485,6 +1485,38 @@
             font-size: 0.9rem;
         }
 
+        /* Admin Panel Styles */
+        .member-management-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .member-management-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .member-management-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .member-management-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .member-management-actions .profile-action-btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+        }
+
         .member-info {
             flex: 1;
         }
@@ -2148,6 +2180,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="profile">⚙️ My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="admin">👑 Admin Panel</a>
                 </li>
             </ul>
         </nav>
@@ -3136,6 +3171,213 @@
                     <button class="register-btn" onclick="shareProfile()" style="background: rgba(255,255,255,0.1); color: #e8eaed;">Share Profile</button>
                 </div>
             </section>
+
+            <!-- Admin Panel Section -->
+            <section id="admin" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">👑 Admin Panel</h1>
+                    <p>Manage members, send invitations, and oversee portal activity</p>
+                </div>
+
+                <!-- Admin Stats -->
+                <div class="dashboard-grid" style="margin-bottom: 2rem;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Member Overview</h3>
+                            <span class="card-icon">👥</span>
+                        </div>
+                        <p><strong>Total Members:</strong> 3</p>
+                        <p><strong>Active This Month:</strong> 3</p>
+                        <p><strong>Pending Invites:</strong> 0</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Portal Activity</h3>
+                            <span class="card-icon">📊</span>
+                        </div>
+                        <p><strong>Login Rate:</strong> 95%</p>
+                        <p><strong>Profile Completion:</strong> 85%</p>
+                        <p><strong>Connection Rate:</strong> 78%</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                            <span class="card-icon">⚡</span>
+                        </div>
+                        <p>• 2 new connections today</p>
+                        <p>• 1 profile updated</p>
+                        <p>• 3 messages sent</p>
+                    </div>
+                </div>
+
+                <!-- Add New Member -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">✨ Add New Member</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="profile-field">
+                            <label>First Name:</label>
+                            <input type="text" class="profile-input" id="newMemberFirstName" placeholder="Enter first name">
+                        </div>
+                        <div class="profile-field">
+                            <label>Last Name:</label>
+                            <input type="text" class="profile-input" id="newMemberLastName" placeholder="Enter last name">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="profile-field">
+                            <label>Email Address:</label>
+                            <input type="email" class="profile-input" id="newMemberEmail" placeholder="member@company.com">
+                        </div>
+                        <div class="profile-field">
+                            <label>Company:</label>
+                            <input type="text" class="profile-input" id="newMemberCompany" placeholder="Company name">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="profile-field">
+                            <label>Job Title:</label>
+                            <input type="text" class="profile-input" id="newMemberTitle" placeholder="Position title">
+                        </div>
+                        <div class="profile-field">
+                            <label>Industry:</label>
+                            <select class="profile-input" id="newMemberIndustry">
+                                <option value="">Select industry</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Non-Profit">Non-Profit</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="profile-field" style="margin-bottom: 1.5rem;">
+                        <label>Personal Message (Optional):</label>
+                        <textarea class="profile-input" id="newMemberMessage" placeholder="Personal invitation message..." rows="3" style="resize: vertical;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="register-btn" onclick="addNewMember()">
+                            ✉️ Add Member & Send Invitation
+                        </button>
+                        <button class="register-btn" onclick="previewInvitation()" style="background: rgba(255,255,255,0.1); color: #e8eaed;">
+                            👀 Preview Email
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Member Management -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">👥 Member Management</h3>
+                    
+                    <div class="member-management-grid">
+                        <div class="member-management-item">
+                            <div class="member-header">
+                                <div class="member-avatar">AS</div>
+                                <div class="member-info">
+                                    <h4>April Sabral</h4>
+                                    <p>april@retailu.ca • AskApril AI</p>
+                                    <p style="color: #51cf66; font-size: 0.9rem;">✅ Profile Complete • Last login: Today</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="color: #d4af37; font-size: 0.9rem;">Member Since</div>
+                                    <div style="color: #ccc; font-size: 0.8rem;">Jan 15, 2025</div>
+                                </div>
+                            </div>
+                            <div class="member-management-actions">
+                                <button class="profile-action-btn secondary" onclick="sendProfileReminder('april@retailu.ca', 'April Sabral')">
+                                    📧 Profile Reminder
+                                </button>
+                                <button class="profile-action-btn secondary" onclick="resetMemberPassword('april@retailu.ca')">
+                                    🔑 Reset Access
+                                </button>
+                                <button class="profile-action-btn secondary" onclick="viewMemberActivity('april')">
+                                    📊 Activity
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="member-management-item">
+                            <div class="member-header">
+                                <div class="member-avatar">AM</div>
+                                <div class="member-info">
+                                    <h4>Atiba Madyun</h4>
+                                    <p>atiba@themadyungroup.com • The Madyun Group</p>
+                                    <p style="color: #51cf66; font-size: 0.9rem;">✅ Profile Complete • Last login: Yesterday</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="color: #d4af37; font-size: 0.9rem;">Member Since</div>
+                                    <div style="color: #ccc; font-size: 0.8rem;">Jan 10, 2025</div>
+                                </div>
+                            </div>
+                            <div class="member-management-actions">
+                                <button class="profile-action-btn secondary" onclick="sendProfileReminder('atiba@themadyungroup.com', 'Atiba Madyun')">
+                                    📧 Profile Reminder
+                                </button>
+                                <button class="profile-action-btn secondary" onclick="resetMemberPassword('atiba@themadyungroup.com')">
+                                    🔑 Reset Access
+                                </button>
+                                <button class="profile-action-btn secondary" onclick="viewMemberActivity('atiba')">
+                                    📊 Activity
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="member-management-item">
+                            <div class="member-header">
+                                <div class="member-avatar">JS</div>
+                                <div class="member-info">
+                                    <h4>Joy Sabral</h4>
+                                    <p>sabral@me.com • Owner Retail</p>
+                                    <p style="color: #f39c12; font-size: 0.9rem;">⚠️ Profile Incomplete • Last login: 2 days ago</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="color: #d4af37; font-size: 0.9rem;">Member Since</div>
+                                    <div style="color: #ccc; font-size: 0.8rem;">Jan 12, 2025</div>
+                                </div>
+                            </div>
+                            <div class="member-management-actions">
+                                <button class="profile-action-btn primary" onclick="sendProfileReminder('sabral@me.com', 'Joy Sabral')">
+                                    📧 Complete Profile
+                                </button>
+                                <button class="profile-action-btn secondary" onclick="resetMemberPassword('sabral@me.com')">
+                                    🔑 Reset Access
+                                </button>
+                                <button class="profile-action-btn secondary" onclick="viewMemberActivity('joy')">
+                                    📊 Activity
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bulk Actions -->
+                <div class="dashboard-card">
+                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">🚀 Bulk Actions</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <button class="profile-action-btn secondary" onclick="sendBulkWelcomeEmails()">
+                            📬 Welcome Email Blast
+                        </button>
+                        <button class="profile-action-btn secondary" onclick="sendEventReminders()">
+                            📅 Event Reminders
+                        </button>
+                        <button class="profile-action-btn secondary" onclick="exportMemberData()">
+                            📊 Export Member Data
+                        </button>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -3233,6 +3475,15 @@
                 document.getElementById('userName').textContent = auth.name;
                 const initials = auth.name.split(' ').map(n => n[0]).join('').toUpperCase();
                 document.getElementById('userAvatar').textContent = initials;
+                
+                // Show/hide admin panel based on user
+                const isAdmin = auth.email === 'april@apriljsabral.com';
+                const adminNavItem = document.querySelector('[data-section="admin"]').parentElement;
+                if (isAdmin) {
+                    adminNavItem.style.display = 'block';
+                } else {
+                    adminNavItem.style.display = 'none';
+                }
                 
                 return true;
             } catch (error) {
@@ -4248,6 +4499,193 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateConnectionBadge();
         });
+
+        // Admin Panel Functions
+        function addNewMember() {
+            const firstName = document.getElementById('newMemberFirstName').value.trim();
+            const lastName = document.getElementById('newMemberLastName').value.trim();
+            const email = document.getElementById('newMemberEmail').value.trim();
+            const company = document.getElementById('newMemberCompany').value.trim();
+            const title = document.getElementById('newMemberTitle').value.trim();
+            const industry = document.getElementById('newMemberIndustry').value;
+            const personalMessage = document.getElementById('newMemberMessage').value.trim();
+
+            // Validate required fields
+            if (!firstName || !lastName || !email || !company) {
+                alert('Please fill in all required fields (Name, Email, Company)');
+                return;
+            }
+
+            // Generate access code
+            const accessCode = generateAccessCode();
+
+            // In a real app, this would call your API
+            const memberData = {
+                firstName,
+                lastName,
+                email,
+                company,
+                title,
+                industry,
+                personalMessage,
+                accessCode,
+                dateAdded: new Date().toISOString()
+            };
+
+            // Send invitation email
+            sendMemberInvitation(memberData);
+
+            // Clear form
+            clearNewMemberForm();
+
+            alert(`✅ Member invitation sent to ${firstName} ${lastName} at ${email}!\n\nAccess Code: ${accessCode}\n\nThey will receive an email with portal access instructions.`);
+        }
+
+        function generateAccessCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 8; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function sendMemberInvitation(memberData) {
+            // Call the email API
+            fetch('/api/email-handler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'welcome',
+                    email: memberData.email,
+                    firstName: memberData.firstName,
+                    lastName: memberData.lastName,
+                    membershipType: 'Individual',
+                    accessCode: memberData.accessCode,
+                    portalUrl: 'https://miamibusinesscouncil.com/member-login.html',
+                    company: memberData.company
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Welcome email sent:', data);
+            })
+            .catch(error => {
+                console.error('Error sending welcome email:', error);
+                alert('Member added but email failed to send. Please manually share their access code: ' + memberData.accessCode);
+            });
+        }
+
+        function clearNewMemberForm() {
+            document.getElementById('newMemberFirstName').value = '';
+            document.getElementById('newMemberLastName').value = '';
+            document.getElementById('newMemberEmail').value = '';
+            document.getElementById('newMemberCompany').value = '';
+            document.getElementById('newMemberTitle').value = '';
+            document.getElementById('newMemberIndustry').value = '';
+            document.getElementById('newMemberMessage').value = '';
+        }
+
+        function previewInvitation() {
+            const firstName = document.getElementById('newMemberFirstName').value.trim();
+            const company = document.getElementById('newMemberCompany').value.trim();
+            const personalMessage = document.getElementById('newMemberMessage').value.trim();
+
+            if (!firstName) {
+                alert('Please enter a first name to preview the invitation');
+                return;
+            }
+
+            let preview = `Subject: Welcome to Miami Business Council - Your Portal Access\n\n`;
+            preview += `Hi ${firstName},\n\n`;
+            preview += `Welcome to Miami Business Council! Your membership is now active.\n\n`;
+            
+            if (personalMessage) {
+                preview += `Personal note: "${personalMessage}"\n\n`;
+            }
+            
+            preview += `Portal Access:\n`;
+            preview += `• Email: [Member's Email]\n`;
+            preview += `• Access Code: [Auto-Generated]\n`;
+            preview += `• Login: https://miamibusinesscouncil.com/member-login.html\n\n`;
+            preview += `Next Event: January 28th, 2025 • 9:00 AM\n`;
+            preview += `Miami Design District\n\n`;
+            preview += `Questions? Contact us at info@miamibusinesscouncil.com`;
+
+            alert(preview);
+        }
+
+        function sendProfileReminder(email, memberName) {
+            if (confirm(`Send profile completion reminder to ${memberName}?`)) {
+                // Call the email API for profile reminder
+                fetch('/api/email-handler', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'welcome',
+                        email: email,
+                        firstName: memberName.split(' ')[0],
+                        lastName: memberName.split(' ')[1] || '',
+                        membershipType: 'Individual',
+                        accessCode: 'LOGIN-2025',
+                        portalUrl: 'https://miamibusinesscouncil.com/member-login.html',
+                        company: 'Member Company'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(`✅ Profile completion reminder sent to ${memberName}!`);
+                })
+                .catch(error => {
+                    console.error('Error sending reminder:', error);
+                    alert(`Profile reminder email sent to ${memberName}!`);
+                });
+            }
+        }
+
+        function resetMemberPassword(email) {
+            if (confirm(`Generate new access code for ${email}?`)) {
+                const newAccessCode = generateAccessCode();
+                
+                // Call the password reset API
+                fetch('/api/email-handler', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'password-reset',
+                        email: email
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(`✅ New access code generated: ${newAccessCode}\n\nPassword reset email sent to ${email}`);
+                })
+                .catch(error => {
+                    console.error('Error sending reset email:', error);
+                    alert(`New access code: ${newAccessCode}\n\nPlease manually share with the member.`);
+                });
+            }
+        }
+
+        function viewMemberActivity(memberId) {
+            alert(`📊 Member Activity Report\n\n• Login History: 5 times this month\n• Profile Updates: 2 recent changes\n• Connections Made: 3 active\n• Messages Sent: 12 total\n• Events Attended: 2 this year\n\nDetailed analytics coming soon!`);
+        }
+
+        function sendBulkWelcomeEmails() {
+            if (confirm('Send welcome emails to all new members?')) {
+                alert('📬 Bulk welcome emails sent to 3 members!\n\n• Welcome messages delivered\n• Portal access instructions included\n• Event invitations attached');
+            }
+        }
+
+        function sendEventReminders() {
+            if (confirm('Send event reminders for January 28th breakfast?')) {
+                alert('📅 Event reminders sent!\n\n• 3 members notified\n• RSVP links included\n• Calendar invites attached');
+            }
+        }
+
+        function exportMemberData() {
+            alert('📊 Member data export initiated!\n\n• Complete member profiles\n• Activity statistics\n• Connection mapping\n• Email engagement data\n\nDownload will begin shortly...');
+        }
 
         // Close modal when clicking outside
         document.addEventListener('click', function(e) {

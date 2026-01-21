@@ -2845,6 +2845,9 @@
         // Check authentication when page loads
         window.addEventListener('load', () => {
             checkAuthentication();
+            setupPhotoUpload();
+            initializeChatSystem();
+            updateMemberAvatars();
         });
 
         // Show section function for quick actions
@@ -3563,6 +3566,11 @@
 
             preview.innerHTML = `<img src="${imageData}" alt="${type} photo">`;
             removeBtn.style.display = 'inline-block';
+            
+            // Update avatars throughout portal if this is a personal photo
+            if (type === 'personal') {
+                updateMemberAvatars();
+            }
         }
 
         function removePhoto(type) {
@@ -3583,6 +3591,51 @@
             `;
             removeBtn.style.display = 'none';
             localStorage.removeItem(storageKey);
+            
+            // Reset avatars throughout portal if this is a personal photo
+            if (type === 'personal') {
+                resetMemberAvatarsToInitials();
+            }
+        }
+        
+        // Reset member avatars back to initials when photo is removed
+        function resetMemberAvatarsToInitials() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            try {
+                const auth = JSON.parse(memberAuth);
+                const initials = auth.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                
+                // Reset header avatar
+                const headerAvatar = document.getElementById('userAvatar');
+                if (headerAvatar) {
+                    headerAvatar.style.backgroundImage = '';
+                    headerAvatar.textContent = initials;
+                }
+
+                // Reset member directory avatars
+                const memberCards = document.querySelectorAll('.member-card');
+                memberCards.forEach(card => {
+                    const memberName = card.querySelector('.member-info h3')?.textContent;
+                    if (memberName && memberName.includes(auth.name.split(' ')[0])) {
+                        const avatar = card.querySelector('.member-avatar');
+                        if (avatar) {
+                            avatar.style.backgroundImage = '';
+                            avatar.textContent = initials;
+                        }
+                    }
+                });
+
+                // Reset chat avatars
+                const chatAvatars = document.querySelectorAll('.message.own .message-avatar');
+                chatAvatars.forEach(avatar => {
+                    avatar.style.backgroundImage = '';
+                    avatar.textContent = 'ME';
+                });
+            } catch (error) {
+                console.error('Error resetting member avatars:', error);
+            }
         }
 
         function savePhotoToStorage(imageData, type) {
@@ -3600,6 +3653,54 @@
 
             if (companyLogo) {
                 displayPhoto(companyLogo, 'company');
+            }
+        }
+
+        // Update member avatars throughout the portal with uploaded photos
+        function updateMemberAvatars() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            try {
+                const auth = JSON.parse(memberAuth);
+                const personalPhoto = localStorage.getItem('memberPersonalPhoto');
+                
+                if (personalPhoto) {
+                    // Update header avatar
+                    const headerAvatar = document.getElementById('userAvatar');
+                    if (headerAvatar) {
+                        headerAvatar.style.backgroundImage = `url(${personalPhoto})`;
+                        headerAvatar.style.backgroundSize = 'cover';
+                        headerAvatar.style.backgroundPosition = 'center';
+                        headerAvatar.textContent = ''; // Remove initials when photo is present
+                    }
+
+                    // Update any member avatars in the member directory that match current user
+                    const memberCards = document.querySelectorAll('.member-card');
+                    memberCards.forEach(card => {
+                        const memberName = card.querySelector('.member-info h3')?.textContent;
+                        if (memberName && memberName.includes(auth.name.split(' ')[0])) {
+                            const avatar = card.querySelector('.member-avatar');
+                            if (avatar) {
+                                avatar.style.backgroundImage = `url(${personalPhoto})`;
+                                avatar.style.backgroundSize = 'cover';
+                                avatar.style.backgroundPosition = 'center';
+                                avatar.textContent = ''; // Remove initials when photo is present
+                            }
+                        }
+                    });
+
+                    // Update chat avatars
+                    const chatAvatars = document.querySelectorAll('.message.own .message-avatar');
+                    chatAvatars.forEach(avatar => {
+                        avatar.style.backgroundImage = `url(${personalPhoto})`;
+                        avatar.style.backgroundSize = 'cover';
+                        avatar.style.backgroundPosition = 'center';
+                        avatar.textContent = ''; // Remove 'ME' text when photo is present
+                    });
+                }
+            } catch (error) {
+                console.error('Error updating member avatars:', error);
             }
         }
 

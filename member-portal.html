@@ -2137,44 +2137,20 @@
 
                     <div class="member-card">
                         <div class="member-header">
-                            <div class="member-avatar">FT</div>
+                            <div class="member-avatar">JS</div>
                             <div class="member-info">
-                                <h3>FAN Team</h3>
-                                <p>Marketing Agency</p>
-                                <p>FAN Business</p>
+                                <h3>Joy Sabral</h3>
+                                <p>Retail Consultant</p>
+                                <p>Owner Retail</p>
                             </div>
                         </div>
                         <div class="member-details">
-                            <span class="member-tag">Marketing</span>
-                            <span class="member-tag">Digital</span>
-                            <span class="member-tag">Business</span>
-                        </div>
-                        <div class="member-actions">
-                            <button class="email-btn" onclick="sendMBCEmail('team@fanbusiness.com', 'FAN Team', 'FAN Business')">
-                                📧 Email
-                            </button>
-                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
-                                📍 LinkedIn
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="member-card">
-                        <div class="member-header">
-                            <div class="member-avatar">IM</div>
-                            <div class="member-info">
-                                <h3>Ilmoda Team</h3>
-                                <p>Fashion & Design</p>
-                                <p>Ilmoda</p>
-                            </div>
-                        </div>
-                        <div class="member-details">
-                            <span class="member-tag">Fashion</span>
-                            <span class="member-tag">Design</span>
                             <span class="member-tag">Retail</span>
+                            <span class="member-tag">Consulting</span>
+                            <span class="member-tag">Operations</span>
                         </div>
                         <div class="member-actions">
-                            <button class="email-btn" onclick="sendMBCEmail('contact@ilmoda.com', 'Ilmoda Team', 'Ilmoda')">
+                            <button class="email-btn" onclick="sendMBCEmail('sabral@me.com', 'Joy Sabral', 'Owner Retail')">
                                 📧 Email
                             </button>
                             <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
@@ -2987,22 +2963,42 @@
                 {
                     id: 'april',
                     name: 'April Sabral',
-                    company: 'AskApril AI',
-                    industry: 'Technology',
+                    company: 'Ask April AI Coaching',
+                    industry: 'Business Consulting',
                     avatar: 'AS',
-                    services: ['AI/ML Solutions', 'Business Strategy', 'Tech Consulting'],
+                    services: ['AI Coaching', 'Business Strategy', 'Digital Transformation'],
                     idealClient: {
-                        industries: ['Real Estate', 'Healthcare', 'Finance'],
+                        industries: ['Retail', 'Professional Services', 'Small Business'],
                         companySize: ['small', 'medium'],
-                        budget: ['50k-100k', '100k-500k'],
-                        needsHelp: ['Digital Transformation', 'AI Implementation', 'Process Automation']
+                        budget: ['10k-50k', '50k-100k'],
+                        needsHelp: ['AI Implementation', 'Business Growth', 'Digital Strategy']
                     },
-                    businessGoals: ['grow-revenue', 'strategic-partnerships'],
+                    businessGoals: ['grow-revenue', 'help-businesses'],
                     location: 'miami',
                     workStyle: 'hybrid',
                     linkedin: 'https://linkedin.com/in/apriljsabral',
-                    valueProposition: 'AI-powered solutions that transform traditional businesses into modern, efficient operations',
-                    primaryOffering: 'Custom AI/ML solutions and business intelligence platforms'
+                    valueProposition: 'AI coaching that helps business owners leverage artificial intelligence for growth',
+                    primaryOffering: 'AI coaching and business transformation consulting'
+                },
+                {
+                    id: 'joy',
+                    name: 'Joy Sabral',
+                    company: 'Owner Retail',
+                    industry: 'Retail',
+                    avatar: 'JS',
+                    services: ['Retail Consulting', 'Store Operations', 'Customer Experience'],
+                    idealClient: {
+                        industries: ['Retail', 'E-commerce', 'Consumer Goods'],
+                        companySize: ['small', 'medium'],
+                        budget: ['5k-25k', '25k-50k'],
+                        needsHelp: ['Store Optimization', 'Customer Service', 'Retail Strategy']
+                    },
+                    businessGoals: ['grow-revenue', 'strategic-partnerships'],
+                    location: 'miami',
+                    workStyle: 'in-person',
+                    linkedin: null,
+                    valueProposition: 'Expert retail guidance to optimize store performance and customer satisfaction',
+                    primaryOffering: 'Retail operations consulting and customer experience optimization'
                 },
                 {
                     id: 'tommy',
@@ -3382,23 +3378,23 @@
             const members = [
                 {
                     name: 'April Sabral',
-                    company: 'AskApril AI',
-                    industry: 'Technology',
+                    company: 'Ask April AI Coaching',
+                    industry: 'Business Consulting',
                     avatar: 'AS',
-                    lookingFor: ['Business partnerships', 'Marketing expertise', 'Clients'],
-                    canOffer: ['AI/Tech consulting', 'Platform development', 'Technical expertise'],
+                    lookingFor: ['Small business owners', 'Retail clients', 'Growth partnerships'],
+                    canOffer: ['AI coaching', 'Business strategy', 'Digital transformation'],
                     linkedin: 'https://linkedin.com/in/apriljsabral',
-                    score: 92
+                    score: 95
                 },
                 {
-                    name: 'Atiba Madyun', 
-                    company: 'The Madyun Group',
-                    industry: 'Real Estate',
-                    avatar: 'AM',
-                    lookingFor: ['Business development', 'Strategic partnerships', 'Investors'],
-                    canOffer: ['Real estate expertise', 'Network connections', 'Mentoring'],
+                    name: 'Joy Sabral',
+                    company: 'Owner Retail',
+                    industry: 'Retail Consulting',
+                    avatar: 'JS',
+                    lookingFor: ['Retail businesses', 'E-commerce clients', 'Strategic partners'],
+                    canOffer: ['Retail expertise', 'Store optimization', 'Customer experience'],
                     linkedin: null,
-                    score: 78
+                    score: 88
                 },
                 {
                     name: 'FAN Team',
@@ -3640,10 +3636,8 @@
             if (!conversationsList) return;
 
             const members = [
-                { id: 'april', name: 'April Sabral', company: 'April J. Sabral Consulting', lastMessage: 'Great meeting you at the event!', time: '2 hours ago', unread: 2 },
-                { id: 'tommy', name: 'Atiba Madyun', company: 'The Madyun Group', lastMessage: 'Thanks for the referral', time: '1 day ago', unread: 0 },
-                { id: 'fan', name: 'FAN Team', company: 'FAN Business', lastMessage: 'Let\'s discuss the partnership', time: '3 days ago', unread: 1 },
-                { id: 'ilmoda', name: 'Ilmoda Team', company: 'Ilmoda', lastMessage: 'Looking forward to our collaboration', time: '1 week ago', unread: 0 }
+                { id: 'april', name: 'April Sabral', company: 'Ask April AI Coaching', lastMessage: 'Welcome to the portal! Ready to connect.', time: '1 hour ago', unread: 1 },
+                { id: 'joy', name: 'Joy Sabral', company: 'Owner Retail', lastMessage: 'Excited to be part of MBC!', time: '2 hours ago', unread: 0 }
             ];
 
             const conversationsHtml = members.map(member => `
@@ -4103,10 +4097,8 @@ https://miamibusinesscouncil.com`);
         function sendSmartIntro(memberId, memberName) {
             // Get member data for smart intro
             const members = [
-                { id: 'april', email: 'april@apriljsabral.com', company: 'April J. Sabral Consulting' },
-                { id: 'tommy', email: 'atiba@themadyungroup.com', company: 'The Madyun Group' },
-                { id: 'fan', email: 'team@fanbusiness.com', company: 'FAN Business' },
-                { id: 'ilmoda', email: 'contact@ilmoda.com', company: 'Ilmoda' }
+                { id: 'april', email: 'april@retailu.ca', company: 'Ask April AI Coaching' },
+                { id: 'joy', email: 'sabral@me.com', company: 'Owner Retail' }
             ];
             
             const member = members.find(m => m.id === memberId);

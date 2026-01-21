@@ -3030,20 +3030,20 @@
                         <h3 style="color: #d4af37; margin-bottom: 1rem;">Business Information</h3>
                         <div class="profile-field">
                             <label><strong>Name:</strong></label>
-                            <input type="text" value="John Smith" class="profile-input">
+                            <input type="text" id="memberName" class="profile-input" placeholder="Enter your full name">
                         </div>
                         <div class="profile-field">
                             <label><strong>Company:</strong></label>
-                            <input type="text" value="Smith Consulting LLC" class="profile-input">
+                            <input type="text" id="memberCompany" class="profile-input" placeholder="Enter your company name">
                         </div>
                         <div class="profile-field">
                             <label><strong>Title:</strong></label>
-                            <input type="text" value="Founder & CEO" class="profile-input">
+                            <input type="text" id="memberTitle" class="profile-input" placeholder="Enter your job title">
                         </div>
                         <div class="profile-field">
                             <label><strong>Industry:</strong></label>
-                            <select class="profile-input">
-                                <option value="Consulting" selected>Consulting</option>
+                            <select id="memberIndustry" class="profile-input">
+                                <option value="">Select your industry</option>
                                 <option value="Technology">Technology</option>
                                 <option value="Real Estate">Real Estate</option>
                                 <option value="Marketing">Marketing</option>
@@ -3060,7 +3060,7 @@
                         </div>
                         <div class="profile-field">
                             <label><strong>LinkedIn:</strong></label>
-                            <input type="url" value="linkedin.com/in/johnsmith" class="profile-input">
+                            <input type="url" id="memberLinkedIn" class="profile-input" placeholder="linkedin.com/in/yourprofile">
                         </div>
                     </div>
 
@@ -3071,8 +3071,8 @@
                         <div class="opportunity-section">
                             <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🎯 What I'm Looking For:</h4>
                             <div class="tag-container">
-                                <span class="opportunity-tag active" onclick="toggleTag(this)">Clients</span>
-                                <span class="opportunity-tag active" onclick="toggleTag(this)">Partnerships</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Clients</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Partnerships</span>
                                 <span class="opportunity-tag" onclick="toggleTag(this)">Investors</span>
                                 <span class="opportunity-tag" onclick="toggleTag(this)">Mentors</span>
                                 <span class="opportunity-tag" onclick="toggleTag(this)">Vendors</span>
@@ -3083,8 +3083,8 @@
                         <div class="opportunity-section">
                             <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">💼 What I Can Offer:</h4>
                             <div class="tag-container">
-                                <span class="opportunity-tag active" onclick="toggleTag(this)">Business Strategy</span>
-                                <span class="opportunity-tag active" onclick="toggleTag(this)">Consulting</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Business Strategy</span>
+                                <span class="opportunity-tag" onclick="toggleTag(this)">Consulting</span>
                                 <span class="opportunity-tag" onclick="toggleTag(this)">Funding</span>
                                 <span class="opportunity-tag" onclick="toggleTag(this)">Mentoring</span>
                                 <span class="opportunity-tag" onclick="toggleTag(this)">Services</span>
@@ -3096,7 +3096,7 @@
                             <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🏢 Company Size:</h4>
                             <div class="radio-group">
                                 <label class="radio-option">
-                                    <input type="radio" name="company-size" value="solo" checked>
+                                    <input type="radio" name="company-size" value="solo">
                                     <span>Solo/Freelancer (1)</span>
                                 </label>
                                 <label class="radio-option">
@@ -3507,6 +3507,7 @@
             setupPhotoUpload();
             initializeChatSystem();
             updateMemberAvatars();
+            loadMemberProfile();
         });
 
         // Show section function for quick actions
@@ -4233,27 +4234,39 @@
         }
 
         function removePhoto(type) {
-            const previewId = type === 'personal' ? 'personalPhotoPreview' : 'companyLogoPreview';
-            const removeId = type === 'personal' ? 'removePersonalPhoto' : 'removeCompanyLogo';
-            const storageKey = type === 'personal' ? 'memberPersonalPhoto' : 'memberCompanyLogo';
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
             
-            const preview = document.getElementById(previewId);
-            const removeBtn = document.getElementById(removeId);
-            const icon = type === 'personal' ? '👤' : '🏢';
-            const text = type === 'personal' ? 'No photo uploaded' : 'No logo uploaded';
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                const previewId = type === 'personal' ? 'personalPhotoPreview' : 'companyLogoPreview';
+                const removeId = type === 'personal' ? 'removePersonalPhoto' : 'removeCompanyLogo';
+                const storageKey = type === 'personal' ? 
+                    `memberPersonalPhoto_${memberEmail}` : 
+                    `memberCompanyLogo_${memberEmail}`;
+                
+                const preview = document.getElementById(previewId);
+                const removeBtn = document.getElementById(removeId);
+                const icon = type === 'personal' ? '👤' : '🏢';
+                const text = type === 'personal' ? 'No photo uploaded' : 'No logo uploaded';
 
-            preview.innerHTML = `
-                <div class="photo-placeholder">
-                    <span class="photo-icon">${icon}</span>
-                    <p>${text}</p>
-                </div>
-            `;
-            removeBtn.style.display = 'none';
-            localStorage.removeItem(storageKey);
-            
-            // Reset avatars throughout portal if this is a personal photo
-            if (type === 'personal') {
-                resetMemberAvatarsToInitials();
+                preview.innerHTML = `
+                    <div class="photo-placeholder">
+                        <span class="photo-icon">${icon}</span>
+                        <p>${text}</p>
+                    </div>
+                `;
+                removeBtn.style.display = 'none';
+                localStorage.removeItem(storageKey);
+                
+                // Reset avatars throughout portal if this is a personal photo
+                if (type === 'personal') {
+                    resetMemberAvatarsToInitials();
+                }
+            } catch (error) {
+                console.error('Error removing photo:', error);
             }
         }
         
@@ -4298,20 +4311,44 @@
         }
 
         function savePhotoToStorage(imageData, type) {
-            const storageKey = type === 'personal' ? 'memberPersonalPhoto' : 'memberCompanyLogo';
-            localStorage.setItem(storageKey, imageData);
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+            
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                // Make storage keys member-specific
+                const storageKey = type === 'personal' ? 
+                    `memberPersonalPhoto_${memberEmail}` : 
+                    `memberCompanyLogo_${memberEmail}`;
+                localStorage.setItem(storageKey, imageData);
+            } catch (error) {
+                console.error('Error saving photo:', error);
+            }
         }
 
         function loadExistingPhotos() {
-            const personalPhoto = localStorage.getItem('memberPersonalPhoto');
-            const companyLogo = localStorage.getItem('memberCompanyLogo');
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+            
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                // Load member-specific photos
+                const personalPhoto = localStorage.getItem(`memberPersonalPhoto_${memberEmail}`);
+                const companyLogo = localStorage.getItem(`memberCompanyLogo_${memberEmail}`);
 
-            if (personalPhoto) {
-                displayPhoto(personalPhoto, 'personal');
-            }
+                if (personalPhoto) {
+                    displayPhoto(personalPhoto, 'personal');
+                }
 
-            if (companyLogo) {
-                displayPhoto(companyLogo, 'company');
+                if (companyLogo) {
+                    displayPhoto(companyLogo, 'company');
+                }
+            } catch (error) {
+                console.error('Error loading photos:', error);
             }
         }
 
@@ -4322,7 +4359,8 @@
 
             try {
                 const auth = JSON.parse(memberAuth);
-                const personalPhoto = localStorage.getItem('memberPersonalPhoto');
+                const memberEmail = auth.email;
+                const personalPhoto = localStorage.getItem(`memberPersonalPhoto_${memberEmail}`);
                 
                 if (personalPhoto) {
                     // Update header avatar
@@ -4685,6 +4723,93 @@
 
         function exportMemberData() {
             alert('📊 Member data export initiated!\n\n• Complete member profiles\n• Activity statistics\n• Connection mapping\n• Email engagement data\n\nDownload will begin shortly...');
+        }
+
+        // Load member-specific profile data
+        function loadMemberProfile() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                // Load saved profile data from localStorage (member-specific)
+                const profileKey = `memberProfile_${memberEmail}`;
+                const savedProfile = localStorage.getItem(profileKey);
+                
+                if (savedProfile) {
+                    const profile = JSON.parse(savedProfile);
+                    
+                    // Populate form fields if they exist
+                    if (document.getElementById('memberName')) document.getElementById('memberName').value = profile.name || auth.name || '';
+                    if (document.getElementById('memberCompany')) document.getElementById('memberCompany').value = profile.company || '';
+                    if (document.getElementById('memberTitle')) document.getElementById('memberTitle').value = profile.title || '';
+                    if (document.getElementById('memberIndustry')) document.getElementById('memberIndustry').value = profile.industry || '';
+                    if (document.getElementById('memberLinkedIn')) document.getElementById('memberLinkedIn').value = profile.linkedin || '';
+                } else {
+                    // If no saved profile, just populate name from auth
+                    if (document.getElementById('memberName')) document.getElementById('memberName').value = auth.name || '';
+                }
+                
+                // Load member-specific photos
+                loadExistingPhotos();
+                
+            } catch (error) {
+                console.error('Error loading member profile:', error);
+            }
+        }
+
+        // Update the save profile function to be member-specific
+        function saveProfile() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                // Get all form data
+                const profileData = {
+                    name: document.getElementById('memberName')?.value || '',
+                    company: document.getElementById('memberCompany')?.value || '',
+                    title: document.getElementById('memberTitle')?.value || '',
+                    industry: document.getElementById('memberIndustry')?.value || '',
+                    linkedin: document.getElementById('memberLinkedIn')?.value || '',
+                    lookingFor: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
+                    canOffer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent),
+                    companySize: document.querySelector('input[name="company-size"]:checked')?.value || '',
+                    lastUpdated: new Date().toISOString()
+                };
+
+                // Save to member-specific localStorage key
+                const profileKey = `memberProfile_${memberEmail}`;
+                localStorage.setItem(profileKey, JSON.stringify(profileData));
+                
+                alert('✅ Profile saved successfully! Your information has been updated.');
+                
+                // Update any displayed member info in other sections
+                updateMemberInfoThroughoutPortal(profileData);
+                
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('❌ Error saving profile. Please try again.');
+            }
+        }
+
+        function updateMemberInfoThroughoutPortal(profileData) {
+            // Update header if name changed
+            if (profileData.name) {
+                const userNameElement = document.getElementById('userName');
+                if (userNameElement) userNameElement.textContent = profileData.name;
+                
+                // Update avatar initials
+                const userAvatarElement = document.getElementById('userAvatar');
+                if (userAvatarElement && !userAvatarElement.style.backgroundImage) {
+                    const initials = profileData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                    userAvatarElement.textContent = initials;
+                }
+            }
         }
 
         // Close modal when clicking outside

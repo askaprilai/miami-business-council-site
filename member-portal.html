@@ -1271,6 +1271,194 @@
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
         }
 
+        .member-card {
+            cursor: pointer;
+        }
+
+        /* Member Profile Modal */
+        .member-profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .member-profile-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .profile-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: #e8eaed;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .profile-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-hero {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #000;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+            border: 4px solid rgba(212, 175, 55, 0.6);
+            margin: 0 auto 1rem auto;
+        }
+
+        .profile-name {
+            color: #e8eaed;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .profile-title {
+            color: #d4af37;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .profile-company {
+            color: #ccc;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+
+        .profile-section h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-tag {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9em;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .profile-action-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .profile-action-btn.primary {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .profile-action-btn.primary:hover {
+            background: #f4af37;
+        }
+
+        .profile-action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8eaed;
+        }
+
+        .profile-action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-info-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info-label {
+            color: #d4af37;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info-value {
+            color: #e8eaed;
+            font-size: 1rem;
+        }
+
         .member-info {
             flex: 1;
         }
@@ -2087,7 +2275,7 @@
                 </div>
 
                 <div class="member-grid">
-                    <div class="member-card">
+                    <div class="member-card" onclick="openMemberProfile('april', 'April Sabral', 'Founder & CEO', 'AskApril AI', 'AS', ['Technology', 'AI/ML', 'Business'], 'april@apriljsabral.com', 'https://linkedin.com/in/apriljsabral')">
                         <div class="member-header">
                             <div class="member-avatar">AS</div>
                             <div class="member-info">
@@ -2101,7 +2289,7 @@
                             <span class="member-tag">AI/ML</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <div class="member-actions">
+                        <div class="member-actions" onclick="event.stopPropagation()">
                             <a href="https://linkedin.com/in/apriljsabral" class="linkedin-btn" target="_blank">
                                 📍 LinkedIn
                             </a>
@@ -2111,7 +2299,7 @@
                         </div>
                     </div>
 
-                    <div class="member-card">
+                    <div class="member-card" onclick="openMemberProfile('atiba', 'Atiba Madyun', 'Principal', 'The Madyun Group', 'AM', ['Real Estate', 'Development', 'Business'], 'atiba@themadyungroup.com', null)">
                         <div class="member-header">
                             <div class="member-avatar">AM</div>
                             <div class="member-info">
@@ -2125,7 +2313,7 @@
                             <span class="member-tag">Development</span>
                             <span class="member-tag">Business</span>
                         </div>
-                        <div class="member-actions">
+                        <div class="member-actions" onclick="event.stopPropagation()">
                             <button class="email-btn" onclick="sendMBCEmail('atiba@themadyungroup.com', 'Atiba Madyun', 'The Madyun Group')">
                                 📧 Email
                             </button>
@@ -2135,7 +2323,7 @@
                         </div>
                     </div>
 
-                    <div class="member-card">
+                    <div class="member-card" onclick="openMemberProfile('joy', 'Joy Sabral', 'Retail Consultant', 'Owner Retail', 'JS', ['Retail', 'Consulting', 'Operations'], 'sabral@me.com', null)">
                         <div class="member-header">
                             <div class="member-avatar">JS</div>
                             <div class="member-info">
@@ -2149,7 +2337,7 @@
                             <span class="member-tag">Consulting</span>
                             <span class="member-tag">Operations</span>
                         </div>
-                        <div class="member-actions">
+                        <div class="member-actions" onclick="event.stopPropagation()">
                             <button class="email-btn" onclick="sendMBCEmail('sabral@me.com', 'Joy Sabral', 'Owner Retail')">
                                 📧 Email
                             </button>
@@ -2797,6 +2985,74 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Member Profile Modal -->
+    <div class="member-profile-modal" id="memberProfileModal">
+        <div class="member-profile-content">
+            <button class="profile-close-btn" onclick="closeMemberProfile()">✕</button>
+            
+            <div class="profile-hero">
+                <div class="profile-avatar-large" id="profileAvatarLarge">AS</div>
+                <h2 class="profile-name" id="profileName">April Sabral</h2>
+                <p class="profile-title" id="profileTitle">Founder & CEO</p>
+                <p class="profile-company" id="profileCompany">AskApril AI</p>
+            </div>
+
+            <div class="profile-section">
+                <h3>📋 Professional Background</h3>
+                <div class="profile-info-grid">
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Industry Focus</div>
+                        <div class="profile-info-value" id="profileIndustry">Technology, AI/ML</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Member Since</div>
+                        <div class="profile-info-value">January 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>🏷️ Expertise & Services</h3>
+                <div class="profile-tags" id="profileTags">
+                    <span class="profile-tag">Technology</span>
+                    <span class="profile-tag">AI/ML</span>
+                    <span class="profile-tag">Business</span>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>🤝 Business Interests</h3>
+                <div class="profile-info-grid">
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Looking For</div>
+                        <div class="profile-info-value">Small business owners, Retail clients, Growth partnerships</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Can Offer</div>
+                        <div class="profile-info-value">AI coaching, Business strategy, Digital transformation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-actions">
+                    <button class="profile-action-btn primary" id="profileEmailBtn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'AskApril AI')">
+                        📧 Send Email
+                    </button>
+                    <button class="profile-action-btn primary" id="profileChatBtn" onclick="startChat('april', 'April Sabral', 'AskApril AI')">
+                        💬 Start Chat
+                    </button>
+                    <a class="profile-action-btn secondary" id="profileLinkedInBtn" href="https://linkedin.com/in/apriljsabral" target="_blank">
+                        📍 LinkedIn Profile
+                    </a>
+                    <button class="profile-action-btn secondary" onclick="requestConnection('april', 'April Sabral')">
+                        🤝 Connect
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -3703,6 +3959,73 @@
                 console.error('Error updating member avatars:', error);
             }
         }
+
+        // Member Profile Modal Functions
+        function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin) {
+            // Update modal content with member data
+            document.getElementById('profileAvatarLarge').textContent = avatar;
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profileTitle').textContent = title;
+            document.getElementById('profileCompany').textContent = company;
+            document.getElementById('profileIndustry').textContent = tags.join(', ');
+            
+            // Update tags
+            const tagsContainer = document.getElementById('profileTags');
+            tagsContainer.innerHTML = tags.map(tag => `<span class="profile-tag">${tag}</span>`).join('');
+            
+            // Update action buttons
+            const emailBtn = document.getElementById('profileEmailBtn');
+            emailBtn.setAttribute('onclick', `sendMBCEmail('${email}', '${name}', '${company}')`);
+            
+            const chatBtn = document.getElementById('profileChatBtn');
+            chatBtn.setAttribute('onclick', `startChat('${id}', '${name}', '${company}')`);
+            
+            const linkedInBtn = document.getElementById('profileLinkedInBtn');
+            if (linkedin) {
+                linkedInBtn.href = linkedin;
+                linkedInBtn.style.display = 'inline-flex';
+            } else {
+                linkedInBtn.style.display = 'none';
+            }
+            
+            // Show modal
+            document.getElementById('memberProfileModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeMemberProfile() {
+            document.getElementById('memberProfileModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        function startChat(memberId, memberName, memberCompany) {
+            closeMemberProfile();
+            showSection('messages');
+            // Open the chat with this member
+            openChat(memberId, memberName, memberCompany);
+        }
+
+        function requestConnection(memberId, memberName) {
+            if (confirm(`Send a connection request to ${memberName}?`)) {
+                alert(`Connection request sent to ${memberName}! They'll be notified and can accept or decline your request.`);
+                closeMemberProfile();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('memberProfileModal');
+            if (e.target === modal) {
+                closeMemberProfile();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMemberProfile();
+            }
+        });
 
         // Chat System Functionality
         let currentChatMember = null;

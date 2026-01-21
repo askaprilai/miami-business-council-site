@@ -3538,6 +3538,11 @@
                 // Show corresponding section
                 const sectionId = this.getAttribute('data-section');
                 document.getElementById(sectionId).classList.add('active');
+                
+                // Load photos when navigating to directory
+                if (sectionId === 'directory') {
+                    setTimeout(() => loadAllMemberPhotos(), 100);
+                }
             });
         });
 
@@ -4396,9 +4401,44 @@
                         avatar.textContent = ''; // Remove 'ME' text when photo is present
                     });
                 }
+
+                // Also load photos for all members in directory (not just current user)
+                loadAllMemberPhotos();
             } catch (error) {
                 console.error('Error updating member avatars:', error);
             }
+        }
+
+        // Load photos for all members in the directory
+        function loadAllMemberPhotos() {
+            // Define member email mappings for the directory
+            const memberMappings = {
+                'April Sabral': 'april@retailu.ca',
+                'Atiba Madyun': 'atiba@themadyungroup.com', 
+                'Joy Sabral': 'sabral@me.com'
+            };
+
+            const memberCards = document.querySelectorAll('.member-card');
+            memberCards.forEach(card => {
+                const memberNameElement = card.querySelector('.member-info h3');
+                if (!memberNameElement) return;
+
+                const memberName = memberNameElement.textContent.trim();
+                const memberEmail = memberMappings[memberName];
+                
+                if (memberEmail) {
+                    const memberPhoto = localStorage.getItem(`memberPersonalPhoto_${memberEmail}`);
+                    if (memberPhoto) {
+                        const avatar = card.querySelector('.member-avatar');
+                        if (avatar) {
+                            avatar.style.backgroundImage = `url(${memberPhoto})`;
+                            avatar.style.backgroundSize = 'cover';
+                            avatar.style.backgroundPosition = 'center';
+                            avatar.textContent = ''; // Remove initials when photo is present
+                        }
+                    }
+                }
+            });
         }
 
         // Member Profile Modal Functions

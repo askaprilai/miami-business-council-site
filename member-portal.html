@@ -5273,7 +5273,11 @@
             clearNewMemberForm();
 
             // Refresh member list to show new member
-            refreshMemberList();
+            setTimeout(() => {
+                refreshMemberList();
+                console.log('Member saved to localStorage:', `newMember_${email}`);
+                console.log('Data stored:', localStorage.getItem(`newMember_${email}`));
+            }, 500);
 
             alert(`✅ Member invitation sent to ${firstName} ${lastName} at ${email}!\n\nAccess Code: ${accessCode}\n\nThey will receive an email with portal access instructions.`);
         }

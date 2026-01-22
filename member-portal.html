@@ -274,57 +274,6 @@
             color: #d4af37;
         }
 
-        /* Dropdown Navigation Styles */
-        .dropdown-nav {
-            position: relative;
-        }
-
-        .nav-submenu {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            min-width: 200px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            list-style: none;
-            margin: 0;
-            padding: 0.5rem 0;
-        }
-
-        .nav-submenu li {
-            margin: 0;
-        }
-
-        .nav-submenu .nav-link {
-            padding: 0.75rem 1rem;
-            font-size: 0.9rem;
-            border-radius: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-submenu .nav-link:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-nav:hover .nav-submenu {
-            display: block;
-        }
-
-        .dropdown-nav > .nav-link::after {
-            content: '›';
-            float: right;
-            opacity: 0.7;
-            transition: transform 0.3s ease;
-        }
-
-        .dropdown-nav:hover > .nav-link::after {
-            transform: rotate(90deg);
-        }
 
         /* Loading States & Skeleton Screens */
         .skeleton {
@@ -2825,13 +2774,14 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link active" data-section="dashboard">📊 Dashboard</a>
                 </li>
-                <li class="nav-item dropdown-nav">
-                    <a href="#" class="nav-link" data-section="networking">🤝 Networking</a>
-                    <ul class="nav-submenu">
-                        <li><a href="#" class="nav-link" data-section="smart-matches">🎯 Smart Matches</a></li>
-                        <li><a href="#" class="nav-link" data-section="directory">👥 Member Directory</a></li>
-                        <li><a href="#" class="nav-link" data-section="connections">🤝 Connections <span id="connectionNotificationBadge" class="notification-badge" style="display: none;">2</span></a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="smart-matches">🎯 Smart Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="directory">👥 Member Directory</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="connections">🤝 Connections <span id="connectionNotificationBadge" class="notification-badge" style="display: none;">2</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="messages">💬 Messages <span id="messageNotificationBadge" class="notification-badge" style="display: none;">3</span></a>
@@ -3083,32 +3033,6 @@
                         </div>
                     </div>
 
-                    <div class="member-card" onclick="openMemberProfile('atiba', 'Atiba Madyun', 'Principal', 'The Madyun Group', 'AM', ['Real Estate', 'Development', 'Business'], 'atiba@themadyungroup.com', null)">
-                        <div class="member-header">
-                            <div class="member-avatar">AM</div>
-                            <div class="member-info">
-                                <h3>Atiba Madyun</h3>
-                                <p>Principal</p>
-                                <p>The Madyun Group</p>
-                            </div>
-                        </div>
-                        <div class="member-details">
-                            <span class="member-tag">Real Estate</span>
-                            <span class="member-tag">Development</span>
-                            <span class="member-tag">Business</span>
-                        </div>
-                        <div class="member-actions" onclick="event.stopPropagation()">
-                            <button class="message-btn" onclick="startChatFromDirectory('atiba', 'Atiba Madyun', 'The Madyun Group')" title="Send direct message">
-                                💬 Message
-                            </button>
-                            <button class="email-btn" onclick="sendMBCEmail('atiba@themadyungroup.com', 'Atiba Madyun', 'The Madyun Group')" title="Send email">
-                                📧 Email
-                            </button>
-                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')" title="LinkedIn profile">
-                                📍 LinkedIn
-                            </button>
-                        </div>
-                    </div>
 
                     <div class="member-card" onclick="openMemberProfile('joy', 'Joy Sabral', 'Retail Consultant', 'Owner Retail', 'JS', ['Retail', 'Consulting', 'Operations'], 'sabral@me.com', null)">
                         <div class="member-header">
@@ -3258,27 +3182,6 @@
                             </div>
                         </div>
 
-                        <div class="connection-request">
-                            <div class="member-header" style="margin-bottom: 1rem;">
-                                <div class="member-avatar">AM</div>
-                                <div class="member-info">
-                                    <h4>Atiba Madyun</h4>
-                                    <p>Principal • The Madyun Group</p>
-                                    <p style="color: #ccc; font-size: 0.9rem;">Wants to connect with you</p>
-                                </div>
-                                <div style="text-align: right; color: #d4af37; font-size: 0.9rem;">
-                                    1 day ago
-                                </div>
-                            </div>
-                            <div class="connection-message" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid #d4af37;">
-                                <p style="color: #e8eaed; font-style: italic;">"Great to connect with fellow Miami business leaders. I see potential synergies between our businesses."</p>
-                            </div>
-                            <div class="connection-actions" style="display: flex; gap: 1rem;">
-                                <button class="profile-action-btn primary" onclick="acceptConnection('atiba', 'Atiba Madyun')">✅ Accept</button>
-                                <button class="profile-action-btn secondary" onclick="declineConnection('atiba', 'Atiba Madyun')">❌ Decline</button>
-                                <button class="profile-action-btn secondary" onclick="openMemberProfile('atiba', 'Atiba Madyun', 'Principal', 'The Madyun Group', 'AM', ['Real Estate', 'Development', 'Business'], 'atiba@themadyungroup.com', null)">👤 View Profile</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -3992,31 +3895,6 @@
                             </div>
                         </div>
 
-                        <div class="member-management-item">
-                            <div class="member-header">
-                                <div class="member-avatar">AM</div>
-                                <div class="member-info">
-                                    <h4>Atiba Madyun</h4>
-                                    <p>atiba@themadyungroup.com • The Madyun Group</p>
-                                    <p style="color: #51cf66; font-size: 0.9rem;">✅ Profile Complete • Last login: Yesterday</p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div style="color: #d4af37; font-size: 0.9rem;">Member Since</div>
-                                    <div style="color: #ccc; font-size: 0.8rem;">Jan 10, 2025</div>
-                                </div>
-                            </div>
-                            <div class="member-management-actions">
-                                <button class="profile-action-btn secondary" onclick="sendProfileReminder('atiba@themadyungroup.com', 'Atiba Madyun')">
-                                    📧 Profile Reminder
-                                </button>
-                                <button class="profile-action-btn secondary" onclick="resetMemberPassword('atiba@themadyungroup.com')">
-                                    🔑 Reset Access
-                                </button>
-                                <button class="profile-action-btn secondary" onclick="viewMemberActivity('atiba')">
-                                    📊 Activity
-                                </button>
-                            </div>
-                        </div>
 
                         <div class="member-management-item">
                             <div class="member-header">
@@ -4397,26 +4275,6 @@
                     linkedin: null,
                     valueProposition: 'Expert retail guidance to optimize store performance and customer satisfaction',
                     primaryOffering: 'Retail operations consulting and customer experience optimization'
-                },
-                {
-                    id: 'tommy',
-                    name: 'Atiba Madyun',
-                    company: 'The Madyun Group',
-                    industry: 'Real Estate',
-                    avatar: 'AM',
-                    services: ['Real Estate Development', 'Property Investment', 'Market Analysis'],
-                    idealClient: {
-                        industries: ['Technology', 'Finance', 'Legal'],
-                        companySize: ['medium', 'large'],
-                        budget: ['100k-500k', '500k-plus'],
-                        needsHelp: ['Office Space', 'Investment Opportunities', 'Market Entry']
-                    },
-                    businessGoals: ['strategic-partnerships', 'expand-team', 'new-markets'],
-                    location: 'miami',
-                    workStyle: 'in-person',
-                    linkedin: null,
-                    valueProposition: 'Premium real estate solutions in Miami\'s most desirable markets',
-                    primaryOffering: 'Commercial and residential development projects'
                 },
                 {
                     id: 'fan',
@@ -5081,7 +4939,6 @@
             // Define member email mappings for the directory
             const memberMappings = {
                 'April Sabral': 'april@retailu.ca',
-                'Atiba Madyun': 'atiba@themadyungroup.com', 
                 'Joy Sabral': 'sabral@me.com'
             };
 
@@ -5466,12 +5323,11 @@
             `;
 
             // Get current members from the smart matching data
-            const memberEmails = ['april@retailu.ca', 'sabral@me.com', 'atiba@themadyungroup.com'];
+            const memberEmails = ['april@retailu.ca', 'sabral@me.com'];
             const memberCredentials = {
                 'info@miamibusinesscouncil.com': { name: 'MBC Admin', company: 'Miami Business Council', status: 'active' },
                 'april@retailu.ca': { name: 'April Sabral', company: 'AskApril AI', status: 'active' },
-                'sabral@me.com': { name: 'Joy Sabral', company: 'Owner Retail', status: 'active' },
-                'atiba@themadyungroup.com': { name: 'Atiba Madyun', company: 'The Madyun Group', status: 'active' }
+                'sabral@me.com': { name: 'Joy Sabral', company: 'Owner Retail', status: 'active' }
             };
 
             // Get dynamic member data from localStorage

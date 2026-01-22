@@ -57,8 +57,8 @@
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            color: #e8eaed;
-            background: #0a0a0b;
+            color: #f1f3f4; /* Improved contrast from #e8eaed */
+            background: #121212; /* Slightly lighter than #0a0a0b for better contrast */
             min-height: 100vh;
         }
 
@@ -117,19 +117,107 @@
             color: #000;
         }
 
+        /* Button Design System - Standardized Styles */
+        
+        /* Base Button Styles */
+        .btn-base {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 44px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8eaed;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-linkedin {
+            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-linkedin:hover {
+            background: linear-gradient(135deg, #005885 0%, #0077B5 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            min-height: 36px;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            min-height: 52px;
+        }
+
+        .btn-icon-only {
+            padding: 0.75rem;
+            min-width: 44px;
+        }
+
+        /* Apply standardized button styles */
         .logout-btn {
             background: rgba(255, 255, 255, 0.1);
             color: #e8eaed;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.25rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9em;
+            font-size: 0.9rem;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
         .logout-btn:hover {
             background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Main Layout */
@@ -176,6 +264,378 @@
         .nav-link.active {
             background: rgba(212, 175, 55, 0.2);
             color: #d4af37;
+        }
+
+        /* Dropdown Navigation Styles */
+        .dropdown-nav {
+            position: relative;
+        }
+
+        .nav-submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            min-width: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            list-style: none;
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+
+        .nav-submenu li {
+            margin: 0;
+        }
+
+        .nav-submenu .nav-link {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-submenu .nav-link:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-nav:hover .nav-submenu {
+            display: block;
+        }
+
+        .dropdown-nav > .nav-link::after {
+            content: '›';
+            float: right;
+            opacity: 0.7;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-nav:hover > .nav-link::after {
+            transform: rotate(90deg);
+        }
+
+        /* Loading States & Skeleton Screens */
+        .skeleton {
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skeleton-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .skeleton-text-title {
+            height: 1.25rem;
+            width: 70%;
+        }
+
+        .skeleton-text-body {
+            width: 100%;
+        }
+
+        .skeleton-text-body:last-child {
+            width: 85%;
+        }
+
+        .skeleton-button {
+            height: 2.5rem;
+            width: 120px;
+            border-radius: 8px;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(18, 18, 18, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-top: 3px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-message {
+            margin-left: 1rem;
+            color: #d4af37;
+            font-weight: 500;
+        }
+
+        /* Form Validation Styles */
+        .form-field-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .form-field-error {
+            border-color: #ff6b6b !important;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3) !important;
+        }
+
+        .form-field-success {
+            border-color: #51cf66 !important;
+            box-shadow: 0 0 10px rgba(81, 207, 102, 0.3) !important;
+        }
+
+        .field-error-message {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0 0 8px 8px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-top: none;
+            display: none;
+            z-index: 10;
+        }
+
+        .field-error-message.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .field-success-message {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #51cf66;
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-validation-summary {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .form-validation-summary.show {
+            display: block;
+        }
+
+        .form-validation-summary h4 {
+            color: #ff6b6b;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .form-validation-summary ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .form-validation-summary li {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Enhanced Error States */
+        .error-toast {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: rgba(255, 107, 107, 0.95);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .error-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .success-toast {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: rgba(81, 207, 102, 0.95);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .success-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Admin Member List Styles */
+        .member-list-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .member-list-table th,
+        .member-list-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .member-list-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .member-list-table td {
+            color: #f1f3f4;
+            font-size: 0.9rem;
+        }
+
+        .member-list-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .member-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .member-status.active {
+            background: rgba(81, 207, 102, 0.2);
+            color: #51cf66;
+        }
+
+        .member-status.pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .member-actions-cell {
+            white-space: nowrap;
+        }
+
+        .member-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #e8eaed;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .member-action-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+        }
+
+        .member-list-summary {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .summary-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #d4af37;
+        }
+
+        .summary-label {
+            font-size: 0.8rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Main Content */
@@ -282,12 +742,12 @@
 
         .member-info h3 {
             font-size: 1.1em;
-            color: #e8eaed;
+            color: #f1f3f4; /* Improved contrast */
             margin-bottom: 0.25rem;
         }
 
         .member-info p {
-            color: #ccc;
+            color: #d4d6da; /* Improved contrast from #ccc */
             font-size: 0.9em;
         }
 
@@ -306,20 +766,26 @@
         }
 
         .linkedin-btn {
-            background: #0077B5;
+            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9em;
+            font-size: 0.9rem;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             transition: all 0.3s ease;
+            min-height: 44px;
+            cursor: pointer;
         }
 
         .linkedin-btn:hover {
-            background: #005885;
+            background: linear-gradient(135deg, #005885 0%, #0077B5 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
         }
 
         /* Events */
@@ -359,18 +825,26 @@
         }
 
         .register-btn {
-            background: #d4af37;
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
             color: #000;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border: none;
             border-radius: 8px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .register-btn:hover {
-            background: #f4af37;
+            background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
         /* Search */
@@ -879,7 +1353,7 @@
 
         .conversation-preview {
             font-size: 0.8rem;
-            color: #ccc;
+            color: #d4d6da; /* Improved contrast from #ccc */
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -1103,23 +1577,24 @@
 
         /* Email Button Styles */
         .email-btn {
-            background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+            color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             text-decoration: none;
+            min-height: 44px;
         }
 
         .email-btn:hover {
-            background: linear-gradient(135deg, #005885 0%, #003d5c 100%);
+            background: linear-gradient(135deg, #005885 0%, #0077B5 100%);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
         }
@@ -1132,6 +1607,7 @@
             background: rgba(255, 255, 255, 0.1);
             color: #666;
             cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .email-btn.disabled:hover {
@@ -1164,7 +1640,7 @@
         }
 
         .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.75); /* Improved contrast from 0.6 */
         }
 
         .search-clear-btn {
@@ -1218,13 +1694,36 @@
         }
 
         .member-actions .linkedin-btn,
-        .member-actions .email-btn {
+        .member-actions .email-btn,
+        .member-actions .message-btn {
             flex: 1;
-            min-width: 90px;
+            min-width: 80px;
             text-align: center;
             justify-content: center;
             font-size: 0.8rem;
             padding: 0.5rem 0.75rem;
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            min-height: 44px;
+        }
+
+        .message-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
         }
 
         /* Member Card Styles */
@@ -1515,6 +2014,119 @@
         .member-management-actions .profile-action-btn {
             padding: 0.6rem 1rem;
             font-size: 0.85rem;
+        }
+
+        /* Profile Progress Indicator */
+        .profile-progress-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header h3 {
+            color: #d4af37;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .progress-percentage {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #d4af37 0%, #f4af37 100%);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-tips {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tip-item.completed {
+            background: rgba(81, 207, 102, 0.1);
+            border-left: 3px solid #51cf66;
+        }
+
+        .tip-icon {
+            font-size: 1.1rem;
+        }
+
+        .tip-text {
+            flex: 1;
+            color: #e8eaed;
+            font-size: 0.9rem;
+        }
+
+        .tip-status {
+            font-size: 1rem;
+            color: #51cf66;
+        }
+
+        .progress-action {
+            text-align: center;
+        }
+
+        .complete-profile-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .complete-profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .progress-tips {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-progress-card {
+                padding: 1.5rem;
+            }
         }
 
         .member-info {
@@ -2160,23 +2772,19 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link active" data-section="dashboard">📊 Dashboard</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="smart-matches">🎯 Smart Matches</a>
+                <li class="nav-item dropdown-nav">
+                    <a href="#" class="nav-link" data-section="networking">🤝 Networking</a>
+                    <ul class="nav-submenu">
+                        <li><a href="#" class="nav-link" data-section="smart-matches">🎯 Smart Matches</a></li>
+                        <li><a href="#" class="nav-link" data-section="directory">👥 Member Directory</a></li>
+                        <li><a href="#" class="nav-link" data-section="connections">🤝 Connections <span id="connectionNotificationBadge" class="notification-badge" style="display: none;">2</span></a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="messages">💬 Messages <span id="messageNotificationBadge" class="notification-badge" style="display: none;">3</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="connections">🤝 Connections <span id="connectionNotificationBadge" class="notification-badge" style="display: none;">2</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="directory">👥 Member Directory</a>
-                </li>
-                <li class="nav-item">
                     <a href="#" class="nav-link" data-section="events">📅 Events</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="networking">🤝 Networking</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="profile">⚙️ My Profile</a>
@@ -2193,7 +2801,56 @@
             <section id="dashboard" class="content-section active">
                 <div class="section-header">
                     <h1 class="section-title">Dashboard</h1>
-                    <p>Welcome to your Miami Business Council member portal</p>
+                    <p id="personalizedWelcome">Welcome to your Miami Business Council member portal</p>
+                </div>
+
+                <!-- Personalized Welcome Card -->
+                <div class="dashboard-card" id="personalizedWelcomeCard" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="member-avatar" id="dashboardUserAvatar" style="width: 60px; height: 60px; font-size: 1.5rem;">JS</div>
+                        <div>
+                            <h3 style="color: #d4af37; margin: 0;" id="dashboardUserName">Welcome back!</h3>
+                            <p style="color: #ccc; margin: 0; font-size: 0.9rem;" id="dashboardUserRole">Member since 2025</p>
+                        </div>
+                        <div style="margin-left: auto; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                            <div style="color: #d4af37; font-weight: 600;" id="memberProfileStrength">75%</div>
+                            <div style="color: #ccc; font-size: 0.8rem;">Profile Strength</div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                        <div>
+                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberConnectionCount">12</div>
+                            <div style="color: #ccc; font-size: 0.8rem;">Connections</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberMessageCount">8</div>
+                            <div style="color: #ccc; font-size: 0.8rem;">Messages</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberEventCount">3</div>
+                            <div style="color: #ccc; font-size: 0.8rem;">Events Attended</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Insights -->
+                <div class="dashboard-card" id="dailyInsights" style="margin-bottom: 2rem;">
+                    <h3 style="color: #d4af37; margin-bottom: 1rem;">📈 Today's Insights</h3>
+                    <div id="insightsList" style="display: grid; gap: 0.75rem;">
+                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #d4af37;">
+                            <span style="font-size: 1.2rem;">🎯</span>
+                            <span style="color: #e8eaed;">You have <strong style="color: #d4af37;">3 new potential matches</strong> based on your updated profile</span>
+                        </div>
+                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #51cf66;">
+                            <span style="font-size: 1.2rem;">💬</span>
+                            <span style="color: #e8eaed;" id="messageInsight">2 members viewed your profile this week</span>
+                        </div>
+                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #fab005;">
+                            <span style="font-size: 1.2rem;">📅</span>
+                            <span style="color: #e8eaed;">Next networking event is in <strong style="color: #fab005;">6 days</strong> - Register now!</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="dashboard-grid">
@@ -2212,7 +2869,7 @@
                             <h3 class="card-title">Network Stats</h3>
                             <span class="card-icon">🤝</span>
                         </div>
-                        <p><strong>Total Members:</strong> 45</p>
+                        <p><strong>Total Members:</strong> <span id="totalMemberCount">0</span></p>
                         <p><strong>New Connections:</strong> 3 this month</p>
                         <p><strong>Events Attended:</strong> 2</p>
                     </div>
@@ -2265,7 +2922,6 @@
                             <span class="card-icon">⚡</span>
                         </div>
                         <p><a href="#" onclick="generateSmartMatches()" style="color: #d4af37; cursor: pointer;">🔄 Refresh Matches</a></p>
-                        <p><a href="#" onclick="exportMatches()" style="color: #d4af37; cursor: pointer;">📋 Export Match List</a></p>
                         <p><a href="#" onclick="scheduleMatchNotifications()" style="color: #d4af37; cursor: pointer;">🔔 Weekly Match Alerts</a></p>
                     </div>
                 </div>
@@ -2354,10 +3010,13 @@
                             <span class="member-tag">Business</span>
                         </div>
                         <div class="member-actions" onclick="event.stopPropagation()">
-                            <a href="https://linkedin.com/in/apriljsabral" class="linkedin-btn" target="_blank">
+                            <button class="message-btn" onclick="startChatFromDirectory('april', 'April Sabral', 'AskApril AI')" title="Send direct message">
+                                💬 Message
+                            </button>
+                            <button class="linkedin-btn" onclick="openLinkedInFromCard(this)" title="View LinkedIn profile">
                                 📍 LinkedIn
-                            </a>
-                            <button class="email-btn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'April J. Sabral Consulting')">
+                            </button>
+                            <button class="email-btn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'April J. Sabral Consulting')" title="Send email">
                                 📧 Email
                             </button>
                         </div>
@@ -2378,10 +3037,13 @@
                             <span class="member-tag">Business</span>
                         </div>
                         <div class="member-actions" onclick="event.stopPropagation()">
-                            <button class="email-btn" onclick="sendMBCEmail('atiba@themadyungroup.com', 'Atiba Madyun', 'The Madyun Group')">
+                            <button class="message-btn" onclick="startChatFromDirectory('atiba', 'Atiba Madyun', 'The Madyun Group')" title="Send direct message">
+                                💬 Message
+                            </button>
+                            <button class="email-btn" onclick="sendMBCEmail('atiba@themadyungroup.com', 'Atiba Madyun', 'The Madyun Group')" title="Send email">
                                 📧 Email
                             </button>
-                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
+                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')" title="LinkedIn profile">
                                 📍 LinkedIn
                             </button>
                         </div>
@@ -2402,10 +3064,13 @@
                             <span class="member-tag">Operations</span>
                         </div>
                         <div class="member-actions" onclick="event.stopPropagation()">
-                            <button class="email-btn" onclick="sendMBCEmail('sabral@me.com', 'Joy Sabral', 'Owner Retail')">
+                            <button class="message-btn" onclick="startChatFromDirectory('joy', 'Joy Sabral', 'Owner Retail')" title="Send direct message">
+                                💬 Message
+                            </button>
+                            <button class="email-btn" onclick="sendMBCEmail('sabral@me.com', 'Joy Sabral', 'Owner Retail')" title="Send email">
                                 📧 Email
                             </button>
-                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')">
+                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')" title="LinkedIn profile">
                                 📍 LinkedIn
                             </button>
                         </div>
@@ -2612,63 +3277,6 @@
                     <button class="register-btn">Register Now</button>
                 </div>
 
-                <div class="event-card">
-                    <div class="event-header">
-                        <div class="event-info">
-                            <h3>Quarterly Business Mixer</h3>
-                            <div class="event-details">
-                                <p><strong>Date:</strong> March 15th, 2025</p>
-                                <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
-                                <p><strong>Location:</strong> TBA</p>
-                                <p><strong>Description:</strong> Evening networking event with guest speakers and business showcases.</p>
-                            </div>
-                        </div>
-                        <div class="event-date">
-                            MAR<br>15
-                        </div>
-                    </div>
-                    <button class="register-btn">Coming Soon</button>
-                </div>
-            </section>
-
-            <!-- Networking Section -->
-            <section id="networking" class="content-section">
-                <div class="section-header">
-                    <h1 class="section-title">Networking</h1>
-                    <p>Connect and collaborate with members</p>
-                </div>
-
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3 class="card-title">Recent Connections</h3>
-                            <span class="card-icon">🤝</span>
-                        </div>
-                        <p>• Connected with April Sabral</p>
-                        <p>• Connected with Joy Sabral</p>
-                        <p>• Ready for new connections</p>
-                    </div>
-
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3 class="card-title">Recommended Connections</h3>
-                            <span class="card-icon">💡</span>
-                        </div>
-                        <p>• Growing network of Miami business leaders</p>
-                        <p>• AI & Retail expertise available</p>
-                        <p>• Cross-industry opportunities</p>
-                    </div>
-
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3 class="card-title">Collaboration Opportunities</h3>
-                            <span class="card-icon">🚀</span>
-                        </div>
-                        <p>• Tech partnerships available</p>
-                        <p>• Marketing collaborations</p>
-                        <p>• Cross-industry projects</p>
-                    </div>
-                </div>
             </section>
 
             <!-- Profile Section -->
@@ -2676,6 +3284,44 @@
                 <div class="section-header">
                     <h1 class="section-title">My Business Profile</h1>
                     <p>Optimize your profile for better business matching and opportunities</p>
+                </div>
+
+                <!-- Profile Completion Progress -->
+                <div class="profile-progress-card">
+                    <div class="progress-header">
+                        <h3>🎯 Profile Strength</h3>
+                        <span class="progress-percentage" id="profileCompletionPercentage">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="profileProgressFill"></div>
+                    </div>
+                    <div class="progress-tips">
+                        <div class="tip-item" id="tipBasicInfo">
+                            <span class="tip-icon">📝</span>
+                            <span class="tip-text">Complete basic information</span>
+                            <span class="tip-status" id="statusBasicInfo">✅</span>
+                        </div>
+                        <div class="tip-item" id="tipPhoto">
+                            <span class="tip-icon">📸</span>
+                            <span class="tip-text">Add your profile photo</span>
+                            <span class="tip-status" id="statusPhoto">○</span>
+                        </div>
+                        <div class="tip-item" id="tipBusinessInfo">
+                            <span class="tip-icon">💼</span>
+                            <span class="tip-text">Set business preferences</span>
+                            <span class="tip-status" id="statusBusinessInfo">○</span>
+                        </div>
+                        <div class="tip-item" id="tipLinkedIn">
+                            <span class="tip-icon">🔗</span>
+                            <span class="tip-text">Add LinkedIn profile</span>
+                            <span class="tip-status" id="statusLinkedIn">○</span>
+                        </div>
+                    </div>
+                    <div class="progress-action">
+                        <button class="complete-profile-btn" onclick="focusIncompleteSection()">
+                            <span id="progressActionText">Complete Your Profile</span> →
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Profile Photo Section -->
@@ -3186,7 +3832,7 @@
                             <h3 class="card-title">Member Overview</h3>
                             <span class="card-icon">👥</span>
                         </div>
-                        <p><strong>Total Members:</strong> 3</p>
+                        <p><strong>Total Members:</strong> <span id="adminTotalMemberCount">3</span></p>
                         <p><strong>Active This Month:</strong> 3</p>
                         <p><strong>Pending Invites:</strong> 0</p>
                     </div>
@@ -3209,6 +3855,20 @@
                         <p>• 2 new connections today</p>
                         <p>• 1 profile updated</p>
                         <p>• 3 messages sent</p>
+                    </div>
+                </div>
+
+                <!-- Member List View -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <h3 style="color: #d4af37; margin: 0;">📋 All Members</h3>
+                        <button class="btn-secondary btn-small" onclick="refreshMemberList()">🔄 Refresh</button>
+                    </div>
+                    
+                    <div id="memberListContainer" style="margin-top: 1rem;">
+                        <div class="loading-message" style="text-align: center; padding: 2rem; color: #ccc;">
+                            Loading member list...
+                        </div>
                     </div>
                 </div>
 
@@ -3454,7 +4114,7 @@
         function checkAuthentication() {
             const memberAuth = sessionStorage.getItem('memberAuth');
             if (!memberAuth) {
-                window.location.href = 'member-login.html';
+                window.location.href = '/member-login';
                 return false;
             }
             
@@ -3467,7 +4127,7 @@
                 // Session valid for 8 hours
                 if (hoursSinceLogin >= 8) {
                     sessionStorage.removeItem('memberAuth');
-                    window.location.href = 'member-login.html';
+                    window.location.href = '/member-login';
                     return false;
                 }
                 
@@ -3488,7 +4148,7 @@
                 return true;
             } catch (error) {
                 sessionStorage.removeItem('memberAuth');
-                window.location.href = 'member-login.html';
+                window.location.href = '/member-login';
                 return false;
             }
         }
@@ -3497,7 +4157,7 @@
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 sessionStorage.removeItem('memberAuth');
-                window.location.href = 'member-login.html';
+                window.location.href = '/member-login';
             }
         }
 
@@ -3508,6 +4168,9 @@
             initializeChatSystem();
             updateMemberAvatars();
             loadMemberProfile();
+            
+            // Initialize dashboard personalization after profile loads
+            setTimeout(() => initializeDashboardPersonalization(), 800);
         });
 
         // Show section function for quick actions
@@ -3572,7 +4235,7 @@
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     if (this.textContent.trim() === 'Register Now') {
-                        window.open('https://luma.com/event-au2tl4nm', '_blank');
+                        window.open('https://luma.com/au2tl4nm', '_blank');
                     } else if (this.textContent.trim() === 'Edit Profile') {
                         alert('Profile editing feature coming soon!');
                     } else if (this.textContent.trim() === 'Coming Soon') {
@@ -3610,16 +4273,58 @@
             }, 500);
         });
 
-        // Smart Matching System
+        // Smart Matching System - Global variable to store current matches
+        let lastGeneratedMatches = [];
+
         function generateSmartMatches() {
             const matchResults = document.getElementById('smartMatchResults');
-            const loadingHtml = '<div style="text-align: center; padding: 2rem; color: #ccc;">🧠 Analyzing member profiles and generating smart matches...</div>';
+            
+            // Enhanced loading with skeleton screens
+            const loadingHtml = `
+                <div class="skeleton-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="skeleton skeleton-avatar"></div>
+                        <div style="flex: 1;">
+                            <div class="skeleton skeleton-text skeleton-text-title"></div>
+                            <div class="skeleton skeleton-text" style="width: 60%;"></div>
+                        </div>
+                        <div class="skeleton skeleton-text" style="width: 80px; height: 30px;"></div>
+                    </div>
+                    <div class="skeleton skeleton-text skeleton-text-body"></div>
+                    <div class="skeleton skeleton-text skeleton-text-body"></div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <div class="skeleton skeleton-button"></div>
+                        <div class="skeleton skeleton-button"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="skeleton skeleton-avatar"></div>
+                        <div style="flex: 1;">
+                            <div class="skeleton skeleton-text skeleton-text-title"></div>
+                            <div class="skeleton skeleton-text" style="width: 50%;"></div>
+                        </div>
+                        <div class="skeleton skeleton-text" style="width: 80px; height: 30px;"></div>
+                    </div>
+                    <div class="skeleton skeleton-text skeleton-text-body"></div>
+                    <div class="skeleton skeleton-text skeleton-text-body"></div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <div class="skeleton skeleton-button"></div>
+                        <div class="skeleton skeleton-button"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem; color: #d4af37;">
+                    <div class="loading-spinner"></div>
+                    <div style="margin-top: 1rem; font-weight: 500;">🧠 Analyzing member profiles and generating smart matches...</div>
+                </div>
+            `;
             
             matchResults.innerHTML = loadingHtml;
             
             // Simulate AI matching algorithm
             setTimeout(() => {
                 const smartMatches = calculateIntelligentMatches();
+                lastGeneratedMatches = smartMatches; // Store matches globally for profile viewing
                 displaySmartMatches(smartMatches);
                 updateMatchStats(smartMatches);
             }, 2000);
@@ -3727,66 +4432,6 @@
                     linkedin: null,
                     valueProposition: 'Sustainable fashion solutions for the modern conscious consumer',
                     primaryOffering: 'Eco-friendly fashion design and sustainable retail solutions'
-                },
-                {
-                    id: 'retail-pro',
-                    name: 'Maria Rodriguez',
-                    company: 'Miami Retail Collective',
-                    industry: 'Retail',
-                    avatar: 'MR',
-                    services: ['Retail Strategy', 'Customer Experience Design', 'Store Operations'],
-                    idealClient: {
-                        industries: ['Fashion', 'Technology', 'Healthcare'],
-                        companySize: ['startup', 'small'],
-                        budget: ['10k-50k', '50k-100k'],
-                        needsHelp: ['Retail Expansion', 'Customer Analytics', 'Inventory Management']
-                    },
-                    businessGoals: ['grow-revenue', 'new-markets'],
-                    location: 'miami',
-                    workStyle: 'in-person',
-                    linkedin: null,
-                    valueProposition: 'Data-driven retail strategies that maximize customer engagement and sales',
-                    primaryOffering: 'End-to-end retail optimization and customer experience consulting'
-                },
-                {
-                    id: 'hospitality-expert',
-                    name: 'Carlos Mendez',
-                    company: 'Miami Hospitality Group',
-                    industry: 'Hospitality',
-                    avatar: 'CM',
-                    services: ['Hotel Management', 'Guest Experience', 'Tourism Marketing'],
-                    idealClient: {
-                        industries: ['Real Estate', 'Marketing', 'Technology'],
-                        companySize: ['medium', 'large'],
-                        budget: ['100k-500k', '500k-plus'],
-                        needsHelp: ['Property Development', 'Digital Marketing', 'Booking Systems']
-                    },
-                    businessGoals: ['strategic-partnerships', 'expand-team'],
-                    location: 'south-florida',
-                    workStyle: 'hybrid',
-                    linkedin: null,
-                    valueProposition: 'Premium hospitality experiences that drive repeat bookings and referrals',
-                    primaryOffering: 'Luxury hotel and resort management and consulting services'
-                },
-                {
-                    id: 'nonprofit-leader',
-                    name: 'Sofia Garcia',
-                    company: 'Miami Community Foundation',
-                    industry: 'Non-Profit',
-                    avatar: 'SG',
-                    services: ['Community Outreach', 'Fundraising', 'Program Development'],
-                    idealClient: {
-                        industries: ['Technology', 'Finance', 'Legal', 'Healthcare'],
-                        companySize: ['medium', 'large'],
-                        budget: ['10k-50k', '50k-100k'],
-                        needsHelp: ['Corporate Partnerships', 'Volunteer Programs', 'Grant Writing']
-                    },
-                    businessGoals: ['strategic-partnerships', 'raise-funding', 'improve-operations'],
-                    location: 'miami',
-                    workStyle: 'hybrid',
-                    linkedin: null,
-                    valueProposition: 'Impactful community programs that create measurable social change',
-                    primaryOffering: 'Non-profit program development and corporate social responsibility partnerships'
                 }
             ];
 
@@ -3906,7 +4551,7 @@
                     </div>
                     <div class="match-actions">
                         <button class="connect-btn" onclick="sendSmartIntro('${match.id}', '${match.name}')">Smart Intro</button>
-                        <button class="linkedin-btn" onclick="${match.linkedin ? `window.open('${match.linkedin}', '_blank')` : `viewMemberProfile('${match.id}')`}">
+                        <button class="linkedin-btn" onclick="${match.linkedin ? `window.open('${match.linkedin}', '_blank')` : `openSmartMatchProfile('${match.id}')`}">
                             ${match.linkedin ? 'LinkedIn' : 'View Profile'}
                         </button>
                         <button class="register-btn" onclick="scheduleMeeting('${match.id}')" style="padding: 0.5rem 1rem; margin-left: 0.5rem;">
@@ -3995,9 +4640,36 @@
             alert(`Detailed member profile viewer coming soon! This would show ${memberId}'s complete business profile and portfolio.`);
         }
 
-        function exportMatches() {
-            alert('📋 Match export feature coming soon! You\'ll be able to export your matches to CSV or PDF.');
+        function openSmartMatchProfile(matchId) {
+            // Find the match data from the smart matches array
+            const match = lastGeneratedMatches.find(m => m.id === matchId);
+            if (!match) {
+                alert('Member profile not found. Please refresh the matches and try again.');
+                return;
+            }
+
+            // Convert smart match data to the format expected by openMemberProfile
+            const memberName = match.name;
+            const memberTitle = match.services?.[0] || 'Business Professional';
+            const memberCompany = match.company;
+            const memberAvatar = match.avatar;
+            const memberTags = match.services || [];
+            const memberEmail = `${match.id}@member.com`; // Placeholder email
+            const memberLinkedIn = match.linkedin || '';
+
+            // Call the existing openMemberProfile function with proper parameters
+            openMemberProfile(
+                matchId, 
+                memberName, 
+                memberTitle, 
+                memberCompany, 
+                memberAvatar, 
+                memberTags, 
+                memberEmail, 
+                memberLinkedIn
+            );
         }
+
 
         function scheduleMatchNotifications() {
             if (confirm('Enable weekly smart match notifications?')) {
@@ -4479,6 +5151,22 @@
             document.body.style.overflow = 'auto'; // Restore scrolling
         }
 
+        function openLinkedInFromCard(button) {
+            // Find the parent member card
+            const memberCard = button.closest('.member-card');
+            if (!memberCard) return;
+            
+            // Extract the LinkedIn URL from the onclick attribute
+            const onclickAttr = memberCard.getAttribute('onclick');
+            const linkedinUrlMatch = onclickAttr.match(/'(https:\/\/linkedin\.com\/in\/[^']+)'/);
+            
+            if (linkedinUrlMatch && linkedinUrlMatch[1]) {
+                window.open(linkedinUrlMatch[1], '_blank');
+            } else {
+                alert('LinkedIn profile coming soon!');
+            }
+        }
+
         function startChat(memberId, memberName, memberCompany) {
             closeMemberProfile();
             showSection('messages');
@@ -4636,7 +5324,7 @@
                     lastName: memberData.lastName,
                     membershipType: 'Individual',
                     accessCode: memberData.accessCode,
-                    portalUrl: 'https://miamibusinesscouncil.com/member-login.html',
+                    portalUrl: 'https://miamibusinesscouncil.com/member-login',
                     company: memberData.company
                 })
             })
@@ -4681,7 +5369,7 @@
             preview += `Portal Access:\n`;
             preview += `• Email: [Member's Email]\n`;
             preview += `• Access Code: [Auto-Generated]\n`;
-            preview += `• Login: https://miamibusinesscouncil.com/member-login.html\n\n`;
+            preview += `• Login: https://miamibusinesscouncil.com/member-login\n\n`;
             preview += `Next Event: January 28th, 2025 • 9:00 AM\n`;
             preview += `Miami Design District\n\n`;
             preview += `Questions? Contact us at info@miamibusinesscouncil.com`;
@@ -4702,7 +5390,7 @@
                         lastName: memberName.split(' ')[1] || '',
                         membershipType: 'Individual',
                         accessCode: 'LOGIN-2025',
-                        portalUrl: 'https://miamibusinesscouncil.com/member-login.html',
+                        portalUrl: 'https://miamibusinesscouncil.com/member-login',
                         company: 'Member Company'
                     })
                 })
@@ -4761,6 +5449,140 @@
             alert('📊 Member data export initiated!\n\n• Complete member profiles\n• Activity statistics\n• Connection mapping\n• Email engagement data\n\nDownload will begin shortly...');
         }
 
+        // Admin Member List Functions
+        function refreshMemberList() {
+            const container = document.getElementById('memberListContainer');
+            
+            // Show loading state
+            container.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: #ccc;">
+                    <div class="loading-spinner"></div>
+                    <div style="margin-top: 1rem;">Loading member list...</div>
+                </div>
+            `;
+
+            // Get current members from the smart matching data
+            const memberEmails = ['april@retailu.ca', 'sabral@me.com', 'atiba@themadyungroup.com'];
+            const memberCredentials = {
+                'info@miamibusinesscouncil.com': { name: 'MBC Admin', company: 'Miami Business Council', status: 'active' },
+                'april@retailu.ca': { name: 'April Sabral', company: 'AskApril AI', status: 'active' },
+                'sabral@me.com': { name: 'Joy Sabral', company: 'Owner Retail', status: 'active' },
+                'atiba@themadyungroup.com': { name: 'Atiba Madyun', company: 'The Madyun Group', status: 'active' }
+            };
+
+            // Get dynamic member data from localStorage
+            const dynamicMembers = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('newMember_')) {
+                    try {
+                        const memberData = JSON.parse(localStorage.getItem(key));
+                        dynamicMembers.push({
+                            email: key.replace('newMember_', ''),
+                            name: memberData.name,
+                            company: memberData.company || 'N/A',
+                            status: 'pending'
+                        });
+                    } catch (e) {
+                        console.warn('Error parsing member data:', e);
+                    }
+                }
+            }
+
+            // Combine all members
+            const allMembers = [];
+            Object.keys(memberCredentials).forEach(email => {
+                const member = memberCredentials[email];
+                allMembers.push({
+                    email: email,
+                    name: member.name,
+                    company: member.company,
+                    status: member.status,
+                    joinDate: 'Jan 2025'
+                });
+            });
+
+            // Add dynamic members
+            dynamicMembers.forEach(member => {
+                allMembers.push({
+                    email: member.email,
+                    name: member.name,
+                    company: member.company,
+                    status: member.status,
+                    joinDate: 'Recently Added'
+                });
+            });
+
+            // Calculate summary stats
+            const totalMembers = allMembers.length;
+            const activeMembers = allMembers.filter(m => m.status === 'active').length;
+            const pendingMembers = allMembers.filter(m => m.status === 'pending').length;
+
+            // Generate member list HTML
+            setTimeout(() => {
+                const memberListHTML = `
+                    <div class="member-list-summary">
+                        <div class="summary-item">
+                            <div class="summary-number">${totalMembers}</div>
+                            <div class="summary-label">Total Members</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-number">${activeMembers}</div>
+                            <div class="summary-label">Active Members</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-number">${pendingMembers}</div>
+                            <div class="summary-label">Pending</div>
+                        </div>
+                    </div>
+                    
+                    <table class="member-list-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Company</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${allMembers.map(member => `
+                                <tr>
+                                    <td><strong>${member.name}</strong></td>
+                                    <td>${member.email}</td>
+                                    <td>${member.company}</td>
+                                    <td>
+                                        <span class="member-status ${member.status}">
+                                            ${member.status === 'active' ? '✓ Active' : '⏳ Pending'}
+                                        </span>
+                                    </td>
+                                    <td>${member.joinDate}</td>
+                                    <td class="member-actions-cell">
+                                        <button class="member-action-btn" onclick="viewMemberActivity('${member.email}')" title="View Activity">📊</button>
+                                        <button class="member-action-btn" onclick="resetMemberPassword('${member.email}')" title="Reset Password">🔑</button>
+                                        ${member.status === 'pending' ? 
+                                            `<button class="member-action-btn" onclick="sendProfileReminder('${member.email}')" title="Send Reminder">📧</button>` : 
+                                            ''
+                                        }
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+                
+                container.innerHTML = memberListHTML;
+                
+                // Update admin dashboard member count
+                const adminTotalMemberCountElement = document.getElementById('adminTotalMemberCount');
+                if (adminTotalMemberCountElement) {
+                    adminTotalMemberCountElement.textContent = totalMembers;
+                }
+            }, 1000);
+        }
+
         // Load member-specific profile data
         function loadMemberProfile() {
             const memberAuth = sessionStorage.getItem('memberAuth');
@@ -4791,13 +5613,274 @@
                 // Load member-specific photos
                 loadExistingPhotos();
                 
+                // Update profile progress
+                setTimeout(() => updateProfileProgress(), 500);
+                
             } catch (error) {
                 console.error('Error loading member profile:', error);
             }
         }
 
+        // Dashboard personalization initialization
+        function initializeDashboardPersonalization() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            try {
+                const auth = JSON.parse(memberAuth);
+                
+                // Update personalized welcome card
+                updatePersonalizedWelcome(auth);
+                
+                // Update dashboard stats
+                updateDashboardStats(auth);
+                
+                // Update insights
+                updateDailyInsights(auth);
+                
+                // Update profile strength
+                calculateProfileStrength(auth);
+                
+            } catch (error) {
+                console.error('Error initializing dashboard personalization:', error);
+            }
+        }
+
+        // Update personalized welcome message and user info
+        function updatePersonalizedWelcome(auth) {
+            // Update user name in welcome card
+            const dashboardUserName = document.getElementById('dashboardUserName');
+            if (dashboardUserName) {
+                const firstName = auth.name.split(' ')[0];
+                dashboardUserName.textContent = `Welcome back, ${firstName}!`;
+            }
+            
+            // Update user avatar in dashboard
+            const dashboardUserAvatar = document.getElementById('dashboardUserAvatar');
+            if (dashboardUserAvatar) {
+                const initials = auth.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                dashboardUserAvatar.textContent = initials;
+            }
+            
+            // Update member role/since date
+            const dashboardUserRole = document.getElementById('dashboardUserRole');
+            if (dashboardUserRole) {
+                const memberSince = getMemberJoinDate(auth.email);
+                dashboardUserRole.textContent = `Member since ${memberSince}`;
+            }
+
+            // Update main welcome message
+            const personalizedWelcome = document.getElementById('personalizedWelcome');
+            if (personalizedWelcome) {
+                const firstName = auth.name.split(' ')[0];
+                const currentHour = new Date().getHours();
+                let greeting = 'Good morning';
+                if (currentHour >= 12 && currentHour < 18) greeting = 'Good afternoon';
+                else if (currentHour >= 18) greeting = 'Good evening';
+                
+                personalizedWelcome.textContent = `${greeting}, ${firstName}! Here's what's happening in your network`;
+            }
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats(auth) {
+            // Update connection count
+            const memberConnectionCount = document.getElementById('memberConnectionCount');
+            if (memberConnectionCount) {
+                const connectionCount = calculateUserConnections(auth.email);
+                memberConnectionCount.textContent = connectionCount;
+            }
+            
+            // Update message count
+            const memberMessageCount = document.getElementById('memberMessageCount');
+            if (memberMessageCount) {
+                const messageCount = calculateUserMessages(auth.email);
+                memberMessageCount.textContent = messageCount;
+            }
+            
+            // Update event count
+            const memberEventCount = document.getElementById('memberEventCount');
+            if (memberEventCount) {
+                const eventCount = calculateUserEvents(auth.email);
+                memberEventCount.textContent = eventCount;
+            }
+        }
+
+        // Update daily insights with member-specific content
+        function updateDailyInsights(auth) {
+            const messageInsight = document.getElementById('messageInsight');
+            if (messageInsight) {
+                const profileViews = calculateProfileViews(auth.email);
+                const insights = generatePersonalizedInsights(auth);
+                messageInsight.innerHTML = insights.messageInsight;
+            }
+
+            // Update other insights based on member activity
+            const insightsList = document.getElementById('insightsList');
+            if (insightsList && insightsList.children.length >= 3) {
+                const insights = generatePersonalizedInsights(auth);
+                
+                // Update first insight (matches)
+                insightsList.children[0].querySelector('span:last-child').innerHTML = insights.matchInsight;
+                
+                // Update third insight (events)
+                insightsList.children[2].querySelector('span:last-child').innerHTML = insights.eventInsight;
+            }
+        }
+
+        // Generate personalized insights based on member data
+        function generatePersonalizedInsights(auth) {
+            const memberData = getMemberStoredData(auth.email);
+            const profileCompletion = calculateActualProfileStrength(auth.email);
+            const connectionCount = calculateUserConnections(auth.email);
+            
+            let matchInsight = 'Complete your profile to get more accurate matches';
+            if (profileCompletion > 80) {
+                matchInsight = `You have <strong style="color: #d4af37;">${Math.floor(Math.random() * 5) + 3} new potential matches</strong> based on your profile`;
+            } else if (profileCompletion > 60) {
+                matchInsight = `<strong style="color: #d4af37;">${Math.floor(Math.random() * 3) + 1} potential matches</strong> found - complete profile for more`;
+            }
+
+            const profileViews = Math.floor(Math.random() * 8) + 2;
+            const messageInsight = `<strong style="color: #51cf66;">${profileViews} members</strong> viewed your profile this week`;
+
+            const daysUntilEvent = 6;
+            let eventInsight = `Next networking event is in <strong style="color: #fab005;">${daysUntilEvent} days</strong> - Register now!`;
+            if (connectionCount > 10) {
+                eventInsight = `You're well connected! <strong style="color: #fab005;">Bring a guest</strong> to the next event`;
+            }
+
+            return {
+                matchInsight,
+                messageInsight,
+                eventInsight
+            };
+        }
+
+        // Calculate actual profile strength based on filled fields
+        function calculateActualProfileStrength(email) {
+            const memberData = getMemberStoredData(email);
+            const requiredFields = ['memberName', 'memberCompany', 'memberTitle', 'memberIndustry', 'memberLinkedIn'];
+            const optionalFields = ['targetIndustry', 'targetSize', 'primaryOffering', 'valueProposition'];
+            
+            let completed = 0;
+            let total = requiredFields.length + optionalFields.length;
+            
+            // Check required fields (weighted more heavily)
+            requiredFields.forEach(field => {
+                if (memberData && memberData[field] && memberData[field].trim()) {
+                    completed += 1.5; // Required fields worth more
+                }
+            });
+            
+            // Check optional fields
+            optionalFields.forEach(field => {
+                if (memberData && memberData[field] && memberData[field].trim()) {
+                    completed += 1;
+                }
+            });
+
+            // Check if tags are selected
+            const lookingForTags = document.querySelectorAll('.opportunity-tag.active');
+            if (lookingForTags.length > 0) completed += 1;
+
+            // Check company size selection
+            const companySizeSelected = document.querySelector('input[name="company-size"]:checked');
+            if (companySizeSelected) completed += 0.5;
+
+            total += 1.5; // Add weight for tags and company size
+            
+            return Math.round((completed / total) * 100);
+        }
+
+        // Helper functions for calculating member stats
+        function getMemberJoinDate(email) {
+            const memberData = getMemberStoredData(email);
+            if (memberData && memberData.joinDate) {
+                return new Date(memberData.joinDate).getFullYear();
+            }
+            return new Date().getFullYear(); // Default to current year
+        }
+
+        function calculateUserConnections(email) {
+            const connections = localStorage.getItem(`connections_${email}`);
+            if (connections) {
+                try {
+                    const parsedConnections = JSON.parse(connections);
+                    return Array.isArray(parsedConnections) ? parsedConnections.length : 0;
+                } catch {
+                    return 0;
+                }
+            }
+            // Default based on member activity
+            const memberData = getMemberStoredData(email);
+            if (memberData && memberData.memberName) {
+                return Math.floor(Math.random() * 10) + 5; // Simulate 5-15 connections
+            }
+            return 3;
+        }
+
+        function calculateUserMessages(email) {
+            const chatHistory = localStorage.getItem('chatHistory');
+            if (chatHistory) {
+                try {
+                    const history = JSON.parse(chatHistory);
+                    let messageCount = 0;
+                    Object.values(history).forEach(conversation => {
+                        if (Array.isArray(conversation)) {
+                            messageCount += conversation.filter(msg => msg.sender === 'user').length;
+                        }
+                    });
+                    return messageCount;
+                } catch {
+                    return 0;
+                }
+            }
+            return Math.floor(Math.random() * 15) + 3; // Simulate 3-18 messages
+        }
+
+        function calculateUserEvents(email) {
+            const eventData = localStorage.getItem(`events_${email}`);
+            if (eventData) {
+                try {
+                    const events = JSON.parse(eventData);
+                    return Array.isArray(events) ? events.length : 0;
+                } catch {
+                    return 0;
+                }
+            }
+            return Math.floor(Math.random() * 5) + 1; // Simulate 1-6 events
+        }
+
+        function calculateProfileViews(email) {
+            const viewData = localStorage.getItem(`profile_views_${email}`);
+            if (viewData) {
+                try {
+                    const views = JSON.parse(viewData);
+                    return views.weekly || 0;
+                } catch {
+                    return 0;
+                }
+            }
+            return Math.floor(Math.random() * 8) + 2; // Simulate 2-10 views
+        }
+
+        function getMemberStoredData(email) {
+            try {
+                const memberData = localStorage.getItem(`memberProfile_${email}`);
+                return memberData ? JSON.parse(memberData) : {};
+            } catch {
+                return {};
+            }
+        }
+
         // Update the save profile function to be member-specific
         function saveProfile() {
+            // Validate form before saving
+            if (!validator.validateAll()) {
+                return; // Stop saving if validation fails
+            }
+
             const memberAuth = sessionStorage.getItem('memberAuth');
             if (!memberAuth) return;
 
@@ -4846,6 +5929,310 @@
                     userAvatarElement.textContent = initials;
                 }
             }
+            
+            // Update profile progress after saving
+            updateProfileProgress();
+            
+            // Show success message
+            validator.showSuccessToast('✅ Profile saved successfully!');
+        }
+
+        // Form Validation System
+        class FormValidator {
+            constructor() {
+                this.rules = {};
+                this.errors = {};
+                this.init();
+            }
+
+            init() {
+                // Add event listeners for real-time validation
+                document.querySelectorAll('input, select, textarea').forEach(field => {
+                    field.addEventListener('blur', (e) => this.validateField(e.target));
+                    field.addEventListener('input', (e) => {
+                        if (this.errors[e.target.name]) {
+                            this.validateField(e.target);
+                        }
+                    });
+                });
+            }
+
+            addRule(fieldName, validator, message) {
+                this.rules[fieldName] = { validator, message };
+                return this;
+            }
+
+            validateField(field) {
+                const rule = this.rules[field.name];
+                if (!rule) return true;
+
+                const isValid = rule.validator(field.value.trim());
+                
+                if (isValid) {
+                    this.clearFieldError(field);
+                    this.showFieldSuccess(field);
+                    delete this.errors[field.name];
+                } else {
+                    this.showFieldError(field, rule.message);
+                    this.errors[field.name] = rule.message;
+                }
+
+                return isValid;
+            }
+
+            validateAll() {
+                let isFormValid = true;
+                this.errors = {};
+
+                Object.keys(this.rules).forEach(fieldName => {
+                    const field = document.querySelector(`[name="${fieldName}"]`);
+                    if (field) {
+                        const isFieldValid = this.validateField(field);
+                        if (!isFieldValid) {
+                            isFormValid = false;
+                        }
+                    }
+                });
+
+                if (!isFormValid) {
+                    this.showValidationSummary();
+                    this.showErrorToast('Please fix the errors below before saving');
+                } else {
+                    this.hideValidationSummary();
+                }
+
+                return isFormValid;
+            }
+
+            showFieldError(field, message) {
+                field.classList.add('form-field-error');
+                field.classList.remove('form-field-success');
+
+                // Remove existing error message
+                const existingError = field.parentNode.querySelector('.field-error-message');
+                if (existingError) {
+                    existingError.remove();
+                }
+
+                // Add new error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'field-error-message show';
+                errorDiv.textContent = message;
+                field.parentNode.appendChild(errorDiv);
+            }
+
+            clearFieldError(field) {
+                field.classList.remove('form-field-error');
+                const errorMessage = field.parentNode.querySelector('.field-error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+            }
+
+            showFieldSuccess(field) {
+                if (field.value.trim() !== '') {
+                    field.classList.add('form-field-success');
+                    field.classList.remove('form-field-error');
+                }
+            }
+
+            showValidationSummary() {
+                let summaryElement = document.querySelector('.form-validation-summary');
+                
+                if (!summaryElement) {
+                    summaryElement = document.createElement('div');
+                    summaryElement.className = 'form-validation-summary';
+                    const formSection = document.querySelector('#profile .dashboard-grid');
+                    if (formSection) {
+                        formSection.parentNode.insertBefore(summaryElement, formSection);
+                    }
+                }
+
+                const errorList = Object.values(this.errors).map(error => `<li>${error}</li>`).join('');
+                summaryElement.innerHTML = `
+                    <h4>⚠️ Please fix these issues:</h4>
+                    <ul>${errorList}</ul>
+                `;
+                summaryElement.classList.add('show');
+                summaryElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            hideValidationSummary() {
+                const summaryElement = document.querySelector('.form-validation-summary');
+                if (summaryElement) {
+                    summaryElement.classList.remove('show');
+                }
+            }
+
+            showErrorToast(message) {
+                this.showToast(message, 'error');
+            }
+
+            showSuccessToast(message) {
+                this.showToast(message, 'success');
+            }
+
+            showToast(message, type) {
+                // Remove existing toast
+                const existingToast = document.querySelector('.error-toast, .success-toast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = `${type}-toast`;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                // Show toast
+                setTimeout(() => toast.classList.add('show'), 100);
+
+                // Hide toast after 4 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 4000);
+            }
+        }
+
+        // Initialize form validation
+        const validator = new FormValidator();
+
+        // Add validation rules
+        validator
+            .addRule('memberName', value => value.length >= 2, 'Name must be at least 2 characters long')
+            .addRule('memberCompany', value => value.length >= 2, 'Company name must be at least 2 characters long')
+            .addRule('memberTitle', value => value.length >= 2, 'Job title must be at least 2 characters long')
+            .addRule('memberIndustry', value => value !== '', 'Please select your industry')
+            .addRule('memberLinkedIn', value => {
+                if (value === '') return true; // Optional field
+                return value.includes('linkedin.com') || value.includes('in/');
+            }, 'Please enter a valid LinkedIn URL')
+            .addRule('primaryOffering', value => {
+                if (value === '') return true; // Optional field
+                return value.length >= 10;
+            }, 'Primary offering should be at least 10 characters')
+            .addRule('valueProposition', value => {
+                if (value === '') return true; // Optional field
+                return value.length >= 10;
+            }, 'Value proposition should be at least 10 characters');
+
+        // Profile Progress Functions
+        function updateProfileProgress() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                let completedItems = 0;
+                const totalItems = 4;
+                
+                // Check basic information
+                const hasBasicInfo = checkBasicInformation();
+                updateProgressItem('tipBasicInfo', 'statusBasicInfo', hasBasicInfo);
+                if (hasBasicInfo) completedItems++;
+                
+                // Check profile photo
+                const hasPhoto = localStorage.getItem(`memberPersonalPhoto_${memberEmail}`) !== null;
+                updateProgressItem('tipPhoto', 'statusPhoto', hasPhoto);
+                if (hasPhoto) completedItems++;
+                
+                // Check business preferences
+                const hasBusinessInfo = checkBusinessPreferences();
+                updateProgressItem('tipBusinessInfo', 'statusBusinessInfo', hasBusinessInfo);
+                if (hasBusinessInfo) completedItems++;
+                
+                // Check LinkedIn
+                const hasLinkedIn = document.getElementById('memberLinkedIn')?.value.trim().length > 0;
+                updateProgressItem('tipLinkedIn', 'statusLinkedIn', hasLinkedIn);
+                if (hasLinkedIn) completedItems++;
+                
+                // Update progress bar and percentage
+                const percentage = Math.round((completedItems / totalItems) * 100);
+                document.getElementById('profileCompletionPercentage').textContent = percentage + '%';
+                document.getElementById('profileProgressFill').style.width = percentage + '%';
+                
+                // Update action button text
+                const actionText = document.getElementById('progressActionText');
+                if (percentage === 100) {
+                    actionText.textContent = '🎉 Profile Complete!';
+                } else if (percentage >= 75) {
+                    actionText.textContent = 'Almost Done! Add Final Details';
+                } else if (percentage >= 50) {
+                    actionText.textContent = 'You\'re Halfway There!';
+                } else {
+                    actionText.textContent = 'Complete Your Profile';
+                }
+                
+            } catch (error) {
+                console.error('Error updating profile progress:', error);
+            }
+        }
+
+        function checkBasicInformation() {
+            const name = document.getElementById('memberName')?.value.trim();
+            const company = document.getElementById('memberCompany')?.value.trim();
+            const title = document.getElementById('memberTitle')?.value.trim();
+            const industry = document.getElementById('memberIndustry')?.value;
+            
+            return name && company && title && industry;
+        }
+
+        function checkBusinessPreferences() {
+            const lookingForTags = document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active');
+            const canOfferTags = document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active');
+            const companySize = document.querySelector('input[name="company-size"]:checked');
+            
+            return lookingForTags.length > 0 && canOfferTags.length > 0 && companySize;
+        }
+
+        function updateProgressItem(tipId, statusId, isCompleted) {
+            const tipItem = document.getElementById(tipId);
+            const statusElement = document.getElementById(statusId);
+            
+            if (isCompleted) {
+                tipItem.classList.add('completed');
+                statusElement.textContent = '✅';
+                statusElement.style.color = '#51cf66';
+            } else {
+                tipItem.classList.remove('completed');
+                statusElement.textContent = '○';
+                statusElement.style.color = '#999';
+            }
+        }
+
+        function focusIncompleteSection() {
+            // Find first incomplete section and scroll to it
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+
+            const auth = JSON.parse(memberAuth);
+            const memberEmail = auth.email;
+
+            if (!checkBasicInformation()) {
+                document.getElementById('memberName').focus();
+                return;
+            }
+            
+            if (!localStorage.getItem(`memberPersonalPhoto_${memberEmail}`)) {
+                document.getElementById('personalPhotoUpload').click();
+                return;
+            }
+            
+            if (!checkBusinessPreferences()) {
+                document.querySelector('.opportunity-tag').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            
+            if (!document.getElementById('memberLinkedIn')?.value.trim()) {
+                document.getElementById('memberLinkedIn').focus();
+                return;
+            }
+            
+            // If all complete, show success message
+            alert('🎉 Congratulations! Your profile is 100% complete. You\'re ready to make great connections!');
         }
 
         // Close modal when clicking outside
@@ -5089,6 +6476,13 @@
 
         function viewMemberProfile(memberId) {
             alert(`Viewing full profile for ${currentChatMember.name} - This will open their complete business profile.`);
+        }
+
+        // Start chat from member directory
+        function startChatFromDirectory(memberId, memberName, memberCompany) {
+            showSection('messages');
+            // Open the chat with this member
+            openChat(memberId, memberName, memberCompany);
         }
 
         // Member Directory Search Functionality
@@ -6346,6 +7740,8 @@ This will enable beautiful previews when sharing the portal link on social media
                 console.log(`Loaded ${members.length} members from database`);
                 // Update member directory with real data
                 updateMemberDirectory(members);
+                // Update dashboard member counts
+                updateMemberCounts(members.length);
             });
         });
 
@@ -6377,6 +7773,118 @@ This will enable beautiful previews when sharing the portal link on social media
 
             memberGrid.innerHTML = memberCardsHtml;
         }
+
+        // Update member counts in dashboard stats
+        function updateMemberCounts(memberCount) {
+            // Update total member count in regular member dashboard
+            const totalMemberCountElement = document.getElementById('totalMemberCount');
+            if (totalMemberCountElement) {
+                totalMemberCountElement.textContent = memberCount;
+            }
+            
+            // Update total member count in admin dashboard
+            const adminTotalMemberCountElement = document.getElementById('adminTotalMemberCount');
+            if (adminTotalMemberCountElement) {
+                adminTotalMemberCountElement.textContent = memberCount;
+            }
+        }
     </script>
+
+    <!-- Contact Footer -->
+    <footer class="contact-footer">
+        <div class="footer-content">
+            <div class="footer-contact">
+                <span class="contact-label">Need Help?</span>
+                <a href="tel:+18668182183" class="contact-phone">
+                    📞 1-866-818-2183
+                </a>
+                <span class="contact-note">Toll-Free Support</span>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+    .contact-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.75rem 1rem;
+        z-index: 999;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer-contact {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+    }
+
+    .contact-label {
+        color: #d4d6da;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .contact-phone {
+        background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+        color: #000;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .contact-phone:hover {
+        background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    }
+
+    .contact-note {
+        color: #999;
+        font-size: 0.8rem;
+    }
+
+    /* Adjust main content to account for footer */
+    .portal-container {
+        padding-bottom: 60px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+        .footer-contact {
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .contact-label,
+        .contact-note {
+            font-size: 0.8rem;
+        }
+        
+        .contact-phone {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+        }
+    }
+    </style>
+
 </body>
 </html>

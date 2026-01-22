@@ -1,12 +1,25 @@
 {
   "buildCommand": "echo 'No build required for static site'",
   "outputDirectory": ".",
-  "cleanUrls": false,
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/about-us", "destination": "/about-us.html" },
     { "source": "/directory", "destination": "/directory.html" },
     { "source": "/member-login", "destination": "/member-login.html" },
-    { "source": "/member-portal", "destination": "/member-portal.html" }
+    { "source": "/member-portal", "destination": "/member-portal.html" },
+    { "source": "/membership-signup", "destination": "/membership-signup.html" },
+    { "source": "/membership", "destination": "/membership.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ],
+  "redirects": [
+    { "source": "/about-us.html", "destination": "/about-us", "permanent": true },
+    { "source": "/directory.html", "destination": "/directory", "permanent": true },
+    { "source": "/member-login.html", "destination": "/member-login", "permanent": true },
+    { "source": "/member-portal.html", "destination": "/member-portal", "permanent": true },
+    { "source": "/membership-signup.html", "destination": "/membership-signup", "permanent": true },
+    { "source": "/membership.html", "destination": "/membership", "permanent": true },
+    { "source": "/blog.html", "destination": "/blog", "permanent": true }
   ],
   "headers": [
     {
@@ -15,8 +28,25 @@
         {
           "key": "X-Vercel-Skip-Toolbar",
           "value": "1"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 10
+    }
+  }
 }

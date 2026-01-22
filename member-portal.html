@@ -5285,11 +5285,25 @@
                 dateAdded: new Date().toISOString()
             };
 
+            // Save member data to localStorage
+            localStorage.setItem(`newMember_${email}`, JSON.stringify({
+                name: `${firstName} ${lastName}`,
+                company: company,
+                title: title,
+                industry: industry,
+                accessCode: accessCode,
+                dateAdded: new Date().toISOString(),
+                status: 'pending'
+            }));
+
             // Send invitation email
             sendMemberInvitation(memberData);
 
             // Clear form
             clearNewMemberForm();
+
+            // Refresh member list to show new member
+            refreshMemberList();
 
             alert(`✅ Member invitation sent to ${firstName} ${lastName} at ${email}!\n\nAccess Code: ${accessCode}\n\nThey will receive an email with portal access instructions.`);
         }

@@ -54,12 +54,18 @@
             box-sizing: border-box;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #f1f3f4; /* Improved contrast from #e8eaed */
-            background: #121212; /* Slightly lighter than #0a0a0b for better contrast */
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #f1f3f4;
+            background: #121212;
             min-height: 100vh;
+            font-weight: 400;
+            letter-spacing: -0.011em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Header */
@@ -235,11 +241,13 @@
         .sidebar {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.5rem 1.5rem 8rem 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             height: fit-content;
+            min-height: 600px;
             position: sticky;
             top: 100px;
+            position: relative;
         }
 
         .nav-menu {
@@ -661,19 +669,22 @@
         }
 
         .section-title {
-            font-size: 2em;
-            font-weight: 300;
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
             color: #d4af37;
             margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
 
         /* Sidebar Support Button */
         .sidebar-support {
             position: absolute;
-            bottom: 2rem;
+            bottom: 1rem;
             left: 1rem;
             right: 1rem;
             text-align: center;
+            margin-top: auto;
         }
 
         .support-btn {
@@ -1661,13 +1672,17 @@
 
         .search-input {
             width: 100%;
-            padding: 1rem 3rem 1rem 1rem;
+            padding: 1rem 3rem 1rem 1.25rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
+            border-radius: 12px;
+            color: #f1f3f4;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: -0.011em;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .search-input:focus {

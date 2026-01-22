@@ -359,8 +359,13 @@
                     const invitedMemberData = localStorage.getItem('newMember_' + email);
                     if (invitedMemberData) {
                         const invitedMember = JSON.parse(invitedMemberData);
-                        member = { password: invitedMember.password, name: invitedMember.name };
-                        console.log('Found admin-invited member:', member);
+                        // Skip if password is undefined or empty
+                        if (invitedMember.password && invitedMember.password !== 'undefined') {
+                            member = { password: invitedMember.password, name: invitedMember.name };
+                            console.log('Found admin-invited member:', member);
+                        } else {
+                            console.log('Skipping corrupted localStorage entry for:', email);
+                        }
                     }
                 }
                 

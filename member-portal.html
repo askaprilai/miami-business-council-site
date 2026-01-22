@@ -5217,9 +5217,6 @@
                 firstName,
                 lastName,
                 email,
-                company,
-                title,
-                industry,
                 personalMessage,
                 accessCode,
                 dateAdded: new Date().toISOString()
@@ -5297,7 +5294,6 @@
 
         function previewInvitation() {
             const firstName = document.getElementById('newMemberFirstName').value.trim();
-            const company = document.getElementById('newMemberCompany').value.trim();
             const personalMessage = document.getElementById('newMemberMessage').value.trim();
 
             if (!firstName) {
@@ -7742,10 +7738,10 @@ This will enable beautiful previews when sharing the portal link on social media
         <div class="footer-content">
             <div class="footer-contact">
                 <span class="contact-label">Need Help?</span>
-                <a href="tel:+18668182183" class="contact-phone">
-                    📞 1-866-818-2183
+                <a href="mailto:info@miamibusinesscouncil.com" class="contact-support">
+                    📧 Support: info@miamibusinesscouncil.com
                 </a>
-                <span class="contact-note">Toll-Free Support</span>
+                <span class="contact-note">We're here to help</span>
             </div>
         </div>
     </footer>
@@ -7785,7 +7781,7 @@ This will enable beautiful previews when sharing the portal link on social media
         font-weight: 500;
     }
 
-    .contact-phone {
+    .contact-support {
         background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
         color: #000;
         text-decoration: none;
@@ -7797,7 +7793,7 @@ This will enable beautiful previews when sharing the portal link on social media
         white-space: nowrap;
     }
 
-    .contact-phone:hover {
+    .contact-support:hover {
         background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
@@ -7826,7 +7822,7 @@ This will enable beautiful previews when sharing the portal link on social media
             font-size: 0.8rem;
         }
         
-        .contact-phone {
+        .contact-support {
             font-size: 0.85rem;
             padding: 0.4rem 0.8rem;
         }

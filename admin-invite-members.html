@@ -136,7 +136,7 @@
 <body>
     <div class="container">
         <h1>🎯 Invite New Members</h1>
-        <p class="subtitle">Send portal invitations with auto-generated access codes</p>
+        <p class="subtitle">Send secure magic link invitations - no passwords needed!</p>
 
         <!-- Single Member Invitation -->
         <div class="form-section">
@@ -178,7 +178,7 @@
                     <textarea id="personalNote" rows="3" placeholder="Add a personal message to the invitation..."></textarea>
                 </div>
                 
-                <button type="submit">🚀 Generate Code & Send Invitation</button>
+                <button type="submit">🚀 Send Magic Link Invitation</button>
             </form>
         </div>
 
@@ -203,16 +203,6 @@ Mike, Johnson, mike@agency.com, Johnson Marketing"></textarea>
     </div>
 
     <script>
-        // Generate secure access code
-        function generateAccessCode() {
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let code = '';
-            for (let i = 0; i < 8; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
-        }
-
         // Single member invitation
         document.getElementById('singleInviteForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -237,23 +227,17 @@ Mike, Johnson, mike@agency.com, Johnson Marketing"></textarea>
             
             // Show loading
             button.disabled = true;
-            button.textContent = '⚡ Generating code & sending invitation...';
-            
+            button.textContent = '⚡ Sending magic link invitation...';
+
             try {
-                // Generate access code
-                const accessCode = generateAccessCode();
-                
-                // Show generated code immediately
+                // Show processing message
                 showResult(`
-                    <h3>✅ Access Code Generated!</h3>
-                    <div class="generated-code">
-                        ${email} → ${accessCode}
-                    </div>
-                    <p>Sending welcome email...</p>
+                    <h3>⚡ Processing...</h3>
+                    <p>Creating member account and sending magic link to ${email}...</p>
                 `, 'info');
-                
-                // Send welcome email with portal access
-                const response = await fetch('/api/send-welcome-email', {
+
+                // Send invitation via Supabase Auth (no access code needed!)
+                const response = await fetch('/api/send-member-invitation', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -262,49 +246,32 @@ Mike, Johnson, mike@agency.com, Johnson Marketing"></textarea>
                         email: email,
                         firstName: firstName,
                         lastName: lastName,
-                        membershipType: membershipType,
-                        accessCode: accessCode,
-                        portalUrl: window.location.origin + '/member-portal.html',
                         company: company,
-                        personalNote: personalNote
+                        membershipType: membershipType,
+                        personalNote: personalNote,
+                        redirectUrl: window.location.origin + '/member-portal'
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
-                    // Store credentials for immediate portal access
-                    const memberCredentials = {
-                        email: email.toLowerCase(),
-                        password: accessCode.toLowerCase(),
-                        name: firstName + ' ' + lastName,
-                        company: company,
-                        membershipType: membershipType,
-                        joinDate: new Date().toISOString()
-                    };
-                    
-                    // Add to localStorage for portal authentication
-                    localStorage.setItem('newMember_' + email.toLowerCase(), JSON.stringify(memberCredentials));
-                    
                     showResult(`
                         <h3>🎉 Invitation Sent Successfully!</h3>
-                        <div class="generated-code">
-                            Portal Access: ${email} → ${accessCode}
-                        </div>
                         <p><strong>✅ Welcome email sent to:</strong> ${email}</p>
                         <p><strong>✅ Company:</strong> ${company}</p>
-                        <p><strong>✅ Access Code:</strong> ${accessCode}</p>
-                        <p><strong>✅ Portal URL:</strong> <a href="${window.location.origin}/member-portal.html" target="_blank">miamibusinesscouncil.com/member-portal.html</a></p>
-                        <p><strong>Email ID:</strong> ${data.emailId}</p>
+                        <p><strong>✅ Name:</strong> ${firstName} ${lastName}</p>
+                        <p><strong>✅ Portal URL:</strong> <a href="${window.location.origin}/member-portal" target="_blank">miamibusinesscouncil.com/member-portal</a></p>
+                        ${data.emailId ? `<p><strong>Email ID:</strong> ${data.emailId}</p>` : ''}
                         <hr>
                         <p style="color: #666; font-size: 14px;">
-                            💡 The member can log in immediately. Their credentials are stored for instant portal access.
+                            ✨ <strong>Magic Link Authentication:</strong> The member will receive a secure magic link via email. No password needed - they just click the link to access their portal!
                         </p>
                     `, 'success');
-                    
+
                     // Clear form
                     e.target.reset();
-                    
+
                 } else {
                     throw new Error(data.error || 'Failed to send invitation');
                 }
@@ -364,10 +331,9 @@ Mike, Johnson, mike@agency.com, Johnson Marketing"></textarea>
             try {
                 for (let i = 0; i < members.length; i++) {
                     const member = members[i];
-                    const accessCode = generateAccessCode();
-                    
+
                     try {
-                        const response = await fetch('/api/send-welcome-email', {
+                        const response = await fetch('/api/send-member-invitation', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -376,31 +342,19 @@ Mike, Johnson, mike@agency.com, Johnson Marketing"></textarea>
                                 email: member.email,
                                 firstName: member.firstName,
                                 lastName: member.lastName,
-                                membershipType: 'business',
-                                accessCode: accessCode,
-                                portalUrl: window.location.origin + '/member-portal.html',
-                                company: member.company
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (data.success) {
-                            // Store credentials
-                            const memberCredentials = {
-                                email: member.email.toLowerCase(),
-                                password: accessCode.toLowerCase(),
-                                name: member.firstName + ' ' + member.lastName,
                                 company: member.company,
                                 membershipType: 'business',
-                                joinDate: new Date().toISOString()
-                            };
-                            localStorage.setItem('newMember_' + member.email.toLowerCase(), JSON.stringify(memberCredentials));
-                            
-                            results.push(`✅ ${member.firstName} ${member.lastName} (${member.email}) → ${accessCode}`);
+                                redirectUrl: window.location.origin + '/member-portal'
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            results.push(`✅ ${member.firstName} ${member.lastName} (${member.email}) → Magic link sent`);
                             successCount++;
                         } else {
-                            results.push(`❌ ${member.firstName} ${member.lastName} (${member.email}) → Failed`);
+                            results.push(`❌ ${member.firstName} ${member.lastName} (${member.email}) → Failed: ${data.error}`);
                         }
                     } catch (error) {
                         results.push(`❌ ${member.firstName} ${member.lastName} (${member.email}) → Error: ${error.message}`);

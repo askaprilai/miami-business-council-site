@@ -4,7 +4,7 @@
 export const supabaseConfig = {
   url: process.env.SUPABASE_URL || 'https://vsnvtujkkkbjpuuwxvyd.supabase.co',
   anonKey: process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA',
-  serviceKey: process.env.SUPABASE_SERVICE_KEY || 'sb_secret_aJXyfJ-CPzHri9Fd8nFgcw_kdfcoCBB'
+  serviceKey: process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTYzNTI0NiwiZXhwIjoyMDcxMjExMjQ2fQ.lC-ml2UXkRej1gUo2A8CaNhBaqkcnW-vXYj8y13_Nh8'
 };
 
 // Initialize Supabase client

@@ -667,6 +667,44 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Sidebar Support Button */
+        .sidebar-support {
+            position: absolute;
+            bottom: 2rem;
+            left: 1rem;
+            right: 1rem;
+            text-align: center;
+        }
+
+        .support-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            color: #000;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .support-btn:hover {
+            background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .support-text {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
         /* Dashboard */
         .dashboard-grid {
             display: grid;
@@ -2793,6 +2831,14 @@
                     <a href="#" class="nav-link" data-section="admin">👑 Admin Panel</a>
                 </li>
             </ul>
+            
+            <!-- Support Button at Bottom of Sidebar -->
+            <div class="sidebar-support">
+                <a href="mailto:info@miamibusinesscouncil.com" class="support-btn">
+                    📧 Support
+                </a>
+                <div class="support-text">Need help? Contact us</div>
+            </div>
         </nav>
 
         <!-- Main Content -->
@@ -7733,18 +7779,6 @@ This will enable beautiful previews when sharing the portal link on social media
         }
     </script>
 
-    <!-- Contact Footer -->
-    <footer class="contact-footer">
-        <div class="footer-content">
-            <div class="footer-contact">
-                <span class="contact-label">Need Help?</span>
-                <a href="mailto:info@miamibusinesscouncil.com" class="contact-support">
-                    📧 Support: info@miamibusinesscouncil.com
-                </a>
-                <span class="contact-note">We're here to help</span>
-            </div>
-        </div>
-    </footer>
 
     <style>
     .contact-footer {

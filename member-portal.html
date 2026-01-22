@@ -3865,56 +3865,29 @@
 
                 <!-- Add New Member -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
-                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">✨ Add New Member</h3>
+                    <h3 style="color: #d4af37; margin-bottom: 1rem;">✨ Invite New Member</h3>
+                    <p style="color: #ccc; margin-bottom: 1.5rem; font-size: 0.9rem;">📧 Send an invitation with login credentials. The member will complete their own profile after joining.</p>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                         <div class="profile-field">
-                            <label>First Name:</label>
-                            <input type="text" class="profile-input" id="newMemberFirstName" placeholder="Enter first name">
+                            <label>First Name <span style="color: #ff6b6b;">*</span>:</label>
+                            <input type="text" class="profile-input" id="newMemberFirstName" placeholder="Enter first name" required>
                         </div>
                         <div class="profile-field">
-                            <label>Last Name:</label>
-                            <input type="text" class="profile-input" id="newMemberLastName" placeholder="Enter last name">
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                        <div class="profile-field">
-                            <label>Email Address:</label>
-                            <input type="email" class="profile-input" id="newMemberEmail" placeholder="member@company.com">
-                        </div>
-                        <div class="profile-field">
-                            <label>Company:</label>
-                            <input type="text" class="profile-input" id="newMemberCompany" placeholder="Company name">
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                        <div class="profile-field">
-                            <label>Job Title:</label>
-                            <input type="text" class="profile-input" id="newMemberTitle" placeholder="Position title">
-                        </div>
-                        <div class="profile-field">
-                            <label>Industry:</label>
-                            <select class="profile-input" id="newMemberIndustry">
-                                <option value="">Select industry</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Real Estate">Real Estate</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="Finance">Finance</option>
-                                <option value="Legal">Legal</option>
-                                <option value="Healthcare">Healthcare</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Hospitality">Hospitality</option>
-                                <option value="Non-Profit">Non-Profit</option>
-                                <option value="Other">Other</option>
-                            </select>
+                            <label>Last Name <span style="color: #ff6b6b;">*</span>:</label>
+                            <input type="text" class="profile-input" id="newMemberLastName" placeholder="Enter last name" required>
                         </div>
                     </div>
 
                     <div class="profile-field" style="margin-bottom: 1.5rem;">
-                        <label>Personal Message (Optional):</label>
-                        <textarea class="profile-input" id="newMemberMessage" placeholder="Personal invitation message..." rows="3" style="resize: vertical;"></textarea>
+                        <label>Email Address <span style="color: #ff6b6b;">*</span>:</label>
+                        <input type="email" class="profile-input" id="newMemberEmail" placeholder="member@company.com" required>
+                        <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">This will be their login username</div>
+                    </div>
+
+                    <div class="profile-field" style="margin-bottom: 1.5rem;">
+                        <label>Personal Welcome Message (Optional):</label>
+                        <textarea class="profile-input" id="newMemberMessage" placeholder="Add a personal welcome message (will be included in the invitation email)" rows="3" style="resize: vertical;"></textarea>
                     </div>
 
                     <div style="display: flex; gap: 1rem;">
@@ -5228,14 +5201,11 @@
             const firstName = document.getElementById('newMemberFirstName').value.trim();
             const lastName = document.getElementById('newMemberLastName').value.trim();
             const email = document.getElementById('newMemberEmail').value.trim();
-            const company = document.getElementById('newMemberCompany').value.trim();
-            const title = document.getElementById('newMemberTitle').value.trim();
-            const industry = document.getElementById('newMemberIndustry').value;
             const personalMessage = document.getElementById('newMemberMessage').value.trim();
 
             // Validate required fields
-            if (!firstName || !lastName || !email || !company) {
-                alert('Please fill in all required fields (Name, Email, Company)');
+            if (!firstName || !lastName || !email) {
+                alert('Please fill in all required fields (First Name, Last Name, Email)');
                 return;
             }
 
@@ -5255,15 +5225,16 @@
                 dateAdded: new Date().toISOString()
             };
 
-            // Save member data to localStorage
+            // Save member data to localStorage (minimal profile - they'll complete the rest)
             localStorage.setItem(`newMember_${email}`, JSON.stringify({
                 name: `${firstName} ${lastName}`,
-                company: company,
-                title: title,
-                industry: industry,
+                company: 'To be completed',
+                title: 'To be completed',
+                industry: 'To be completed',
                 accessCode: accessCode,
                 dateAdded: new Date().toISOString(),
-                status: 'pending'
+                status: 'pending',
+                profileIncomplete: true
             }));
 
             // Send invitation email
@@ -5321,9 +5292,6 @@
             document.getElementById('newMemberFirstName').value = '';
             document.getElementById('newMemberLastName').value = '';
             document.getElementById('newMemberEmail').value = '';
-            document.getElementById('newMemberCompany').value = '';
-            document.getElementById('newMemberTitle').value = '';
-            document.getElementById('newMemberIndustry').value = '';
             document.getElementById('newMemberMessage').value = '';
         }
 

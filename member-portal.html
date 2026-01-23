@@ -5534,14 +5534,14 @@
             }
 
             // Confirm deletion
-            const confirmDelete = confirm(`⚠️ Delete Member?\n\nAre you sure you want to delete ${name} (${email})?\n\nThis action cannot be undone. All their data, connections, and messages will be permanently removed.`);
+            const confirmDelete = confirm(`⚠️ Delete Member?\n\nAre you sure you want to delete ${name} (${email})?\n\nThis will:\n• Remove their member profile and data\n• Delete their login access (they cannot log back in)\n• Remove all connections and messages\n\nThis action cannot be undone.`);
 
             if (!confirmDelete) {
                 return;
             }
 
             // Double confirmation for safety
-            const doubleConfirm = confirm(`⚠️ FINAL CONFIRMATION\n\nYou are about to permanently delete ${name}.\n\nClick OK to proceed with deletion.`);
+            const doubleConfirm = confirm(`⚠️ FINAL CONFIRMATION\n\nYou are about to permanently delete ${name} and revoke their login access.\n\nClick OK to proceed with deletion.`);
 
             if (!doubleConfirm) {
                 return;
@@ -5550,20 +5550,25 @@
             try {
                 console.log('🗑️ Deleting member:', email);
 
-                // Delete from Supabase database
-                const { error } = await supabase
-                    .from('members')
-                    .delete()
-                    .eq('email', email);
+                // Call API to delete member completely (profile + auth access)
+                const response = await fetch('/api/delete-member', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
 
-                if (error) {
-                    console.error('❌ Error deleting member:', error);
-                    alert(`❌ Failed to delete member: ${error.message}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error('❌ Error deleting member:', data);
+                    alert(`❌ Failed to delete member: ${data.error || 'Unknown error'}`);
                     return;
                 }
 
-                console.log('✅ Member deleted successfully');
-                alert(`✅ ${name} has been deleted from the member portal`);
+                console.log('✅ Member deleted successfully:', data);
+                alert(`✅ ${name} has been deleted completely.\n\nThey can no longer log in to the member portal.`);
 
                 // Refresh the member list
                 refreshMemberList();

@@ -287,17 +287,46 @@
 
             // Disable button
             loginBtn.disabled = true;
-            loginBtn.textContent = 'Sending magic link...';
+            loginBtn.textContent = 'Verifying membership...';
 
             try {
-                console.log('🔐 Sending magic link to:', email);
+                console.log('🔐 Checking if email is registered:', email);
 
-                // Send magic link via Supabase Auth
+                // SECURITY: Check if email exists in members database FIRST
+                const { data: member, error: memberError } = await supabase
+                    .from('members')
+                    .select('id, email, is_active')
+                    .eq('email', email)
+                    .single();
+
+                if (memberError || !member) {
+                    console.log('❌ Email not found in members database');
+                    errorMessage.innerHTML = `This email is not registered as a member.<br><br>Please contact <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a> to request access.`;
+                    errorMessage.style.display = 'block';
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Send Magic Link to Email';
+                    return;
+                }
+
+                // Check if member is active
+                if (!member.is_active) {
+                    console.log('❌ Member account is inactive');
+                    errorMessage.innerHTML = `Your membership is inactive.<br><br>Please contact <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a> to reactivate your account.`;
+                    errorMessage.style.display = 'block';
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Send Magic Link to Email';
+                    return;
+                }
+
+                console.log('✅ Email verified as registered member');
+                loginBtn.textContent = 'Sending magic link...';
+
+                // Send magic link via Supabase Auth (only for verified members)
                 const { data, error } = await supabase.auth.signInWithOtp({
                     email: email,
                     options: {
-                        emailRedirectTo: window.location.origin + '/member-portal'
-                        // Removed shouldCreateUser: false to allow all emails
+                        emailRedirectTo: window.location.origin + '/member-portal',
+                        shouldCreateUser: true  // Create auth account if needed
                     }
                 });
 

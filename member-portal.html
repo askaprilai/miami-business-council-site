@@ -5391,10 +5391,32 @@
 
                 console.log('✅ Member added to database:', newMember);
 
-                // Send magic link invitation
-                const inviteUrl = `https://miamibusinesscouncil.com/member-login?email=${encodeURIComponent(email)}`;
+                // Send invitation email
+                console.log('📧 Sending invitation email...');
+                try {
+                    const emailResponse = await fetch('/api/send-invitation', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email
+                        })
+                    });
 
-                alert(`✅ Member added successfully!\n\n${firstName} ${lastName} (${email})\n\nThey can now log in at:\n${inviteUrl}\n\nThey'll receive a magic link when they request to log in.`);
+                    const emailData = await emailResponse.json();
+
+                    if (emailResponse.ok) {
+                        console.log('✅ Invitation email sent successfully');
+                        alert(`✅ Member added successfully!\n\n${firstName} ${lastName} has been added to the portal.\n\n📧 An invitation email has been sent to ${email} with login instructions.`);
+                    } else {
+                        console.error('❌ Email sending failed:', emailData);
+                        alert(`✅ Member added successfully!\n\n${firstName} ${lastName} (${email})\n\n⚠️ However, the invitation email failed to send. Please manually share the login URL:\nhttps://miamibusinesscouncil.com/member-login`);
+                    }
+                } catch (emailError) {
+                    console.error('❌ Error sending invitation email:', emailError);
+                    alert(`✅ Member added successfully!\n\n${firstName} ${lastName} (${email})\n\n⚠️ However, the invitation email failed to send. Please manually share the login URL:\nhttps://miamibusinesscouncil.com/member-login`);
+                }
 
                 // Clear form
                 clearNewMemberForm();

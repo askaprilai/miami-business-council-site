@@ -2747,8 +2747,8 @@
                 <span>Member Portal</span>
             </div>
             <div class="user-info">
-                <div class="user-avatar" id="userAvatar">JS</div>
-                <span id="userName">John Smith</span>
+                <div class="user-avatar" id="userAvatar">--</div>
+                <span id="userName">Loading...</span>
                 <a href="#" class="logout-btn" onclick="logout()">Logout</a>
             </div>
         </div>
@@ -2821,10 +2821,10 @@
                 <!-- Personalized Welcome Card -->
                 <div class="dashboard-card" id="personalizedWelcomeCard" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 2rem;">
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                        <div class="member-avatar" id="dashboardUserAvatar" style="width: 60px; height: 60px; font-size: 1.5rem;">JS</div>
+                        <div class="member-avatar" id="dashboardUserAvatar" style="width: 60px; height: 60px; font-size: 1.5rem;">--</div>
                         <div>
                             <h3 style="color: #d4af37; margin: 0;" id="dashboardUserName">Welcome back!</h3>
-                            <p style="color: #ccc; margin: 0; font-size: 0.9rem;" id="dashboardUserRole">Member since 2025</p>
+                            <p style="color: #ccc; margin: 0; font-size: 0.9rem;" id="dashboardUserRole">Loading...</p>
                         </div>
                         <div style="margin-left: auto; text-align: center;">
                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
@@ -4135,6 +4135,25 @@
                 const userAvatarElement = document.getElementById('userAvatar');
                 if (userAvatarElement) {
                     userAvatarElement.textContent = initials;
+                }
+
+                // Update dashboard avatar with same initials
+                const dashboardUserAvatar = document.getElementById('dashboardUserAvatar');
+                if (dashboardUserAvatar) {
+                    dashboardUserAvatar.textContent = initials;
+                }
+
+                // Update dashboard welcome message
+                const dashboardUserName = document.getElementById('dashboardUserName');
+                if (dashboardUserName) {
+                    dashboardUserName.textContent = `Welcome back, ${firstName}!`;
+                }
+
+                // Update member since date
+                const dashboardUserRole = document.getElementById('dashboardUserRole');
+                if (dashboardUserRole && member.created_at) {
+                    const memberSince = new Date(member.created_at).getFullYear();
+                    dashboardUserRole.textContent = `Member since ${memberSince}`;
                 }
 
                 // Show/hide admin panel based on user

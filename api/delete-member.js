@@ -30,28 +30,30 @@ export default async function handler(req, res) {
   try {
     console.log('🗑️ Deleting member:', email);
 
-    // 1. Find the user by email in auth.users
-    const { data: users, error: listError } = await supabaseAdmin.auth.admin.listUsers();
+    // 1. Get member ID BEFORE deleting (for connections cleanup)
+    const { data: member, error: memberQueryError } = await supabaseAdmin
+      .from('members')
+      .select('id')
+      .eq('email', email)
+      .single();
 
-    if (listError) {
-      console.error('Error listing users:', listError);
-      return res.status(500).json({ error: 'Failed to find user', details: listError.message });
+    if (memberQueryError && memberQueryError.code !== 'PGRST116') {
+      console.error('Error querying member:', memberQueryError);
+      return res.status(500).json({ error: 'Failed to find member', details: memberQueryError.message });
     }
 
-    const user = users.users.find(u => u.email === email);
+    // 2. Delete connections first (if member exists)
+    if (member) {
+      const { error: connectionsDeleteError } = await supabaseAdmin
+        .from('member_connections')
+        .delete()
+        .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`);
 
-    if (user) {
-      // 2. Delete from auth.users (removes login access)
-      const { error: authDeleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
-
-      if (authDeleteError) {
-        console.error('Error deleting auth user:', authDeleteError);
-        return res.status(500).json({ error: 'Failed to delete auth user', details: authDeleteError.message });
+      if (connectionsDeleteError) {
+        console.log('⚠️ Error deleting connections (may not exist):', connectionsDeleteError);
+      } else {
+        console.log('✅ Deleted member connections');
       }
-
-      console.log('✅ Deleted auth user:', user.id);
-    } else {
-      console.log('⚠️ No auth user found for email:', email);
     }
 
     // 3. Delete from members table (member profile and data)
@@ -67,20 +69,28 @@ export default async function handler(req, res) {
 
     console.log('✅ Deleted member profile:', email);
 
-    // 4. Delete any connections involving this member
-    const { data: member } = await supabaseAdmin
-      .from('members')
-      .select('id')
-      .eq('email', email)
-      .single();
+    // 4. Find and delete the user by email in auth.users
+    const { data: users, error: listError } = await supabaseAdmin.auth.admin.listUsers();
 
-    if (member) {
-      await supabaseAdmin
-        .from('member_connections')
-        .delete()
-        .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`);
+    if (listError) {
+      console.error('Error listing users:', listError);
+      return res.status(500).json({ error: 'Failed to find user', details: listError.message });
+    }
 
-      console.log('✅ Deleted member connections');
+    const user = users.users.find(u => u.email === email);
+
+    if (user) {
+      // Delete from auth.users (removes login access)
+      const { error: authDeleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+
+      if (authDeleteError) {
+        console.error('Error deleting auth user:', authDeleteError);
+        return res.status(500).json({ error: 'Failed to delete auth user', details: authDeleteError.message });
+      }
+
+      console.log('✅ Deleted auth user:', user.id);
+    } else {
+      console.log('⚠️ No auth user found for email:', email);
     }
 
     return res.status(200).json({

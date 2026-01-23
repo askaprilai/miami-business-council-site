@@ -3858,7 +3858,7 @@
                 <!-- Add New Member -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <h3 style="color: #d4af37; margin-bottom: 1rem;">✨ Invite New Member</h3>
-                    <p style="color: #ccc; margin-bottom: 1.5rem; font-size: 0.9rem;">📧 Send an invitation with login credentials. The member will complete their own profile after joining.</p>
+                    <p style="color: #ccc; margin-bottom: 1.5rem; font-size: 0.9rem;">📧 Add a new member to the portal. They'll receive a magic link to log in and complete their profile.</p>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                         <div class="profile-field">
@@ -3874,21 +3874,20 @@
                     <div class="profile-field" style="margin-bottom: 1.5rem;">
                         <label>Email Address <span style="color: #ff6b6b;">*</span>:</label>
                         <input type="email" class="profile-input" id="newMemberEmail" placeholder="member@company.com" required>
-                        <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">This will be their login username</div>
-                    </div>
-
-                    <div class="profile-field" style="margin-bottom: 1.5rem;">
-                        <label>Personal Welcome Message (Optional):</label>
-                        <textarea class="profile-input" id="newMemberMessage" placeholder="Add a personal welcome message (will be included in the invitation email)" rows="3" style="resize: vertical;"></textarea>
+                        <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">They'll use this email to request a magic link and log in</div>
                     </div>
 
                     <div style="display: flex; gap: 1rem;">
                         <button class="register-btn" onclick="addNewMember()">
-                            ✉️ Add Member & Send Invitation
+                            ✅ Add Member to Portal
                         </button>
-                        <button class="register-btn" onclick="previewInvitation()" style="background: rgba(255,255,255,0.1); color: #e8eaed;">
-                            👀 Preview Email
-                        </button>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #999; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                        <strong>How it works:</strong><br>
+                        1. Add member details above and click "Add Member to Portal"<br>
+                        2. Share the login page with them: <a href="https://miamibusinesscouncil.com/member-login" style="color: #d4af37;">miamibusinesscouncil.com/member-login</a><br>
+                        3. They enter their email and receive a magic link to log in<br>
+                        4. They complete their profile after first login
                     </div>
                 </div>
 
@@ -5337,10 +5336,10 @@
         });
 
         // Admin Panel Functions
-        function addNewMember() {
+        async function addNewMember() {
             const firstName = document.getElementById('newMemberFirstName').value.trim();
             const lastName = document.getElementById('newMemberLastName').value.trim();
-            const email = document.getElementById('newMemberEmail').value.trim();
+            const email = document.getElementById('newMemberEmail').value.trim().toLowerCase();
             const personalMessage = document.getElementById('newMemberMessage').value.trim();
 
             // Validate required fields
@@ -5349,87 +5348,76 @@
                 return;
             }
 
-            // Generate access code
-            const accessCode = generateAccessCode();
-
-            // In a real app, this would call your API
-            const memberData = {
-                firstName,
-                lastName,
-                email,
-                personalMessage,
-                accessCode,
-                dateAdded: new Date().toISOString()
-            };
-
-            // Save member data to localStorage (minimal profile - they'll complete the rest)
-            localStorage.setItem(`newMember_${email}`, JSON.stringify({
-                name: `${firstName} ${lastName}`,
-                company: 'To be completed',
-                title: 'To be completed',
-                industry: 'To be completed',
-                accessCode: accessCode,
-                dateAdded: new Date().toISOString(),
-                status: 'pending',
-                profileIncomplete: true
-            }));
-
-            // Send invitation email
-            sendMemberInvitation(memberData);
-
-            // Clear form
-            clearNewMemberForm();
-
-            // Refresh member list to show new member
-            setTimeout(() => {
-                refreshMemberList();
-                console.log('Member saved to localStorage:', `newMember_${email}`);
-                console.log('Data stored:', localStorage.getItem(`newMember_${email}`));
-            }, 500);
-
-            alert(`✅ Member invitation sent to ${firstName} ${lastName} at ${email}!\n\nAccess Code: ${accessCode}\n\nThey will receive an email with portal access instructions.`);
-        }
-
-        function generateAccessCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 8; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
             }
-            return result;
-        }
 
-        function sendMemberInvitation(memberData) {
-            // Call the email API
-            fetch('/api/email-handler', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'welcome',
-                    email: memberData.email,
-                    firstName: memberData.firstName,
-                    lastName: memberData.lastName,
-                    membershipType: 'Individual',
-                    accessCode: memberData.accessCode,
-                    portalUrl: 'https://miamibusinesscouncil.com/member-login',
-                    company: memberData.company
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Welcome email sent:', data);
-            })
-            .catch(error => {
-                console.error('Error sending welcome email:', error);
-                alert('Member added but email failed to send. Please manually share their access code: ' + memberData.accessCode);
-            });
+            try {
+                console.log('🔄 Adding new member to database...');
+
+                // Check if member already exists
+                const { data: existingMember, error: checkError } = await supabase
+                    .from('members')
+                    .select('id, email')
+                    .eq('email', email)
+                    .single();
+
+                if (existingMember) {
+                    alert(`❌ A member with email ${email} already exists in the system.`);
+                    return;
+                }
+
+                // Add member to database
+                const { data: newMember, error: insertError } = await supabase
+                    .from('members')
+                    .insert({
+                        first_name: firstName,
+                        last_name: lastName,
+                        email: email,
+                        company_name: 'To be completed',
+                        is_active: true,
+                        created_at: new Date().toISOString()
+                    })
+                    .select()
+                    .single();
+
+                if (insertError) {
+                    console.error('❌ Database error:', insertError);
+                    alert(`Failed to add member: ${insertError.message}`);
+                    return;
+                }
+
+                console.log('✅ Member added to database:', newMember);
+
+                // Send magic link invitation
+                const inviteUrl = `https://miamibusinesscouncil.com/member-login?email=${encodeURIComponent(email)}`;
+
+                alert(`✅ Member added successfully!\n\n${firstName} ${lastName} (${email})\n\nThey can now log in at:\n${inviteUrl}\n\nThey'll receive a magic link when they request to log in.`);
+
+                // Clear form
+                clearNewMemberForm();
+
+                // Reload member directory
+                setTimeout(() => {
+                    loadMembersFromDatabase().then(members => {
+                        updateMemberDirectory(members);
+                        updateMemberCounts(members.length);
+                    });
+                }, 500);
+
+            } catch (error) {
+                console.error('❌ Error adding member:', error);
+                alert(`Failed to add member: ${error.message}`);
+            }
         }
 
         function clearNewMemberForm() {
             document.getElementById('newMemberFirstName').value = '';
             document.getElementById('newMemberLastName').value = '';
             document.getElementById('newMemberEmail').value = '';
-            document.getElementById('newMemberMessage').value = '';
         }
 
         function previewInvitation() {

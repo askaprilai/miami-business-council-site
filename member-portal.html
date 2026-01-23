@@ -3370,22 +3370,22 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                             <div class="form-group">
                                 <label for="memberName" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Full Name *</label>
-                                <input type="text" id="memberName" class="profile-input" placeholder="John Doe" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <input type="text" id="memberName" name="memberName" class="profile-input" placeholder="John Doe" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
                                 <label for="memberCompany" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Company Name *</label>
-                                <input type="text" id="memberCompany" class="profile-input" placeholder="Your Company Inc." required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <input type="text" id="memberCompany" name="memberCompany" class="profile-input" placeholder="Your Company Inc." required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                             <div class="form-group">
                                 <label for="memberTitle" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Job Title *</label>
-                                <input type="text" id="memberTitle" class="profile-input" placeholder="CEO, Founder, etc." required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <input type="text" id="memberTitle" name="memberTitle" class="profile-input" placeholder="CEO, Founder, etc." required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
                                 <label for="memberIndustry" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Industry *</label>
-                                <select id="memberIndustry" class="profile-input" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <select id="memberIndustry" name="memberIndustry" class="profile-input" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                                     <option value="">Select Industry</option>
                                     <option value="Technology">Technology</option>
                                     <option value="Finance">Finance</option>
@@ -3406,7 +3406,7 @@
 
                         <div class="form-group">
                             <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL (Optional)</label>
-                            <input type="url" id="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                            <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                         </div>
 
                         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
@@ -4806,23 +4806,7 @@
             }
         }
 
-        function saveProfile() {
-            // Get all form data
-            const profileData = {
-                name: document.querySelector('input[value="John Smith"]').value,
-                company: document.querySelector('input[value="Smith Consulting LLC"]').value,
-                title: document.querySelector('input[value="Founder & CEO"]').value,
-                industry: document.querySelector('select').value,
-                linkedin: document.querySelector('input[type="url"]').value,
-                lookingFor: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
-                canOffer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent),
-                companySize: document.querySelector('input[name="company-size"]:checked').value
-            };
-
-            // In a real app, this would save to database
-            localStorage.setItem('memberProfile', JSON.stringify(profileData));
-            alert('Profile saved successfully! Your matching preferences have been updated.');
-        }
+        // OLD saveProfile function removed - now defined at line ~5880 with Supabase integration
 
         function shareProfile() {
             const profileUrl = window.location.href.split('?')[0] + '?member=johnsmith';
@@ -5880,6 +5864,8 @@
         async function saveProfile() {
             // Validate form before saving
             if (!validator.validateAll()) {
+                console.error('Validation failed. Please check all required fields.');
+                alert('❌ Please fill in all required fields:\n\n• Full Name\n• Company Name\n• Job Title\n• Industry');
                 return; // Stop saving if validation fails
             }
 

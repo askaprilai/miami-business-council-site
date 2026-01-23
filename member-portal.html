@@ -2884,8 +2884,8 @@
                             <span class="card-icon">🤝</span>
                         </div>
                         <p><strong>Total Members:</strong> <span id="totalMemberCount">0</span></p>
-                        <p><strong>New Connections:</strong> 3 this month</p>
-                        <p><strong>Events Attended:</strong> 2</p>
+                        <p><strong>New Connections:</strong> <span id="newConnectionsCount">0</span> this month</p>
+                        <p><strong>Events Attended:</strong> <span id="eventsAttendedCount">0</span></p>
                     </div>
 
                     <div class="dashboard-card">
@@ -2914,9 +2914,9 @@
                             <h3 class="card-title">Match Statistics</h3>
                             <span class="card-icon">📈</span>
                         </div>
-                        <p><strong>Total Matches Found:</strong> <span id="totalMatches">8</span></p>
-                        <p><strong>High-Priority Matches:</strong> <span id="highPriorityMatches">3</span></p>
-                        <p><strong>New This Week:</strong> <span id="newMatches">2</span></p>
+                        <p><strong>Total Matches Found:</strong> <span id="totalMatches">0</span></p>
+                        <p><strong>High-Priority Matches:</strong> <span id="highPriorityMatches">0</span></p>
+                        <p><strong>New This Week:</strong> <span id="newMatches">0</span></p>
                     </div>
 
                     <div class="dashboard-card">
@@ -2924,9 +2924,9 @@
                             <h3 class="card-title">Match Quality</h3>
                             <span class="card-icon">⭐</span>
                         </div>
-                        <p><strong>Average Match Score:</strong> 85%</p>
-                        <p><strong>Mutual Interest Matches:</strong> 4</p>
-                        <p><strong>Your Profile Completion:</strong> 75%</p>
+                        <p><strong>Average Match Score:</strong> <span id="avgMatchScore">-</span></p>
+                        <p><strong>Mutual Interest Matches:</strong> <span id="mutualMatches">0</span></p>
+                        <p><strong>Your Profile Completion:</strong> <span id="profileCompletion">0</span>%</p>
                         <button class="register-btn" onclick="showSection('profile')" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9em;">Complete Profile</button>
                     </div>
 
@@ -4107,11 +4107,129 @@
                     adminNavItem.style.display = isAdmin ? 'block' : 'none';
                 }
 
+                // Load real dashboard statistics
+                await loadRealDashboardStats(member);
+
                 return true;
             } catch (error) {
                 console.error('Authentication check failed:', error);
                 window.location.href = '/member-login';
                 return false;
+            }
+        }
+
+        // Load real dashboard statistics from Supabase
+        async function loadRealDashboardStats(member) {
+            try {
+                console.log('📊 Loading real dashboard statistics...');
+
+                // 1. Get total member count
+                const { data: allMembers, error: membersError } = await supabase
+                    .from('members')
+                    .select('id', { count: 'exact' })
+                    .eq('is_active', true);
+
+                const totalMembers = allMembers?.length || 0;
+                const totalMemberCountEl = document.getElementById('totalMemberCount');
+                if (totalMemberCountEl) {
+                    totalMemberCountEl.textContent = totalMembers;
+                }
+
+                // 2. Get user's connections
+                const { data: connections, error: connectionsError } = await supabase
+                    .from('member_connections')
+                    .select('*')
+                    .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`)
+                    .eq('status', 'accepted');
+
+                const totalConnections = connections?.length || 0;
+                const totalConnectionsEl = document.getElementById('totalConnections');
+                if (totalConnectionsEl) {
+                    totalConnectionsEl.textContent = totalConnections;
+                }
+
+                // 3. Get new connections this month
+                const firstDayOfMonth = new Date();
+                firstDayOfMonth.setDate(1);
+                firstDayOfMonth.setHours(0, 0, 0, 0);
+
+                const newConnectionsThisMonth = connections?.filter(conn => {
+                    const connDate = new Date(conn.created_at);
+                    return connDate >= firstDayOfMonth;
+                }).length || 0;
+
+                const newConnectionsCountEl = document.getElementById('newConnectionsCount');
+                if (newConnectionsCountEl) {
+                    newConnectionsCountEl.textContent = newConnectionsThisMonth;
+                }
+
+                const monthlyConnectionsEl = document.getElementById('monthlyConnections');
+                if (monthlyConnectionsEl) {
+                    monthlyConnectionsEl.textContent = newConnectionsThisMonth;
+                }
+
+                // 4. Events attended (placeholder for now - can be updated when events system is added)
+                const eventsAttendedCountEl = document.getElementById('eventsAttendedCount');
+                if (eventsAttendedCountEl) {
+                    eventsAttendedCountEl.textContent = 0;
+                }
+
+                // 5. Calculate profile completion
+                const profileFields = [
+                    member.first_name,
+                    member.last_name,
+                    member.email,
+                    member.company_name,
+                    member.job_title,
+                    member.industry,
+                    member.phone,
+                    member.linkedin_url,
+                    member.profile_photo_url
+                ];
+                const filledFields = profileFields.filter(field => field && field !== 'To be completed').length;
+                const profileCompletionPercent = Math.round((filledFields / profileFields.length) * 100);
+
+                const profileCompletionEl = document.getElementById('profileCompletion');
+                if (profileCompletionEl) {
+                    profileCompletionEl.textContent = profileCompletionPercent;
+                }
+
+                // 6. Match statistics - calculate based on other members
+                const otherMembers = allMembers?.filter(m => m.id !== member.id) || [];
+                const totalMatchesEl = document.getElementById('totalMatches');
+                if (totalMatchesEl) {
+                    totalMatchesEl.textContent = Math.max(0, otherMembers.length);
+                }
+
+                const highPriorityMatchesEl = document.getElementById('highPriorityMatches');
+                if (highPriorityMatchesEl) {
+                    highPriorityMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
+                }
+
+                const newMatchesEl = document.getElementById('newMatches');
+                if (newMatchesEl) {
+                    newMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
+                }
+
+                const avgMatchScoreEl = document.getElementById('avgMatchScore');
+                if (avgMatchScoreEl) {
+                    avgMatchScoreEl.textContent = otherMembers.length > 0 ? '-' : 'N/A';
+                }
+
+                const mutualMatchesEl = document.getElementById('mutualMatches');
+                if (mutualMatchesEl) {
+                    mutualMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
+                }
+
+                console.log('✅ Dashboard statistics loaded:', {
+                    totalMembers,
+                    totalConnections,
+                    newConnectionsThisMonth,
+                    profileCompletionPercent
+                });
+
+            } catch (error) {
+                console.error('❌ Error loading dashboard statistics:', error);
             }
         }
 

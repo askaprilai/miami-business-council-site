@@ -4135,8 +4135,27 @@
             return null;
         }
 
-        // Check authentication when page loads
+        // Handle magic link callback and authentication
         window.addEventListener('load', async () => {
+            // Check if this is a magic link callback (has token in URL)
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const searchParams = new URLSearchParams(window.location.search);
+
+            const hasAuthToken = hashParams.has('access_token') ||
+                                searchParams.has('token') ||
+                                searchParams.has('code');
+
+            if (hasAuthToken) {
+                console.log('Magic link callback detected, processing authentication...');
+
+                // Give Supabase time to process the auth callback
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Clear URL parameters after processing
+                window.history.replaceState({}, document.title, '/member-portal');
+            }
+
+            // Now check authentication
             const authenticated = await checkAuthentication();
             if (authenticated) {
                 setupPhotoUpload();

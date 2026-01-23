@@ -4101,7 +4101,8 @@
                 }
 
                 // Show/hide admin panel based on user
-                const isAdmin = member.email === 'info@miamibusinesscouncil.com';
+                const adminEmails = ['info@miamibusinesscouncil.com', 'sabral@me.com'];
+                const isAdmin = adminEmails.includes(member.email);
                 const adminNavItem = document.querySelector('[data-section="admin"]')?.parentElement;
                 if (adminNavItem) {
                     adminNavItem.style.display = isAdmin ? 'block' : 'none';
@@ -4885,6 +4886,19 @@
                     }
 
                     console.log('✅ Photo URL saved to database');
+                } else if (type === 'company') {
+                    const { error: dbError } = await supabase
+                        .from('members')
+                        .update({ company_logo_url: photoUrl })
+                        .eq('id', member.id);
+
+                    if (dbError) {
+                        console.error('Database error:', dbError);
+                        alert('Failed to save logo URL to database');
+                        return;
+                    }
+
+                    console.log('✅ Company logo URL saved to database');
                 }
 
                 // Display the photo
@@ -4932,7 +4946,7 @@
                 // Get member info
                 const { data: member } = await supabase
                     .from('members')
-                    .select('id, profile_photo_url')
+                    .select('id, profile_photo_url, company_logo_url')
                     .eq('auth_user_id', session.user.id)
                     .single();
 
@@ -4957,6 +4971,20 @@
                     await supabase
                         .from('members')
                         .update({ profile_photo_url: null })
+                        .eq('id', member.id);
+                } else if (type === 'company' && member.company_logo_url) {
+                    // Extract filename from URL
+                    const fileName = member.company_logo_url.split('/').pop();
+
+                    // Delete from Supabase Storage
+                    await supabase.storage
+                        .from('profile-photos')
+                        .remove([fileName]);
+
+                    // Remove URL from database
+                    await supabase
+                        .from('members')
+                        .update({ company_logo_url: null })
                         .eq('id', member.id);
                 }
 
@@ -5040,10 +5068,10 @@
                 const { data: { session } } = await supabase.auth.getSession();
                 if (!session) return;
 
-                // Get member profile with photo URL
+                // Get member profile with photo URLs
                 const { data: member, error } = await supabase
                     .from('members')
-                    .select('profile_photo_url')
+                    .select('profile_photo_url, company_logo_url')
                     .eq('auth_user_id', session.user.id)
                     .single();
 
@@ -5056,6 +5084,12 @@
                 if (member.profile_photo_url) {
                     displayPhoto(member.profile_photo_url, 'personal');
                     console.log('✅ Loaded profile photo from database');
+                }
+
+                // Display company logo if it exists
+                if (member.company_logo_url) {
+                    displayPhoto(member.company_logo_url, 'company');
+                    console.log('✅ Loaded company logo from database');
                 }
             } catch (error) {
                 console.error('Error loading photos:', error);
@@ -7919,6 +7953,7 @@ This will enable beautiful previews when sharing the portal link on social media
                         industry: member.industry || 'Business',
                         avatar: initials,
                         photoUrl: member.profile_photo_url || null,
+                        companyLogoUrl: member.company_logo_url || null,
                         email: member.email,
                         lookingFor,
                         canOffer,
@@ -8068,6 +8103,11 @@ This will enable beautiful previews when sharing the portal link on social media
                             <p>${member.company || 'Miami Business Council'}</p>
                         </div>
                     </div>
+                    ${member.companyLogoUrl ? `
+                    <div style="display: flex; justify-content: center; margin: 1rem 0;">
+                        <img src="${member.companyLogoUrl}" alt="${member.company} logo" style="max-width: 100px; max-height: 50px; object-fit: contain; border-radius: 4px;">
+                    </div>
+                    ` : ''}
                     <div class="member-details">
                         ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
                     </div>

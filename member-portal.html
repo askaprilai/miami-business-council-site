@@ -2834,15 +2834,15 @@
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
                         <div>
-                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberConnectionCount">12</div>
+                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberConnectionCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Connections</div>
                         </div>
                         <div>
-                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberMessageCount">8</div>
+                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberMessageCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Messages</div>
                         </div>
                         <div>
-                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberEventCount">3</div>
+                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberEventCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Events Attended</div>
                         </div>
                     </div>
@@ -4259,11 +4259,38 @@
                     mutualMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
                 }
 
+                // 7. Update welcome card stats
+                const memberConnectionCountEl = document.getElementById('memberConnectionCount');
+                if (memberConnectionCountEl) {
+                    memberConnectionCountEl.textContent = totalConnections;
+                }
+
+                // 8. Get message count from chat history
+                const chatHistory = JSON.parse(localStorage.getItem('memberChats') || '{}');
+                let totalMessages = 0;
+                Object.keys(chatHistory).forEach(chatId => {
+                    if (chatHistory[chatId]) {
+                        totalMessages += chatHistory[chatId].length || 0;
+                    }
+                });
+
+                const memberMessageCountEl = document.getElementById('memberMessageCount');
+                if (memberMessageCountEl) {
+                    memberMessageCountEl.textContent = totalMessages;
+                }
+
+                // 9. Events attended (placeholder - will update when events system is added)
+                const memberEventCountEl = document.getElementById('memberEventCount');
+                if (memberEventCountEl) {
+                    memberEventCountEl.textContent = 0; // Will be updated when events system is added
+                }
+
                 console.log('✅ Dashboard statistics loaded:', {
                     totalMembers,
                     totalConnections,
                     newConnectionsThisMonth,
-                    profileCompletionPercent
+                    profileCompletionPercent,
+                    totalMessages
                 });
 
             } catch (error) {

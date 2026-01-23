@@ -7594,17 +7594,26 @@ This will enable beautiful previews when sharing the portal link on social media
                     const lookingFor = member.business_opportunities
                         ?.filter(opp => opp.opportunity_type === 'looking_for')
                         ?.map(opp => opp.category) || [];
-                    
+
                     const canOffer = member.business_opportunities
                         ?.filter(opp => opp.opportunity_type === 'can_offer')
                         ?.map(opp => opp.category) || [];
 
+                    const firstName = member.first_name || '';
+                    const lastName = member.last_name || '';
+                    const initials = lastName ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() : `${firstName.charAt(0)}${firstName.charAt(1) || ''}`.toUpperCase();
+
                     return {
                         id: member.id,
-                        name: `${member.first_name} ${member.last_name}`,
-                        company: member.company_name,
-                        industry: member.industry,
-                        avatar: `${member.first_name.charAt(0)}${member.last_name.charAt(0)}`.toUpperCase(),
+                        name: `${firstName} ${lastName}`.trim(),
+                        firstName: firstName,
+                        lastName: lastName,
+                        title: member.job_title || '',
+                        company: member.company_name || '',
+                        industry: member.industry || 'Business',
+                        avatar: initials,
+                        photoUrl: member.profile_photo_url || null,
+                        email: member.email,
                         lookingFor,
                         canOffer,
                         linkedin: member.linkedin_url,
@@ -7766,26 +7775,41 @@ This will enable beautiful previews when sharing the portal link on social media
             const memberGrid = document.querySelector('.member-grid');
             if (!memberGrid || members.length === 0) return;
 
-            const memberCardsHtml = members.map(member => `
-                <div class="member-card">
+            const memberCardsHtml = members.map(member => {
+                const tags = [...(member.lookingFor || []), ...(member.canOffer || [])].slice(0, 3);
+                const tagsArray = tags.map(tag => `'${tag}'`).join(', ');
+
+                return `
+                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'})">
                     <div class="member-header">
-                        <div class="member-avatar">${member.avatar}</div>
+                        ${member.photoUrl
+                            ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`
+                            : `<div class="member-avatar">${member.avatar}</div>`
+                        }
                         <div class="member-info">
                             <h3>${member.name}</h3>
-                            <p>${member.company}</p>
-                            <p>${member.industry || 'Business'}</p>
+                            ${member.title ? `<p>${member.title}</p>` : ''}
+                            <p>${member.company || 'Miami Business Council'}</p>
                         </div>
                     </div>
                     <div class="member-details">
-                        ${member.lookingFor.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
-                        ${member.canOffer.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
+                        ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
                     </div>
-                    ${member.linkedin 
-                        ? `<a href="${member.linkedin}" class="linkedin-btn" target="_blank">📍 LinkedIn Profile</a>`
-                        : `<a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with ${member.name}" class="linkedin-btn">📧 Connect</a>`
-                    }
+                    <div class="member-actions" onclick="event.stopPropagation()">
+                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}')" title="Send direct message">
+                            💬 Message
+                        </button>
+                        ${member.linkedin
+                            ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
+                            : ''
+                        }
+                        <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${member.name}', '${member.company}')" title="Send email">
+                            📧 Email
+                        </button>
+                    </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
 
             memberGrid.innerHTML = memberCardsHtml;
         }

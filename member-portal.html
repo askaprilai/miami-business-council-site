@@ -2175,6 +2175,57 @@
             margin-top: 1.5rem;
         }
 
+        /* List View Styles */
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .member-list .member-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .member-list .member-header {
+            flex-direction: row;
+            gap: 1rem;
+            min-width: 250px;
+        }
+
+        .member-list .member-avatar {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+
+        .member-list .member-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .member-list .member-info p {
+            font-size: 0.85rem;
+        }
+
+        .member-list .member-details {
+            flex: 1;
+            justify-content: flex-start;
+        }
+
+        .member-list .member-actions {
+            flex-direction: row;
+            gap: 0.5rem;
+        }
+
+        .member-list .member-actions button {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
         /* Referral System Styles */
         .referral-points-badge {
             background: #d4af37;
@@ -3009,66 +3060,82 @@
                     <p>Connect with fellow Miami business leaders</p>
                 </div>
 
-                <div class="search-bar">
-                    <input type="text" class="search-input" id="memberSearchInput" placeholder="Search members by name, company, or industry..." oninput="filterMembers()">
-                    <button class="search-clear-btn" id="clearSearchBtn" onclick="clearMemberSearch()" style="display: none;">✕</button>
+                <!-- Directory Controls -->
+                <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <!-- Search Bar -->
+                    <div class="search-bar" style="margin-bottom: 1.5rem;">
+                        <input type="text" class="search-input" id="memberSearchInput" placeholder="Search members by name, company, or industry..." oninput="searchMembers()">
+                        <button class="search-clear-btn" id="clearSearchBtn" onclick="clearMemberSearch()" style="display: none;">✕</button>
+                    </div>
+
+                    <!-- Filters and Controls Row -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: center;">
+                        <!-- Industry Filter -->
+                        <div>
+                            <label style="display: block; color: #ccc; font-size: 0.85rem; margin-bottom: 0.5rem;">Industry</label>
+                            <select id="industryFilterSelect" onchange="applyFilters()" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed;">
+                                <option value="all">All Industries</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Professional Services">Professional Services</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Education">Education</option>
+                                <option value="Non-Profit">Non-Profit</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Consulting">Consulting</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort By -->
+                        <div>
+                            <label style="display: block; color: #ccc; font-size: 0.85rem; margin-bottom: 0.5rem;">Sort By</label>
+                            <select id="sortSelect" onchange="applyFilters()" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed;">
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                                <option value="company-asc">Company (A-Z)</option>
+                                <option value="date-desc">Newest First</option>
+                                <option value="date-asc">Oldest First</option>
+                            </select>
+                        </div>
+
+                        <!-- Results Count -->
+                        <div style="color: #ccc; font-size: 0.9rem;">
+                            <span id="memberResultsCount">0 members</span>
+                        </div>
+
+                        <!-- View Toggle -->
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button id="gridViewBtn" onclick="setViewMode('grid')" style="padding: 0.75rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; border-radius: 8px; color: #d4af37; cursor: pointer; font-size: 1.2rem;" title="Grid View">
+                                ⬜
+                            </button>
+                            <button id="listViewBtn" onclick="setViewMode('list')" style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ccc; cursor: pointer; font-size: 1.2rem;" title="List View">
+                                ≡
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="member-grid">
-                    <div class="member-card" onclick="openMemberProfile('april', 'April Sabral', 'Founder & CEO', 'AskApril AI', 'AS', ['Technology', 'AI/ML', 'Business'], 'april@apriljsabral.com', 'https://linkedin.com/in/apriljsabral')">
-                        <div class="member-header">
-                            <div class="member-avatar">AS</div>
-                            <div class="member-info">
-                                <h3>April Sabral</h3>
-                                <p>Founder & CEO</p>
-                                <p>AskApril AI</p>
-                            </div>
-                        </div>
-                        <div class="member-details">
-                            <span class="member-tag">Technology</span>
-                            <span class="member-tag">AI/ML</span>
-                            <span class="member-tag">Business</span>
-                        </div>
-                        <div class="member-actions" onclick="event.stopPropagation()">
-                            <button class="message-btn" onclick="startChatFromDirectory('april', 'April Sabral', 'AskApril AI')" title="Send direct message">
-                                💬 Message
-                            </button>
-                            <button class="linkedin-btn" onclick="openLinkedInFromCard(this)" title="View LinkedIn profile">
-                                📍 LinkedIn
-                            </button>
-                            <button class="email-btn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'April J. Sabral Consulting')" title="Send email">
-                                📧 Email
-                            </button>
-                        </div>
-                    </div>
+                <!-- Member Grid/List Container -->
+                <div id="memberDirectoryContainer" class="member-grid">
+                    <!-- Members loaded dynamically from database -->
+                </div>
 
-
-                    <div class="member-card" onclick="openMemberProfile('joy', 'Joy Sabral', 'Retail Consultant', 'Owner Retail', 'JS', ['Retail', 'Consulting', 'Operations'], 'sabral@me.com', null)">
-                        <div class="member-header">
-                            <div class="member-avatar">JS</div>
-                            <div class="member-info">
-                                <h3>Joy Sabral</h3>
-                                <p>Retail Consultant</p>
-                                <p>Owner Retail</p>
-                            </div>
-                        </div>
-                        <div class="member-details">
-                            <span class="member-tag">Retail</span>
-                            <span class="member-tag">Consulting</span>
-                            <span class="member-tag">Operations</span>
-                        </div>
-                        <div class="member-actions" onclick="event.stopPropagation()">
-                            <button class="message-btn" onclick="startChatFromDirectory('joy', 'Joy Sabral', 'Owner Retail')" title="Send direct message">
-                                💬 Message
-                            </button>
-                            <button class="email-btn" onclick="sendMBCEmail('sabral@me.com', 'Joy Sabral', 'Owner Retail')" title="Send email">
-                                📧 Email
-                            </button>
-                            <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon!')" title="LinkedIn profile">
-                                📍 LinkedIn
-                            </button>
-                        </div>
+                <!-- Pagination Controls -->
+                <div id="paginationControls" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1.5rem;">
+                    <button id="prevPageBtn" onclick="changePage(-1)" style="padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; cursor: pointer;">
+                        ← Previous
+                    </button>
+                    <div id="pageNumbers" style="display: flex; gap: 0.5rem;">
+                        <!-- Page numbers will be generated dynamically -->
                     </div>
+                    <button id="nextPageBtn" onclick="changePage(1)" style="padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; cursor: pointer;">
+                        Next →
+                    </button>
                 </div>
             </section>
 
@@ -8425,13 +8492,318 @@ This will enable beautiful previews when sharing the portal link on social media
             if (totalMemberCountElement) {
                 totalMemberCountElement.textContent = memberCount;
             }
-            
+
             // Update total member count in admin dashboard
             const adminTotalMemberCountElement = document.getElementById('adminTotalMemberCount');
             if (adminTotalMemberCountElement) {
                 adminTotalMemberCountElement.textContent = memberCount;
             }
         }
+
+        // ========================================
+        // COMPREHENSIVE MEMBER DIRECTORY SYSTEM
+        // ========================================
+
+        let allMembers = []; // Store all members
+        let filteredMembers = []; // After filtering
+        let currentPage = 1;
+        const membersPerPage = 20;
+        let currentViewMode = 'grid'; // 'grid' or 'list'
+        let currentFilters = {
+            search: '',
+            industry: 'all',
+            sortBy: 'name-asc'
+        };
+
+        // Search members (real-time)
+        function searchMembers() {
+            const searchInput = document.getElementById('memberSearchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            currentFilters.search = searchInput.value.toLowerCase().trim();
+
+            // Show/hide clear button
+            clearBtn.style.display = currentFilters.search.length > 0 ? 'flex' : 'none';
+
+            currentPage = 1; // Reset to first page
+            applyFilters();
+        }
+
+        // Clear search
+        function clearMemberSearch() {
+            document.getElementById('memberSearchInput').value = '';
+            document.getElementById('clearSearchBtn').style.display = 'none';
+            currentFilters.search = '';
+            currentPage = 1;
+            applyFilters();
+        }
+
+        // Apply all filters and update display
+        function applyFilters() {
+            const industryFilter = document.getElementById('industryFilterSelect').value;
+            const sortBy = document.getElementById('sortSelect').value;
+
+            currentFilters.industry = industryFilter;
+            currentFilters.sortBy = sortBy;
+
+            // Filter members
+            filteredMembers = allMembers.filter(member => {
+                // Search filter
+                if (currentFilters.search) {
+                    const searchStr = `${member.name} ${member.company} ${member.industries.join(' ')}`.toLowerCase();
+                    if (!searchStr.includes(currentFilters.search)) {
+                        return false;
+                    }
+                }
+
+                // Industry filter
+                if (currentFilters.industry !== 'all') {
+                    if (!member.industries || !member.industries.includes(currentFilters.industry)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            // Sort members
+            filteredMembers.sort((a, b) => {
+                switch (currentFilters.sortBy) {
+                    case 'name-asc':
+                        return a.name.localeCompare(b.name);
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name);
+                    case 'company-asc':
+                        return a.company.localeCompare(b.company);
+                    case 'date-desc':
+                        return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                    case 'date-asc':
+                        return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+                    default:
+                        return 0;
+                }
+            });
+
+            renderMemberDirectory();
+            updatePaginationControls();
+            updateResultsCount();
+        }
+
+        // Set view mode (grid or list)
+        function setViewMode(mode) {
+            currentViewMode = mode;
+
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (mode === 'grid') {
+                gridBtn.style.background = 'rgba(212, 175, 55, 0.2)';
+                gridBtn.style.borderColor = '#d4af37';
+                gridBtn.style.color = '#d4af37';
+                listBtn.style.background = 'rgba(255,255,255,0.05)';
+                listBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+                listBtn.style.color = '#ccc';
+            } else {
+                listBtn.style.background = 'rgba(212, 175, 55, 0.2)';
+                listBtn.style.borderColor = '#d4af37';
+                listBtn.style.color = '#d4af37';
+                gridBtn.style.background = 'rgba(255,255,255,0.05)';
+                gridBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+                gridBtn.style.color = '#ccc';
+            }
+
+            renderMemberDirectory();
+        }
+
+        // Change page
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+            currentPage += direction;
+
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            renderMemberDirectory();
+            updatePaginationControls();
+
+            // Scroll to top of directory
+            document.getElementById('memberDirectoryContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Go to specific page
+        function goToPage(page) {
+            currentPage = page;
+            renderMemberDirectory();
+            updatePaginationControls();
+            document.getElementById('memberDirectoryContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Render member directory
+        function renderMemberDirectory() {
+            const container = document.getElementById('memberDirectoryContainer');
+            if (!container) return;
+
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * membersPerPage;
+            const endIndex = startIndex + membersPerPage;
+            const membersToShow = filteredMembers.slice(startIndex, endIndex);
+
+            if (membersToShow.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #ccc;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                        <h3>No members found</h3>
+                        <p>Try adjusting your search or filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Set container class based on view mode
+            container.className = currentViewMode === 'grid' ? 'member-grid' : 'member-list';
+
+            // Generate member cards
+            const memberCardsHtml = membersToShow.map(member => {
+                const tags = member.industries || [];
+                const tagsArray = tags.map(tag => `'${tag}'`).join(', ');
+
+                return `
+                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'})">
+                    <div class="member-header">
+                        ${member.photoUrl
+                            ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`
+                            : `<div class="member-avatar">${member.avatar}</div>`
+                        }
+                        <div class="member-info">
+                            <h3>${member.name}</h3>
+                            ${member.title ? `<p>${member.title}</p>` : ''}
+                            <p>${member.company || 'Miami Business Council'}</p>
+                        </div>
+                    </div>
+                    ${member.companyLogoUrl ? `
+                    <div style="display: flex; justify-content: center; margin: 1rem 0;">
+                        <img src="${member.companyLogoUrl}" alt="${member.company} logo" style="max-width: 100px; max-height: 50px; object-fit: contain; border-radius: 4px;">
+                    </div>
+                    ` : ''}
+                    <div class="member-details">
+                        ${member.industries && member.industries.length > 0
+                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
+                            : ''
+                        }
+                    </div>
+                    <div class="member-actions" onclick="event.stopPropagation()">
+                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}', '${member.email}')" title="Send direct message">
+                            💬 Message
+                        </button>
+                        ${member.linkedin
+                            ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
+                            : ''
+                        }
+                        <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${member.name}', '${member.company}')" title="Send email">
+                            📧 Email
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            container.innerHTML = memberCardsHtml;
+        }
+
+        // Update pagination controls
+        function updatePaginationControls() {
+            const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            const pageNumbers = document.getElementById('pageNumbers');
+
+            // Update button states
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.style.opacity = currentPage === 1 ? '0.5' : '1';
+            prevBtn.style.cursor = currentPage === 1 ? 'not-allowed' : 'pointer';
+
+            nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+            nextBtn.style.opacity = (currentPage === totalPages || totalPages === 0) ? '0.5' : '1';
+            nextBtn.style.cursor = (currentPage === totalPages || totalPages === 0) ? 'not-allowed' : 'pointer';
+
+            // Generate page numbers
+            let pageNumbersHtml = '';
+            const maxPagesToShow = 7;
+
+            if (totalPages <= maxPagesToShow) {
+                // Show all pages
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbersHtml += generatePageButton(i);
+                }
+            } else {
+                // Show abbreviated pagination
+                if (currentPage <= 4) {
+                    for (let i = 1; i <= 5; i++) {
+                        pageNumbersHtml += generatePageButton(i);
+                    }
+                    pageNumbersHtml += '<span style="padding: 0.75rem; color: #ccc;">...</span>';
+                    pageNumbersHtml += generatePageButton(totalPages);
+                } else if (currentPage >= totalPages - 3) {
+                    pageNumbersHtml += generatePageButton(1);
+                    pageNumbersHtml += '<span style="padding: 0.75rem; color: #ccc;">...</span>';
+                    for (let i = totalPages - 4; i <= totalPages; i++) {
+                        pageNumbersHtml += generatePageButton(i);
+                    }
+                } else {
+                    pageNumbersHtml += generatePageButton(1);
+                    pageNumbersHtml += '<span style="padding: 0.75rem; color: #ccc;">...</span>';
+                    for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                        pageNumbersHtml += generatePageButton(i);
+                    }
+                    pageNumbersHtml += '<span style="padding: 0.75rem; color: #ccc;">...</span>';
+                    pageNumbersHtml += generatePageButton(totalPages);
+                }
+            }
+
+            pageNumbers.innerHTML = pageNumbersHtml;
+        }
+
+        // Generate page button HTML
+        function generatePageButton(pageNum) {
+            const isActive = pageNum === currentPage;
+            return `
+                <button onclick="goToPage(${pageNum})" style="
+                    padding: 0.75rem 1rem;
+                    background: ${isActive ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255,255,255,0.05)'};
+                    border: 1px solid ${isActive ? '#d4af37' : 'rgba(255,255,255,0.1)'};
+                    border-radius: 8px;
+                    color: ${isActive ? '#d4af37' : '#e8eaed'};
+                    cursor: pointer;
+                    font-weight: ${isActive ? '600' : '400'};
+                ">
+                    ${pageNum}
+                </button>
+            `;
+        }
+
+        // Update results count
+        function updateResultsCount() {
+            const countElement = document.getElementById('memberResultsCount');
+            if (countElement) {
+                const count = filteredMembers.length;
+                countElement.textContent = `${count} member${count !== 1 ? 's' : ''}`;
+            }
+        }
+
+        // Initialize member directory with data
+        function initializeMemberDirectory(members) {
+            allMembers = members;
+            filteredMembers = [...members];
+            currentPage = 1;
+            renderMemberDirectory();
+            updatePaginationControls();
+            updateResultsCount();
+        }
+
+        // Override the existing updateMemberDirectory to use new system
+        const originalUpdateMemberDirectory = updateMemberDirectory;
+        updateMemberDirectory = function(members) {
+            initializeMemberDirectory(members);
+        };
     </script>
 
 

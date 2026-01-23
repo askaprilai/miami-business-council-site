@@ -4155,13 +4155,16 @@
                 console.log('Member profile loaded:', member);
 
                 // Update UI with member info
-                const fullName = `${member.first_name} ${member.last_name}`;
+                const firstName = member.first_name || '';
+                const lastName = member.last_name || '';
+                const fullName = lastName ? `${firstName} ${lastName}` : firstName;
+
                 const userNameElement = document.getElementById('userName');
                 if (userNameElement) {
                     userNameElement.textContent = fullName;
                 }
 
-                const initials = `${member.first_name[0]}${member.last_name[0]}`.toUpperCase();
+                const initials = lastName ? `${firstName[0]}${lastName[0]}`.toUpperCase() : `${firstName[0]}${firstName[1] || ''}`.toUpperCase();
                 const userAvatarElement = document.getElementById('userAvatar');
                 if (userAvatarElement) {
                     userAvatarElement.textContent = initials;

@@ -3404,15 +3404,9 @@
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                            <div class="form-group">
-                                <label for="memberPhone" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Phone Number (Optional)</label>
-                                <input type="tel" id="memberPhone" name="memberPhone" class="profile-input" placeholder="(305) 123-4567" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
-                            </div>
-                            <div class="form-group">
-                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL (Optional)</label>
-                                <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
-                            </div>
+                        <div class="form-group">
+                            <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL (Optional)</label>
+                            <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                         </div>
 
                         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
@@ -4112,10 +4106,10 @@
 
     <script>
         // Initialize Supabase client
-        var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
-        var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
+        var SUPABASE_URL = SUPABASE_URL || = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+        var SUPABASE_ANON_KEY = SUPABASE_ANON_KEY || = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
-        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Global member data cache
         let currentMember = null;
@@ -4155,16 +4149,13 @@
                 console.log('Member profile loaded:', member);
 
                 // Update UI with member info
-                const firstName = member.first_name || '';
-                const lastName = member.last_name || '';
-                const fullName = lastName ? `${firstName} ${lastName}` : firstName;
-
+                const fullName = `${member.first_name} ${member.last_name}`;
                 const userNameElement = document.getElementById('userName');
                 if (userNameElement) {
                     userNameElement.textContent = fullName;
                 }
 
-                const initials = lastName ? `${firstName[0]}${lastName[0]}`.toUpperCase() : `${firstName[0]}${firstName[1] || ''}`.toUpperCase();
+                const initials = `${member.first_name[0]}${member.last_name[0]}`.toUpperCase();
                 const userAvatarElement = document.getElementById('userAvatar');
                 if (userAvatarElement) {
                     userAvatarElement.textContent = initials;
@@ -4863,7 +4854,7 @@
             loadExistingPhotos();
         }
 
-        async function handlePhotoUpload(event, type) {
+        function handlePhotoUpload(event, type) {
             const file = event.target.files[0];
             if (!file) return;
 
@@ -4879,92 +4870,13 @@
                 return;
             }
 
-            try {
-                // Show loading state
-                const previewId = type === 'personal' ? 'personalPhotoPreview' : 'companyLogoPreview';
-                const preview = document.getElementById(previewId);
-                preview.innerHTML = '<div class="photo-placeholder"><span class="photo-icon">⏳</span><p>Uploading...</p></div>';
-
-                // Get current user session
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session) {
-                    alert('Please log in to upload photos');
-                    return;
-                }
-
-                // Get member info
-                const { data: member } = await supabase
-                    .from('members')
-                    .select('id, email')
-                    .eq('auth_user_id', session.user.id)
-                    .single();
-
-                if (!member) {
-                    alert('Member profile not found');
-                    return;
-                }
-
-                // Create unique filename
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${member.id}_${type}_${Date.now()}.${fileExt}`;
-                const filePath = `${fileName}`;
-
-                console.log('📤 Uploading photo to Supabase Storage:', filePath);
-
-                // Upload to Supabase Storage
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('profile-photos')
-                    .upload(filePath, file, {
-                        cacheControl: '3600',
-                        upsert: true
-                    });
-
-                if (uploadError) {
-                    console.error('Upload error:', uploadError);
-                    alert('Failed to upload photo: ' + uploadError.message);
-                    return;
-                }
-
-                console.log('✅ Photo uploaded successfully:', uploadData);
-
-                // Get public URL
-                const { data: urlData } = supabase.storage
-                    .from('profile-photos')
-                    .getPublicUrl(filePath);
-
-                const photoUrl = urlData.publicUrl;
-                console.log('🔗 Public URL:', photoUrl);
-
-                // Save URL to database
-                if (type === 'personal') {
-                    const { error: dbError } = await supabase
-                        .from('members')
-                        .update({ profile_photo_url: photoUrl })
-                        .eq('id', member.id);
-
-                    if (dbError) {
-                        console.error('Database error:', dbError);
-                        alert('Failed to save photo URL to database');
-                        return;
-                    }
-
-                    console.log('✅ Photo URL saved to database');
-                }
-
-                // Display the photo
-                displayPhoto(photoUrl, type);
-
-                // Reload member directory to show new photo
-                loadMembersFromDatabase().then(members => {
-                    updateMemberDirectory(members);
-                });
-
-                alert('✅ Photo uploaded successfully!');
-
-            } catch (error) {
-                console.error('Error uploading photo:', error);
-                alert('Failed to upload photo. Please try again.');
-            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imageData = e.target.result;
+                displayPhoto(imageData, type);
+                savePhotoToStorage(imageData, type);
+            };
+            reader.readAsDataURL(file);
         }
 
         function displayPhoto(imageData, type) {
@@ -4983,50 +4895,24 @@
             }
         }
 
-        async function removePhoto(type) {
-            if (!confirm('Are you sure you want to remove this photo?')) {
-                return;
-            }
-
+        function removePhoto(type) {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+            
             try {
-                // Get current user session
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session) return;
-
-                // Get member info
-                const { data: member } = await supabase
-                    .from('members')
-                    .select('id, profile_photo_url')
-                    .eq('auth_user_id', session.user.id)
-                    .single();
-
-                if (!member) return;
-
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
                 const previewId = type === 'personal' ? 'personalPhotoPreview' : 'companyLogoPreview';
                 const removeId = type === 'personal' ? 'removePersonalPhoto' : 'removeCompanyLogo';
-                const icon = type === 'personal' ? '👤' : '🏢';
-                const text = type === 'personal' ? 'No photo uploaded' : 'No logo uploaded';
-
-                // Remove from database
-                if (type === 'personal' && member.profile_photo_url) {
-                    // Extract filename from URL
-                    const fileName = member.profile_photo_url.split('/').pop();
-
-                    // Delete from Supabase Storage
-                    await supabase.storage
-                        .from('profile-photos')
-                        .remove([fileName]);
-
-                    // Remove URL from database
-                    await supabase
-                        .from('members')
-                        .update({ profile_photo_url: null })
-                        .eq('id', member.id);
-                }
-
-                // Update UI
+                const storageKey = type === 'personal' ? 
+                    `memberPersonalPhoto_${memberEmail}` : 
+                    `memberCompanyLogo_${memberEmail}`;
+                
                 const preview = document.getElementById(previewId);
                 const removeBtn = document.getElementById(removeId);
+                const icon = type === 'personal' ? '👤' : '🏢';
+                const text = type === 'personal' ? 'No photo uploaded' : 'No logo uploaded';
 
                 preview.innerHTML = `
                     <div class="photo-placeholder">
@@ -5035,20 +4921,14 @@
                     </div>
                 `;
                 removeBtn.style.display = 'none';
-
+                localStorage.removeItem(storageKey);
+                
                 // Reset avatars throughout portal if this is a personal photo
                 if (type === 'personal') {
-                    // Reload member directory
-                    loadMembersFromDatabase().then(members => {
-                        updateMemberDirectory(members);
-                    });
+                    resetMemberAvatarsToInitials();
                 }
-
-                alert('✅ Photo removed successfully');
-
             } catch (error) {
                 console.error('Error removing photo:', error);
-                alert('Failed to remove photo. Please try again.');
             }
         }
         
@@ -5092,34 +4972,42 @@
             }
         }
 
-        // No longer needed - photos saved to Supabase in handlePhotoUpload
         function savePhotoToStorage(imageData, type) {
-            // Legacy function - photos now saved to Supabase Storage
-            console.log('Photo saved to Supabase Storage');
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+            
+            try {
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                // Make storage keys member-specific
+                const storageKey = type === 'personal' ? 
+                    `memberPersonalPhoto_${memberEmail}` : 
+                    `memberCompanyLogo_${memberEmail}`;
+                localStorage.setItem(storageKey, imageData);
+            } catch (error) {
+                console.error('Error saving photo:', error);
+            }
         }
 
-        async function loadExistingPhotos() {
+        function loadExistingPhotos() {
+            const memberAuth = sessionStorage.getItem('memberAuth');
+            if (!memberAuth) return;
+            
             try {
-                // Get current user session
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session) return;
+                const auth = JSON.parse(memberAuth);
+                const memberEmail = auth.email;
+                
+                // Load member-specific photos
+                const personalPhoto = localStorage.getItem(`memberPersonalPhoto_${memberEmail}`);
+                const companyLogo = localStorage.getItem(`memberCompanyLogo_${memberEmail}`);
 
-                // Get member profile with photo URL
-                const { data: member, error } = await supabase
-                    .from('members')
-                    .select('profile_photo_url')
-                    .eq('auth_user_id', session.user.id)
-                    .single();
-
-                if (error || !member) {
-                    console.log('No member profile found');
-                    return;
+                if (personalPhoto) {
+                    displayPhoto(personalPhoto, 'personal');
                 }
 
-                // Display personal photo if it exists
-                if (member.profile_photo_url) {
-                    displayPhoto(member.profile_photo_url, 'personal');
-                    console.log('✅ Loaded profile photo from database');
+                if (companyLogo) {
+                    displayPhoto(companyLogo, 'company');
                 }
             } catch (error) {
                 console.error('Error loading photos:', error);
@@ -5718,10 +5606,6 @@
                 if (document.getElementById('memberIndustry')) {
                     document.getElementById('memberIndustry').value = currentMember.industry || '';
                 }
-                // Phone number loading temporarily disabled until database column is added
-                // if (document.getElementById('memberPhone')) {
-                //     document.getElementById('memberPhone').value = currentMember.phone_number || '';
-                // }
                 if (document.getElementById('memberLinkedIn')) {
                     document.getElementById('memberLinkedIn').value = currentMember.linkedin_url || '';
                 }
@@ -6037,11 +5921,7 @@
                     job_title: document.getElementById('memberTitle')?.value || '',
                     industry: document.getElementById('memberIndustry')?.value || '',
                     linkedin_url: document.getElementById('memberLinkedIn')?.value || ''
-                    // phone_number temporarily removed until database column is added
                 };
-
-                console.log('💾 Saving profile data:', profileData);
-                console.log('📧 Member ID:', currentMember.id);
 
                 // Save to Supabase
                 const { data, error } = await supabase
@@ -6052,13 +5932,10 @@
                     .single();
 
                 if (error) {
-                    console.error('❌ Error saving profile:', error);
-                    console.error('❌ Error details:', JSON.stringify(error, null, 2));
-                    alert(`Error saving profile: ${error.message}\n\nCheck console for details.`);
+                    console.error('Error saving profile:', error);
+                    alert('Failed to save profile. Please try again.');
                     return;
                 }
-
-                console.log('✅ Profile saved successfully:', data);
 
                 // Update global currentMember
                 currentMember = { ...currentMember, ...data };
@@ -7697,26 +7574,17 @@ This will enable beautiful previews when sharing the portal link on social media
                     const lookingFor = member.business_opportunities
                         ?.filter(opp => opp.opportunity_type === 'looking_for')
                         ?.map(opp => opp.category) || [];
-
+                    
                     const canOffer = member.business_opportunities
                         ?.filter(opp => opp.opportunity_type === 'can_offer')
                         ?.map(opp => opp.category) || [];
 
-                    const firstName = member.first_name || '';
-                    const lastName = member.last_name || '';
-                    const initials = lastName ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() : `${firstName.charAt(0)}${firstName.charAt(1) || ''}`.toUpperCase();
-
                     return {
                         id: member.id,
-                        name: `${firstName} ${lastName}`.trim(),
-                        firstName: firstName,
-                        lastName: lastName,
-                        title: member.job_title || '',
-                        company: member.company_name || '',
-                        industry: member.industry || 'Business',
-                        avatar: initials,
-                        photoUrl: member.profile_photo_url || null,
-                        email: member.email,
+                        name: `${member.first_name} ${member.last_name}`,
+                        company: member.company_name,
+                        industry: member.industry,
+                        avatar: `${member.first_name.charAt(0)}${member.last_name.charAt(0)}`.toUpperCase(),
                         lookingFor,
                         canOffer,
                         linkedin: member.linkedin_url,
@@ -7788,7 +7656,44 @@ This will enable beautiful previews when sharing the portal link on social media
         }
 
         // Enhanced profile saving with database
-        // REMOVED: Old broken saveProfileToDatabase function that caused infinite loop
+        async function saveProfileToDatabase() {
+            try {
+                const profileData = {
+                    first_name: document.querySelector('input[value="John Smith"]').value.split(' ')[0],
+                    last_name: document.querySelector('input[value="John Smith"]').value.split(' ')[1] || '',
+                    company_name: document.querySelector('input[value="Smith Consulting LLC"]').value,
+                    job_title: document.querySelector('input[value="Founder & CEO"]').value,
+                    industry: document.querySelector('select').value,
+                    linkedin_url: document.querySelector('input[type="url"]').value,
+                    company_size: document.querySelector('input[name="company-size"]:checked').value,
+                    looking_for: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
+                    can_offer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent)
+                };
+
+                const response = await fetch('/api/members?id=current-user-id', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                if (response.ok) {
+                    alert('Profile saved successfully to database!');
+                    // Refresh matches with new preferences
+                    findMatches();
+                } else {
+                    const error = await response.json();
+                    alert(`Failed to save profile: ${error.error}`);
+                    // Fallback to localStorage
+                    saveProfile();
+                }
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                // Fallback to localStorage
+                saveProfile();
+            }
+        }
 
         // Fallback function for hardcoded members (when database not connected)
         function getHardcodedMembers() {
@@ -7878,41 +7783,26 @@ This will enable beautiful previews when sharing the portal link on social media
             const memberGrid = document.querySelector('.member-grid');
             if (!memberGrid || members.length === 0) return;
 
-            const memberCardsHtml = members.map(member => {
-                const tags = [...(member.lookingFor || []), ...(member.canOffer || [])].slice(0, 3);
-                const tagsArray = tags.map(tag => `'${tag}'`).join(', ');
-
-                return `
-                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'})">
+            const memberCardsHtml = members.map(member => `
+                <div class="member-card">
                     <div class="member-header">
-                        ${member.photoUrl
-                            ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`
-                            : `<div class="member-avatar">${member.avatar}</div>`
-                        }
+                        <div class="member-avatar">${member.avatar}</div>
                         <div class="member-info">
                             <h3>${member.name}</h3>
-                            ${member.title ? `<p>${member.title}</p>` : ''}
-                            <p>${member.company || 'Miami Business Council'}</p>
+                            <p>${member.company}</p>
+                            <p>${member.industry || 'Business'}</p>
                         </div>
                     </div>
                     <div class="member-details">
-                        ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
+                        ${member.lookingFor.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
+                        ${member.canOffer.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
                     </div>
-                    <div class="member-actions" onclick="event.stopPropagation()">
-                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}')" title="Send direct message">
-                            💬 Message
-                        </button>
-                        ${member.linkedin
-                            ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
-                            : ''
-                        }
-                        <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${member.name}', '${member.company}')" title="Send email">
-                            📧 Email
-                        </button>
-                    </div>
+                    ${member.linkedin 
+                        ? `<a href="${member.linkedin}" class="linkedin-btn" target="_blank">📍 LinkedIn Profile</a>`
+                        : `<a href="mailto:contact@miamibusinesscouncil.com?subject=Connect with ${member.name}" class="linkedin-btn">📧 Connect</a>`
+                    }
                 </div>
-                `;
-            }).join('');
+            `).join('');
 
             memberGrid.innerHTML = memberCardsHtml;
         }

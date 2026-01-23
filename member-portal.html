@@ -5146,25 +5146,33 @@
         }
 
         // Member Profile Modal Functions
-        function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin) {
+        function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin, photoUrl = null) {
             // Update modal content with member data
-            document.getElementById('profileAvatarLarge').textContent = avatar;
+            const avatarElement = document.getElementById('profileAvatarLarge');
+
+            // Display photo if available, otherwise show initials
+            if (photoUrl) {
+                avatarElement.innerHTML = `<img src="${photoUrl}" alt="${name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                avatarElement.innerHTML = avatar;
+            }
+
             document.getElementById('profileName').textContent = name;
             document.getElementById('profileTitle').textContent = title;
             document.getElementById('profileCompany').textContent = company;
             document.getElementById('profileIndustry').textContent = tags.join(', ');
-            
+
             // Update tags
             const tagsContainer = document.getElementById('profileTags');
             tagsContainer.innerHTML = tags.map(tag => `<span class="profile-tag">${tag}</span>`).join('');
-            
+
             // Update action buttons
             const emailBtn = document.getElementById('profileEmailBtn');
             emailBtn.setAttribute('onclick', `sendMBCEmail('${email}', '${name}', '${company}')`);
-            
+
             const chatBtn = document.getElementById('profileChatBtn');
             chatBtn.setAttribute('onclick', `startChat('${id}', '${name}', '${company}')`);
-            
+
             const linkedInBtn = document.getElementById('profileLinkedInBtn');
             if (linkedin) {
                 linkedInBtn.href = linkedin;
@@ -5172,7 +5180,7 @@
             } else {
                 linkedInBtn.style.display = 'none';
             }
-            
+
             // Show modal
             document.getElementById('memberProfileModal').style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
@@ -8048,7 +8056,7 @@ This will enable beautiful previews when sharing the portal link on social media
                 const tagsArray = tags.map(tag => `'${tag}'`).join(', ');
 
                 return `
-                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'})">
+                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'})">
                     <div class="member-header">
                         ${member.photoUrl
                             ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`

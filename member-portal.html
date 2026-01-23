@@ -5525,6 +5525,55 @@
             alert(`📊 Member Activity Report\n\n• Login History: 5 times this month\n• Profile Updates: 2 recent changes\n• Connections Made: 3 active\n• Messages Sent: 12 total\n• Events Attended: 2 this year\n\nDetailed analytics coming soon!`);
         }
 
+        async function deleteMember(email, name) {
+            // Prevent deleting admin accounts
+            const adminEmails = ['info@miamibusinesscouncil.com', 'sabral@me.com'];
+            if (adminEmails.includes(email)) {
+                alert('❌ Cannot delete admin accounts');
+                return;
+            }
+
+            // Confirm deletion
+            const confirmDelete = confirm(`⚠️ Delete Member?\n\nAre you sure you want to delete ${name} (${email})?\n\nThis action cannot be undone. All their data, connections, and messages will be permanently removed.`);
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            // Double confirmation for safety
+            const doubleConfirm = confirm(`⚠️ FINAL CONFIRMATION\n\nYou are about to permanently delete ${name}.\n\nClick OK to proceed with deletion.`);
+
+            if (!doubleConfirm) {
+                return;
+            }
+
+            try {
+                console.log('🗑️ Deleting member:', email);
+
+                // Delete from Supabase database
+                const { error } = await supabase
+                    .from('members')
+                    .delete()
+                    .eq('email', email);
+
+                if (error) {
+                    console.error('❌ Error deleting member:', error);
+                    alert(`❌ Failed to delete member: ${error.message}`);
+                    return;
+                }
+
+                console.log('✅ Member deleted successfully');
+                alert(`✅ ${name} has been deleted from the member portal`);
+
+                // Refresh the member list
+                refreshMemberList();
+
+            } catch (error) {
+                console.error('❌ Error deleting member:', error);
+                alert('❌ An error occurred while deleting the member. Please try again.');
+            }
+        }
+
         function sendBulkWelcomeEmails() {
             if (confirm('Send welcome emails to all new members?')) {
                 alert('📬 Bulk welcome emails sent to 3 members!\n\n• Welcome messages delivered\n• Portal access instructions included\n• Event invitations attached');
@@ -5653,10 +5702,11 @@
                                     <td class="member-actions-cell">
                                         <button class="member-action-btn" onclick="viewMemberActivity('${member.email}')" title="View Activity">📊</button>
                                         <button class="member-action-btn" onclick="resetMemberPassword('${member.email}')" title="Reset Password">🔑</button>
-                                        ${member.status === 'pending' ? 
-                                            `<button class="member-action-btn" onclick="sendProfileReminder('${member.email}')" title="Send Reminder">📧</button>` : 
+                                        ${member.status === 'pending' ?
+                                            `<button class="member-action-btn" onclick="sendProfileReminder('${member.email}')" title="Send Reminder">📧</button>` :
                                             ''
                                         }
+                                        <button class="member-action-btn" onclick="deleteMember('${member.email}', '${member.name}')" title="Delete Member" style="color: #ff6b6b;">🗑️</button>
                                     </td>
                                 </tr>
                             `).join('')}

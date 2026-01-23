@@ -3404,9 +3404,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL (Optional)</label>
-                            <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label for="memberPhone" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Phone Number (Optional)</label>
+                                <input type="tel" id="memberPhone" name="memberPhone" class="profile-input" placeholder="(305) 123-4567" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL (Optional)</label>
+                                <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                            </div>
                         </div>
 
                         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
@@ -5606,6 +5612,9 @@
                 if (document.getElementById('memberIndustry')) {
                     document.getElementById('memberIndustry').value = currentMember.industry || '';
                 }
+                if (document.getElementById('memberPhone')) {
+                    document.getElementById('memberPhone').value = currentMember.phone_number || '';
+                }
                 if (document.getElementById('memberLinkedIn')) {
                     document.getElementById('memberLinkedIn').value = currentMember.linkedin_url || '';
                 }
@@ -5920,8 +5929,12 @@
                     company_name: document.getElementById('memberCompany')?.value || '',
                     job_title: document.getElementById('memberTitle')?.value || '',
                     industry: document.getElementById('memberIndustry')?.value || '',
+                    phone_number: document.getElementById('memberPhone')?.value || '',
                     linkedin_url: document.getElementById('memberLinkedIn')?.value || ''
                 };
+
+                console.log('💾 Saving profile data:', profileData);
+                console.log('📧 Member ID:', currentMember.id);
 
                 // Save to Supabase
                 const { data, error } = await supabase
@@ -5932,10 +5945,13 @@
                     .single();
 
                 if (error) {
-                    console.error('Error saving profile:', error);
-                    alert('Failed to save profile. Please try again.');
+                    console.error('❌ Error saving profile:', error);
+                    console.error('❌ Error details:', JSON.stringify(error, null, 2));
+                    alert(`Error saving profile: ${error.message}\n\nCheck console for details.`);
                     return;
                 }
+
+                console.log('✅ Profile saved successfully:', data);
 
                 // Update global currentMember
                 currentMember = { ...currentMember, ...data };

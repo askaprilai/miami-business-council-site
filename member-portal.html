@@ -3788,44 +3788,11 @@
                     </div>
                     
                     <div class="match-grid" id="matchResults">
-                        <div class="match-card">
-                            <div class="match-header">
-                                <div class="member-avatar">AS</div>
-                                <div>
-                                    <h4>April Sabral</h4>
-                                    <p>AskApril AI • Technology</p>
-                                </div>
-                                <div class="match-score">92%</div>
-                            </div>
-                            <div class="match-details">
-                                <p><strong>Looking for:</strong> Business partnerships, Marketing expertise</p>
-                                <p><strong>Can offer:</strong> AI/Tech consulting, Platform development</p>
-                                <p><strong>Match reason:</strong> Needs business strategy consulting</p>
-                            </div>
-                            <div class="match-actions">
-                                <button class="connect-btn" onclick="connectWithMember('April Sabral')">Connect</button>
-                                <button class="linkedin-btn" onclick="window.open('https://linkedin.com/in/apriljsabral', '_blank')">LinkedIn</button>
-                            </div>
-                        </div>
-
-                        <div class="match-card">
-                            <div class="match-header">
-                                <div class="member-avatar">TM</div>
-                                <div>
-                                    <h4>Tommy Martinez</h4>
-                                    <p>The Madyun Group • Real Estate</p>
-                                </div>
-                                <div class="match-score">78%</div>
-                            </div>
-                            <div class="match-details">
-                                <p><strong>Looking for:</strong> Business development, Strategic partnerships</p>
-                                <p><strong>Can offer:</strong> Real estate expertise, Network connections</p>
-                                <p><strong>Match reason:</strong> Mutual partnership interests</p>
-                            </div>
-                            <div class="match-actions">
-                                <button class="connect-btn" onclick="connectWithMember('Tommy Martinez')">Connect</button>
-                                <button class="linkedin-btn" onclick="alert('LinkedIn profile coming soon')">LinkedIn</button>
-                            </div>
+                        <div style="text-align: center; padding: 3rem; color: #999; grid-column: 1 / -1;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No matches yet</h4>
+                            <p>Complete your profile and business preferences to get AI-powered match recommendations.</p>
+                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Browse All Members</button>
                         </div>
                     </div>
                 </div>
@@ -3850,9 +3817,9 @@
                             <h3 class="card-title">Member Overview</h3>
                             <span class="card-icon">👥</span>
                         </div>
-                        <p><strong>Total Members:</strong> <span id="adminTotalMemberCount">3</span></p>
-                        <p><strong>Active This Month:</strong> 3</p>
-                        <p><strong>Pending Invites:</strong> 0</p>
+                        <p><strong>Total Members:</strong> <span id="adminTotalMemberCount">0</span></p>
+                        <p><strong>Active This Month:</strong> <span id="adminActiveThisMonth">0</span></p>
+                        <p><strong>Pending Invites:</strong> <span id="adminPendingInvites">0</span></p>
                     </div>
 
                     <div class="dashboard-card">
@@ -3860,9 +3827,9 @@
                             <h3 class="card-title">Portal Activity</h3>
                             <span class="card-icon">📊</span>
                         </div>
-                        <p><strong>Login Rate:</strong> 95%</p>
-                        <p><strong>Profile Completion:</strong> 85%</p>
-                        <p><strong>Connection Rate:</strong> 78%</p>
+                        <p><strong>Login Rate:</strong> <span id="adminLoginRate">-</span></p>
+                        <p><strong>Profile Completion:</strong> <span id="adminProfileCompletion">-</span></p>
+                        <p><strong>Connection Rate:</strong> <span id="adminConnectionRate">-</span></p>
                     </div>
 
                     <div class="dashboard-card">
@@ -3870,9 +3837,7 @@
                             <h3 class="card-title">Recent Activity</h3>
                             <span class="card-icon">⚡</span>
                         </div>
-                        <p>• 2 new connections today</p>
-                        <p>• 1 profile updated</p>
-                        <p>• 3 messages sent</p>
+                        <p id="adminRecentActivity">• No recent activity</p>
                     </div>
                 </div>
 
@@ -8022,38 +7987,8 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Fallback function for hardcoded members (when database not connected)
         function getHardcodedMembers() {
-            return [
-                {
-                    name: 'April Sabral',
-                    company: 'AskApril AI',
-                    industry: 'Technology',
-                    avatar: 'AS',
-                    lookingFor: ['Business partnerships', 'Marketing expertise', 'Clients'],
-                    canOffer: ['AI/Tech consulting', 'Platform development', 'Technical expertise'],
-                    linkedin: 'https://linkedin.com/in/apriljsabral',
-                    score: 92
-                },
-                {
-                    name: 'Tommy Martinez', 
-                    company: 'The Madyun Group',
-                    industry: 'Real Estate',
-                    avatar: 'TM',
-                    lookingFor: ['Business development', 'Strategic partnerships', 'Investors'],
-                    canOffer: ['Real estate expertise', 'Network connections', 'Mentoring'],
-                    linkedin: null,
-                    score: 78
-                },
-                {
-                    name: 'Ilmoda Team',
-                    company: 'Ilmoda',
-                    industry: 'Fashion',
-                    avatar: 'IM',
-                    lookingFor: ['Investors', 'Marketing partnerships', 'Retail opportunities'],
-                    canOffer: ['Fashion expertise', 'Design services', 'Brand partnerships'],
-                    linkedin: null,
-                    score: 71
-                }
-            ];
+            // No longer returning hardcoded fake members - use real database data only
+            return [];
         }
 
         // Update existing functions to use database when available

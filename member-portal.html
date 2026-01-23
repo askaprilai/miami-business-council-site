@@ -6536,7 +6536,7 @@
                             ${member.industry ? `<span class="member-tag">${member.industry}</span>` : ''}
                         </div>
                         <div class="member-actions">
-                            <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${fullName}', '${member.company_name}')">💬 Message</button>
+                            <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${fullName}', '${member.company_name}', '${member.email}')">💬 Message</button>
                             <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${fullName}', '${member.company_name}')">📧 Email</button>
                         </div>
                     </div>
@@ -6962,8 +6962,8 @@
             conversationsList.innerHTML = conversationsHtml;
         }
 
-        function openChat(memberId, memberName, memberCompany) {
-            currentChatMember = { id: memberId, name: memberName, company: memberCompany };
+        function openChat(memberId, memberName, memberCompany, memberEmail = null) {
+            currentChatMember = { id: memberId, name: memberName, company: memberCompany, email: memberEmail };
             
             // Update chat header
             const chatHeader = document.getElementById('chatHeader');
@@ -7060,8 +7060,47 @@
             // Save chat history
             saveChatHistory();
 
+            // Send email notification to recipient (if email is available)
+            if (currentChatMember.email && currentMember) {
+                sendMessageNotification(
+                    currentChatMember.email,
+                    currentChatMember.name,
+                    `${currentMember.first_name} ${currentMember.last_name}`,
+                    messageText
+                );
+            }
+
             // Simulate response after a delay
             setTimeout(() => simulateResponse(), 1000 + Math.random() * 2000);
+        }
+
+        // Send email notification when message is sent
+        async function sendMessageNotification(recipientEmail, recipientName, senderName, messageText) {
+            try {
+                console.log('📧 Sending message notification email...');
+
+                const response = await fetch('/api/send-message-notification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        recipientEmail: recipientEmail,
+                        recipientName: recipientName,
+                        senderName: senderName,
+                        messagePreview: messageText
+                    })
+                });
+
+                if (response.ok) {
+                    console.log('✅ Message notification sent successfully');
+                } else {
+                    console.error('❌ Failed to send message notification');
+                }
+            } catch (error) {
+                console.error('❌ Error sending message notification:', error);
+                // Don't show error to user - notification is optional
+            }
         }
 
         function simulateResponse() {
@@ -7135,10 +7174,10 @@
         }
 
         // Start chat from member directory
-        function startChatFromDirectory(memberId, memberName, memberCompany) {
+        function startChatFromDirectory(memberId, memberName, memberCompany, memberEmail = null) {
             showSection('messages');
             // Open the chat with this member
-            openChat(memberId, memberName, memberCompany);
+            openChat(memberId, memberName, memberCompany, memberEmail);
         }
 
         // Member Directory Search Functionality
@@ -8375,7 +8414,7 @@ This will enable beautiful previews when sharing the portal link on social media
                         ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
                     </div>
                     <div class="member-actions" onclick="event.stopPropagation()">
-                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}')" title="Send direct message">
+                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}', '${member.email}')" title="Send direct message">
                             💬 Message
                         </button>
                         ${member.linkedin

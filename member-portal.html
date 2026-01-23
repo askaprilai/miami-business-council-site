@@ -3349,23 +3349,61 @@
                                 <input type="text" id="memberTitle" name="memberTitle" class="profile-input" placeholder="CEO, Founder, etc." required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
-                                <label for="memberIndustry" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Industry *</label>
-                                <select id="memberIndustry" name="memberIndustry" class="profile-input" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
-                                    <option value="">Select Industry</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="Finance">Finance</option>
-                                    <option value="Healthcare">Healthcare</option>
-                                    <option value="Real Estate">Real Estate</option>
-                                    <option value="Retail">Retail</option>
-                                    <option value="Hospitality">Hospitality</option>
-                                    <option value="Professional Services">Professional Services</option>
-                                    <option value="Manufacturing">Manufacturing</option>
-                                    <option value="Education">Education</option>
-                                    <option value="Non-Profit">Non-Profit</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="Consulting">Consulting</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <label style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Industries * <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Select all that apply)</span></label>
+                                <div id="memberIndustries" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Technology" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Technology</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Finance" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Finance</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Healthcare" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Healthcare</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Real Estate" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Real Estate</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Retail" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Retail</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Hospitality" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Hospitality</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Professional Services" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Professional Services</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Manufacturing" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Manufacturing</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Education" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Education</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Non-Profit" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Non-Profit</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Marketing" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Marketing</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Consulting" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Consulting</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
+                                        <input type="checkbox" name="industry" value="Other" style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span>Other</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
@@ -5867,9 +5905,26 @@
                 if (document.getElementById('memberTitle')) {
                     document.getElementById('memberTitle').value = currentMember.job_title || '';
                 }
-                if (document.getElementById('memberIndustry')) {
-                    document.getElementById('memberIndustry').value = currentMember.industry || '';
+
+                // Load multiple industries - check the appropriate checkboxes
+                const memberIndustries = currentMember.industries || [];
+                // Handle old single industry format for backwards compatibility
+                if (memberIndustries.length === 0 && currentMember.industry) {
+                    memberIndustries.push(currentMember.industry);
                 }
+
+                // Uncheck all first
+                document.querySelectorAll('input[name="industry"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // Check the member's industries
+                memberIndustries.forEach(industry => {
+                    const checkbox = document.querySelector(`input[name="industry"][value="${industry}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
                 // Phone number loading temporarily disabled until database column is added
                 // if (document.getElementById('memberPhone')) {
                 //     document.getElementById('memberPhone').value = currentMember.phone_number || '';
@@ -6160,13 +6215,6 @@
         async function saveProfile() {
             console.log('saveProfile called');
 
-            // TEMPORARILY DISABLED VALIDATION FOR DEBUGGING
-            // if (!validator.validateAll()) {
-            //     console.error('Validation failed. Please check all required fields.');
-            //     alert('❌ Please fill in all required fields:\n\n• Full Name\n• Company Name\n• Job Title\n• Industry');
-            //     return; // Stop saving if validation fails
-            // }
-
             if (!currentMember) {
                 alert('Session expired. Please log in again.');
                 window.location.href = '/member-login';
@@ -6182,12 +6230,35 @@
                 const firstName = nameParts[0] || '';
                 const lastName = nameParts.slice(1).join(' ') || '';
 
+                // Get selected industries from checkboxes
+                const selectedIndustries = Array.from(document.querySelectorAll('input[name="industry"]:checked'))
+                    .map(checkbox => checkbox.value);
+
+                // Validate required fields
+                if (!fullName || !firstName) {
+                    alert('❌ Please enter your full name');
+                    return;
+                }
+                if (!document.getElementById('memberCompany')?.value) {
+                    alert('❌ Please enter your company name');
+                    return;
+                }
+                if (!document.getElementById('memberTitle')?.value) {
+                    alert('❌ Please enter your job title');
+                    return;
+                }
+                if (selectedIndustries.length === 0) {
+                    alert('❌ Please select at least one industry');
+                    return;
+                }
+
                 const profileData = {
                     first_name: firstName,
                     last_name: lastName,
                     company_name: document.getElementById('memberCompany')?.value || '',
                     job_title: document.getElementById('memberTitle')?.value || '',
-                    industry: document.getElementById('memberIndustry')?.value || '',
+                    industries: selectedIndustries, // Array of industries
+                    industry: selectedIndustries[0] || '', // Keep first for backwards compatibility
                     linkedin_url: document.getElementById('memberLinkedIn')?.value || ''
                     // phone_number temporarily removed until database column is added
                 };
@@ -6689,7 +6760,6 @@
             .addRule('memberName', value => value.length >= 2, 'Name must be at least 2 characters long')
             .addRule('memberCompany', value => value.length >= 2, 'Company name must be at least 2 characters long')
             .addRule('memberTitle', value => value.length >= 2, 'Job title must be at least 2 characters long')
-            .addRule('memberIndustry', value => value !== '', 'Please select your industry')
             .addRule('memberLinkedIn', value => {
                 if (value === '') return true; // Optional field
                 return value.includes('linkedin.com') || value.includes('in/');
@@ -6761,9 +6831,9 @@
             const name = document.getElementById('memberName')?.value.trim();
             const company = document.getElementById('memberCompany')?.value.trim();
             const title = document.getElementById('memberTitle')?.value.trim();
-            const industry = document.getElementById('memberIndustry')?.value;
-            
-            return name && company && title && industry;
+            const hasIndustries = document.querySelectorAll('input[name="industry"]:checked').length > 0;
+
+            return name && company && title && hasIndustries;
         }
 
         function checkBusinessPreferences() {
@@ -8117,6 +8187,20 @@ This will enable beautiful previews when sharing the portal link on social media
                     const lastName = member.last_name || '';
                     const initials = lastName ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() : `${firstName.charAt(0)}${firstName.charAt(1) || ''}`.toUpperCase();
 
+                    // Handle industries - support both new array format and old single format
+                    let industries = [];
+                    if (member.industries && Array.isArray(member.industries)) {
+                        industries = member.industries;
+                    } else if (member.industries && typeof member.industries === 'string') {
+                        try {
+                            industries = JSON.parse(member.industries);
+                        } catch {
+                            industries = member.industries ? [member.industries] : [];
+                        }
+                    } else if (member.industry) {
+                        industries = [member.industry];
+                    }
+
                     return {
                         id: member.id,
                         name: `${firstName} ${lastName}`.trim(),
@@ -8124,7 +8208,8 @@ This will enable beautiful previews when sharing the portal link on social media
                         lastName: lastName,
                         title: member.job_title || '',
                         company: member.company_name || '',
-                        industry: member.industry || 'Business',
+                        industry: member.industry || industries[0] || 'Business',
+                        industries: industries, // Array of industries
                         avatar: initials,
                         photoUrl: member.profile_photo_url || null,
                         companyLogoUrl: member.company_logo_url || null,
@@ -8283,6 +8368,10 @@ This will enable beautiful previews when sharing the portal link on social media
                     </div>
                     ` : ''}
                     <div class="member-details">
+                        ${member.industries && member.industries.length > 0
+                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
+                            : ''
+                        }
                         ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
                     </div>
                     <div class="member-actions" onclick="event.stopPropagation()">

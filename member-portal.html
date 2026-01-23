@@ -5612,9 +5612,10 @@
                 if (document.getElementById('memberIndustry')) {
                     document.getElementById('memberIndustry').value = currentMember.industry || '';
                 }
-                if (document.getElementById('memberPhone')) {
-                    document.getElementById('memberPhone').value = currentMember.phone_number || '';
-                }
+                // Phone number loading temporarily disabled until database column is added
+                // if (document.getElementById('memberPhone')) {
+                //     document.getElementById('memberPhone').value = currentMember.phone_number || '';
+                // }
                 if (document.getElementById('memberLinkedIn')) {
                     document.getElementById('memberLinkedIn').value = currentMember.linkedin_url || '';
                 }
@@ -5929,8 +5930,8 @@
                     company_name: document.getElementById('memberCompany')?.value || '',
                     job_title: document.getElementById('memberTitle')?.value || '',
                     industry: document.getElementById('memberIndustry')?.value || '',
-                    phone_number: document.getElementById('memberPhone')?.value || '',
                     linkedin_url: document.getElementById('memberLinkedIn')?.value || ''
+                    // phone_number temporarily removed until database column is added
                 };
 
                 console.log('💾 Saving profile data:', profileData);
@@ -7672,44 +7673,7 @@ This will enable beautiful previews when sharing the portal link on social media
         }
 
         // Enhanced profile saving with database
-        async function saveProfileToDatabase() {
-            try {
-                const profileData = {
-                    first_name: document.querySelector('input[value="John Smith"]').value.split(' ')[0],
-                    last_name: document.querySelector('input[value="John Smith"]').value.split(' ')[1] || '',
-                    company_name: document.querySelector('input[value="Smith Consulting LLC"]').value,
-                    job_title: document.querySelector('input[value="Founder & CEO"]').value,
-                    industry: document.querySelector('select').value,
-                    linkedin_url: document.querySelector('input[type="url"]').value,
-                    company_size: document.querySelector('input[name="company-size"]:checked').value,
-                    looking_for: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
-                    can_offer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent)
-                };
-
-                const response = await fetch('/api/members?id=current-user-id', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(profileData)
-                });
-
-                if (response.ok) {
-                    alert('Profile saved successfully to database!');
-                    // Refresh matches with new preferences
-                    findMatches();
-                } else {
-                    const error = await response.json();
-                    alert(`Failed to save profile: ${error.error}`);
-                    // Fallback to localStorage
-                    saveProfile();
-                }
-            } catch (error) {
-                console.error('Error saving profile:', error);
-                // Fallback to localStorage
-                saveProfile();
-            }
-        }
+        // REMOVED: Old broken saveProfileToDatabase function that caused infinite loop
 
         // Fallback function for hardcoded members (when database not connected)
         function getHardcodedMembers() {

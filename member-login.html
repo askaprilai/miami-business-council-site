@@ -290,17 +290,19 @@
             loginBtn.textContent = 'Sending magic link...';
 
             try {
+                console.log('🔐 Sending magic link to:', email);
+
                 // Send magic link via Supabase Auth
                 const { data, error } = await supabase.auth.signInWithOtp({
                     email: email,
                     options: {
-                        emailRedirectTo: window.location.origin + '/member-portal',
-                        shouldCreateUser: false // Only allow existing members to log in
+                        emailRedirectTo: window.location.origin + '/member-portal'
+                        // Removed shouldCreateUser: false to allow all emails
                     }
                 });
 
                 if (error) {
-                    console.error('Magic link error:', error);
+                    console.error('❌ Magic link error:', error);
 
                     // Handle specific error cases
                     if (error.message.includes('User not found') || error.message.includes('not authorized')) {
@@ -308,11 +310,13 @@
                     } else if (error.message.includes('rate limit')) {
                         errorMessage.textContent = 'Too many requests. Please wait a few minutes and try again.';
                     } else {
-                        errorMessage.textContent = 'Unable to send magic link. Please try again or contact support.';
+                        errorMessage.textContent = `Unable to send magic link: ${error.message}`;
                     }
                     errorMessage.style.display = 'block';
                     return;
                 }
+
+                console.log('✅ Magic link sent successfully!', data);
 
                 // Success!
                 lastRequestTime = now;

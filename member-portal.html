@@ -5596,9 +5596,9 @@
         }
 
         // Admin Member List Functions
-        function refreshMemberList() {
+        async function refreshMemberList() {
             const container = document.getElementById('memberListContainer');
-            
+
             // Show loading state
             container.innerHTML = `
                 <div style="text-align: center; padding: 2rem; color: #ccc;">
@@ -5607,64 +5607,48 @@
                 </div>
             `;
 
-            // Get current members from the smart matching data
-            const memberEmails = ['april@retailu.ca', 'sabral@me.com'];
-            const memberCredentials = {
-                'info@miamibusinesscouncil.com': { name: 'MBC Admin', company: 'Miami Business Council', status: 'active' },
-                'april@retailu.ca': { name: 'April Sabral', company: 'AskApril AI', status: 'active' },
-                'sabral@me.com': { name: 'Joy Sabral', company: 'Owner Retail', status: 'active' }
-            };
+            try {
+                // Load members from Supabase database
+                const { data: members, error } = await supabase
+                    .from('members')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('created_at', { ascending: false });
 
-            // Get dynamic member data from localStorage
-            const dynamicMembers = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && key.startsWith('newMember_')) {
-                    try {
-                        const memberData = JSON.parse(localStorage.getItem(key));
-                        dynamicMembers.push({
-                            email: key.replace('newMember_', ''),
-                            name: memberData.name,
-                            company: memberData.company || 'N/A',
-                            status: 'pending'
-                        });
-                    } catch (e) {
-                        console.warn('Error parsing member data:', e);
-                    }
+                if (error) {
+                    console.error('Error loading members:', error);
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: #ff6b6b;">
+                            ❌ Error loading members. Please try again.
+                        </div>
+                    `;
+                    return;
                 }
-            }
 
-            // Combine all members
-            const allMembers = [];
-            Object.keys(memberCredentials).forEach(email => {
-                const member = memberCredentials[email];
-                allMembers.push({
-                    email: email,
-                    name: member.name,
-                    company: member.company,
-                    status: member.status,
-                    joinDate: 'Jan 2025'
+                console.log('Loaded members from database:', members);
+
+                // Transform members for display
+                const allMembers = members.map(member => {
+                    const name = `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Unknown';
+                    const joinDate = member.created_at
+                        ? new Date(member.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                        : 'Unknown';
+
+                    return {
+                        email: member.email,
+                        name: name,
+                        company: member.company_name || 'To be completed',
+                        status: 'active',
+                        joinDate: joinDate
+                    };
                 });
-            });
 
-            // Add dynamic members
-            dynamicMembers.forEach(member => {
-                allMembers.push({
-                    email: member.email,
-                    name: member.name,
-                    company: member.company,
-                    status: member.status,
-                    joinDate: 'Recently Added'
-                });
-            });
+                // Calculate summary stats
+                const totalMembers = allMembers.length;
+                const activeMembers = allMembers.filter(m => m.status === 'active').length;
+                const pendingMembers = allMembers.filter(m => m.status === 'pending').length;
 
-            // Calculate summary stats
-            const totalMembers = allMembers.length;
-            const activeMembers = allMembers.filter(m => m.status === 'active').length;
-            const pendingMembers = allMembers.filter(m => m.status === 'pending').length;
-
-            // Generate member list HTML
-            setTimeout(() => {
+                // Generate member list HTML
                 const memberListHTML = `
                     <div class="member-list-summary">
                         <div class="summary-item">
@@ -5720,13 +5704,21 @@
                 `;
                 
                 container.innerHTML = memberListHTML;
-                
+
                 // Update admin dashboard member count
                 const adminTotalMemberCountElement = document.getElementById('adminTotalMemberCount');
                 if (adminTotalMemberCountElement) {
                     adminTotalMemberCountElement.textContent = totalMembers;
                 }
-            }, 1000);
+
+            } catch (error) {
+                console.error('Error in refreshMemberList:', error);
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #ff6b6b;">
+                        ❌ Error loading members. Please try again.
+                    </div>
+                `;
+            }
         }
 
         // Load member-specific profile data

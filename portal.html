@@ -11629,8 +11629,8 @@ This will enable beautiful previews when sharing the portal link on social media
         // Enhanced member data loading from Supabase
         async function loadMembersFromDatabase() {
             try {
-                // console.log('Loading members from Supabase database...');
-                
+                console.log('🔍 Loading members from Supabase database...');
+
                 const { data: members, error } = await supabase
                     .from('members')
                     .select(`
@@ -11643,11 +11643,11 @@ This will enable beautiful previews when sharing the portal link on social media
                     .eq('is_active', true);
 
                 if (error) {
-                    console.error('Supabase error:', error);
+                    console.error('❌ Supabase error:', error);
                     return getHardcodedMembers();
                 }
 
-                // console.log(`Loaded ${members.length} members from database`);
+                console.log(`✅ Successfully loaded ${members.length} members from database`);
                 
                 // Transform database format to portal format
                 return members.map(member => {
@@ -11857,12 +11857,16 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Initialize database connection when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔄 DOM loaded, starting member load...');
             loadMembersFromDatabase().then(members => {
-                // console.log(`Loaded ${members.length} members from database`);
+                console.log(`✅ Loaded ${members.length} members from database`);
                 // Update member directory with real data using the new system
                 initializeMemberDirectory(members);
+                console.log('✅ Member directory initialized');
                 // Update dashboard member counts
                 updateMemberCounts(members.length);
+            }).catch(error => {
+                console.error('❌ Error loading members:', error);
             });
         });
 
@@ -12065,15 +12069,22 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Render member directory
         function renderMemberDirectory() {
+            console.log('🎨 Rendering member directory...');
             const container = document.getElementById('memberDirectoryContainer');
-            if (!container) return;
+            if (!container) {
+                console.error('❌ memberDirectoryContainer not found!');
+                return;
+            }
+            console.log(`📊 Container found. Filtered members: ${filteredMembers.length}`);
 
             // Calculate pagination
             const startIndex = (currentPage - 1) * membersPerPage;
             const endIndex = startIndex + membersPerPage;
             const membersToShow = filteredMembers.slice(startIndex, endIndex);
+            console.log(`📄 Page ${currentPage}: Showing ${membersToShow.length} members (${startIndex}-${endIndex})`);
 
             if (membersToShow.length === 0) {
+                console.warn('⚠️ No members to show');
                 container.innerHTML = `
                     <div style="text-align: center; padding: 3rem; color: #ccc;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
@@ -12086,6 +12097,7 @@ This will enable beautiful previews when sharing the portal link on social media
 
             // Set container class based on view mode
             container.className = currentViewMode === 'grid' ? 'member-grid' : 'member-list';
+            console.log(`✅ Generating ${membersToShow.length} member cards...`);
 
             // Generate member cards
             const memberCardsHtml = membersToShow.map(member => {
@@ -12209,12 +12221,14 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Initialize member directory with data
         function initializeMemberDirectory(members) {
+            console.log(`📋 Initializing member directory with ${members.length} members`);
             allMembers = members;
             filteredMembers = [...members];
             currentPage = 1;
             renderMemberDirectory();
             updatePaginationControls();
             updateResultsCount();
+            console.log('✅ Member directory rendering complete');
         }
 
         // Override the existing updateMemberDirectory to use new system

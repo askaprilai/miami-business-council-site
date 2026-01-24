@@ -5001,17 +5001,17 @@
                 const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
                 if (!session || sessionError) {
-                    // If we're processing a magic link, retry up to 2 times before redirecting
+                    // If we're processing a magic link, retry up to 4 times before redirecting
                     const hashParams = new URLSearchParams(window.location.hash.substring(1));
                     const hasAuthToken = hashParams.has('access_token');
 
-                    if (hasAuthToken && retryCount < 2) {
-                        console.log(`⏳ Session not ready yet, retry ${retryCount + 1}/2 in 1 second...`);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    if (hasAuthToken && retryCount < 4) {
+                        console.log(`⏳ Session not ready yet, retry ${retryCount + 1}/4 in 2 seconds...`);
+                        await new Promise(resolve => setTimeout(resolve, 2000));
                         return checkAuthentication(retryCount + 1);
                     }
 
-                    console.log('❌ No active session, redirecting to login...');
+                    console.log('❌ No active session after all retries, redirecting to login...');
                     window.location.href = '/member-login';
                     return false;
                 }
@@ -5511,9 +5511,9 @@
             if (hasAuthToken) {
                 console.log('🔐 Magic link callback detected, processing authentication...');
 
-                // Give Supabase MORE time to process the auth callback (was 1s, now 3s)
-                console.log('⏳ Waiting 3 seconds for Supabase to establish session...');
-                await new Promise(resolve => setTimeout(resolve, 3000));
+                // Give Supabase MUCH MORE time to process the auth callback (was 3s, now 6s)
+                console.log('⏳ Waiting 6 seconds for Supabase to establish session...');
+                await new Promise(resolve => setTimeout(resolve, 6000));
 
                 // Clear URL parameters after processing
                 console.log('✅ Auth processing complete, clearing URL params...');

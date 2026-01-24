@@ -509,7 +509,6 @@
             width: 100%;
             min-width: 1200px;
             border-collapse: collapse;
-            margin-top: 1rem;
             table-layout: auto;
         }
 
@@ -517,6 +516,29 @@
         .member-list-table-wrapper {
             overflow-x: auto;
             margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .member-list-table-wrapper::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .member-list-table-wrapper::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+        }
+
+        .member-list-table-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.5);
+            border-radius: 6px;
+        }
+
+        .member-list-table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.7);
         }
 
         .member-list-table th,
@@ -7581,6 +7603,10 @@
                                 Next →
                             </button>
                         </div>
+                    </div>
+
+                    <div style="color: #999; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: right;">
+                        💡 Scroll right to see all columns →
                     </div>
 
                     <div class="member-list-table-wrapper">

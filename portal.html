@@ -4241,7 +4241,50 @@
 
                 <!-- Active Connections -->
                 <div class="dashboard-card">
-                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">✅ Active Connections</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: #d4af37; margin: 0;">✅ Active Connections</h3>
+                        <span id="connectionsCount" style="color: #999; font-size: 0.9rem;">0 connections</span>
+                    </div>
+
+                    <!-- Search and Filter Bar -->
+                    <div id="connectionsSearchBar" style="display: none; margin-bottom: 1.5rem;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                            <!-- Search Input -->
+                            <div style="flex: 1; min-width: 250px;">
+                                <input
+                                    type="text"
+                                    id="connectionsSearch"
+                                    placeholder="🔍 Search connections by name, company, or industry..."
+                                    oninput="filterConnections()"
+                                    style="width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; font-size: 0.95rem;"
+                                >
+                            </div>
+
+                            <!-- Sort Dropdown -->
+                            <select
+                                id="connectionsSort"
+                                onchange="sortConnections()"
+                                style="padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer;"
+                            >
+                                <option value="recent">Most Recent</option>
+                                <option value="name">Name (A-Z)</option>
+                                <option value="company">Company (A-Z)</option>
+                                <option value="industry">Industry</option>
+                            </select>
+
+                            <!-- Industry Filter -->
+                            <select
+                                id="connectionsIndustryFilter"
+                                onchange="filterConnections()"
+                                style="padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer;"
+                            >
+                                <option value="">All Industries</option>
+                            </select>
+                        </div>
+
+                        <!-- Results count -->
+                        <div id="connectionsResultCount" style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;"></div>
+                    </div>
 
                     <div id="activeConnectionsList">
                         <div style="text-align: center; padding: 3rem; color: #999;">
@@ -4705,38 +4748,41 @@
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
                         <h3 class="card-title" style="color: #d4af37;">🎁 Invite & Earn Rewards</h3>
-                        <span class="referral-points-badge" id="memberPoints">250 pts</span>
+                        <span class="referral-points-badge" id="memberPoints">0 pts</span>
                     </div>
                     <p style="color: #ccc; margin-bottom: 1.5rem;">Grow the Miami Business Council community and earn exclusive rewards, speaking opportunities, and benefits!</p>
-                    
+
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
                         <div>
                             <h4 style="color: #e8eaed; margin-bottom: 1rem;">🔗 Your Referral Link</h4>
                             <div class="referral-link-container">
-                                <input type="text" class="referral-link-input" id="referralLinkInput" value="https://miamibusinesscouncil.com/join?ref=AS2025" readonly>
+                                <input type="text" class="referral-link-input" id="referralLinkInput" value="Loading..." readonly>
                                 <button class="copy-link-btn" onclick="copyReferralLink()">📋 Copy</button>
                             </div>
                             <div class="share-buttons" style="margin-top: 1rem;">
-                                <button class="share-btn email" onclick="shareViaEmail()">📧 Email</button>
+                                <button class="share-btn email" onclick="showInviteModal()">📧 Send Invite</button>
                                 <button class="share-btn linkedin" onclick="shareOnLinkedIn()">💼 LinkedIn</button>
                                 <button class="share-btn sms" onclick="shareViaSMS()">💬 SMS</button>
                                 <button class="share-btn generic" onclick="shareGeneric()">🔗 Share</button>
                             </div>
+                            <p style="color: #999; font-size: 0.85rem; margin-top: 0.75rem;">
+                                💡 <strong style="color: #d4af37;">Send Invite</strong> sends a personalized email with your referral
+                            </p>
                         </div>
-                        
+
                         <div>
                             <h4 style="color: #e8eaed; margin-bottom: 1rem;">📊 Your Referral Stats</h4>
                             <div class="referral-stats">
                                 <div class="stat-item">
-                                    <span class="stat-number" id="totalInvites">12</span>
+                                    <span class="stat-number" id="totalInvites">0</span>
                                     <span class="stat-label">Total Invites Sent</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-number" id="successfulReferrals">3</span>
+                                    <span class="stat-number" id="successfulReferrals">0</span>
                                     <span class="stat-label">Successful Referrals</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-number" id="conversionRate">25%</span>
+                                    <span class="stat-number" id="conversionRate">0%</span>
                                     <span class="stat-label">Conversion Rate</span>
                                 </div>
                             </div>
@@ -7889,9 +7935,67 @@
 
                 // Update profile progress
                 setTimeout(() => updateProfileProgress(), 500);
-                
+
+                // Load referral data and stats
+                setTimeout(() => loadReferralData(), 500);
+
             } catch (error) {
                 console.error('Error loading member profile:', error);
+            }
+        }
+
+        // Load referral code and stats from database
+        async function loadReferralData() {
+            if (!currentMember || !currentMember.id) {
+                console.warn('No member data available for referral loading');
+                return;
+            }
+
+            try {
+                const supabase = window.supabaseClient;
+
+                // Get member's referral code from members table
+                const { data: memberData, error: memberError } = await supabase
+                    .from('members')
+                    .select('referral_code')
+                    .eq('id', currentMember.id)
+                    .single();
+
+                if (memberError) {
+                    console.error('Error loading referral code:', memberError);
+                } else if (memberData && memberData.referral_code) {
+                    // Update referral link with actual code
+                    const referralLink = `https://miamibusinesscouncil.com/join?ref=${memberData.referral_code}`;
+                    const linkInput = document.getElementById('referralLinkInput');
+                    if (linkInput) {
+                        linkInput.value = referralLink;
+                    }
+                }
+
+                // Get member's points and stats
+                const { data: statsData, error: statsError } = await supabase
+                    .from('member_points')
+                    .select('total_points, invites_sent, successful_referrals')
+                    .eq('member_id', currentMember.id)
+                    .single();
+
+                if (statsError) {
+                    // If record doesn't exist yet, it's okay - they'll get one when they send their first invite
+                    console.log('No referral stats yet (will be created on first invite)');
+                } else if (statsData) {
+                    // Update stats on page
+                    document.getElementById('memberPoints').textContent = (statsData.total_points || 0) + ' pts';
+                    document.getElementById('totalInvites').textContent = statsData.invites_sent || 0;
+                    document.getElementById('successfulReferrals').textContent = statsData.successful_referrals || 0;
+
+                    const conversionRate = statsData.invites_sent > 0
+                        ? Math.round((statsData.successful_referrals / statsData.invites_sent) * 100)
+                        : 0;
+                    document.getElementById('conversionRate').textContent = conversionRate + '%';
+                }
+
+            } catch (error) {
+                console.error('Error loading referral data:', error);
             }
         }
 
@@ -8527,17 +8631,64 @@
             container.innerHTML = requestsHtml;
         }
 
+        // Global variable to store all connections for filtering/sorting
+        let allConnections = [];
+        let currentMemberIdForConnections = null;
+
         // Display active connections
         function displayActiveConnections(connections, currentMemberId) {
             const container = document.getElementById('activeConnectionsList');
 
+            // Store connections globally for filtering
+            allConnections = connections || [];
+            currentMemberIdForConnections = currentMemberId;
+
+            // Update connections count
+            const countEl = document.getElementById('connectionsCount');
+            if (countEl) {
+                countEl.textContent = `${allConnections.length} ${allConnections.length === 1 ? 'connection' : 'connections'}`;
+            }
+
             if (!connections || connections.length === 0) {
+                document.getElementById('connectionsSearchBar').style.display = 'none';
                 container.innerHTML = `
                     <div style="text-align: center; padding: 3rem; color: #999;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
                         <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No connections yet</h4>
                         <p>Start building your network by connecting with members.</p>
                         <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Find Members to Connect</button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show search bar
+            document.getElementById('connectionsSearchBar').style.display = 'block';
+
+            // Populate industry filter dropdown
+            const industries = [...new Set(connections.map(conn => {
+                const member = conn.requester_id === currentMemberId ? conn.recipient : conn.requester;
+                return member.industry;
+            }).filter(Boolean))].sort();
+
+            const industryFilter = document.getElementById('connectionsIndustryFilter');
+            if (industryFilter) {
+                industryFilter.innerHTML = '<option value="">All Industries</option>' +
+                    industries.map(industry => `<option value="${industry}">${industry}</option>`).join('');
+            }
+
+            // Render connections
+            renderConnectionsList(connections, currentMemberId);
+        }
+
+        // Render the actual connections list
+        function renderConnectionsList(connections, currentMemberId) {
+            const container = document.getElementById('activeConnectionsList');
+
+            if (!connections || connections.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #999;">
+                        <p>No connections match your search criteria.</p>
                     </div>
                 `;
                 return;
@@ -8552,27 +8703,144 @@
                 const initials = lastName ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() : `${firstName.charAt(0)}${firstName.charAt(1) || ''}`.toUpperCase();
 
                 return `
-                    <div class="member-card" style="margin-bottom: 1rem;">
+                    <div class="member-card" style="margin-bottom: 1rem;" data-member-id="${member.id}">
                         <div class="member-header">
                             ${member.profile_photo_url
                                 ? `<img src="${member.profile_photo_url}" alt="${fullName}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`
                                 : `<div class="member-avatar">${initials}</div>`
                             }
-                            <div class="member-info">
+                            <div class="member-info" style="flex: 1;">
                                 <h3>${fullName}</h3>
                                 <p>${member.job_title || 'Member'}</p>
                                 <p>${member.company_name || 'Miami Business Council'}</p>
                             </div>
                         </div>
                         <div class="member-details">
-                            <span class="member-tag">Connected ${new Date(conn.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                            <span class="member-tag">Connected ${new Date(conn.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                             ${member.industry ? `<span class="member-tag">${member.industry}</span>` : ''}
+                        </div>
+                        <div class="member-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                            <button class="profile-action-btn primary" onclick="openDirectMessage('${member.email}', '${fullName}')" title="Send message">
+                                💬 Message
+                            </button>
+                            <button class="profile-action-btn secondary" onclick="window.location.href='mailto:${member.email}'" title="Send email">
+                                📧 Email
+                            </button>
+                            <button class="profile-action-btn secondary" onclick="viewMemberProfile('${member.id}')" title="View full profile">
+                                👤 Profile
+                            </button>
+                            ${member.linkedin_url ? `
+                            <button class="profile-action-btn secondary" onclick="window.open('${member.linkedin_url}', '_blank')" title="View LinkedIn">
+                                🔗 LinkedIn
+                            </button>
+                            ` : ''}
                         </div>
                     </div>
                 `;
             }).join('');
 
             container.innerHTML = `<div class="member-grid">${connectionsHtml}</div>`;
+
+            // Update result count
+            const resultCount = document.getElementById('connectionsResultCount');
+            if (resultCount) {
+                resultCount.textContent = `Showing ${connections.length} of ${allConnections.length} connections`;
+            }
+        }
+
+        // Filter connections based on search and industry
+        function filterConnections() {
+            const searchTerm = document.getElementById('connectionsSearch')?.value.toLowerCase() || '';
+            const industryFilter = document.getElementById('connectionsIndustryFilter')?.value || '';
+
+            let filtered = allConnections.filter(conn => {
+                const member = conn.requester_id === currentMemberIdForConnections ? conn.recipient : conn.requester;
+                const fullName = `${member.first_name} ${member.last_name}`.toLowerCase();
+                const company = (member.company_name || '').toLowerCase();
+                const industry = (member.industry || '').toLowerCase();
+                const jobTitle = (member.job_title || '').toLowerCase();
+
+                const matchesSearch = !searchTerm ||
+                    fullName.includes(searchTerm) ||
+                    company.includes(searchTerm) ||
+                    industry.includes(searchTerm) ||
+                    jobTitle.includes(searchTerm);
+
+                const matchesIndustry = !industryFilter || member.industry === industryFilter;
+
+                return matchesSearch && matchesIndustry;
+            });
+
+            // Re-apply current sort
+            const sortBy = document.getElementById('connectionsSort')?.value || 'recent';
+            filtered = sortConnectionsList(filtered, sortBy);
+
+            renderConnectionsList(filtered, currentMemberIdForConnections);
+        }
+
+        // Sort connections
+        function sortConnections() {
+            const sortBy = document.getElementById('connectionsSort')?.value || 'recent';
+
+            // Get currently filtered connections
+            const searchTerm = document.getElementById('connectionsSearch')?.value.toLowerCase() || '';
+            const industryFilter = document.getElementById('connectionsIndustryFilter')?.value || '';
+
+            let filtered = allConnections.filter(conn => {
+                const member = conn.requester_id === currentMemberIdForConnections ? conn.recipient : conn.requester;
+                const fullName = `${member.first_name} ${member.last_name}`.toLowerCase();
+                const company = (member.company_name || '').toLowerCase();
+                const industry = (member.industry || '').toLowerCase();
+                const jobTitle = (member.job_title || '').toLowerCase();
+
+                const matchesSearch = !searchTerm ||
+                    fullName.includes(searchTerm) ||
+                    company.includes(searchTerm) ||
+                    industry.includes(searchTerm) ||
+                    jobTitle.includes(searchTerm);
+
+                const matchesIndustry = !industryFilter || member.industry === industryFilter;
+
+                return matchesSearch && matchesIndustry;
+            });
+
+            filtered = sortConnectionsList(filtered, sortBy);
+            renderConnectionsList(filtered, currentMemberIdForConnections);
+        }
+
+        // Helper function to sort connections list
+        function sortConnectionsList(connections, sortBy) {
+            return [...connections].sort((a, b) => {
+                const memberA = a.requester_id === currentMemberIdForConnections ? a.recipient : a.requester;
+                const memberB = b.requester_id === currentMemberIdForConnections ? b.recipient : b.requester;
+
+                switch (sortBy) {
+                    case 'name':
+                        const nameA = `${memberA.first_name} ${memberA.last_name}`;
+                        const nameB = `${memberB.first_name} ${memberB.last_name}`;
+                        return nameA.localeCompare(nameB);
+
+                    case 'company':
+                        const compA = memberA.company_name || '';
+                        const compB = memberB.company_name || '';
+                        return compA.localeCompare(compB);
+
+                    case 'industry':
+                        const indA = memberA.industry || '';
+                        const indB = memberB.industry || '';
+                        return indA.localeCompare(indB);
+
+                    case 'recent':
+                    default:
+                        return new Date(b.created_at) - new Date(a.created_at);
+                }
+            });
+        }
+
+        // View member profile (opens member directory filtered to that person)
+        function viewMemberProfile(memberId) {
+            // For now, just show a message. In future, could open a profile modal
+            alert('Full profile view coming soon! For now, use the Message or Email buttons to connect.');
         }
 
         // Accept connection request
@@ -10351,11 +10619,111 @@ https://miamibusinesscouncil.com`);
             }, 2000);
         }
 
+        // Show invite modal
+        function showInviteModal() {
+            document.getElementById('inviteModal').classList.add('active');
+            // Reset form
+            document.getElementById('inviteForm').reset();
+            document.getElementById('inviteStatus').style.display = 'none';
+        }
+
+        // Close invite modal
+        function closeInviteModal() {
+            document.getElementById('inviteModal').classList.remove('active');
+        }
+
+        // Send invitation via API
+        async function sendInvitation(event) {
+            event.preventDefault();
+
+            const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
+            const memberEmail = memberAuth.email;
+
+            if (!memberEmail) {
+                showInviteError('You must be logged in to send invitations');
+                return;
+            }
+
+            const inviteeEmail = document.getElementById('inviteeEmail').value;
+            const inviteeName = document.getElementById('inviteeName').value;
+            const personalMessage = document.getElementById('personalMessage').value;
+
+            // Disable send button
+            const sendBtn = document.getElementById('sendInviteBtn');
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+
+            try {
+                const response = await fetch('/api/send-referral-invite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        memberEmail: memberEmail,
+                        inviteeEmail: inviteeEmail,
+                        inviteeName: inviteeName || null,
+                        invitationMethod: 'email',
+                        personalMessage: personalMessage || null
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to send invitation');
+                }
+
+                // Success!
+                showInviteSuccess(`Invitation sent successfully to ${inviteeEmail}!`);
+
+                // Update stats on page
+                if (data.stats) {
+                    document.getElementById('totalInvites').textContent = data.stats.invites_sent;
+                    document.getElementById('successfulReferrals').textContent = data.stats.successful_referrals;
+                    document.getElementById('memberPoints').textContent = data.stats.total_points + ' pts';
+
+                    const conversionRate = data.stats.invites_sent > 0
+                        ? Math.round((data.stats.successful_referrals / data.stats.invites_sent) * 100)
+                        : 0;
+                    document.getElementById('conversionRate').textContent = conversionRate + '%';
+                }
+
+                // Close modal after 2 seconds
+                setTimeout(() => {
+                    closeInviteModal();
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error sending invitation:', error);
+                showInviteError(error.message || 'Failed to send invitation. Please try again.');
+            } finally {
+                // Re-enable send button
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send Invitation';
+            }
+        }
+
+        function showInviteSuccess(message) {
+            const statusEl = document.getElementById('inviteStatus');
+            statusEl.className = 'invite-status success';
+            statusEl.textContent = '✅ ' + message;
+            statusEl.style.display = 'block';
+        }
+
+        function showInviteError(message) {
+            const statusEl = document.getElementById('inviteStatus');
+            statusEl.className = 'invite-status error';
+            statusEl.textContent = '❌ ' + message;
+            statusEl.style.display = 'block';
+        }
+
+        // Legacy email share (opens email client with template)
         function shareViaEmail() {
             const memberAuth = JSON.parse(sessionStorage.getItem('memberAuth') || '{}');
             const currentUserName = memberAuth.name || 'MBC Member';
             const referralLink = document.getElementById('referralLinkInput').value;
-            
+
             const subject = encodeURIComponent(`Join Miami Business Council - Invitation from ${currentUserName}`);
             const body = encodeURIComponent(`Hi there!
 
@@ -10364,7 +10732,7 @@ I wanted to personally invite you to join the Miami Business Council, Miami's pr
 As a current member, I can tell you that MBC has been instrumental in growing my network and business opportunities. Here's what makes it special:
 
 ✅ AI-powered smart matching with ideal business partners
-✅ Direct member-to-member communication platform  
+✅ Direct member-to-member communication platform
 ✅ Monthly networking events with high-quality attendees
 ✅ Exclusive member directory and collaboration opportunities
 ✅ Professional development and speaking opportunities
@@ -10383,9 +10751,8 @@ ${currentUserName}
 Miami Business Council Member
 
 P.S. - The member portal has some amazing features including smart matching and direct messaging that have really helped me connect with the right people.`);
-            
+
             window.location.href = `mailto:?subject=${subject}&body=${body}`;
-            updateInviteStats();
         }
 
         function shareOnLinkedIn() {
@@ -10438,20 +10805,7 @@ The member portal is incredibly well-designed with features like direct messagin
             updateInviteStats();
         }
 
-        function updateInviteStats() {
-            // Update invite count
-            const totalInvites = parseInt(document.getElementById('totalInvites').textContent) + 1;
-            document.getElementById('totalInvites').textContent = totalInvites;
-            
-            // Save to localStorage
-            const stats = JSON.parse(localStorage.getItem('referralStats') || '{"totalInvites": 0, "successfulReferrals": 3}');
-            stats.totalInvites = totalInvites;
-            localStorage.setItem('referralStats', JSON.stringify(stats));
-            
-            // Update conversion rate
-            const conversionRate = Math.round((stats.successfulReferrals / totalInvites) * 100);
-            document.getElementById('conversionRate').textContent = conversionRate + '%';
-        }
+        // Removed updateInviteStats() - now using database tracking via API
 
         function claimReward(rewardType) {
             const currentPoints = parseInt(document.getElementById('memberPoints').textContent);
@@ -11730,18 +12084,241 @@ This will enable beautiful previews when sharing the portal link on social media
             flex-wrap: wrap;
             justify-content: center;
         }
-        
+
         .contact-label,
         .contact-note {
             font-size: 0.8rem;
         }
-        
+
         .contact-support {
             font-size: 0.85rem;
             padding: 0.4rem 0.8rem;
         }
     }
+
+    /* Invite Modal Styles */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+    .invite-modal {
+        background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 16px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h3 {
+        color: #d4af37;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        color: #999;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.3s ease;
+    }
+
+    .modal-close:hover {
+        color: #fff;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .invite-form-field {
+        margin-bottom: 1.25rem;
+    }
+
+    .invite-form-field label {
+        display: block;
+        color: #ccc;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .invite-form-field input,
+    .invite-form-field textarea {
+        width: 100%;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #fff;
+        font-family: inherit;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .invite-form-field input:focus,
+    .invite-form-field textarea:focus {
+        outline: none;
+        border-color: #d4af37;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .invite-form-field textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .invite-form-field small {
+        display: block;
+        color: #999;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    .modal-footer {
+        padding: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+    }
+
+    .btn-modal {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-modal-primary {
+        background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+        color: #000;
+    }
+
+    .btn-modal-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-modal-primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .btn-modal-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ccc;
+    }
+
+    .btn-modal-secondary:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .invite-status {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+    }
+
+    .invite-status.success {
+        background: rgba(81, 207, 102, 0.1);
+        border: 1px solid rgba(81, 207, 102, 0.3);
+        color: #51cf66;
+    }
+
+    .invite-status.error {
+        background: rgba(255, 107, 107, 0.1);
+        border: 1px solid rgba(255, 107, 107, 0.3);
+        color: #ff6b6b;
+    }
     </style>
+
+    <!-- Invite Modal -->
+    <div class="modal-overlay" id="inviteModal">
+        <div class="invite-modal">
+            <div class="modal-header">
+                <h3>📧 Send Invitation</h3>
+                <button class="modal-close" onclick="closeInviteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="invite-status" id="inviteStatus"></div>
+
+                <form id="inviteForm" onsubmit="sendInvitation(event)">
+                    <div class="invite-form-field">
+                        <label for="inviteeEmail">Invitee Email Address *</label>
+                        <input
+                            type="email"
+                            id="inviteeEmail"
+                            placeholder="colleague@example.com"
+                            required
+                        >
+                        <small>We'll send them a personalized invitation from you</small>
+                    </div>
+
+                    <div class="invite-form-field">
+                        <label for="inviteeName">Invitee Name (Optional)</label>
+                        <input
+                            type="text"
+                            id="inviteeName"
+                            placeholder="John Smith"
+                        >
+                        <small>Makes the invitation more personal</small>
+                    </div>
+
+                    <div class="invite-form-field">
+                        <label for="personalMessage">Personal Message (Optional)</label>
+                        <textarea
+                            id="personalMessage"
+                            placeholder="Add a personal note about why you think they'd be a great fit for Miami Business Council..."
+                        ></textarea>
+                        <small>This will be included in the invitation email</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-modal-secondary" onclick="closeInviteModal()">Cancel</button>
+                <button class="btn-modal btn-modal-primary" id="sendInviteBtn" onclick="sendInvitation(event)">
+                    Send Invitation
+                </button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

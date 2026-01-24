@@ -9191,35 +9191,58 @@
         }
 
         function focusIncompleteSection() {
-            // Find first incomplete section and scroll to it
-            const memberAuth = sessionStorage.getItem('memberAuth');
-            if (!memberAuth) return;
+            // Navigate to profile section first
+            showSection('profile');
 
-            const auth = JSON.parse(memberAuth);
-            const memberEmail = auth.email;
+            // Wait for section to load, then find first incomplete item
+            setTimeout(() => {
+                if (!currentMember) return;
 
-            if (!checkBasicInformation()) {
-                document.getElementById('memberName').focus();
-                return;
-            }
-            
-            if (!localStorage.getItem(`memberPersonalPhoto_${memberEmail}`)) {
-                document.getElementById('personalPhotoUpload').click();
-                return;
-            }
-            
-            if (!checkBusinessPreferences()) {
-                document.querySelector('.opportunity-tag').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-            
-            if (!document.getElementById('memberLinkedIn')?.value.trim()) {
-                document.getElementById('memberLinkedIn').focus();
-                return;
-            }
-            
-            // If all complete, show success message
-            alert('🎉 Congratulations! Your profile is 100% complete. You\'re ready to make great connections!');
+                // Check what's missing and scroll to it
+
+                // 1. Check basic info
+                if (!currentMember.first_name || !currentMember.last_name || !currentMember.company_name || !currentMember.job_title) {
+                    const nameField = document.getElementById('memberName');
+                    if (nameField) {
+                        nameField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        nameField.focus();
+                    }
+                    return;
+                }
+
+                // 2. Check profile photo
+                if (!currentMember.profile_photo_url) {
+                    const photoSection = document.getElementById('profilePhotoSection');
+                    if (photoSection) {
+                        photoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+
+                // 3. Check business preferences (looking for / can offer)
+                const lookingFor = currentMember.lookingFor || [];
+                const canOffer = currentMember.canOffer || [];
+                if (lookingFor.length === 0 || canOffer.length === 0) {
+                    const opportunitySection = document.querySelector('.opportunity-tag');
+                    if (opportunitySection) {
+                        opportunitySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    return;
+                }
+
+                // 4. Check LinkedIn
+                if (!currentMember.linkedin_url) {
+                    const linkedInField = document.getElementById('memberLinkedIn');
+                    if (linkedInField) {
+                        linkedInField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        linkedInField.focus();
+                    }
+                    return;
+                }
+
+                // If all complete, show success message
+                alert('🎉 Congratulations! Your profile is 100% complete. You\'re ready to make great connections!');
+            }, 300); // Give time for profile section to render
         }
 
         // Close modal when clicking outside

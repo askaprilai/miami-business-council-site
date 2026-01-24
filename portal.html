@@ -10130,8 +10130,11 @@
             const messagesContainer = document.getElementById('messagesContainer');
             if (!messagesContainer || !currentMember) return;
 
+            // Clear previous messages immediately to prevent showing wrong conversation
+            messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Loading messages...</div>';
+
             try {
-                // console.log('📥 Loading conversation history from database...');
+                // console.log(`📥 Loading conversation history for member: ${memberId}`);
 
                 // Load messages between current member and selected member
                 const { data: messages, error } = await supabase

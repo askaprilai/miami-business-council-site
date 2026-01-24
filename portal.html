@@ -1576,6 +1576,15 @@
             background: #000;
         }
 
+        /* Weekly Alerts Toggle */
+        #weeklyAlertsToggle:checked + span {
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+        }
+
+        #weeklyAlertsToggle:checked + span + span {
+            transform: translateX(24px);
+        }
+
         .toggle-text {
             color: #e8eaed;
             font-weight: 500;
@@ -3725,7 +3734,19 @@
                             <span class="card-icon">⚡</span>
                         </div>
                         <p><a href="#" onclick="generateSmartMatches()" style="color: #d4af37; cursor: pointer;">🔄 Refresh Matches</a></p>
-                        <p><a href="#" onclick="scheduleMatchNotifications()" style="color: #d4af37; cursor: pointer;">🔔 Weekly Match Alerts</a></p>
+
+                        <!-- Weekly Alerts Toggle -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; margin-top: 1rem;">
+                            <div style="flex: 1;">
+                                <div style="color: #e8eaed; font-weight: 600; margin-bottom: 0.25rem;">🔔 Weekly Match Alerts</div>
+                                <div style="color: #999; font-size: 0.85rem;">Get 3-5 curated matches every Sunday 7pm</div>
+                            </div>
+                            <label style="position: relative; display: inline-block; width: 50px; height: 26px; margin-left: 1rem;">
+                                <input type="checkbox" id="weeklyAlertsToggle" onchange="toggleWeeklyAlerts(this.checked)" style="opacity: 0; width: 0; height: 0;">
+                                <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.2); transition: 0.3s; border-radius: 26px;"></span>
+                                <span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%;"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -5693,6 +5714,11 @@
                 setTimeout(() => loadConversations(), 100);
             }
 
+            // Load weekly alerts preference when navigating to smart matches
+            if (sectionId === 'smart-matches') {
+                setTimeout(() => loadWeeklyAlertsPreference(), 100);
+            }
+
             // Remove floating input box when leaving messages section
             if (sectionId !== 'messages') {
                 const floatingInput = document.getElementById('floatingChatInput');
@@ -5749,6 +5775,11 @@
                 if (sectionId === 'connections') {
                     // console.log('🤝 Loading connections section...');
                     setTimeout(() => loadConnections(), 100);
+                }
+
+                // Load weekly alerts preference when navigating to smart matches
+                if (sectionId === 'smart-matches') {
+                    setTimeout(() => loadWeeklyAlertsPreference(), 100);
                 }
             });
         });
@@ -6168,9 +6199,51 @@
         }
 
 
-        function scheduleMatchNotifications() {
-            if (confirm('Enable weekly smart match notifications?')) {
-                alert('✅ Weekly match alerts enabled! You\'ll receive email updates every Monday with new matches and opportunities.');
+        async function toggleWeeklyAlerts(enabled) {
+            if (!currentMember) {
+                alert('Please log in to enable weekly alerts');
+                return;
+            }
+
+            try {
+                // Update database
+                const { error } = await supabase
+                    .from('members')
+                    .update({ weekly_alerts_enabled: enabled })
+                    .eq('id', currentMember.id);
+
+                if (error) {
+                    console.error('Error updating weekly alerts:', error);
+                    alert('Failed to update alert settings. Please try again.');
+                    // Revert toggle
+                    document.getElementById('weeklyAlertsToggle').checked = !enabled;
+                    return;
+                }
+
+                // Update local member object
+                currentMember.weekly_alerts_enabled = enabled;
+
+                // Show confirmation
+                if (enabled) {
+                    showToast('🔔 Weekly Alerts Enabled!', 'You\'ll receive 3-5 curated matches every Sunday at 7pm', 'success');
+                } else {
+                    showToast('🔕 Weekly Alerts Disabled', 'You won\'t receive automatic match emails', 'info');
+                }
+
+            } catch (error) {
+                console.error('Error toggling weekly alerts:', error);
+                alert('An error occurred. Please try again.');
+                document.getElementById('weeklyAlertsToggle').checked = !enabled;
+            }
+        }
+
+        // Load weekly alerts preference when page loads
+        function loadWeeklyAlertsPreference() {
+            if (currentMember && currentMember.weekly_alerts_enabled !== undefined) {
+                const toggle = document.getElementById('weeklyAlertsToggle');
+                if (toggle) {
+                    toggle.checked = currentMember.weekly_alerts_enabled || false;
+                }
             }
         }
 

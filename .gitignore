@@ -1,2 +1,11 @@
 .vercel
 .env*.local
+
+# Test and debug files
+test-*.html
+*-debug.html
+*-DEBUG.html
+*.debug.html
+FINAL-DEBUG.html
+BLOG-DEBUG-ULTIMATE.html
+

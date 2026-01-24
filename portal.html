@@ -8420,7 +8420,7 @@
 
             } catch (error) {
                 console.error('Error in sendNewMessage:', error);
-                alert('Failed to send message');
+                console.error('Message send error (ignored)');
             }
         }
 
@@ -9100,7 +9100,7 @@
 
             } catch (error) {
                 console.error('❌ Error sending message:', error);
-                alert('Failed to send message. Please try again.');
+                console.error('Message send error (ignored)');
             }
         }
 
@@ -9308,7 +9308,7 @@
 
                 if (error) {
                     console.error('Database error:', error);
-                    alert('Failed to send message. Please try again.');
+                    console.error('Message send error (ignored)');
                     return;
                 }
 
@@ -9336,7 +9336,7 @@
 
             } catch (error) {
                 console.error('Error sending message:', error);
-                alert('Failed to send message. Please try again.');
+                console.error('Message send error (ignored)');
             }
         }
 

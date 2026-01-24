@@ -1,0 +1,48 @@
+// SERVICE WORKER - SELF-DESTRUCT MODE
+// This service worker unregisters itself and clears all caches
+
+console.log('🔥 SERVICE WORKER: Self-destruct mode activated');
+
+// Immediately unregister this service worker
+self.addEventListener('install', (event) => {
+  console.log('🗑️ SW: Unregistering on install');
+  event.waitUntil(
+    self.registration.unregister().then(() => {
+      console.log('✅ SW: Successfully unregistered');
+      return self.clients.matchAll();
+    }).then((clients) => {
+      // Reload all clients
+      clients.forEach(client => {
+        console.log('🔄 SW: Reloading client');
+        client.navigate(client.url);
+      });
+    })
+  );
+});
+
+// Clear all caches
+self.addEventListener('activate', (event) => {
+  console.log('🗑️ SW: Clearing all caches');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          console.log('🗑️ SW: Deleting cache:', cacheName);
+          return caches.delete(cacheName);
+        })
+      );
+    }).then(() => {
+      console.log('✅ SW: All caches cleared');
+      // Unregister again to be sure
+      return self.registration.unregister();
+    }).then(() => {
+      console.log('✅ SW: Unregistered in activate');
+    })
+  );
+});
+
+// Don't cache anything - pass through to network
+self.addEventListener('fetch', (event) => {
+  // Just pass through - don't cache
+  event.respondWith(fetch(event.request));
+});

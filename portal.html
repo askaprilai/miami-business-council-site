@@ -7864,10 +7864,6 @@
                             <span class="member-tag">Connected ${new Date(conn.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                             ${member.industry ? `<span class="member-tag">${member.industry}</span>` : ''}
                         </div>
-                        <div class="member-actions">
-                            <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${fullName}', '${member.company_name}')">📧 Email</button>
-                            <button class="message-btn" onclick="startConversationWith('${member.id}', '${fullName}')" title="Send message">💬 Message</button>
-                        </div>
                     </div>
                 `;
             }).join('');
@@ -10804,18 +10800,6 @@ This will enable beautiful previews when sharing the portal link on social media
                             ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
                             : ''
                         }
-                    </div>
-                    <div class="member-actions" onclick="event.stopPropagation()">
-                        ${member.linkedin
-                            ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
-                            : ''
-                        }
-                        <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${member.name}', '${member.company}')" title="Send email">
-                            📧 Email
-                        </button>
-                        <button class="message-btn" onclick="startConversationWith('${member.id}', '${member.name}')" title="Send message">
-                            💬 Message
-                        </button>
                     </div>
                 </div>
                 `;

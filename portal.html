@@ -7992,6 +7992,10 @@
 
             } catch (error) {
                 console.error('Error in loadConversations:', error);
+                const conversationsList = document.getElementById('conversationsList');
+                if (conversationsList) {
+                    conversationsList.innerHTML = '<div class="empty-conversations"><p>Error loading conversations. Please refresh.</p></div>';
+                }
             }
         }
 
@@ -8228,6 +8232,9 @@
 
                 // Wait a moment for DB to process
                 await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Reload conversations sidebar to update preview and time
+                await loadConversations();
 
                 // Reload thread to show new message
                 loadMessageThread(currentThreadMemberId);

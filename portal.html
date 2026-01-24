@@ -5264,11 +5264,11 @@
                 <div class="profile-info-grid">
                     <div class="profile-info-item">
                         <div class="profile-info-label">Looking For</div>
-                        <div class="profile-info-value">Small business owners, Retail clients, Growth partnerships</div>
+                        <div class="profile-info-value" id="profileLookingFor">Small business owners, Retail clients, Growth partnerships</div>
                     </div>
                     <div class="profile-info-item">
                         <div class="profile-info-label">Can Offer</div>
-                        <div class="profile-info-value">AI coaching, Business strategy, Digital transformation</div>
+                        <div class="profile-info-value" id="profileCanOffer">AI coaching, Business strategy, Digital transformation</div>
                     </div>
                 </div>
             </div>
@@ -6482,17 +6482,23 @@
             const memberTags = match.services || [];
             const memberEmail = `${match.id}@member.com`; // Placeholder email
             const memberLinkedIn = match.linkedin || '';
+            const memberPhoto = match.avatarUrl || null;
+            const memberLookingFor = match.idealClient?.needsHelp || [];
+            const memberCanOffer = match.services || [];
 
             // Call the existing openMemberProfile function with proper parameters
             openMemberProfile(
-                matchId, 
-                memberName, 
-                memberTitle, 
-                memberCompany, 
-                memberAvatar, 
-                memberTags, 
-                memberEmail, 
-                memberLinkedIn
+                matchId,
+                memberName,
+                memberTitle,
+                memberCompany,
+                memberAvatar,
+                memberTags,
+                memberEmail,
+                memberLinkedIn,
+                memberPhoto,
+                memberLookingFor,
+                memberCanOffer
             );
         }
 
@@ -7104,7 +7110,7 @@
         }
 
         // Member Profile Modal Functions
-        function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin, photoUrl = null) {
+        function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin, photoUrl = null, lookingFor = [], canOffer = []) {
             // Update modal content with member data
             const avatarElement = document.getElementById('profileAvatarLarge');
 
@@ -7123,6 +7129,21 @@
             // Update tags
             const tagsContainer = document.getElementById('profileTags');
             tagsContainer.innerHTML = tags.map(tag => `<span class="profile-tag">${tag}</span>`).join('');
+
+            // Update business interests
+            const lookingForElement = document.getElementById('profileLookingFor');
+            if (lookingFor && lookingFor.length > 0) {
+                lookingForElement.textContent = lookingFor.join(', ');
+            } else {
+                lookingForElement.textContent = 'Not specified';
+            }
+
+            const canOfferElement = document.getElementById('profileCanOffer');
+            if (canOffer && canOffer.length > 0) {
+                canOfferElement.textContent = canOffer.join(', ');
+            } else {
+                canOfferElement.textContent = 'Not specified';
+            }
 
             // Update action buttons
             const emailBtn = document.getElementById('profileEmailBtn');
@@ -11816,8 +11837,12 @@ This will enable beautiful previews when sharing the portal link on social media
                 const tags = [...(member.lookingFor || []), ...(member.canOffer || [])].slice(0, 3);
                 const tagsArray = tags.map(tag => `'${tag}'`).join(', ');
 
+                // Create arrays for business interests
+                const lookingForArray = (member.lookingFor || []).map(item => `'${item}'`).join(', ');
+                const canOfferArray = (member.canOffer || []).map(item => `'${item}'`).join(', ');
+
                 return `
-                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'})">
+                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'}, [${lookingForArray}], [${canOfferArray}])">
                     <div class="member-header">
                         ${member.photoUrl
                             ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`
@@ -12029,8 +12054,12 @@ This will enable beautiful previews when sharing the portal link on social media
                 const tags = member.industries || [];
                 const tagsArray = tags.map(tag => `'${tag}'`).join(', ');
 
+                // Create arrays for business interests
+                const lookingForArray = (member.lookingFor || []).map(item => `'${item}'`).join(', ');
+                const canOfferArray = (member.canOffer || []).map(item => `'${item}'`).join(', ');
+
                 return `
-                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'})">
+                <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'}, [${lookingForArray}], [${canOfferArray}])">
                     <div class="member-header">
                         ${member.photoUrl
                             ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`

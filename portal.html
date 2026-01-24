@@ -9009,60 +9009,6 @@
             }
         }
 
-        async function sendMessage() {
-            const chatInput = document.getElementById('chatInput');
-            if (!chatInput || !currentChatMember || !currentMember) return;
-
-            const messageText = chatInput.value.trim();
-            if (!messageText) return;
-
-            try {
-                console.log('📤 Sending message to database...');
-
-                // Save message to Supabase
-                const { data: newMessage, error } = await supabase
-                    .from('messages')
-                    .insert({
-                        sender_id: currentMember.id,
-                        recipient_id: currentChatMember.id,
-                        message_text: messageText
-                    })
-                    .select()
-                    .single();
-
-                if (error) {
-                    console.error('❌ Error sending message:', error);
-                    // Don't show alert - continue anyway
-                }
-
-                console.log('✅ Message sent');
-
-                // Clear input immediately
-                chatInput.value = '';
-
-                // Wait for DB processing
-                await new Promise(resolve => setTimeout(resolve, 300));
-
-                // Reload conversation to show new message
-                await loadConversationHistory(currentChatMember.id);
-
-                // Send email notification to recipient
-                if (currentChatMember.email) {
-                    sendMessageNotification(
-                        currentChatMember.email,
-                        currentChatMember.name,
-                        `${currentMember.first_name} ${currentMember.last_name}`,
-                        messageText
-                    );
-                }
-
-                // Reload conversation list to update last message
-                await loadConversationList();
-
-            } catch (error) {
-                console.error('❌ Error sending message:', error);
-                console.error('Message send error (ignored)');
-            }
         }
 
         // Send email notification when message is sent

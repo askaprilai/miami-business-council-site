@@ -7918,6 +7918,40 @@
             }
         }
 
+        // Reload current member data from database (used after saving profile)
+        async function reloadCurrentMember() {
+            if (!currentMember || !currentMember.id) {
+                console.warn('No current member to reload');
+                return;
+            }
+
+            try {
+                // Fetch fresh member data including business_opportunities
+                const { data: freshMemberData, error } = await supabase
+                    .from('members')
+                    .select(`
+                        *,
+                        business_opportunities (
+                            opportunity_type,
+                            category
+                        )
+                    `)
+                    .eq('id', currentMember.id)
+                    .single();
+
+                if (error) {
+                    console.error('Error reloading member data:', error);
+                    return;
+                }
+
+                // Update global currentMember with fresh data
+                currentMember = freshMemberData;
+                console.log('✅ Current member data reloaded from database');
+            } catch (error) {
+                console.error('Error in reloadCurrentMember:', error);
+            }
+        }
+
         // Load member-specific profile data
         async function loadMemberProfile() {
             // console.log('📋 loadMemberProfile() called');
@@ -8596,7 +8630,8 @@
                 const profileKey = `memberProfile_${memberEmail}`;
                 localStorage.setItem(profileKey, JSON.stringify(profileData));
                 
-                alert('✅ Profile saved successfully! Your information has been updated.');
+                // Reload currentMember from database to get fresh data including business_opportunities
+                await reloadCurrentMember();
 
                 // Update any displayed member info in other sections
                 updateMemberInfoThroughoutPortal(profileData);
@@ -8604,6 +8639,9 @@
                 // Recalculate onboarding progress and analytics
                 await calculateOnboardingProgress(currentMember);
                 await calculateProfileAnalytics(currentMember);
+
+                // Show success message
+                alert('✅ Profile saved successfully! Your information has been updated.');
 
             } catch (error) {
                 console.error('Error saving profile:', error);

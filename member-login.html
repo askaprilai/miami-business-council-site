@@ -410,6 +410,28 @@
                 window.location.href = 'portal';
             }
         });
+
+        // Detect when user logs in from another tab (magic link opened in new tab)
+        window.addEventListener('storage', async (e) => {
+            // Check if Supabase auth keys changed
+            if (e.key && e.key.startsWith('sb-')) {
+                console.log('🔄 Auth change detected in another tab, checking session...');
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    console.log('✅ Session found, redirecting to portal...');
+                    window.location.href = 'portal';
+                }
+            }
+        });
+
+        // Also periodically check for session (in case storage event doesn't fire)
+        setInterval(async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                console.log('✅ Session detected via periodic check, redirecting...');
+                window.location.href = 'portal';
+            }
+        }, 2000); // Check every 2 seconds
     </script>
 </body>
 </html><!-- Force deploy 1769115355 -->

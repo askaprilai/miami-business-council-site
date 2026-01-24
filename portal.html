@@ -3455,6 +3455,45 @@
             border-radius: 12px;
             padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.25);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        /* High priority pulse animation */
+        .match-card.high-priority {
+            border-color: rgba(81, 207, 102, 0.4);
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(81, 207, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(81, 207, 102, 0);
+            }
+        }
+
+        .match-card.high-priority::before {
+            content: '⭐ TOP MATCH';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            color: #000;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            z-index: 1;
         }
 
         .match-header {
@@ -3477,12 +3516,33 @@
         }
 
         .match-score {
-            background: #d4af37;
-            color: #000;
             padding: 0.5rem 1rem;
             border-radius: 20px;
-            font-weight: 600;
+            font-weight: 700;
             margin-left: auto;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        /* Color-coded match scores */
+        .match-score.excellent {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            color: #000;
+        }
+
+        .match-score.good {
+            background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
+            color: #000;
+        }
+
+        .match-score.fair {
+            background: linear-gradient(135deg, #adb5bd 0%, #868e96 100%);
+            color: #fff;
+        }
+
+        .match-card:hover .match-score {
+            transform: scale(1.1);
         }
 
         .match-details {
@@ -3493,6 +3553,46 @@
 
         .match-details p {
             margin-bottom: 0.5rem;
+        }
+
+        /* Match reasons with icons */
+        .match-reasons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .match-reason-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 0.4rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #d4af37;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .match-reason-badge:hover {
+            background: rgba(212, 175, 55, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .match-reason-icon {
+            font-size: 1rem;
+        }
+
+        /* Match type label enhancements */
+        .match-type-label {
+            font-size: 0.75rem;
+            color: #d4af37;
+            margin-top: 0.25rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .match-actions {
@@ -6138,43 +6238,74 @@
 
         function displaySmartMatches(matches) {
             const matchResults = document.getElementById('smartMatchResults');
-            
+
             if (matches.length === 0) {
                 matchResults.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ccc;">No strong matches found. Try updating your profile to get better results.</div>';
                 return;
             }
 
-            const matchesHtml = matches.map(match => `
-                <div class="match-card" data-match-type="${match.matchType}" data-industry="${match.industry}" data-score="${match.matchScore}">
+            const matchesHtml = matches.map(match => {
+                // Determine match score class
+                const scoreClass = match.matchScore >= 90 ? 'excellent' :
+                                 match.matchScore >= 75 ? 'good' : 'fair';
+
+                // Determine if high priority
+                const priorityClass = match.matchScore >= 90 ? 'high-priority' : '';
+
+                // Get icon for each match reason
+                const reasonBadges = match.matchReasons.map(reason => {
+                    let icon = '✨';
+                    if (reason.toLowerCase().includes('industry')) icon = '🏢';
+                    else if (reason.toLowerCase().includes('service') || reason.toLowerCase().includes('offer')) icon = '💼';
+                    else if (reason.toLowerCase().includes('need')) icon = '🎯';
+                    else if (reason.toLowerCase().includes('goal')) icon = '🚀';
+                    else if (reason.toLowerCase().includes('miami') || reason.toLowerCase().includes('local')) icon = '📍';
+                    else if (reason.toLowerCase().includes('budget')) icon = '💰';
+
+                    return `<span class="match-reason-badge" title="${reason}">
+                        <span class="match-reason-icon">${icon}</span>
+                        ${reason}
+                    </span>`;
+                }).join('');
+
+                return `
+                <div class="match-card ${priorityClass}" data-match-type="${match.matchType}" data-industry="${match.industry}" data-score="${match.matchScore}">
                     <div class="match-header">
                         <div class="member-avatar">${match.avatar}</div>
-                        <div>
+                        <div style="flex: 1;">
                             <h4>${match.name}</h4>
                             <p>${match.company} • ${match.industry}</p>
                         </div>
                         <div style="text-align: right;">
-                            <div class="match-score">${match.matchScore}%</div>
-                            <div style="font-size: 0.8em; color: #d4af37; margin-top: 0.25rem;">${getMatchTypeLabel(match.matchType)}</div>
-                            ${match.mutualBenefit ? '<div style="font-size: 0.7em; color: #51cf66;">🤝 MUTUAL</div>' : ''}
+                            <div class="match-score ${scoreClass}">${match.matchScore}%</div>
+                            <div class="match-type-label">${getMatchTypeLabel(match.matchType)}</div>
+                            ${match.mutualBenefit ? '<div style="font-size: 0.7em; color: #51cf66; margin-top: 0.25rem; font-weight: 600;">🤝 MUTUAL BENEFIT</div>' : ''}
                         </div>
                     </div>
+
+                    <div class="match-reasons">
+                        ${reasonBadges}
+                    </div>
+
                     <div class="match-details">
-                        <p><strong>What they offer:</strong> ${match.services.join(', ')}</p>
-                        <p><strong>What they need:</strong> ${match.idealClient.needsHelp?.join(', ') || 'Various business support'}</p>
-                        <p><strong>Why this match:</strong> ${match.matchReasons.join(', ')}</p>
-                        ${match.valueProposition ? `<p><strong>Their value:</strong> ${match.valueProposition}</p>` : ''}
+                        <p><strong>💼 What they offer:</strong> ${match.services.join(', ')}</p>
+                        <p><strong>🎯 What they need:</strong> ${match.idealClient.needsHelp?.join(', ') || 'Various business support'}</p>
+                        ${match.valueProposition ? `<p><strong>✨ Their value:</strong> ${match.valueProposition}</p>` : ''}
                     </div>
                     <div class="match-actions">
-                        <button class="connect-btn" onclick="sendSmartIntro('${match.id}', '${match.name}')">Smart Intro</button>
+                        <button class="connect-btn" onclick="sendSmartIntro('${match.id}', '${match.name}')">
+                            🤝 Smart Intro
+                        </button>
                         <button class="linkedin-btn" onclick="${match.linkedin ? `window.open('${match.linkedin}', '_blank')` : `openSmartMatchProfile('${match.id}')`}">
-                            ${match.linkedin ? 'LinkedIn' : 'View Profile'}
+                            ${match.linkedin ? '🔗 LinkedIn' : '👤 View Profile'}
                         </button>
                         <button class="register-btn" onclick="scheduleMeeting('${match.id}')" style="padding: 0.5rem 1rem; margin-left: 0.5rem;">
-                            Schedule Meet
+                            📅 Schedule Meet
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
 
             matchResults.innerHTML = matchesHtml;
         }

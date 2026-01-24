@@ -509,25 +509,59 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
+            table-layout: fixed;
         }
 
         .member-list-table th,
         .member-list-table td {
-            padding: 0.75rem;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .member-list-table th:nth-child(1), /* Name */
+        .member-list-table td:nth-child(1) {
+            width: 15%;
+        }
+
+        .member-list-table th:nth-child(2), /* Email */
+        .member-list-table td:nth-child(2) {
+            width: 22%;
+        }
+
+        .member-list-table th:nth-child(3), /* Company */
+        .member-list-table td:nth-child(3) {
+            width: 20%;
+        }
+
+        .member-list-table th:nth-child(4), /* Status */
+        .member-list-table td:nth-child(4) {
+            width: 12%;
+        }
+
+        .member-list-table th:nth-child(5), /* Joined */
+        .member-list-table td:nth-child(5) {
+            width: 10%;
+        }
+
+        .member-list-table th:nth-child(6), /* Actions */
+        .member-list-table td:nth-child(6) {
+            width: 21%;
         }
 
         .member-list-table th {
             background: rgba(255, 255, 255, 0.05);
             color: #d4af37;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .member-list-table td {
             color: #f1f3f4;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         .member-list-table tr:hover {
@@ -535,10 +569,12 @@
         }
 
         .member-status {
-            padding: 0.25rem 0.5rem;
+            padding: 0.4rem 0.75rem;
             border-radius: 12px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 500;
+            display: inline-block;
+            white-space: nowrap;
         }
 
         .member-status.active {
@@ -559,11 +595,11 @@
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: #e8eaed;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            padding: 0.4rem 0.65rem;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
+            font-size: 1rem;
+            margin-right: 0.35rem;
             transition: all 0.3s ease;
         }
 

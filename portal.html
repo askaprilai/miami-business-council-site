@@ -11859,8 +11859,8 @@ This will enable beautiful previews when sharing the portal link on social media
         document.addEventListener('DOMContentLoaded', function() {
             loadMembersFromDatabase().then(members => {
                 // console.log(`Loaded ${members.length} members from database`);
-                // Update member directory with real data
-                updateMemberDirectory(members);
+                // Update member directory with real data using the new system
+                initializeMemberDirectory(members);
                 // Update dashboard member counts
                 updateMemberCounts(members.length);
             });

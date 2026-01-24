@@ -7967,6 +7967,9 @@
                     }
                 }
 
+                // Load business opportunities from database
+                await loadBusinessOpportunities();
+
                 // Load member-specific photos
                 loadExistingPhotos();
 
@@ -7978,6 +7981,56 @@
 
             } catch (error) {
                 console.error('Error loading member profile:', error);
+            }
+        }
+
+        async function loadBusinessOpportunities() {
+            if (!currentMember || !currentMember.id) {
+                return;
+            }
+
+            try {
+                // Fetch business opportunities from database
+                const { data: opportunities, error } = await supabase
+                    .from('business_opportunities')
+                    .select('opportunity_type, category')
+                    .eq('member_id', currentMember.id);
+
+                if (error) {
+                    console.error('Error loading business opportunities:', error);
+                    return;
+                }
+
+                if (!opportunities || opportunities.length === 0) {
+                    return;
+                }
+
+                // Clear all active tags first
+                document.querySelectorAll('.opportunity-tag').forEach(tag => {
+                    tag.classList.remove('active');
+                });
+
+                // Activate tags based on loaded data
+                opportunities.forEach(opp => {
+                    let selector;
+                    if (opp.opportunity_type === 'looking_for') {
+                        selector = '.opportunity-section:first-child .opportunity-tag';
+                    } else if (opp.opportunity_type === 'can_offer') {
+                        selector = '.opportunity-section:nth-child(2) .opportunity-tag';
+                    }
+
+                    if (selector) {
+                        const tags = document.querySelectorAll(selector);
+                        tags.forEach(tag => {
+                            if (tag.textContent.trim() === opp.category) {
+                                tag.classList.add('active');
+                            }
+                        });
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error in loadBusinessOpportunities:', error);
             }
         }
 
@@ -8462,6 +8515,48 @@
 
                 // Update global currentMember
                 currentMember = { ...currentMember, ...data };
+
+                // Save business opportunities to database
+                const lookingForTags = Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active'))
+                    .map(tag => tag.textContent.trim());
+                const canOfferTags = Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active'))
+                    .map(tag => tag.textContent.trim());
+
+                // Delete existing business opportunities
+                await supabase
+                    .from('business_opportunities')
+                    .delete()
+                    .eq('member_id', currentMember.id);
+
+                // Insert new business opportunities
+                const opportunitiesToInsert = [];
+
+                lookingForTags.forEach(category => {
+                    opportunitiesToInsert.push({
+                        member_id: currentMember.id,
+                        opportunity_type: 'looking_for',
+                        category: category
+                    });
+                });
+
+                canOfferTags.forEach(category => {
+                    opportunitiesToInsert.push({
+                        member_id: currentMember.id,
+                        opportunity_type: 'can_offer',
+                        category: category
+                    });
+                });
+
+                if (opportunitiesToInsert.length > 0) {
+                    const { error: oppError } = await supabase
+                        .from('business_opportunities')
+                        .insert(opportunitiesToInsert);
+
+                    if (oppError) {
+                        console.error('❌ Error saving business opportunities:', oppError);
+                        alert(`Warning: Profile saved but business opportunities had an error: ${oppError.message}`);
+                    }
+                }
 
                 // Also save to localStorage for backwards compatibility
                 const localProfileData = {

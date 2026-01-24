@@ -5027,8 +5027,8 @@
 
                 if (memberError || !member) {
                     console.error('Member profile not found:', memberError);
-                    // Profile doesn't exist, redirect to login
-                    alert('Member profile not found. Please contact support.');
+                    // Profile doesn't exist - this email has auth but no member record
+                    alert('This email is not registered as a member.\n\nPlease contact info@miamibusinesscouncil.com to request access.');
                     await supabase.auth.signOut();
                     window.location.href = '/member-login';
                     return false;

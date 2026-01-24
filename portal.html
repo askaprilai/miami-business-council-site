@@ -7322,13 +7322,13 @@
         }
 
         // Admin Member List Functions - Pagination state
-        let currentPage = 1;
-        const membersPerPage = 20;
-        let allMembersData = [];
+        let adminCurrentPage = 1;
+        const adminMembersPerPage = 20;
+        let allAdminMembersData = [];
 
         async function refreshMemberList(page = 1) {
             const container = document.getElementById('memberListContainer');
-            currentPage = page;
+            adminCurrentPage = page;
 
             // Show loading state
             container.innerHTML = `
@@ -7359,7 +7359,7 @@
                 // console.log('Loaded members from database:', members);
 
                 // Transform members for display
-                allMembersData = members.map(member => {
+                allAdminMembersData = members.map(member => {
                     const name = `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Unknown';
                     const joinDate = member.created_at
                         ? new Date(member.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
@@ -7375,15 +7375,15 @@
                 });
 
                 // Calculate pagination
-                const totalMembers = allMembersData.length;
-                const totalPages = Math.ceil(totalMembers / membersPerPage);
-                const startIndex = (currentPage - 1) * membersPerPage;
-                const endIndex = Math.min(startIndex + membersPerPage, totalMembers);
-                const membersToShow = allMembersData.slice(startIndex, endIndex);
+                const totalMembers = allAdminMembersData.length;
+                const totalPages = Math.ceil(totalMembers / adminMembersPerPage);
+                const startIndex = (adminCurrentPage - 1) * adminMembersPerPage;
+                const endIndex = Math.min(startIndex + adminMembersPerPage, totalMembers);
+                const membersToShow = allAdminMembersData.slice(startIndex, endIndex);
 
                 // Calculate summary stats
-                const activeMembers = allMembersData.filter(m => m.status === 'active').length;
-                const pendingMembers = allMembersData.filter(m => m.status === 'pending').length;
+                const activeMembers = allAdminMembersData.filter(m => m.status === 'active').length;
+                const pendingMembers = allAdminMembersData.filter(m => m.status === 'pending').length;
 
                 // Generate member list HTML
                 const memberListHTML = `
@@ -7407,17 +7407,17 @@
                             Showing ${startIndex + 1}-${endIndex} of ${totalMembers} members
                         </div>
                         <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="refreshMemberList(${currentPage - 1})"
-                                    ${currentPage === 1 ? 'disabled' : ''}
-                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${currentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${currentPage === 1 ? '0.5' : '1'};">
+                            <button onclick="refreshMemberList(${adminCurrentPage - 1})"
+                                    ${adminCurrentPage === 1 ? 'disabled' : ''}
+                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
                                 ← Previous
                             </button>
                             <div style="color: #e8eaed; padding: 0.5rem 1rem; background: rgba(255,255,255,0.05); border-radius: 6px; font-weight: 600;">
-                                Page ${currentPage} of ${totalPages}
+                                Page ${adminCurrentPage} of ${totalPages}
                             </div>
-                            <button onclick="refreshMemberList(${currentPage + 1})"
-                                    ${currentPage === totalPages ? 'disabled' : ''}
-                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${currentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${currentPage === totalPages ? '0.5' : '1'};">
+                            <button onclick="refreshMemberList(${adminCurrentPage + 1})"
+                                    ${adminCurrentPage === totalPages ? 'disabled' : ''}
+                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === totalPages ? '0.5' : '1'};">
                                 Next →
                             </button>
                         </div>
@@ -7461,17 +7461,17 @@
                     </table>
 
                     <div style="display: flex; justify-content: center; align-items: center; margin-top: 1rem; padding: 0.75rem; gap: 0.5rem;">
-                        <button onclick="refreshMemberList(${currentPage - 1})"
-                                ${currentPage === 1 ? 'disabled' : ''}
-                                style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${currentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${currentPage === 1 ? '0.5' : '1'};">
+                        <button onclick="refreshMemberList(${adminCurrentPage - 1})"
+                                ${adminCurrentPage === 1 ? 'disabled' : ''}
+                                style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
                             ← Previous
                         </button>
                         <div style="color: #999; padding: 0.5rem 1rem;">
-                            Page ${currentPage} of ${totalPages}
+                            Page ${adminCurrentPage} of ${totalPages}
                         </div>
-                        <button onclick="refreshMemberList(${currentPage + 1})"
-                                ${currentPage === totalPages ? 'disabled' : ''}
-                                style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${currentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${currentPage === totalPages ? '0.5' : '1'};">
+                        <button onclick="refreshMemberList(${adminCurrentPage + 1})"
+                                ${adminCurrentPage === totalPages ? 'disabled' : ''}
+                                style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === totalPages ? '0.5' : '1'};">
                 Next →
                         </button>
                     </div>

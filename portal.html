@@ -8354,22 +8354,31 @@
                 }
 
                 // Insert message into database
+                const messageData = {
+                    sender_id: currentMember.id,
+                    recipient_id: selectedNewMessageMember.id,
+                    message_text: messageText,
+                    is_read: false
+                };
+
+                console.log('📤 Sending message with data:', messageData);
+                console.log('Current member:', currentMember);
+                console.log('Selected member:', selectedNewMessageMember);
+
                 const { data, error } = await supabase
                     .from('messages')
-                    .insert([{
-                        sender_id: currentMember.id,
-                        recipient_id: selectedNewMessageMember.id,
-                        message_text: messageText,
-                        is_read: false
-                    }])
+                    .insert([messageData])
                     .select()
                     .single();
 
                 if (error) {
-                    console.error('Error sending message:', error);
-                    alert('Failed to send message');
+                    console.error('❌ Error sending message:', error);
+                    console.error('Full error details:', JSON.stringify(error, null, 2));
+                    alert('Failed to send message: ' + (error.message || 'Unknown error'));
                     return;
                 }
+
+                console.log('✅ Message sent successfully:', data);
 
                 // Close modal
                 closeNewMessageModal();

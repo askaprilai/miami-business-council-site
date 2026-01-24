@@ -418,7 +418,8 @@
                 console.log('🔄 Auth change detected in another tab, checking session...');
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session) {
-                    console.log('✅ Session found, redirecting to portal...');
+                    console.log('✅ Logged in from another tab, redirecting...');
+                    // Just redirect - browsers block window.close() on user-opened tabs
                     window.location.href = 'portal';
                 }
             }
@@ -428,7 +429,7 @@
         setInterval(async () => {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
-                console.log('✅ Session detected via periodic check, redirecting...');
+                console.log('✅ Session detected, redirecting to portal...');
                 window.location.href = 'portal';
             }
         }, 2000); // Check every 2 seconds

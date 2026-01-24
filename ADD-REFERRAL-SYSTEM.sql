@@ -60,9 +60,17 @@ BEGIN
 END $$;
 
 -- Generate unique referral codes for existing members
+WITH numbered_members AS (
+    SELECT
+        id,
+        UPPER(LEFT(first_name, 1) || LEFT(last_name, 1)) || EXTRACT(YEAR FROM NOW())::TEXT || LPAD(ROW_NUMBER() OVER (ORDER BY created_at)::TEXT, 3, '0') as new_code
+    FROM members
+    WHERE referral_code IS NULL
+)
 UPDATE members
-SET referral_code = UPPER(LEFT(first_name, 1) || LEFT(last_name, 1)) || EXTRACT(YEAR FROM NOW())::TEXT || LPAD((ROW_NUMBER() OVER (ORDER BY created_at))::TEXT, 3, '0')
-WHERE referral_code IS NULL;
+SET referral_code = numbered_members.new_code
+FROM numbered_members
+WHERE members.id = numbered_members.id;
 
 -- Initialize member_points for existing members
 INSERT INTO member_points (member_id, total_points, invites_sent, successful_referrals)

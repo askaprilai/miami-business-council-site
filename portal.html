@@ -4230,11 +4230,11 @@
                     <h3 style="color: #d4af37; margin-bottom: 1.5rem;">📩 Pending Connection Requests</h3>
 
                     <div id="connectionRequests">
-                        <div style="text-align: center; padding: 3rem; color: #999;">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
-                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No pending requests</h4>
-                            <p>You don't have any connection requests at the moment.</p>
-                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Browse Members</button>
+                        <div style="text-align: center; padding: 1.5rem; color: #999;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📭</div>
+                            <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No pending requests</h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">You don't have any connection requests at the moment.</p>
+                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 0.5rem; padding: 0.6rem 1.2rem; font-size: 0.9rem;">Browse Members</button>
                         </div>
                     </div>
                 </div>
@@ -4287,11 +4287,11 @@
                     </div>
 
                     <div id="activeConnectionsList">
-                        <div style="text-align: center; padding: 3rem; color: #999;">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
-                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No connections yet</h4>
-                            <p>Start building your network by connecting with members.</p>
-                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Find Members to Connect</button>
+                        <div style="text-align: center; padding: 1.5rem; color: #999;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
+                            <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No connections yet</h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Start building your network by connecting with members.</p>
+                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 0.5rem; padding: 0.6rem 1.2rem; font-size: 0.9rem;">Find Members to Connect</button>
                         </div>
                     </div>
                 </div>
@@ -8585,11 +8585,11 @@
 
             if (!requests || requests.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: #999;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
-                        <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No pending requests</h4>
-                        <p>You don't have any connection requests at the moment.</p>
-                        <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Browse Members</button>
+                    <div style="text-align: center; padding: 1.5rem; color: #999;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📭</div>
+                        <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No pending requests</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">You don't have any connection requests at the moment.</p>
+                        <button class="register-btn" onclick="showSection('directory')" style="margin-top: 0.5rem; padding: 0.6rem 1.2rem; font-size: 0.9rem;">Browse Members</button>
                     </div>
                 `;
                 return;
@@ -8652,11 +8652,11 @@
             if (!connections || connections.length === 0) {
                 document.getElementById('connectionsSearchBar').style.display = 'none';
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: #999;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
-                        <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No connections yet</h4>
-                        <p>Start building your network by connecting with members.</p>
-                        <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Find Members to Connect</button>
+                    <div style="text-align: center; padding: 1.5rem; color: #999;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
+                        <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No connections yet</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Start building your network by connecting with members.</p>
+                        <button class="register-btn" onclick="showSection('directory')" style="margin-top: 0.5rem; padding: 0.6rem 1.2rem; font-size: 0.9rem;">Find Members to Connect</button>
                     </div>
                 `;
                 return;
@@ -8687,8 +8687,8 @@
 
             if (!connections || connections.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #999;">
-                        <p>No connections match your search criteria.</p>
+                    <div style="text-align: center; padding: 1.5rem; color: #999;">
+                        <p style="font-size: 0.9rem; margin: 0;">No connections match your search criteria.</p>
                     </div>
                 `;
                 return;

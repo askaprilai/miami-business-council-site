@@ -6910,48 +6910,48 @@
             }
 
             try {
-                // console.log('🔄 Inviting new member and creating auth account...');
-
                 // Check if member already exists
                 const { data: existingMember, error: checkError } = await supabase
                     .from('members')
                     .select('id, email')
                     .eq('email', email)
-                    .single();
+                    .maybeSingle();
 
                 if (existingMember) {
                     alert(`❌ A member with email ${email} already exists in the system.`);
                     return;
                 }
 
-                // Use the proper invitation endpoint that creates auth user + sends magic link
-                // console.log('📧 Sending invitation with magic link...');
-                const inviteResponse = await fetch('/api/send-member-invitation', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        firstName: firstName,
-                        lastName: lastName,
+                // Insert member directly into database
+                const { data: newMember, error: insertError } = await supabase
+                    .from('members')
+                    .insert([{
                         email: email,
-                        company: 'To be completed',
-                        membershipType: 'business',
-                        redirectUrl: 'https://miamibusinesscouncil.com/member-portal'
-                    })
-                });
+                        first_name: firstName,
+                        last_name: lastName,
+                        company_name: 'To be completed',
+                        is_active: true,
+                        is_admin: false
+                    }])
+                    .select()
+                    .single();
 
-                const inviteData = await inviteResponse.json();
-
-                if (inviteResponse.ok) {
-                    // console.log('✅ Member invited successfully:', inviteData);
-                    alert(`✅ Member invited successfully!\n\n${firstName} ${lastName} has been added to the portal.\n\n📧 An invitation email with a magic link has been sent to ${email}.\n\nThey can click the link in their email to access the portal instantly!`);
-                } else {
-                    console.error('❌ Invitation failed:', inviteData);
-                    alert(`❌ Failed to invite member: ${inviteData.error || 'Unknown error'}`);
+                if (insertError) {
+                    console.error('❌ Error inserting member:', insertError);
+                    alert(`❌ Failed to add member: ${insertError.message}`);
                     return;
                 }
 
+                // Success!
+                alert(`✅ Member added successfully!\n\n${firstName} ${lastName} has been added to the portal.\n\n📧 Next step: Tell them to go to:\nhttps://miamibusinesscouncil.com/member-login\n\nThey can:\n1. Enter their email: ${email}\n2. Click "Send Magic Link to Email"\n3. Click the link in their email\n4. Access the portal and complete their profile\n\nNo password needed!`);
+
                 // Clear form
                 clearNewMemberForm();
+
+                // Refresh admin member list
+                if (typeof refreshMemberList === 'function') {
+                    refreshMemberList();
+                }
 
                 // Reload member directory
                 setTimeout(() => {
@@ -6963,7 +6963,7 @@
 
             } catch (error) {
                 console.error('❌ Error adding member:', error);
-                alert(`Failed to add member: ${error.message}`);
+                alert(`❌ Failed to add member: ${error.message}`);
             }
         }
 

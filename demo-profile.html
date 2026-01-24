@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Profile - Alex Morgan | Miami Business Council</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #f1f3f4;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            color: #d4af37;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            align-items: start;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #000;
+            flex-shrink: 0;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h2 {
+            font-size: 2rem;
+            color: #e8eaed;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info .title {
+            font-size: 1.2rem;
+            color: #d4af37;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-info .company {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        .profile-strength {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .strength-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .strength-title {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .strength-percentage {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #51cf66;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #51cf66 0%, #40c057 100%);
+            width: 100%;
+            animation: fillProgress 1.5s ease-out;
+        }
+
+        @keyframes fillProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .section-title {
+            color: #d4af37;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bio {
+            line-height: 1.8;
+            color: #e8eaed;
+            font-size: 1.05rem;
+        }
+
+        .opportunities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .opportunity-section h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .opportunity-list {
+            list-style: none;
+        }
+
+        .opportunity-list li {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .opportunity-list li:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
+        }
+
+        .opportunity-category {
+            font-weight: 600;
+            color: #e8eaed;
+            margin-bottom: 0.25rem;
+        }
+
+        .opportunity-description {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8eaed;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-linkedin {
+            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+            color: #fff;
+        }
+
+        .btn-linkedin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 119, 181, 0.4);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #e8eaed;
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(81, 207, 102, 0.2);
+            color: #51cf66;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Miami Business Council</h1>
+            <p>Member Profile Demo</p>
+            <span class="demo-badge">🎯 DEMO ACCOUNT</span>
+        </div>
+
+        <!-- Profile Header Card -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="avatar">AM</div>
+                <div class="profile-info">
+                    <h2>Alex Morgan</h2>
+                    <div class="title">Founder & CEO</div>
+                    <div class="company">Morgan Consulting Group</div>
+
+                    <div class="contact-buttons">
+                        <a href="#" class="btn btn-primary">
+                            🤝 Connect
+                        </a>
+                        <a href="#" class="btn btn-linkedin">
+                            🔗 LinkedIn Profile
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📧 Send Message
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📅 Schedule Meeting
+                        </a>
+                    </div>
+
+                    <div class="profile-strength">
+                        <div class="strength-header">
+                            <span class="strength-title">⭐ Profile Strength</span>
+                            <span class="strength-percentage">100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">Profile Views</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Connections</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Smart Matches</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Match Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Background -->
+        <div class="profile-card">
+            <h3 class="section-title">📋 Professional Background</h3>
+            <div class="bio">
+                Serial entrepreneur and business strategist with 15+ years helping Miami businesses scale. Specializing in growth strategy, operations optimization, and market expansion. Previously led 3 successful exits and now focused on helping other founders achieve their goals. Passionate about building the Miami business ecosystem.
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Industry</div>
+                    <div class="info-value">Professional Services</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Company Size</div>
+                    <div class="info-value">11-50 employees</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Years in Business</div>
+                    <div class="info-value">8 years</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Location</div>
+                    <div class="info-value">📍 Miami, FL</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Website</div>
+                    <div class="info-value">morganconsulting.com</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Member Status</div>
+                    <div class="info-value">
+                        <span style="color: #51cf66;">✓ Active</span>
+                        <span class="badge">Premium</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Business Opportunities -->
+        <div class="profile-card">
+            <h3 class="section-title">🤝 Business Interests & Opportunities</h3>
+
+            <div class="opportunities-grid">
+                <!-- What They Can Offer -->
+                <div class="opportunity-section">
+                    <h3>💼 What I Can Offer</h3>
+                    <ul class="opportunity-list">
+                        <li>
+                            <div class="opportunity-category">Business Strategy Consulting</div>
+                            <div class="opportunity-description">Growth strategy, market analysis, competitive positioning</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Operations Optimization</div>
+                            <div class="opportunity-description">Process improvement, team scaling, operational efficiency</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Executive Coaching</div>
+                            <div class="opportunity-description">Leadership development, decision-making frameworks, accountability</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Fundraising Advisory</div>
+                            <div class="opportunity-description">Investor introductions, pitch deck development, fundraising strategy</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Market Expansion Planning</div>
+                            <div class="opportunity-description">Go-to-market strategy, Miami market entry, scaling playbooks</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- What They're Looking For -->
+                <div class="opportunity-section">
+                    <h3>🎯 What I'm Looking For</h3>
+                    <ul class="opportunity-list">
+                        <li>
+                            <div class="opportunity-category">Marketing Services</div>
+                            <div class="opportunity-description">Looking for digital marketing partners to refer clients to</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Technology Services</div>
+                            <div class="opportunity-description">Seeking tech partners for client implementation projects</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Real Estate Developers</div>
+                            <div class="opportunity-description">Interested in connecting with commercial real estate developers</div>
+                        </li>
+                        <li>
+                            <div class="opportunity-category">Investment Opportunities</div>
+                            <div class="opportunity-description">Open to strategic investment opportunities in Miami</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why Connect -->
+        <div class="profile-card">
+            <h3 class="section-title">✨ Why Connect with Alex</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">🎯 Ideal For</div>
+                    <div class="info-value">Miami founders scaling $1M-$10M businesses</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">🚀 Expertise</div>
+                    <div class="info-value">Growth strategy & operations</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">💼 Partnership Style</div>
+                    <div class="info-value">Hands-on, results-driven, collaborative</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">📈 Track Record</div>
+                    <div class="info-value">3 successful exits, 50+ clients served</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <p style="color: #999; font-size: 0.9rem;">
+                This is a demo profile for presentation purposes<br>
+                <strong style="color: #d4af37;">Miami Business Council</strong> - Creating platforms for leaders to connect, form partnerships, and collaborate
+            </p>
+            <div style="margin-top: 1rem;">
+                <a href="https://miamibusinesscouncil.com" class="btn btn-primary">
+                    🏠 Back to Portal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Optional: Add some interactive elements
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (btn.href === '#' || btn.href.endsWith('#')) {
+                    e.preventDefault();
+                    alert('This is a demo profile. In the live portal, this would ' + btn.textContent.trim().toLowerCase() + '.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

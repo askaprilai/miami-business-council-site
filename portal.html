@@ -5003,7 +5003,7 @@
                     <a class="profile-action-btn linkedin-action" id="profileLinkedInBtn" href="https://linkedin.com/in/apriljsabral" target="_blank">
                         🔗 LinkedIn Profile
                     </a>
-                    <button class="profile-action-btn connect-action" onclick="requestConnection('april', 'April Sabral')">
+                    <button class="profile-action-btn connect-action" id="profileConnectBtn" onclick="requestConnection('april', 'April Sabral')">
                         🤝 Connect
                     </button>
                 </div>
@@ -6640,6 +6640,9 @@
             } else {
                 linkedInBtn.style.display = 'none';
             }
+
+            const connectBtn = document.getElementById('profileConnectBtn');
+            connectBtn.setAttribute('onclick', `requestConnection('${id}', '${name}')`);
 
             // Show modal
             document.getElementById('memberProfileModal').style.display = 'flex';

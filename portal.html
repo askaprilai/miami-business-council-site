@@ -6659,21 +6659,44 @@
             openChat(memberId, memberName, memberCompany);
         }
 
-        function requestConnection(memberId, memberName) {
-            if (confirm(`Send a connection request to ${memberName}?`)) {
-                // Add to connection requests (in real app, this would be stored in database)
-                const connections = JSON.parse(localStorage.getItem('connectionRequests') || '[]');
-                connections.push({
-                    id: memberId,
-                    name: memberName,
-                    timestamp: new Date().toISOString(),
-                    status: 'sent'
-                });
-                localStorage.setItem('connectionRequests', JSON.stringify(connections));
-                
-                alert(`Connection request sent to ${memberName}! They'll be notified and can accept or decline your request.`);
+        async function requestConnection(memberId, memberName) {
+            if (!confirm(`Send a connection request to ${memberName}?`)) {
+                return;
+            }
+
+            try {
+                // Insert connection request into database
+                const { data, error } = await supabase
+                    .from('member_connections')
+                    .insert([{
+                        requester_id: currentMember.id,
+                        recipient_id: memberId,
+                        status: 'pending',
+                        message: `Hi ${memberName}, I'd like to connect with you!`
+                    }])
+                    .select()
+                    .single();
+
+                if (error) {
+                    // Check if already connected or request exists
+                    if (error.code === '23505') { // Unique constraint violation
+                        alert('You already have a connection or pending request with this member.');
+                    } else {
+                        console.error('Error sending connection request:', error);
+                        alert('Failed to send connection request. Please try again.');
+                    }
+                    return;
+                }
+
+                alert(`✅ Connection request sent to ${memberName}!\n\nThey'll see it in their Connections tab and can accept or decline.`);
                 closeMemberProfile();
-                updateConnectionBadge();
+
+                // Reload connections to update UI
+                loadConnections();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to send connection request. Please try again.');
             }
         }
 

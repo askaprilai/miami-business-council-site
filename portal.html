@@ -7,6 +7,11 @@
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
 
+    <!-- Brand Typography - MBC Brand Guidelines -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- FORCE CACHE CLEAR - Version 2.0 with Real Database Stats -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -37,13 +42,13 @@
     <link rel="manifest" href="/manifest.json">
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#d4af37">
+    <meta name="theme-color" content="#C9A86A">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MBC Portal">
     <meta name="application-name" content="Miami Business Council">
-    <meta name="msapplication-TileColor" content="#d4af37">
+    <meta name="msapplication-TileColor" content="#C9A86A">
     <meta name="msapplication-starturl" content="/member-portal.html">
     
     <!-- Apple Touch Icons -->
@@ -62,7 +67,7 @@
             box-sizing: border-box;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        /* Brand fonts loaded in <head> via Google Fonts: Outfit, Montserrat, Inter */
         
         body {
             font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -74,6 +79,27 @@
             letter-spacing: -0.011em;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Typography - MBC Brand Guidelines */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', 'Garet', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: #e8eaed;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 800; }
+        h2 { font-size: 2rem; font-weight: 700; }
+        h3 { font-size: 1.5rem; font-weight: 600; }
+        h4 { font-size: 1.25rem; font-weight: 600; }
+        h5 { font-size: 1.1rem; font-weight: 600; }
+        h6 { font-size: 1rem; font-weight: 600; }
+
+        .subheading, .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
         }
 
         /* Header */
@@ -110,7 +136,7 @@
         .portal-logo span {
             font-size: 1.2em;
             font-weight: 600;
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .user-info {
@@ -123,7 +149,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -151,13 +177,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             font-weight: 600;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+            background: #B09858;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
@@ -279,7 +305,7 @@
         .nav-link:hover,
         .nav-link.active {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
         }
 
 
@@ -357,7 +383,7 @@
             width: 40px;
             height: 40px;
             border: 3px solid rgba(212, 175, 55, 0.3);
-            border-top: 3px solid #d4af37;
+            border-top: 3px solid #C9A86A;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -369,7 +395,7 @@
 
         .loading-message {
             margin-left: 1rem;
-            color: #d4af37;
+            color: #C9A86A;
             font-weight: 500;
         }
 
@@ -586,7 +612,7 @@
 
         .member-list-table th {
             background: rgba(255, 255, 255, 0.05);
-            color: #d4af37;
+            color: #C9A86A;
             font-weight: 600;
             font-size: 0.95rem;
         }
@@ -652,7 +678,7 @@
 
         .member-action-btn:hover {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .member-list-summary {
@@ -676,7 +702,7 @@
         .summary-number {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .summary-label {
@@ -712,7 +738,7 @@
             font-family: 'Poppins', 'Inter', sans-serif;
             font-size: 2rem;
             font-weight: 600;
-            color: #d4af37;
+            color: #C9A86A;
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
         }
@@ -728,7 +754,7 @@
         }
 
         .support-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             text-decoration: none;
             padding: 0.75rem 1.5rem;
@@ -745,7 +771,7 @@
         }
 
         .support-btn:hover {
-            background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+            background: #B09858;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
@@ -786,7 +812,7 @@
 
         .card-icon {
             font-size: 1.5em;
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         /* Member Directory */
@@ -820,7 +846,7 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -847,7 +873,7 @@
         .member-tag {
             display: inline-block;
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.8em;
@@ -894,7 +920,7 @@
         }
 
         .event-date {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             padding: 0.5rem 1rem;
             border-radius: 8px;
@@ -914,7 +940,7 @@
         }
 
         .register-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             padding: 0.75rem 1.25rem;
             border: none;
@@ -931,7 +957,7 @@
         }
 
         .register-btn:hover {
-            background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+            background: #B09858;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
@@ -979,7 +1005,7 @@
 
         .profile-input:focus {
             outline: none;
-            border-color: #d4af37;
+            border-color: #C9A86A;
             box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
         }
 
@@ -1007,13 +1033,13 @@
 
         .opportunity-tag.active {
             background: rgba(212, 175, 55, 0.3);
-            color: #d4af37;
-            border-color: #d4af37;
+            color: #C9A86A;
+            border-color: #C9A86A;
         }
 
         .opportunity-tag:hover {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .radio-group {
@@ -1031,7 +1057,7 @@
         }
 
         .radio-option input[type="radio"] {
-            accent-color: #d4af37;
+            accent-color: #C9A86A;
         }
 
         .radio-option span {
@@ -1040,7 +1066,7 @@
 
         /* Notification Badge */
         .notification-badge {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             font-size: 0.7em;
             padding: 0.2rem 0.5rem;
@@ -1109,7 +1135,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1146,7 +1172,7 @@
         }
 
         .conversation-unread {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             font-size: 0.6rem;
             padding: 0.2rem 0.4rem;
@@ -1181,7 +1207,7 @@
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1220,7 +1246,7 @@
 
         .chat-action-btn:hover {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .messages-container {
@@ -1246,7 +1272,7 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1311,7 +1337,7 @@
 
         .chat-input:focus {
             outline: none;
-            border-color: #d4af37;
+            border-color: #C9A86A;
             box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
         }
 
@@ -1322,7 +1348,7 @@
         }
 
         .chat-send-btn {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             border: none;
             padding: 0.5rem 1rem;
@@ -1333,7 +1359,7 @@
         }
 
         .chat-send-btn:hover {
-            background: #f4af37;
+            background: #DDB885;
         }
 
         .chat-send-btn:disabled {
@@ -1352,7 +1378,7 @@
         }
 
         .chat-placeholder h3 {
-            color: #d4af37;
+            color: #C9A86A;
             margin-bottom: 1rem;
         }
 
@@ -1381,7 +1407,7 @@
         }
 
         .chat-sidebar-header h3 {
-            color: #d4af37;
+            color: #C9A86A;
             margin: 0;
             font-size: 1rem;
         }
@@ -1408,14 +1434,14 @@
 
         .conversation-item.unread {
             background: rgba(212, 175, 55, 0.05);
-            border-left: 3px solid #d4af37;
+            border-left: 3px solid #C9A86A;
         }
 
         .conversation-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1459,7 +1485,7 @@
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             border-radius: 50%;
             width: 20px;
@@ -1504,7 +1530,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #d4af37;
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1582,12 +1608,12 @@
         }
 
         .upload-btn {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
         }
 
         .upload-btn:hover {
-            background: #f4af37;
+            background: #DDB885;
         }
 
         .remove-btn {
@@ -1650,8 +1676,8 @@
         }
 
         .privacy-toggle:checked + .toggle-label .toggle-switch {
-            background: #d4af37;
-            border-color: #d4af37;
+            background: #C9A86A;
+            border-color: #C9A86A;
         }
 
         .privacy-toggle:checked + .toggle-label .toggle-switch::before {
@@ -1661,7 +1687,7 @@
 
         /* Weekly Alerts Toggle */
         #weeklyAlertsToggle:checked + span {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
         }
 
         #weeklyAlertsToggle:checked + span + span {
@@ -1745,7 +1771,7 @@
 
         .search-input:focus {
             outline: none;
-            border-color: #d4af37;
+            border-color: #C9A86A;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
             background: rgba(255, 255, 255, 0.15);
         }
@@ -1792,7 +1818,7 @@
         }
 
         .no-results h3 {
-            color: #d4af37;
+            color: #C9A86A;
             margin-bottom: 1rem;
         }
 
@@ -1886,7 +1912,7 @@
         }
 
         .new-message-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             border: none;
             border-radius: 50%;
@@ -1962,7 +1988,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2002,7 +2028,7 @@
         }
 
         .conversation-item.unread .conversation-preview {
-            color: #d4af37;
+            color: #C9A86A;
             font-weight: 500;
         }
 
@@ -2019,7 +2045,7 @@
         }
 
         .unread-badge {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             border-radius: 12px;
             padding: 0.15rem 0.5rem;
@@ -2067,7 +2093,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2127,7 +2153,7 @@
 
         .message-bubble.sent {
             align-self: flex-end;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             border-bottom-right-radius: 4px;
         }
@@ -2201,7 +2227,7 @@
         }
 
         .send-message-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             border: none;
             border-radius: 8px;
@@ -2364,7 +2390,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2394,7 +2420,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             border: none;
             border-radius: 8px;
@@ -2432,7 +2458,7 @@
 
         .loading-spinner {
             border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top: 3px solid #d4af37;
+            border-top: 3px solid #C9A86A;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -2488,7 +2514,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2571,7 +2597,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2591,7 +2617,7 @@
         }
 
         .profile-title {
-            color: #d4af37;
+            color: #C9A86A;
             font-size: 1.1rem;
             font-weight: 500;
             margin: 0 0 0.5rem 0;
@@ -2608,7 +2634,7 @@
         }
 
         .profile-section h3 {
-            color: #d4af37;
+            color: #C9A86A;
             margin-bottom: 1rem;
             font-size: 1.2rem;
         }
@@ -2622,7 +2648,7 @@
 
         .profile-tag {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
             padding: 0.5rem 1rem;
             border-radius: 25px;
             font-size: 0.9em;
@@ -2689,13 +2715,13 @@
         /* Connect button - Gold */
         .profile-action-btn.connect-action {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
             border: 1px solid rgba(212, 175, 55, 0.5);
         }
 
         .profile-action-btn.connect-action:hover {
             background: rgba(212, 175, 55, 0.3);
-            border-color: #d4af37;
+            border-color: #C9A86A;
             transform: translateY(-2px);
         }
 
@@ -2714,7 +2740,7 @@
         }
 
         .profile-info-label {
-            color: #d4af37;
+            color: #C9A86A;
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -2800,7 +2826,7 @@
         }
 
         .progress-header h3 {
-            color: #d4af37;
+            color: #C9A86A;
             margin: 0;
             font-size: 1.4rem;
         }
@@ -2808,7 +2834,7 @@
         .progress-percentage {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .progress-bar {
@@ -2820,7 +2846,7 @@
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #d4af37 0%, #f4af37 100%);
+            background: linear-gradient(90deg, #C9A86A 0%, #DDB885 100%);
             height: 100%;
             border-radius: 10px;
             transition: width 0.3s ease;
@@ -2869,7 +2895,7 @@
         }
 
         .complete-profile-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             border: none;
             padding: 1rem 2rem;
@@ -2922,7 +2948,7 @@
 
         .member-tag {
             background: rgba(212, 175, 55, 0.2);
-            color: #d4af37;
+            color: #C9A86A;
             padding: 0.25rem 0.75rem;
             border-radius: 15px;
             font-size: 0.8rem;
@@ -2994,7 +3020,7 @@
 
         /* Referral System Styles */
         .referral-points-badge {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
@@ -3020,7 +3046,7 @@
         }
 
         .copy-link-btn {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             border: none;
             padding: 0.75rem 1rem;
@@ -3032,7 +3058,7 @@
         }
 
         .copy-link-btn:hover {
-            background: #f4af37;
+            background: #DDB885;
         }
 
         .share-buttons {
@@ -3093,7 +3119,7 @@
             display: block;
             font-size: 1.5rem;
             font-weight: 600;
-            color: #d4af37;
+            color: #C9A86A;
             margin-bottom: 0.25rem;
         }
 
@@ -3122,7 +3148,7 @@
         }
 
         .reward-card.unlocked {
-            border-color: #d4af37;
+            border-color: #C9A86A;
             box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.3);
         }
 
@@ -3153,14 +3179,14 @@
         }
 
         .reward-cost {
-            color: #d4af37;
+            color: #C9A86A;
             font-weight: 500;
             font-size: 0.8rem;
             margin-bottom: 1rem;
         }
 
         .claim-reward-btn {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             border: none;
             padding: 0.5rem 1rem;
@@ -3172,7 +3198,7 @@
         }
 
         .claim-reward-btn:hover:not(.disabled) {
-            background: #f4af37;
+            background: #DDB885;
         }
 
         .claim-reward-btn.disabled {
@@ -3187,7 +3213,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+            background: #C9A86A;
             color: #000;
             padding: 1rem;
             display: none;
@@ -3253,7 +3279,7 @@
 
         .pwa-install-btn {
             background: #000;
-            color: #d4af37;
+            color: #C9A86A;
         }
 
         .pwa-dismiss-btn {
@@ -3572,7 +3598,7 @@
             padding: 0.4rem 0.75rem;
             border-radius: 20px;
             font-size: 0.85rem;
-            color: #d4af37;
+            color: #C9A86A;
             font-weight: 500;
             transition: all 0.2s ease;
         }
@@ -3589,7 +3615,7 @@
         /* Match type label enhancements */
         .match-type-label {
             font-size: 0.75rem;
-            color: #d4af37;
+            color: #C9A86A;
             margin-top: 0.25rem;
             font-weight: 600;
             letter-spacing: 0.5px;
@@ -3601,7 +3627,7 @@
         }
 
         .connect-btn {
-            background: #d4af37;
+            background: #C9A86A;
             color: #000;
             padding: 0.5rem 1rem;
             border: none;
@@ -3612,7 +3638,7 @@
         }
 
         .connect-btn:hover {
-            background: #f4af37;
+            background: #DDB885;
         }
 
         /* Mobile Responsive */
@@ -3740,26 +3766,26 @@
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                         <div class="member-avatar" id="dashboardUserAvatar" style="width: 60px; height: 60px; font-size: 1.5rem;">--</div>
                         <div>
-                            <h3 style="color: #d4af37; margin: 0;" id="dashboardUserName">Welcome back!</h3>
+                            <h3 style="color: #C9A86A; margin: 0;" id="dashboardUserName">Welcome back!</h3>
                             <p style="color: #ccc; margin: 0; font-size: 0.9rem;" id="dashboardUserRole">Loading...</p>
                         </div>
                         <div style="margin-left: auto; text-align: center;">
                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
-                            <div style="color: #d4af37; font-weight: 600;" id="memberProfileStrength">75%</div>
+                            <div style="color: #C9A86A; font-weight: 600;" id="memberProfileStrength">75%</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Profile Strength</div>
                         </div>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
                         <div>
-                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberConnectionCount">0</div>
+                            <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 600;" id="memberConnectionCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Connections</div>
                         </div>
                         <div>
-                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberMessageCount">0</div>
+                            <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 600;" id="memberMessageCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Messages</div>
                         </div>
                         <div>
-                            <div style="font-size: 1.5rem; color: #d4af37; font-weight: 600;" id="memberEventCount">0</div>
+                            <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 600;" id="memberEventCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Events Attended</div>
                         </div>
                     </div>
@@ -3818,7 +3844,7 @@
 
                 <!-- Today's Insights -->
                 <div class="dashboard-card" id="dailyInsights" style="margin-bottom: 2rem;">
-                    <h3 style="color: #d4af37; margin-bottom: 1rem;">📈 Today's Insights</h3>
+                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">📈 Today's Insights</h3>
                     <div id="insightsList" style="display: grid; gap: 0.75rem;">
                         <!-- Insights loaded dynamically from database -->
                         <div style="text-align: center; padding: 2rem; color: #999;">
@@ -3831,8 +3857,8 @@
                 <!-- Community Activity Feed -->
                 <div class="dashboard-card" id="communityActivityFeed" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 2rem;">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                        <h3 style="color: #d4af37; margin: 0;">🌟 Community Activity</h3>
-                        <button onclick="loadCommunityActivity()" style="background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: #d4af37; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        <h3 style="color: #C9A86A; margin: 0;">🌟 Community Activity</h3>
+                        <button onclick="loadCommunityActivity()" style="background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: #C9A86A; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
                             🔄 Refresh
                         </button>
                     </div>
@@ -3846,7 +3872,7 @@
                     </div>
 
                     <div style="text-align: center; margin-top: 1.5rem;">
-                        <button onclick="showSection('directory')" style="background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: #d4af37; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                        <button onclick="showSection('directory')" style="background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: #C9A86A; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
                             View All Members →
                         </button>
                     </div>
@@ -3878,9 +3904,9 @@
                             <h3 class="card-title">Quick Actions</h3>
                             <span class="card-icon">⚡</span>
                         </div>
-                        <p><a href="#" onclick="showSection('profile')" style="color: #d4af37; cursor: pointer;">Update Profile</a></p>
-                        <p><a href="#" onclick="showSection('directory')" style="color: #d4af37; cursor: pointer;">Browse Directory</a></p>
-                        <p><a href="#" onclick="showSection('events')" style="color: #d4af37; cursor: pointer;">View Events</a></p>
+                        <p><a href="#" onclick="showSection('profile')" style="color: #C9A86A; cursor: pointer;">Update Profile</a></p>
+                        <p><a href="#" onclick="showSection('directory')" style="color: #C9A86A; cursor: pointer;">Browse Directory</a></p>
+                        <p><a href="#" onclick="showSection('events')" style="color: #C9A86A; cursor: pointer;">View Events</a></p>
                     </div>
                 </div>
             </section>
@@ -3920,7 +3946,7 @@
                             <h3 class="card-title">Quick Actions</h3>
                             <span class="card-icon">⚡</span>
                         </div>
-                        <p><a href="#" onclick="generateSmartMatches()" style="color: #d4af37; cursor: pointer;">🔄 Refresh Matches</a></p>
+                        <p><a href="#" onclick="generateSmartMatches()" style="color: #C9A86A; cursor: pointer;">🔄 Refresh Matches</a></p>
 
                         <!-- Weekly Alerts Toggle -->
                         <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; margin-top: 1rem;">
@@ -3939,7 +3965,7 @@
 
                 <!-- Match Filters -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
-                    <h3 style="color: #d4af37; margin-bottom: 1rem;">🔍 Filter Your Matches</h3>
+                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">🔍 Filter Your Matches</h3>
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
                         <div class="profile-field">
                             <label>Match Type:</label>
@@ -4056,7 +4082,7 @@
 
                         <!-- View Toggle -->
                         <div style="display: flex; gap: 0.5rem;">
-                            <button id="gridViewBtn" onclick="setViewMode('grid')" style="padding: 0.75rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; border-radius: 8px; color: #d4af37; cursor: pointer; font-size: 1.2rem;" title="Grid View">
+                            <button id="gridViewBtn" onclick="setViewMode('grid')" style="padding: 0.75rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1px solid #C9A86A; border-radius: 8px; color: #C9A86A; cursor: pointer; font-size: 1.2rem;" title="Grid View">
                                 ⬜
                             </button>
                             <button id="listViewBtn" onclick="setViewMode('list')" style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ccc; cursor: pointer; font-size: 1.2rem;" title="List View">
@@ -4120,9 +4146,9 @@
                         <div id="messageThreadEmpty" class="message-thread-empty">
                             <div style="text-align: center; padding: 4rem 2rem;">
                                 <div style="font-size: 4rem; margin-bottom: 1rem;">💬</div>
-                                <h3 style="color: #d4af37; margin-bottom: 0.5rem;">Select a conversation</h3>
+                                <h3 style="color: #C9A86A; margin-bottom: 0.5rem;">Select a conversation</h3>
                                 <p style="color: #999;">Choose a conversation from the list or start a new one</p>
-                                <button onclick="showNewMessageModal()" style="margin-top: 2rem; background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%); color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
+                                <button onclick="showNewMessageModal()" style="margin-top: 2rem; background: linear-gradient(135deg, #C9A86A 0%, #f4f1e8 100%); color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
                                     ✏️ New Message
                                 </button>
                             </div>
@@ -4219,15 +4245,15 @@
                             <h3 class="card-title">Quick Actions</h3>
                             <span class="card-icon">⚡</span>
                         </div>
-                        <p><a href="#" onclick="showSection('directory')" style="color: #d4af37; cursor: pointer;">🔍 Find New Connections</a></p>
-                        <p><a href="#" onclick="showSection('smart-matches')" style="color: #d4af37; cursor: pointer;">🎯 Smart Matching</a></p>
-                        <p><a href="#" onclick="showSection('messages')" style="color: #d4af37; cursor: pointer;">💬 Message Connections</a></p>
+                        <p><a href="#" onclick="showSection('directory')" style="color: #C9A86A; cursor: pointer;">🔍 Find New Connections</a></p>
+                        <p><a href="#" onclick="showSection('smart-matches')" style="color: #C9A86A; cursor: pointer;">🎯 Smart Matching</a></p>
+                        <p><a href="#" onclick="showSection('messages')" style="color: #C9A86A; cursor: pointer;">💬 Message Connections</a></p>
                     </div>
                 </div>
 
                 <!-- Connection Requests -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
-                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">📩 Pending Connection Requests</h3>
+                    <h3 style="color: #C9A86A; margin-bottom: 1.5rem;">📩 Pending Connection Requests</h3>
 
                     <div id="connectionRequests">
                         <div style="text-align: center; padding: 1.5rem; color: #999;">
@@ -4242,7 +4268,7 @@
                 <!-- Active Connections -->
                 <div class="dashboard-card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 style="color: #d4af37; margin: 0;">✅ Active Connections</h3>
+                        <h3 style="color: #C9A86A; margin: 0;">✅ Active Connections</h3>
                         <span id="connectionsCount" style="color: #999; font-size: 0.9rem;">0 connections</span>
                     </div>
 
@@ -4399,12 +4425,12 @@
                         </div>
 
                         <!-- Active Connections -->
-                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #d4af37;">
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #C9A86A;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
                                 <span style="color: #999; font-size: 0.85rem;">Total Connections</span>
                                 <span style="font-size: 1.5rem;">🌐</span>
                             </div>
-                            <div style="font-size: 2rem; color: #d4af37; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsTotalConnections">0</div>
+                            <div style="font-size: 2rem; color: #C9A86A; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsTotalConnections">0</div>
                             <div style="color: #51cf66; font-size: 0.8rem;" id="analyticsConnectionsGrowth">—</div>
                         </div>
 
@@ -4503,7 +4529,7 @@
                 <!-- Profile Photo Section -->
                 <div id="profilePhotoSection" class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <h3 class="card-title" style="color: #d4af37;">📸 Profile Photo & Company Logo</h3>
+                        <h3 class="card-title" style="color: #C9A86A;">📸 Profile Photo & Company Logo</h3>
                     </div>
                     <p style="color: #ccc; margin-bottom: 1.5rem;">Add your personal photo or company logo to help other members recognize and connect with you.</p>
                     
@@ -4551,8 +4577,8 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #d4af37;">
-                        <p style="color: #d4af37; font-weight: 500; margin-bottom: 0.5rem;">📋 Photo Guidelines</p>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #C9A86A;">
+                        <p style="color: #C9A86A; font-weight: 500; margin-bottom: 0.5rem;">📋 Photo Guidelines</p>
                         <ul style="color: #ccc; font-size: 0.9rem; margin-left: 1rem;">
                             <li>Personal photos work best when they're professional headshots</li>
                             <li>Company logos should be clear and high-resolution</li>
@@ -4565,7 +4591,7 @@
                 <!-- Basic Profile Information -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <h3 class="card-title" style="color: #d4af37;">📋 Basic Information</h3>
+                        <h3 class="card-title" style="color: #C9A86A;">📋 Basic Information</h3>
                     </div>
                     <p style="color: #ccc; margin-bottom: 1.5rem;">Update your professional information to help other members connect with you.</p>
 
@@ -4657,14 +4683,14 @@
                         </div>
 
                         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
-                            <button type="button" onclick="saveProfile()" style="padding: 0.75rem 2rem; background: #d4af37; color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
+                            <button type="button" onclick="saveProfile()" style="padding: 0.75rem 2rem; background: #C9A86A; color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
                                 💾 Save Profile
                             </button>
                         </div>
                     </div>
 
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #d4af37;">
-                        <p style="color: #d4af37; font-weight: 500; margin-bottom: 0.5rem;">💡 Profile Tips</p>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #C9A86A;">
+                        <p style="color: #C9A86A; font-weight: 500; margin-bottom: 0.5rem;">💡 Profile Tips</p>
                         <ul style="color: #ccc; font-size: 0.9rem; margin-left: 1rem;">
                             <li>Complete all fields marked with * for better matching</li>
                             <li>Use your professional name as it appears on LinkedIn</li>
@@ -4677,7 +4703,7 @@
                 <!-- Privacy & Communication Preferences -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <h3 class="card-title" style="color: #d4af37;">🔒 Privacy & Communication Preferences</h3>
+                        <h3 class="card-title" style="color: #C9A86A;">🔒 Privacy & Communication Preferences</h3>
                     </div>
                     <p style="color: #ccc; margin-bottom: 1.5rem;">Control how other members can contact you and what information is shared.</p>
                     
@@ -4747,7 +4773,7 @@
                 <!-- Member Referral & Rewards System -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <h3 class="card-title" style="color: #d4af37;">🎁 Invite & Earn Rewards</h3>
+                        <h3 class="card-title" style="color: #C9A86A;">🎁 Invite & Earn Rewards</h3>
                         <span class="referral-points-badge" id="memberPoints">0 pts</span>
                     </div>
                     <p style="color: #ccc; margin-bottom: 1.5rem;">Grow the Miami Business Council community and earn exclusive rewards, speaking opportunities, and benefits!</p>
@@ -4766,7 +4792,7 @@
                                 <button class="share-btn generic" onclick="shareGeneric()">🔗 Share</button>
                             </div>
                             <p style="color: #999; font-size: 0.85rem; margin-top: 0.75rem;">
-                                💡 <strong style="color: #d4af37;">Send Invite</strong> sends a personalized email with your referral
+                                💡 <strong style="color: #C9A86A;">Send Invite</strong> sends a personalized email with your referral
                             </p>
                         </div>
 
@@ -4825,8 +4851,8 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #d4af37;">
-                        <p style="color: #d4af37; font-weight: 500; margin-bottom: 0.5rem;">💡 How It Works</p>
+                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 4px solid #C9A86A;">
+                        <p style="color: #C9A86A; font-weight: 500; margin-bottom: 0.5rem;">💡 How It Works</p>
                         <ul style="color: #ccc; font-size: 0.9rem; margin-left: 1rem;">
                             <li><strong>Invite:</strong> Share your unique referral link with quality business contacts</li>
                             <li><strong>Earn:</strong> Get 100 points for each successful member referral</li>
@@ -4839,7 +4865,7 @@
                 <!-- Smart Matching Section -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <h3 class="card-title" style="color: #d4af37;">🎯 Smart Matching Profile</h3>
+                        <h3 class="card-title" style="color: #C9A86A;">🎯 Smart Matching Profile</h3>
                         <button class="register-btn" onclick="generateSmartMatches()" style="padding: 0.5rem 1rem;">Find My Matches</button>
                     </div>
                     <p style="color: #ccc; margin-bottom: 2rem;">Help us connect you with your ideal clients, partners, and opportunities by completing your matching profile.</p>
@@ -4963,7 +4989,7 @@
                 <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; max-width: 1000px;">
                     <!-- Business Information -->
                     <div class="dashboard-card">
-                        <h3 style="color: #d4af37; margin-bottom: 1rem;">Business Information</h3>
+                        <h3 style="color: #C9A86A; margin-bottom: 1rem;">Business Information</h3>
                         <div class="profile-field">
                             <label><strong>Name:</strong></label>
                             <input type="text" id="memberName" class="profile-input" placeholder="Enter your full name">
@@ -5009,7 +5035,7 @@
 
                     <!-- Business Opportunities -->
                     <div class="dashboard-card">
-                        <h3 style="color: #d4af37; margin-bottom: 1rem;">Business Matching</h3>
+                        <h3 style="color: #C9A86A; margin-bottom: 1rem;">Business Matching</h3>
                         
                         <div class="opportunity-section">
                             <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🎯 What I'm Looking For:</h4>
@@ -5123,7 +5149,7 @@
                 <!-- Member List View -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <h3 style="color: #d4af37; margin: 0;">📋 All Members</h3>
+                        <h3 style="color: #C9A86A; margin: 0;">📋 All Members</h3>
                         <button class="btn-secondary btn-small" onclick="refreshMemberList()">🔄 Refresh</button>
                     </div>
                     
@@ -5136,7 +5162,7 @@
 
                 <!-- Add New Member -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
-                    <h3 style="color: #d4af37; margin-bottom: 1rem;">✨ Invite New Member</h3>
+                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">✨ Invite New Member</h3>
                     <p style="color: #ccc; margin-bottom: 1.5rem; font-size: 0.9rem;">📧 Add a new member to the portal. They'll receive a magic link to log in and complete their profile.</p>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
@@ -5164,7 +5190,7 @@
                     <div style="font-size: 0.85rem; color: #999; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
                         <strong>How it works:</strong><br>
                         1. Add member details above and click "Add Member to Portal"<br>
-                        2. Share the login page with them: <a href="https://miamibusinesscouncil.com/member-login" style="color: #d4af37;">miamibusinesscouncil.com/member-login</a><br>
+                        2. Share the login page with them: <a href="https://miamibusinesscouncil.com/member-login" style="color: #C9A86A;">miamibusinesscouncil.com/member-login</a><br>
                         3. They enter their email and receive a magic link to log in<br>
                         4. They complete their profile after first login
                     </div>
@@ -5172,7 +5198,7 @@
 
                 <!-- Bulk Actions -->
                 <div class="dashboard-card">
-                    <h3 style="color: #d4af37; margin-bottom: 1.5rem;">🚀 Bulk Actions</h3>
+                    <h3 style="color: #C9A86A; margin-bottom: 1.5rem;">🚀 Bulk Actions</h3>
                     
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                         <button class="profile-action-btn secondary" onclick="sendBulkWelcomeEmails()">
@@ -5782,9 +5808,9 @@
 
                 if (potentialMatches > 0) {
                     insightsHtml += `
-                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #d4af37;">
+                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #C9A86A;">
                             <span style="font-size: 1.2rem;">🎯</span>
-                            <span style="color: #e8eaed;">You have <strong style="color: #d4af37;">${potentialMatches} potential ${potentialMatches === 1 ? 'match' : 'matches'}</strong> based on your profile</span>
+                            <span style="color: #e8eaed;">You have <strong style="color: #C9A86A;">${potentialMatches} potential ${potentialMatches === 1 ? 'match' : 'matches'}</strong> based on your profile</span>
                         </div>
                     `;
                 }
@@ -5831,9 +5857,9 @@
                 const requestCount = pendingRequests?.length || 0;
                 if (requestCount > 0) {
                     insightsHtml += `
-                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #d4af37; cursor: pointer;" onclick="showSection('connections')">
+                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #C9A86A; cursor: pointer;" onclick="showSection('connections')">
                             <span style="font-size: 1.2rem;">🤝</span>
-                            <span style="color: #e8eaed;">You have <strong style="color: #d4af37;">${requestCount} new connection ${requestCount === 1 ? 'request' : 'requests'}</strong></span>
+                            <span style="color: #e8eaed;">You have <strong style="color: #C9A86A;">${requestCount} new connection ${requestCount === 1 ? 'request' : 'requests'}</strong></span>
                         </div>
                     `;
                 }
@@ -6121,7 +6147,7 @@
                         <div class="skeleton skeleton-button"></div>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 2rem; color: #d4af37;">
+                <div style="text-align: center; margin-top: 2rem; color: #C9A86A;">
                     <div class="loading-spinner"></div>
                     <div style="margin-top: 1rem; font-weight: 500;">🧠 Analyzing member profiles and generating smart matches...</div>
                 </div>
@@ -7481,13 +7507,13 @@
                     <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 10000;" onclick="this.remove()">
                         <div style="background: linear-gradient(135deg, #1a1a1b 0%, #2d2d30 100%); border-radius: 20px; padding: 2rem; max-width: 500px; width: 90%; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.5);" onclick="event.stopPropagation()">
                             <div style="text-align: center; margin-bottom: 1.5rem;">
-                                <h3 style="color: #d4af37; font-size: 1.5rem; margin-bottom: 0.5rem;">📊 Member Activity Report</h3>
+                                <h3 style="color: #C9A86A; font-size: 1.5rem; margin-bottom: 0.5rem;">📊 Member Activity Report</h3>
                                 <p style="color: #ccc; font-size: 1rem;">${memberName}</p>
                             </div>
 
                             <div style="display: grid; gap: 1rem;">
-                                <div style="background: rgba(212, 175, 55, 0.1); border-left: 3px solid #d4af37; padding: 1rem; border-radius: 8px;">
-                                    <div style="color: #d4af37; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Profile Status</div>
+                                <div style="background: rgba(212, 175, 55, 0.1); border-left: 3px solid #C9A86A; padding: 1rem; border-radius: 8px;">
+                                    <div style="color: #C9A86A; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Profile Status</div>
                                     <div style="color: #e8eaed; font-size: 1.25rem; font-weight: 600;">${profileCompletion}% Complete</div>
                                     <div style="color: #999; font-size: 0.85rem; margin-top: 0.25rem;">${completedFields} of ${profileFields} fields filled</div>
                                 </div>
@@ -7531,7 +7557,7 @@
                             </div>
 
                             <div style="text-align: center; margin-top: 1.5rem;">
-                                <button onclick="this.closest('[style*=fixed]').remove()" style="background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%); color: #000; padding: 0.75rem 2rem; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1rem;">Close</button>
+                                <button onclick="this.closest('[style*=fixed]').remove()" style="background: linear-gradient(135deg, #C9A86A 0%, #f4f1e8 100%); color: #000; padding: 0.75rem 2rem; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1rem;">Close</button>
                             </div>
                         </div>
                     </div>
@@ -7768,7 +7794,7 @@
                         <div style="display: flex; gap: 0.5rem;">
                             <button onclick="refreshMemberList(${adminCurrentPage - 1})"
                                     ${adminCurrentPage === 1 ? 'disabled' : ''}
-                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
+                                    style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
                                 ← Previous
                             </button>
                             <div style="color: #e8eaed; padding: 0.5rem 1rem; background: rgba(255,255,255,0.05); border-radius: 6px; font-weight: 600;">
@@ -7776,7 +7802,7 @@
                             </div>
                             <button onclick="refreshMemberList(${adminCurrentPage + 1})"
                                     ${adminCurrentPage === totalPages ? 'disabled' : ''}
-                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === totalPages ? '0.5' : '1'};">
+                                    style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === totalPages ? '0.5' : '1'};">
                                 Next →
                             </button>
                         </div>
@@ -7828,7 +7854,7 @@
                     <div style="display: flex; justify-content: center; align-items: center; margin-top: 1rem; padding: 0.75rem; gap: 0.5rem;">
                         <button onclick="refreshMemberList(${adminCurrentPage - 1})"
                                 ${adminCurrentPage === 1 ? 'disabled' : ''}
-                                style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
+                                style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
                             ← Previous
                         </button>
                         <div style="color: #999; padding: 0.5rem 1rem;">
@@ -7836,7 +7862,7 @@
                         </div>
                         <button onclick="refreshMemberList(${adminCurrentPage + 1})"
                                 ${adminCurrentPage === totalPages ? 'disabled' : ''}
-                                style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === totalPages ? '0.5' : '1'};">
+                                style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === totalPages ? '0.5' : '1'};">
                 Next →
                         </button>
                     </div>
@@ -8121,9 +8147,9 @@
 
             let matchInsight = 'Complete your profile to get more accurate matches';
             if (profileCompletion > 80 && potentialMatches > 0) {
-                matchInsight = `You have <strong style="color: #d4af37;">${potentialMatches} new potential matches</strong> based on your profile`;
+                matchInsight = `You have <strong style="color: #C9A86A;">${potentialMatches} new potential matches</strong> based on your profile`;
             } else if (profileCompletion > 60 && potentialMatches > 0) {
-                matchInsight = `<strong style="color: #d4af37;">${potentialMatches} potential matches</strong> found - complete profile for more`;
+                matchInsight = `<strong style="color: #C9A86A;">${potentialMatches} potential matches</strong> found - complete profile for more`;
             }
 
             let messageInsight = 'Complete your profile to increase visibility';
@@ -8623,7 +8649,7 @@
                             </div>
                         </div>
                         ${request.message ? `
-                        <div class="connection-message" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid #d4af37;">
+                        <div class="connection-message" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid #C9A86A;">
                             <p style="color: #e8eaed; font-style: italic;">"${request.message}"</p>
                         </div>
                         ` : ''}
@@ -10161,7 +10187,7 @@
 
             // Set header
             document.getElementById('newChatHeader').innerHTML = `
-                <h2 style="color: #d4af37; margin: 0;">Chat with ${newCurrentChatPartner.name}</h2>
+                <h2 style="color: #C9A86A; margin: 0;">Chat with ${newCurrentChatPartner.name}</h2>
                 <p style="color: #999; margin: 0.5rem 0 0 0;">${newCurrentChatPartner.company}</p>
             `;
 
@@ -10622,7 +10648,7 @@ https://miamibusinesscouncil.com`);
             
             setTimeout(() => {
                 copyBtn.textContent = originalText;
-                copyBtn.style.background = '#d4af37';
+                copyBtn.style.background = '#C9A86A';
             }, 2000);
         }
 
@@ -10993,7 +11019,7 @@ You'll then have quick access to chat with members and manage your business conn
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #d4af37;
+                background: #C9A86A;
                 color: #000;
                 padding: 1rem;
                 border-radius: 8px;
@@ -11004,7 +11030,7 @@ You'll then have quick access to chat with members and manage your business conn
             updateDiv.innerHTML = `
                 <div style="font-weight: 600; margin-bottom: 0.5rem;">📦 Update Available</div>
                 <div style="font-size: 0.9rem; margin-bottom: 1rem;">A new version of MBC Portal is available with improvements and new features.</div>
-                <button onclick="location.reload()" style="background: #000; color: #d4af37; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-right: 0.5rem;">Update Now</button>
+                <button onclick="location.reload()" style="background: #000; color: #C9A86A; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-right: 0.5rem;">Update Now</button>
                 <button onclick="this.parentElement.remove()" style="background: rgba(0,0,0,0.1); border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Later</button>
             `;
             document.body.appendChild(updateDiv);
@@ -11062,7 +11088,7 @@ You'll then have quick access to chat with members and manage your business conn
                 mobileMenuBtn.style.cssText = `
                     background: none;
                     border: none;
-                    color: #d4af37;
+                    color: #C9A86A;
                     font-size: 1.5rem;
                     cursor: pointer;
                     display: block;
@@ -11185,7 +11211,7 @@ You'll then have quick access to chat with members and manage your business conn
             previewModal.innerHTML = `
                 <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; max-width: 90vw; max-height: 90vh; overflow: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                        <h2 style="color: #d4af37; margin: 0;">📸 Portal Preview Gallery</h2>
+                        <h2 style="color: #C9A86A; margin: 0;">📸 Portal Preview Gallery</h2>
                         <button onclick="this.closest('div').parentElement.remove()" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">✕</button>
                     </div>
                     
@@ -11194,7 +11220,7 @@ You'll then have quick access to chat with members and manage your business conn
                         <div style="text-align: center;">
                             <h3 style="color: #e8eaed; margin-bottom: 1rem;">🏠 Dashboard</h3>
                             <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #C9A86A;">
                                     <div>
                                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
                                         <div>Member Dashboard</div>
@@ -11208,7 +11234,7 @@ You'll then have quick access to chat with members and manage your business conn
                         <div style="text-align: center;">
                             <h3 style="color: #e8eaed; margin-bottom: 1rem;">🎯 Smart Matches</h3>
                             <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #C9A86A;">
                                     <div>
                                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
                                         <div>AI-Powered Matching</div>
@@ -11222,7 +11248,7 @@ You'll then have quick access to chat with members and manage your business conn
                         <div style="text-align: center;">
                             <h3 style="color: #e8eaed; margin-bottom: 1rem;">💬 Messages</h3>
                             <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #C9A86A;">
                                     <div>
                                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
                                         <div>Direct Member Chat</div>
@@ -11236,7 +11262,7 @@ You'll then have quick access to chat with members and manage your business conn
                         <div style="text-align: center;">
                             <h3 style="color: #e8eaed; margin-bottom: 1rem;">👥 Directory</h3>
                             <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #C9A86A;">
                                     <div>
                                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏢</div>
                                         <div>Member Directory</div>
@@ -11250,7 +11276,7 @@ You'll then have quick access to chat with members and manage your business conn
                         <div style="text-align: center;">
                             <h3 style="color: #e8eaed; margin-bottom: 1rem;">🎁 Referrals</h3>
                             <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #C9A86A;">
                                     <div>
                                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏆</div>
                                         <div>Invite & Earn</div>
@@ -11264,7 +11290,7 @@ You'll then have quick access to chat with members and manage your business conn
                         <div style="text-align: center;">
                             <h3 style="color: #e8eaed; margin-bottom: 1rem;">📱 Mobile App</h3>
                             <div style="background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%); border-radius: 12px; padding: 1rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #d4af37;">
+                                <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #C9A86A;">
                                     <div>
                                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📲</div>
                                         <div>Progressive Web App</div>
@@ -11276,7 +11302,7 @@ You'll then have quick access to chat with members and manage your business conn
                     </div>
                     
                     <div style="margin-top: 2rem; text-align: center;">
-                        <button onclick="sharePortalPreview()" style="background: #d4af37; color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 0.5rem;">
+                        <button onclick="sharePortalPreview()" style="background: #C9A86A; color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 0.5rem;">
                             📤 Share Preview
                         </button>
                         <button onclick="downloadPreviewInstructions()" style="background: rgba(255,255,255,0.1); color: #e8eaed; border: 1px solid rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 8px; font-weight: 500; cursor: pointer; margin: 0.5rem;">
@@ -11370,7 +11396,7 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Hidden admin function - add to browser console for preview generation
         window.generatePortalScreenshots = function() {
-            // console.log('%c📸 MBC Portal Screenshot Mode', 'color: #d4af37; font-size: 16px; font-weight: bold;');
+            // console.log('%c📸 MBC Portal Screenshot Mode', 'color: #C9A86A; font-size: 16px; font-weight: bold;');
             // console.log('Use these browser dimensions for optimal screenshots:');
             // console.log('Desktop: 1280x720 (16:9)');
             // console.log('Mobile: 750x1334 (iPhone)');
@@ -11385,7 +11411,7 @@ This will enable beautiful previews when sharing the portal link on social media
                 right: 0;
                 bottom: 0;
                 background: rgba(212, 175, 55, 0.1);
-                border: 3px dashed #d4af37;
+                border: 3px dashed #C9A86A;
                 pointer-events: none;
                 z-index: 9999;
             `;
@@ -11395,7 +11421,7 @@ This will enable beautiful previews when sharing the portal link on social media
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #d4af37;
+                background: #C9A86A;
                 color: #000;
                 padding: 1rem;
                 border-radius: 8px;
@@ -11699,7 +11725,7 @@ This will enable beautiful previews when sharing the portal link on social media
                     ` : ''}
                     <div class="member-details">
                         ${member.industries && member.industries.length > 0
-                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
+                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
                             : ''
                         }
                         ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
@@ -11823,15 +11849,15 @@ This will enable beautiful previews when sharing the portal link on social media
 
             if (mode === 'grid') {
                 gridBtn.style.background = 'rgba(212, 175, 55, 0.2)';
-                gridBtn.style.borderColor = '#d4af37';
-                gridBtn.style.color = '#d4af37';
+                gridBtn.style.borderColor = '#C9A86A';
+                gridBtn.style.color = '#C9A86A';
                 listBtn.style.background = 'rgba(255,255,255,0.05)';
                 listBtn.style.borderColor = 'rgba(255,255,255,0.1)';
                 listBtn.style.color = '#ccc';
             } else {
                 listBtn.style.background = 'rgba(212, 175, 55, 0.2)';
-                listBtn.style.borderColor = '#d4af37';
-                listBtn.style.color = '#d4af37';
+                listBtn.style.borderColor = '#C9A86A';
+                listBtn.style.color = '#C9A86A';
                 gridBtn.style.background = 'rgba(255,255,255,0.05)';
                 gridBtn.style.borderColor = 'rgba(255,255,255,0.1)';
                 gridBtn.style.color = '#ccc';
@@ -11912,7 +11938,7 @@ This will enable beautiful previews when sharing the portal link on social media
                     ` : ''}
                     <div class="member-details">
                         ${member.industries && member.industries.length > 0
-                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
+                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
                             : ''
                         }
                     </div>
@@ -11983,9 +12009,9 @@ This will enable beautiful previews when sharing the portal link on social media
                 <button onclick="goToPage(${pageNum})" style="
                     padding: 0.75rem 1rem;
                     background: ${isActive ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255,255,255,0.05)'};
-                    border: 1px solid ${isActive ? '#d4af37' : 'rgba(255,255,255,0.1)'};
+                    border: 1px solid ${isActive ? '#C9A86A' : 'rgba(255,255,255,0.1)'};
                     border-radius: 8px;
-                    color: ${isActive ? '#d4af37' : '#e8eaed'};
+                    color: ${isActive ? '#C9A86A' : '#e8eaed'};
                     cursor: pointer;
                     font-weight: ${isActive ? '600' : '400'};
                 ">
@@ -12057,7 +12083,7 @@ This will enable beautiful previews when sharing the portal link on social media
     }
 
     .contact-support {
-        background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+        background: #C9A86A;
         color: #000;
         text-decoration: none;
         padding: 0.5rem 1rem;
@@ -12069,7 +12095,7 @@ This will enable beautiful previews when sharing the portal link on social media
     }
 
     .contact-support:hover {
-        background: linear-gradient(135deg, #f4af37 0%, #d4af37 100%);
+        background: #B09858;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     }
@@ -12142,7 +12168,7 @@ This will enable beautiful previews when sharing the portal link on social media
     }
 
     .modal-header h3 {
-        color: #d4af37;
+        color: #C9A86A;
         margin: 0;
         font-size: 1.5rem;
     }
@@ -12198,7 +12224,7 @@ This will enable beautiful previews when sharing the portal link on social media
     .invite-form-field input:focus,
     .invite-form-field textarea:focus {
         outline: none;
-        border-color: #d4af37;
+        border-color: #C9A86A;
         background: rgba(255, 255, 255, 0.08);
     }
 
@@ -12233,7 +12259,7 @@ This will enable beautiful previews when sharing the portal link on social media
     }
 
     .btn-modal-primary {
-        background: linear-gradient(135deg, #d4af37 0%, #f4af37 100%);
+        background: #C9A86A;
         color: #000;
     }
 

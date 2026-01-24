@@ -5347,10 +5347,13 @@
                     }
                 });
 
-                // Show/hide completion message
+                // Show/hide completion message and entire checklist
+                const checklistCard = document.getElementById('onboardingChecklist');
                 if (progressPercent === 100) {
-                    document.getElementById('completeProfilePrompt').style.display = 'none';
-                    document.getElementById('onboardingCompleteMessage').style.display = 'block';
+                    // Hide the entire checklist when 100% complete
+                    if (checklistCard) {
+                        checklistCard.style.display = 'none';
+                    }
 
                     // Update database: mark onboarding as completed
                     await supabase
@@ -5358,6 +5361,10 @@
                         .update({ onboarding_completed: true })
                         .eq('id', member.id);
                 } else {
+                    // Show checklist if not complete
+                    if (checklistCard) {
+                        checklistCard.style.display = 'block';
+                    }
                     document.getElementById('completeProfilePrompt').style.display = 'block';
                     document.getElementById('onboardingCompleteMessage').style.display = 'none';
                 }

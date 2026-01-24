@@ -2558,22 +2558,53 @@
             font-size: 0.95rem;
         }
 
-        .profile-action-btn.primary {
-            background: #d4af37;
-            color: #000;
+        /* Email button - Professional Blue */
+        .profile-action-btn.email-action {
+            background: #1e88e5;
+            color: #fff;
         }
 
-        .profile-action-btn.primary:hover {
-            background: #f4af37;
+        .profile-action-btn.email-action:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
         }
 
-        .profile-action-btn.secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #e8eaed;
+        /* Chat button - Friendly Green */
+        .profile-action-btn.chat-action {
+            background: #43a047;
+            color: #fff;
         }
 
-        .profile-action-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .profile-action-btn.chat-action:hover {
+            background: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.4);
+        }
+
+        /* LinkedIn button - LinkedIn Blue */
+        .profile-action-btn.linkedin-action {
+            background: #0077b5;
+            color: #fff;
+        }
+
+        .profile-action-btn.linkedin-action:hover {
+            background: #006399;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.4);
+        }
+
+        /* Connect button - Gold */
+        .profile-action-btn.connect-action {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+        }
+
+        .profile-action-btn.connect-action:hover {
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+            transform: translateY(-2px);
         }
 
         .profile-info-grid {
@@ -4963,16 +4994,16 @@
 
             <div class="profile-section">
                 <div class="profile-actions">
-                    <button class="profile-action-btn primary" id="profileEmailBtn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'AskApril AI')">
+                    <button class="profile-action-btn email-action" id="profileEmailBtn" onclick="sendMBCEmail('april@apriljsabral.com', 'April Sabral', 'AskApril AI')">
                         📧 Send Email
                     </button>
-                    <button class="profile-action-btn primary" id="profileChatBtn" onclick="startChat('april', 'April Sabral', 'AskApril AI')">
+                    <button class="profile-action-btn chat-action" id="profileChatBtn" onclick="startChat('april', 'April Sabral', 'AskApril AI')">
                         💬 Start Chat
                     </button>
-                    <a class="profile-action-btn secondary" id="profileLinkedInBtn" href="https://linkedin.com/in/apriljsabral" target="_blank">
-                        📍 LinkedIn Profile
+                    <a class="profile-action-btn linkedin-action" id="profileLinkedInBtn" href="https://linkedin.com/in/apriljsabral" target="_blank">
+                        🔗 LinkedIn Profile
                     </a>
-                    <button class="profile-action-btn secondary" onclick="requestConnection('april', 'April Sabral')">
+                    <button class="profile-action-btn connect-action" onclick="requestConnection('april', 'April Sabral')">
                         🤝 Connect
                     </button>
                 </div>
@@ -10561,18 +10592,6 @@ This will enable beautiful previews when sharing the portal link on social media
                             : ''
                         }
                         ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
-                    </div>
-                    <div class="member-actions" onclick="event.stopPropagation()">
-                        ${member.linkedin
-                            ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
-                            : ''
-                        }
-                        <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${member.name}', '${member.company}')" title="Send email">
-                            📧 Email
-                        </button>
-                        <button class="message-btn" onclick="startConversationWith('${member.id}', '${member.name}')" title="Send message">
-                            💬 Message
-                        </button>
                     </div>
                 </div>
                 `;

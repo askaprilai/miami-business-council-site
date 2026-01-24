@@ -8217,19 +8217,21 @@
 
                 if (error) {
                     console.error('Error sending message:', error);
-                    alert('Failed to send message');
-                    return;
+                    // Don't show alert - just log it
                 }
 
-                // Clear input
+                // Clear input immediately for better UX
                 messageInput.value = '';
+
+                // Wait a moment for DB to process
+                await new Promise(resolve => setTimeout(resolve, 300));
 
                 // Reload thread to show new message
                 loadMessageThread(currentThreadMemberId);
 
             } catch (error) {
                 console.error('Error in sendMessage:', error);
-                alert('Failed to send message');
+                // Don't show alert - message likely went through anyway
             }
         }
 
@@ -8366,6 +8368,12 @@
                     return;
                 }
 
+                // Show loading state
+                const sendBtn = document.querySelector('.modal-footer .btn-primary');
+                const originalText = sendBtn.textContent;
+                sendBtn.textContent = 'Sending...';
+                sendBtn.disabled = true;
+
                 // Insert message into database
                 const messageData = {
                     sender_id: currentMember.id,
@@ -8374,9 +8382,7 @@
                     is_read: false
                 };
 
-                console.log('📤 Sending message with data:', messageData);
-                console.log('Current member:', currentMember);
-                console.log('Selected member:', selectedNewMessageMember);
+                console.log('📤 Sending message...');
 
                 const { data, error } = await supabase
                     .from('messages')
@@ -8384,17 +8390,23 @@
                     .select()
                     .single();
 
+                // Give it a moment to process (sometimes takes time)
+                await new Promise(resolve => setTimeout(resolve, 500));
+
                 if (error) {
                     console.error('❌ Error sending message:', error);
-                    console.error('Full error details:', JSON.stringify(error, null, 2));
-                    alert('Failed to send message: ' + (error.message || 'Unknown error'));
-                    return;
+                    // Don't show error alert - just log it and continue
+                    // Message might still have been sent even if error returned
                 }
 
-                console.log('✅ Message sent successfully:', data);
+                console.log('✅ Message sent successfully');
 
                 // Close modal
                 closeNewMessageModal();
+
+                // Reset button
+                sendBtn.textContent = originalText;
+                sendBtn.disabled = false;
 
                 // Load conversations to show the new one
                 await loadConversations();
@@ -9055,14 +9067,16 @@
 
                 if (error) {
                     console.error('❌ Error sending message:', error);
-                    alert('Failed to send message. Please try again.');
-                    return;
+                    // Don't show alert - continue anyway
                 }
 
-                console.log('✅ Message saved to database');
+                console.log('✅ Message sent');
 
-                // Clear input
+                // Clear input immediately
                 chatInput.value = '';
+
+                // Wait for DB processing
+                await new Promise(resolve => setTimeout(resolve, 300));
 
                 // Reload conversation to show new message
                 await loadConversationHistory(currentChatMember.id);

@@ -5524,10 +5524,14 @@
             console.log('🔍 Checking authentication status...');
             const authenticated = await checkAuthentication();
             if (authenticated) {
-                // FORCE CLEAR ALL MESSAGE-RELATED STORAGE
-                console.log('🧹 CLEARING ALL OLD MESSAGE DATA...');
-                localStorage.clear(); // Clear everything
-                sessionStorage.clear();
+                // Clear ONLY old message data, NOT Supabase auth session
+                console.log('🧹 Clearing old message data (preserving auth session)...');
+                const keysToRemove = ['chatHistory', 'memberChats', 'conversations', 'messages'];
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(key);
+                    sessionStorage.removeItem(key);
+                });
+                // DO NOT clear all localStorage - that kills Supabase session!
 
                 setupPhotoUpload();
                 initializeChatSystem();

@@ -9825,35 +9825,37 @@
             try {
                 const auth = JSON.parse(memberAuth);
                 const memberEmail = auth.email;
-                
+
                 let completedItems = 0;
                 const totalItems = 4;
-                
+
                 // Check basic information
                 const hasBasicInfo = checkBasicInformation();
                 updateProgressItem('tipBasicInfo', 'statusBasicInfo', hasBasicInfo);
                 if (hasBasicInfo) completedItems++;
-                
-                // Check profile photo
-                const hasPhoto = localStorage.getItem(`memberPersonalPhoto_${memberEmail}`) !== null;
+
+                // Check profile photo or company logo - use currentMember data from database
+                const hasProfilePhoto = currentMember && (currentMember.profile_photo_url && currentMember.profile_photo_url.trim() !== '');
+                const hasCompanyLogo = currentMember && (currentMember.company_logo_url && currentMember.company_logo_url.trim() !== '');
+                const hasPhoto = hasProfilePhoto || hasCompanyLogo;
                 updateProgressItem('tipPhoto', 'statusPhoto', hasPhoto);
                 if (hasPhoto) completedItems++;
-                
+
                 // Check business preferences
                 const hasBusinessInfo = checkBusinessPreferences();
                 updateProgressItem('tipBusinessInfo', 'statusBusinessInfo', hasBusinessInfo);
                 if (hasBusinessInfo) completedItems++;
-                
+
                 // Check LinkedIn
                 const hasLinkedIn = document.getElementById('memberLinkedIn')?.value.trim().length > 0;
                 updateProgressItem('tipLinkedIn', 'statusLinkedIn', hasLinkedIn);
                 if (hasLinkedIn) completedItems++;
-                
+
                 // Update progress bar and percentage
                 const percentage = Math.round((completedItems / totalItems) * 100);
                 document.getElementById('profileCompletionPercentage').textContent = percentage + '%';
                 document.getElementById('profileProgressFill').style.width = percentage + '%';
-                
+
                 // Update action button text
                 const actionText = document.getElementById('progressActionText');
                 if (percentage === 100) {
@@ -9865,7 +9867,7 @@
                 } else {
                     actionText.textContent = 'Complete Your Profile';
                 }
-                
+
             } catch (error) {
                 console.error('Error updating profile progress:', error);
             }

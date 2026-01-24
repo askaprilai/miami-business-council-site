@@ -8938,46 +8938,7 @@
                 chatArea.style.display = 'flex';
             }
 
-            // CREATE FLOATING INPUT BOX - GUARANTEED VISIBLE
-            setTimeout(() => {
-                // Remove old floating input if exists
-                const oldFloating = document.getElementById('floatingChatInput');
-                if (oldFloating) oldFloating.remove();
-
-                // Create new floating input box
-                const floatingInput = document.createElement('div');
-                floatingInput.id = 'floatingChatInput';
-                floatingInput.innerHTML = `
-                    <textarea id="floatingTextarea" placeholder="Type your message..." style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; color: #fff; font-size: 16px; resize: none; font-family: inherit; height: 60px; box-sizing: border-box; margin-bottom: 8px;"></textarea>
-                    <button id="floatingSendBtn" style="background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%); color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px; width: 100%;">Send Message</button>
-                `;
-                floatingInput.style.cssText = 'position: fixed; bottom: 20px; left: 320px; right: 20px; background: rgba(20, 20, 20, 0.98); padding: 20px; border-radius: 12px; border: 2px solid #d4af37; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.5);';
-
-                document.body.appendChild(floatingInput);
-
-                // Add event listeners
-                document.getElementById('floatingSendBtn').onclick = () => {
-                    const textarea = document.getElementById('floatingTextarea');
-                    const text = textarea.value.trim();
-                    if (text && currentChatMember && currentMember) {
-                        // Copy to hidden input and send
-                        const chatInput = document.getElementById('chatInput');
-                        if (chatInput) chatInput.value = text;
-                        sendMessage();
-                        textarea.value = '';
-                    }
-                };
-
-                // Enter to send
-                document.getElementById('floatingTextarea').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        document.getElementById('floatingSendBtn').click();
-                    }
-                });
-
-                console.log('✅ FLOATING INPUT BOX CREATED - YOU SHOULD SEE IT NOW!');
-            }, 200);
+            // REMOVED: Old floating chat box - now using clean iPhone-style messaging
 
             // Mark conversation as read
             markConversationAsRead(memberId);

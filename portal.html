@@ -5073,9 +5073,8 @@
                     dashboardUserRole.textContent = `Member since ${memberSince}`;
                 }
 
-                // Show/hide admin panel based on user
-                const adminEmails = ['info@miamibusinesscouncil.com', 'sabral@me.com'];
-                const isAdmin = adminEmails.includes(member.email);
+                // Show/hide admin panel based on user (using database is_admin column)
+                const isAdmin = member.is_admin || false;
                 const adminNavItem = document.querySelector('[data-section="admin"]')?.parentElement;
                 if (adminNavItem) {
                     adminNavItem.style.display = isAdmin ? 'block' : 'none';

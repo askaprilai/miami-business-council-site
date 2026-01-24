@@ -4995,13 +4995,23 @@
         let currentMember = null;
 
         // Authentication check
-        async function checkAuthentication() {
+        async function checkAuthentication(retryCount = 0) {
             try {
                 // Get current session from Supabase
                 const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
                 if (!session || sessionError) {
-                    console.log('No active session, redirecting to login...');
+                    // If we're processing a magic link, retry up to 2 times before redirecting
+                    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                    const hasAuthToken = hashParams.has('access_token');
+
+                    if (hasAuthToken && retryCount < 2) {
+                        console.log(`⏳ Session not ready yet, retry ${retryCount + 1}/2 in 1 second...`);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        return checkAuthentication(retryCount + 1);
+                    }
+
+                    console.log('❌ No active session, redirecting to login...');
                     window.location.href = '/member-login';
                     return false;
                 }
@@ -5499,16 +5509,19 @@
                                 searchParams.has('code');
 
             if (hasAuthToken) {
-                console.log('Magic link callback detected, processing authentication...');
+                console.log('🔐 Magic link callback detected, processing authentication...');
 
-                // Give Supabase time to process the auth callback
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // Give Supabase MORE time to process the auth callback (was 1s, now 3s)
+                console.log('⏳ Waiting 3 seconds for Supabase to establish session...');
+                await new Promise(resolve => setTimeout(resolve, 3000));
 
                 // Clear URL parameters after processing
+                console.log('✅ Auth processing complete, clearing URL params...');
                 window.history.replaceState({}, document.title, '/portal');
             }
 
             // Now check authentication
+            console.log('🔍 Checking authentication status...');
             const authenticated = await checkAuthentication();
             if (authenticated) {
                 // FORCE CLEAR ALL MESSAGE-RELATED STORAGE

@@ -6206,11 +6206,20 @@
             }
 
             try {
-                // Update database
+                // Get current authenticated user
+                const { data: { user } } = await supabase.auth.getUser();
+
+                if (!user) {
+                    alert('Please log in to enable weekly alerts');
+                    document.getElementById('weeklyAlertsToggle').checked = !enabled;
+                    return;
+                }
+
+                // Update database using auth_user_id for RLS policy
                 const { error } = await supabase
                     .from('members')
                     .update({ weekly_alerts_enabled: enabled })
-                    .eq('id', currentMember.id);
+                    .eq('auth_user_id', user.id);
 
                 if (error) {
                     console.error('Error updating weekly alerts:', error);

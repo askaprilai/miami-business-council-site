@@ -4756,7 +4756,7 @@
                         <div>
                             <h4 style="color: #e8eaed; margin-bottom: 1rem;">🔗 Your Referral Link</h4>
                             <div class="referral-link-container">
-                                <input type="text" class="referral-link-input" id="referralLinkInput" value="Loading..." readonly>
+                                <input type="text" class="referral-link-input" id="referralLinkInput" value="Coming Soon - Join page under development" readonly>
                                 <button class="copy-link-btn" onclick="copyReferralLink()">📋 Copy</button>
                             </div>
                             <div class="share-buttons" style="margin-top: 1rem;">
@@ -7964,11 +7964,18 @@
                 if (memberError) {
                     console.error('Error loading referral code:', memberError);
                 } else if (memberData && memberData.referral_code) {
-                    // Update referral link with actual code
-                    const referralLink = `https://miamibusinesscouncil.com/join?ref=${memberData.referral_code}`;
+                    // TODO: Update referral link once join page is ready
+                    // For now, keep "Coming Soon" message
+                    // const referralLink = `https://miamibusinesscouncil.com/join?ref=${memberData.referral_code}`;
+                    // const linkInput = document.getElementById('referralLinkInput');
+                    // if (linkInput) {
+                    //     linkInput.value = referralLink;
+                    // }
+
+                    // Temporary: Show Coming Soon message
                     const linkInput = document.getElementById('referralLinkInput');
                     if (linkInput) {
-                        linkInput.value = referralLink;
+                        linkInput.value = `Coming Soon - Your code: ${memberData.referral_code}`;
                     }
                 }
 

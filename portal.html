@@ -5085,10 +5085,14 @@
                     userAvatarElement.textContent = initials;
                 }
 
-                // Update dashboard avatar with same initials
+                // Update dashboard avatar with photo or initials
                 const dashboardUserAvatar = document.getElementById('dashboardUserAvatar');
                 if (dashboardUserAvatar) {
-                    dashboardUserAvatar.textContent = initials;
+                    if (member.profile_photo_url) {
+                        dashboardUserAvatar.innerHTML = `<img src="${member.profile_photo_url}" alt="${fullName}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+                    } else {
+                        dashboardUserAvatar.textContent = initials;
+                    }
                 }
 
                 // Update dashboard welcome message
@@ -5178,13 +5182,7 @@
                     monthlyConnectionsEl.textContent = newConnectionsThisMonth;
                 }
 
-                // 4. Events attended (placeholder for now - can be updated when events system is added)
-                const eventsAttendedCountEl = document.getElementById('eventsAttendedCount');
-                if (eventsAttendedCountEl) {
-                    eventsAttendedCountEl.textContent = 0;
-                }
-
-                // 5. Calculate profile completion
+                // 4. Calculate profile completion
                 const profileFields = [
                     member.first_name,
                     member.last_name,
@@ -5237,18 +5235,35 @@
                     memberConnectionCountEl.textContent = totalConnections;
                 }
 
-                // 8. Get UNREAD message count from database - SIMPLIFIED
+                // 8. Get total message count from database
+                const { data: userMessages, error: messagesError } = await supabase
+                    .from('messages')
+                    .select('id', { count: 'exact' })
+                    .or(`sender_id.eq.${member.id},recipient_id.eq.${member.id}`);
+
+                const totalMessages = userMessages?.length || 0;
                 const memberMessageCountEl = document.getElementById('memberMessageCount');
                 if (memberMessageCountEl) {
-                    // FORCE to 0 for now - will update dynamically later
-                    memberMessageCountEl.textContent = '0';
-                    // console.log('Message count set to 0 (new system)');
+                    memberMessageCountEl.textContent = totalMessages;
                 }
 
-                // 9. Events attended (placeholder - will update when events system is added)
+                // 9. Events attended from database
+                const { data: eventRegistrations, error: eventsError } = await supabase
+                    .from('event_registrations')
+                    .select('id', { count: 'exact' })
+                    .eq('member_id', member.id)
+                    .eq('registration_status', 'registered');
+
+                const eventsAttended = eventRegistrations?.length || 0;
                 const memberEventCountEl = document.getElementById('memberEventCount');
                 if (memberEventCountEl) {
-                    memberEventCountEl.textContent = 0; // Will be updated when events system is added
+                    memberEventCountEl.textContent = eventsAttended;
+                }
+
+                // Also update the eventsAttendedCount element if it exists
+                const eventsAttendedCountEl = document.getElementById('eventsAttendedCount');
+                if (eventsAttendedCountEl) {
+                    eventsAttendedCountEl.textContent = eventsAttended;
                 }
 
                 // console.log('✅ Dashboard statistics loaded:', { totalMembers, totalConnections, newConnectionsThisMonth, profileCompletionPercent });

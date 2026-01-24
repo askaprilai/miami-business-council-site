@@ -507,9 +507,16 @@
         /* Admin Member List Styles */
         .member-list-table {
             width: 100%;
+            min-width: 1200px;
             border-collapse: collapse;
             margin-top: 1rem;
-            table-layout: fixed;
+            table-layout: auto;
+        }
+
+        /* Wrap table in scrollable container */
+        .member-list-table-wrapper {
+            overflow-x: auto;
+            margin-top: 1rem;
         }
 
         .member-list-table th,
@@ -517,38 +524,42 @@
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .member-list-table th:nth-child(1), /* Name */
         .member-list-table td:nth-child(1) {
-            width: 15%;
+            width: 18%;
+            min-width: 180px;
         }
 
         .member-list-table th:nth-child(2), /* Email */
         .member-list-table td:nth-child(2) {
-            width: 22%;
+            width: 28%;
+            min-width: 220px;
         }
 
         .member-list-table th:nth-child(3), /* Company */
         .member-list-table td:nth-child(3) {
-            width: 20%;
+            width: 22%;
+            min-width: 200px;
         }
 
         .member-list-table th:nth-child(4), /* Status */
         .member-list-table td:nth-child(4) {
             width: 12%;
+            min-width: 100px;
         }
 
         .member-list-table th:nth-child(5), /* Joined */
         .member-list-table td:nth-child(5) {
             width: 10%;
+            min-width: 90px;
         }
 
         .member-list-table th:nth-child(6), /* Actions */
         .member-list-table td:nth-child(6) {
-            width: 21%;
+            width: 10%;
+            min-width: 200px;
         }
 
         .member-list-table th {
@@ -561,6 +572,20 @@
         .member-list-table td {
             color: #f1f3f4;
             font-size: 0.95rem;
+        }
+
+        /* Allow text wrapping for longer content */
+        .member-list-table td:nth-child(1), /* Name */
+        .member-list-table td:nth-child(2), /* Email */
+        .member-list-table td:nth-child(3) { /* Company */
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        /* Keep status, joined, and actions on one line */
+        .member-list-table td:nth-child(4),
+        .member-list-table td:nth-child(5),
+        .member-list-table td:nth-child(6) {
             white-space: nowrap;
         }
 
@@ -7558,42 +7583,44 @@
                         </div>
                     </div>
 
-                    <table class="member-list-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Company</th>
-                                <th>Status</th>
-                                <th>Joined</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${membersToShow.map(member => `
+                    <div class="member-list-table-wrapper">
+                        <table class="member-list-table">
+                            <thead>
                                 <tr>
-                                    <td><strong>${member.name}</strong></td>
-                                    <td>${member.email}</td>
-                                    <td>${member.company}</td>
-                                    <td>
-                                        <span class="member-status ${member.status}">
-                                            ${member.status === 'active' ? '✓ Active' : '⏳ Pending'}
-                                        </span>
-                                    </td>
-                                    <td>${member.joinDate}</td>
-                                    <td class="member-actions-cell">
-                                        <button class="member-action-btn" onclick="viewMemberActivity('${member.email}')" title="View Activity">📊</button>
-                                        <button class="member-action-btn" onclick="resetMemberPassword('${member.email}')" title="Reset Password">🔑</button>
-                                        ${member.status === 'pending' ?
-                                            `<button class="member-action-btn" onclick="sendProfileReminder('${member.email}')" title="Send Reminder">📧</button>` :
-                                            ''
-                                        }
-                                        <button class="member-action-btn" onclick="deleteMember('${member.email}', '${member.name}')" title="Delete Member" style="color: #ff6b6b;">🗑️</button>
-                                    </td>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
                                 </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                ${membersToShow.map(member => `
+                                    <tr>
+                                        <td><strong>${member.name}</strong></td>
+                                        <td>${member.email}</td>
+                                        <td>${member.company}</td>
+                                        <td>
+                                            <span class="member-status ${member.status}">
+                                                ${member.status === 'active' ? '✓ Active' : '⏳ Pending'}
+                                            </span>
+                                        </td>
+                                        <td>${member.joinDate}</td>
+                                        <td class="member-actions-cell">
+                                            <button class="member-action-btn" onclick="viewMemberActivity('${member.email}')" title="View Activity">📊</button>
+                                            <button class="member-action-btn" onclick="resetMemberPassword('${member.email}')" title="Reset Password">🔑</button>
+                                            ${member.status === 'pending' ?
+                                                `<button class="member-action-btn" onclick="sendProfileReminder('${member.email}')" title="Send Reminder">📧</button>` :
+                                                ''
+                                            }
+                                            <button class="member-action-btn" onclick="deleteMember('${member.email}', '${member.name}')" title="Delete Member" style="color: #ff6b6b;">🗑️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div style="display: flex; justify-content: center; align-items: center; margin-top: 1rem; padding: 0.75rem; gap: 0.5rem;">
                         <button onclick="refreshMemberList(${adminCurrentPage - 1})"

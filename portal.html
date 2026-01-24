@@ -8255,18 +8255,28 @@
                     return;
                 }
 
-                // Search members
-                const { data: members, error } = await supabase
+                // Search members - get all active members except current user, then filter client-side
+                const { data: allMembers, error } = await supabase
                     .from('members')
                     .select('*')
                     .neq('id', currentMember.id)
-                    .or(`first_name.ilike.%${searchTerm}%,last_name.ilike.%${searchTerm}%,company_name.ilike.%${searchTerm}%`)
-                    .limit(10);
+                    .eq('is_active', true);
 
                 if (error) {
                     console.error('Error searching members:', error);
                     return;
                 }
+
+                // Filter client-side for better matching
+                const members = allMembers.filter(member => {
+                    const fullName = `${member.first_name || ''} ${member.last_name || ''}`.toLowerCase();
+                    const company = (member.company_name || '').toLowerCase();
+                    const email = (member.email || '').toLowerCase();
+
+                    return fullName.includes(searchTerm) ||
+                           company.includes(searchTerm) ||
+                           email.includes(searchTerm);
+                }).slice(0, 10);
 
                 if (!members || members.length === 0) {
                     resultsContainer.innerHTML = '<div style="padding: 1rem; text-align: center; color: #999;">No members found</div>';

@@ -4983,7 +4983,7 @@
     <script>
         // ✅ VERSION 2.0 - REAL DATABASE STATS + NO AUTO-RESPONSES
         // Deployed: Jan 23, 2026 10:20 PM
-        console.log('🚀 Portal Version 2.0 Loaded - Real Stats, No Fake Messages');
+        // console.log('🚀 Portal Version 2.0 Loaded - Real Stats, No Fake Messages');
 
         // Initialize Supabase client
         var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
@@ -5006,17 +5006,17 @@
                     const hasAuthToken = hashParams.has('access_token');
 
                     if (hasAuthToken && retryCount < 4) {
-                        console.log(`⏳ Session not ready yet, retry ${retryCount + 1}/4 in 2 seconds...`);
+                        // console.log(`⏳ Session not ready yet, retry ${retryCount + 1}/4 in 2 seconds...`);
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         return checkAuthentication(retryCount + 1);
                     }
 
-                    console.log('❌ No active session after all retries, redirecting to login...');
+                    // console.log('❌ No active session after all retries, redirecting to login...');
                     window.location.href = '/member-login';
                     return false;
                 }
 
-                console.log('Active session found for user:', session.user.email);
+                // console.log('Active session found for user:', session.user.email);
 
                 // Fetch member profile from database
                 const { data: member, error: memberError } = await supabase
@@ -5036,7 +5036,7 @@
 
                 // Store member data globally
                 currentMember = member;
-                console.log('Member profile loaded:', member);
+                // console.log('Member profile loaded:', member);
 
                 // Update UI with member info
                 const firstName = member.first_name || '';
@@ -5100,7 +5100,7 @@
         // Load real dashboard statistics from Supabase
         async function loadRealDashboardStats(member) {
             try {
-                console.log('📊 Loading real dashboard statistics...');
+                // console.log('📊 Loading real dashboard statistics...');
 
                 // 1. Get total member count
                 const { data: allMembers, error: membersError } = await supabase
@@ -5211,7 +5211,7 @@
                 if (memberMessageCountEl) {
                     // FORCE to 0 for now - will update dynamically later
                     memberMessageCountEl.textContent = '0';
-                    console.log('Message count set to 0 (new system)');
+                    // console.log('Message count set to 0 (new system)');
                 }
 
                 // 9. Events attended (placeholder - will update when events system is added)
@@ -5220,7 +5220,7 @@
                     memberEventCountEl.textContent = 0; // Will be updated when events system is added
                 }
 
-                console.log('✅ Dashboard statistics loaded:', {
+                // console.log('✅ Dashboard statistics loaded:', {
                     totalMembers,
                     totalConnections,
                     newConnectionsThisMonth,
@@ -5321,7 +5321,7 @@
                     document.getElementById('onboardingCompleteMessage').style.display = 'none';
                 }
 
-                console.log('✅ Onboarding progress calculated:', {
+                // console.log('✅ Onboarding progress calculated:', {
                     progressPercent,
                     checklist
                 });
@@ -5334,7 +5334,7 @@
         // Calculate and display profile analytics
         async function calculateProfileAnalytics(member) {
             try {
-                console.log('📊 Calculating profile analytics...');
+                // console.log('📊 Calculating profile analytics...');
 
                 // 1. Profile Views - use the profile_views column
                 const profileViews = member.profile_views || 0;
@@ -5457,7 +5457,7 @@
                     document.getElementById('activityMemberSince').textContent = '—';
                 }
 
-                console.log('✅ Profile analytics calculated:', {
+                // console.log('✅ Profile analytics calculated:', {
                     profileViews,
                     connectionRate,
                     totalConnections,
@@ -5508,23 +5508,23 @@
                                 searchParams.has('code');
 
             if (hasAuthToken) {
-                console.log('🔐 Magic link callback detected, processing authentication...');
+                // console.log('🔐 Magic link callback detected, processing authentication...');
 
                 // Give Supabase MUCH MORE time to process the auth callback (was 3s, now 6s)
-                console.log('⏳ Waiting 6 seconds for Supabase to establish session...');
+                // console.log('⏳ Waiting 6 seconds for Supabase to establish session...');
                 await new Promise(resolve => setTimeout(resolve, 6000));
 
                 // Clear URL parameters after processing
-                console.log('✅ Auth processing complete, clearing URL params...');
+                // console.log('✅ Auth processing complete, clearing URL params...');
                 window.history.replaceState({}, document.title, '/portal');
             }
 
             // Now check authentication
-            console.log('🔍 Checking authentication status...');
+            // console.log('🔍 Checking authentication status...');
             const authenticated = await checkAuthentication();
             if (authenticated) {
                 // Clear ONLY old message data, NOT Supabase auth session
-                console.log('🧹 Clearing old message data (preserving auth session)...');
+                // console.log('🧹 Clearing old message data (preserving auth session)...');
                 const keysToRemove = ['chatHistory', 'memberChats', 'conversations', 'messages'];
                 keysToRemove.forEach(key => {
                     localStorage.removeItem(key);
@@ -5573,7 +5573,7 @@
 
                 // Get section ID first for debugging
                 const sectionId = this.getAttribute('data-section');
-                console.log('🔍 Navigation clicked:', sectionId);
+                // console.log('🔍 Navigation clicked:', sectionId);
 
                 // Remove active class from all links and sections
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -5586,7 +5586,7 @@
                 const section = document.getElementById(sectionId);
                 if (section) {
                     section.classList.add('active');
-                    console.log('✅ Section activated:', sectionId);
+                    // console.log('✅ Section activated:', sectionId);
 
                     // Scroll to top of section
                     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -5601,19 +5601,19 @@
 
                 // Load profile data when navigating to profile
                 if (sectionId === 'profile') {
-                    console.log('📋 Loading profile section...');
+                    // console.log('📋 Loading profile section...');
                     setTimeout(() => loadMemberProfile(), 100);
                 }
 
                 // Load conversations when navigating to messages
                 if (sectionId === 'messages') {
-                    console.log('💬 Loading messages section...');
+                    // console.log('💬 Loading messages section...');
                     setTimeout(() => loadConversations(), 100);
                 }
 
                 // Load connections data when navigating to connections
                 if (sectionId === 'connections') {
-                    console.log('🤝 Loading connections section...');
+                    // console.log('🤝 Loading connections section...');
                     setTimeout(() => loadConnections(), 100);
                 }
             });
@@ -6229,7 +6229,7 @@
                 const fileName = `${member.id}_${type}_${Date.now()}.${fileExt}`;
                 const filePath = `${fileName}`;
 
-                console.log('📤 Uploading photo to Supabase Storage:', filePath);
+                // console.log('📤 Uploading photo to Supabase Storage:', filePath);
 
                 // Upload to Supabase Storage
                 const { data: uploadData, error: uploadError } = await supabase.storage
@@ -6245,7 +6245,7 @@
                     return;
                 }
 
-                console.log('✅ Photo uploaded successfully:', uploadData);
+                // console.log('✅ Photo uploaded successfully:', uploadData);
 
                 // Get public URL
                 const { data: urlData } = supabase.storage
@@ -6253,7 +6253,7 @@
                     .getPublicUrl(filePath);
 
                 const photoUrl = urlData.publicUrl;
-                console.log('🔗 Public URL:', photoUrl);
+                // console.log('🔗 Public URL:', photoUrl);
 
                 // Save URL to database
                 if (type === 'personal') {
@@ -6268,7 +6268,7 @@
                         return;
                     }
 
-                    console.log('✅ Photo URL saved to database');
+                    // console.log('✅ Photo URL saved to database');
                 } else if (type === 'company') {
                     const { error: dbError } = await supabase
                         .from('members')
@@ -6281,7 +6281,7 @@
                         return;
                     }
 
-                    console.log('✅ Company logo URL saved to database');
+                    // console.log('✅ Company logo URL saved to database');
                 }
 
                 // Display the photo
@@ -6453,7 +6453,7 @@
         // No longer needed - photos saved to Supabase in handlePhotoUpload
         function savePhotoToStorage(imageData, type) {
             // Legacy function - photos now saved to Supabase Storage
-            console.log('Photo saved to Supabase Storage');
+            // console.log('Photo saved to Supabase Storage');
         }
 
         async function loadExistingPhotos() {
@@ -6470,20 +6470,20 @@
                     .single();
 
                 if (error || !member) {
-                    console.log('No member profile found');
+                    // console.log('No member profile found');
                     return;
                 }
 
                 // Display personal photo if it exists
                 if (member.profile_photo_url) {
                     displayPhoto(member.profile_photo_url, 'personal');
-                    console.log('✅ Loaded profile photo from database');
+                    // console.log('✅ Loaded profile photo from database');
                 }
 
                 // Display company logo if it exists
                 if (member.company_logo_url) {
                     displayPhoto(member.company_logo_url, 'company');
-                    console.log('✅ Loaded company logo from database');
+                    // console.log('✅ Loaded company logo from database');
                 }
             } catch (error) {
                 console.error('Error loading photos:', error);
@@ -6750,7 +6750,7 @@
             }
 
             try {
-                console.log('🔄 Inviting new member and creating auth account...');
+                // console.log('🔄 Inviting new member and creating auth account...');
 
                 // Check if member already exists
                 const { data: existingMember, error: checkError } = await supabase
@@ -6765,7 +6765,7 @@
                 }
 
                 // Use the proper invitation endpoint that creates auth user + sends magic link
-                console.log('📧 Sending invitation with magic link...');
+                // console.log('📧 Sending invitation with magic link...');
                 const inviteResponse = await fetch('/api/send-member-invitation', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -6782,7 +6782,7 @@
                 const inviteData = await inviteResponse.json();
 
                 if (inviteResponse.ok) {
-                    console.log('✅ Member invited successfully:', inviteData);
+                    // console.log('✅ Member invited successfully:', inviteData);
                     alert(`✅ Member invited successfully!\n\n${firstName} ${lastName} has been added to the portal.\n\n📧 An invitation email with a magic link has been sent to ${email}.\n\nThey can click the link in their email to access the portal instantly!`);
                 } else {
                     console.error('❌ Invitation failed:', inviteData);
@@ -6920,7 +6920,7 @@
             }
 
             try {
-                console.log('🗑️ Deleting member:', email);
+                // console.log('🗑️ Deleting member:', email);
 
                 // Call API to delete member completely (profile + auth access)
                 const response = await fetch('/api/delete-member', {
@@ -6939,7 +6939,7 @@
                     return;
                 }
 
-                console.log('✅ Member deleted successfully:', data);
+                // console.log('✅ Member deleted successfully:', data);
                 alert(`✅ ${name} has been deleted completely.\n\nThey can no longer log in to the member portal.`);
 
                 // Refresh the member list
@@ -6997,7 +6997,7 @@
                     return;
                 }
 
-                console.log('Loaded members from database:', members);
+                // console.log('Loaded members from database:', members);
 
                 // Transform members for display
                 const allMembers = members.map(member => {
@@ -7095,7 +7095,7 @@
 
         // Load member-specific profile data
         async function loadMemberProfile() {
-            console.log('📋 loadMemberProfile() called');
+            // console.log('📋 loadMemberProfile() called');
 
             if (!currentMember) {
                 console.warn('❌ No member data available');
@@ -7105,12 +7105,12 @@
             try {
                 // Populate form fields from Supabase data
                 const fullName = `${currentMember.first_name} ${currentMember.last_name}`;
-                console.log('✅ Loading profile for:', fullName);
+                // console.log('✅ Loading profile for:', fullName);
 
                 const memberNameField = document.getElementById('memberName');
                 if (memberNameField) {
                     memberNameField.value = fullName;
-                    console.log('✅ memberName field populated:', fullName);
+                    // console.log('✅ memberName field populated:', fullName);
                 } else {
                     console.error('❌ memberName field not found');
                 }
@@ -7149,7 +7149,7 @@
                     document.getElementById('memberLinkedIn').value = currentMember.linkedin_url || '';
                 }
 
-                console.log('✅ Profile fields populated successfully');
+                // console.log('✅ Profile fields populated successfully');
 
                 // Also check localStorage for additional data not in database yet
                 const profileKey = `memberProfile_${currentMember.email}`;
@@ -7521,7 +7521,7 @@
 
         // Update the save profile function to be member-specific
         async function saveProfile() {
-            console.log('saveProfile called');
+            // console.log('saveProfile called');
 
             if (!currentMember) {
                 alert('Session expired. Please log in again.');
@@ -7571,8 +7571,8 @@
                     // phone_number temporarily removed until database column is added
                 };
 
-                console.log('💾 Saving profile data:', profileData);
-                console.log('📧 Member ID:', currentMember.id);
+                // console.log('💾 Saving profile data:', profileData);
+                // console.log('📧 Member ID:', currentMember.id);
 
                 // Save to Supabase
                 const { data, error } = await supabase
@@ -7589,7 +7589,7 @@
                     return;
                 }
 
-                console.log('✅ Profile saved successfully:', data);
+                // console.log('✅ Profile saved successfully:', data);
 
                 // Update global currentMember
                 currentMember = { ...currentMember, ...data };
@@ -7650,12 +7650,12 @@
         // Load connections from database
         async function loadConnections() {
             try {
-                console.log('🤝 Loading connections from database...');
+                // console.log('🤝 Loading connections from database...');
 
                 // Get current user session
                 const { data: { session } } = await supabase.auth.getSession();
                 if (!session) {
-                    console.log('No active session');
+                    // console.log('No active session');
                     return;
                 }
 
@@ -7725,9 +7725,9 @@
                     .eq('status', 'accepted')
                     .or(`requester_id.eq.${currentMember.id},recipient_id.eq.${currentMember.id}`);
 
-                console.log('Incoming:', incomingRequests?.length || 0);
-                console.log('Outgoing:', outgoingRequests?.length || 0);
-                console.log('Accepted:', acceptedConnections?.length || 0);
+                // console.log('Incoming:', incomingRequests?.length || 0);
+                // console.log('Outgoing:', outgoingRequests?.length || 0);
+                // console.log('Accepted:', acceptedConnections?.length || 0);
 
                 // Update stats
                 document.getElementById('incomingRequests').textContent = incomingRequests?.length || 0;
@@ -8385,7 +8385,7 @@
                     is_read: false
                 };
 
-                console.log('📤 Sending message...');
+                // console.log('📤 Sending message...');
 
                 const { data, error } = await supabase
                     .from('messages')
@@ -8402,7 +8402,7 @@
                     // Message might still have been sent even if error returned
                 }
 
-                console.log('✅ Message sent successfully');
+                // console.log('✅ Message sent successfully');
 
                 // Close modal
                 closeNewMessageModal();
@@ -8796,7 +8796,7 @@
         let currentChatMember = null;
 
         function initializeChatSystem() {
-            console.log('💬 Initializing database-backed chat system...');
+            // console.log('💬 Initializing database-backed chat system...');
 
             // Setup chat event listeners
             const chatInput = document.getElementById('chatInput');
@@ -8821,7 +8821,7 @@
             if (!conversationsList || !currentMember) return;
 
             try {
-                console.log('💬 Loading conversation list from database...');
+                // console.log('💬 Loading conversation list from database...');
 
                 // Get all messages where current user is sender or recipient
                 const { data: messages, error } = await supabase
@@ -8877,7 +8877,7 @@
                     return;
                 }
 
-                console.log(`✅ Loaded ${conversationArray.length} conversations`);
+                // console.log(`✅ Loaded ${conversationArray.length} conversations`);
 
                 // Render conversations
                 const conversationsHtml = conversationArray.map(conv => `
@@ -8948,7 +8948,7 @@
             if (!messagesContainer || !currentMember) return;
 
             try {
-                console.log('📥 Loading conversation history from database...');
+                // console.log('📥 Loading conversation history from database...');
 
                 // Load messages between current member and selected member
                 const { data: messages, error } = await supabase
@@ -8963,7 +8963,7 @@
                     return;
                 }
 
-                console.log(`✅ Loaded ${messages.length} messages`);
+                // console.log(`✅ Loaded ${messages.length} messages`);
 
                 if (messages.length === 0) {
                     messagesContainer.innerHTML = `
@@ -9011,7 +9011,7 @@
         // Send email notification when message is sent
         async function sendMessageNotification(recipientEmail, recipientName, senderName, messageText) {
             try {
-                console.log('📧 Sending message notification email...');
+                // console.log('📧 Sending message notification email...');
 
                 const response = await fetch('/api/send-message-notification', {
                     method: 'POST',
@@ -9027,7 +9027,7 @@
                 });
 
                 if (response.ok) {
-                    console.log('✅ Message notification sent successfully');
+                    // console.log('✅ Message notification sent successfully');
                 } else {
                     console.error('❌ Failed to send message notification');
                 }
@@ -9081,7 +9081,7 @@
         let newCurrentChatPartner = null;
 
         function startChatFromDirectory(memberId, memberName, memberCompany, memberEmail = null) {
-            console.log('🚀 NEW SYSTEM: Starting chat with:', memberName);
+            // console.log('🚀 NEW SYSTEM: Starting chat with:', memberName);
 
             // Store chat partner
             newCurrentChatPartner = {
@@ -9104,7 +9104,7 @@
                 return;
             }
 
-            console.log('💬 Opening chat with:', newCurrentChatPartner.name);
+            // console.log('💬 Opening chat with:', newCurrentChatPartner.name);
 
             // Show chat area, hide placeholder
             document.getElementById('newChatPlaceholder').style.display = 'none';
@@ -9129,7 +9129,7 @@
             }
 
             try {
-                console.log('📥 Loading messages from database...');
+                // console.log('📥 Loading messages from database...');
 
                 // Query database for messages between these two members
                 const { data: messages, error } = await supabase
@@ -9144,7 +9144,7 @@
                     return;
                 }
 
-                console.log(`✅ Loaded ${messages ? messages.length : 0} messages`);
+                // console.log(`✅ Loaded ${messages ? messages.length : 0} messages`);
 
                 // Show empty state if no messages
                 if (!messages || messages.length === 0) {
@@ -9197,7 +9197,7 @@
             }
 
             try {
-                console.log('📤 Sending message to database...');
+                // console.log('📤 Sending message to database...');
 
                 // Save to database
                 const { data, error } = await supabase
@@ -9216,7 +9216,7 @@
                     return;
                 }
 
-                console.log('✅ Message sent successfully');
+                // console.log('✅ Message sent successfully');
 
                 // Clear input
                 input.value = '';
@@ -9252,7 +9252,7 @@
 
         // EMERGENCY RESET FUNCTION - Call from console: window.resetMessaging()
         window.resetMessaging = async function() {
-            console.log('🔥 RESETTING MESSAGING SYSTEM...');
+            // console.log('🔥 RESETTING MESSAGING SYSTEM...');
 
             // 1. Delete all messages from database
             try {
@@ -9260,7 +9260,7 @@
                 if (error) {
                     console.error('Error deleting messages:', error);
                 } else {
-                    console.log('✅ All messages deleted from database');
+                    // console.log('✅ All messages deleted from database');
                 }
             } catch (e) {
                 console.error('Error:', e);
@@ -9270,15 +9270,15 @@
             localStorage.removeItem('chatHistory');
             localStorage.removeItem('memberChats');
             localStorage.removeItem('conversations');
-            console.log('✅ localStorage cleared');
+            // console.log('✅ localStorage cleared');
 
             // 3. Clear current chat state
             currentChatMember = null;
-            console.log('✅ Chat state cleared');
+            // console.log('✅ Chat state cleared');
 
             // 4. Reload conversation list
             await loadConversationList();
-            console.log('✅ Conversation list reloaded');
+            // console.log('✅ Conversation list reloaded');
 
             alert('✅ Messaging system reset complete! All messages cleared.');
         }
@@ -9766,13 +9766,13 @@ The member portal is incredibly well-designed with features like direct messagin
 
         // Register Service Worker - DISABLED TO FIX CACHING
         async function registerServiceWorker() {
-            console.log('🚫 Service Worker registration DISABLED - using direct server requests');
+            // console.log('🚫 Service Worker registration DISABLED - using direct server requests');
             return; // Exit early - no service worker
 
             if ('serviceWorker' in navigator) {
                 try {
                     const registration = await navigator.serviceWorker.register('/sw.js');
-                    console.log('[PWA] Service Worker registered:', registration);
+                    // console.log('[PWA] Service Worker registered:', registration);
                     
                     // Listen for updates
                     registration.addEventListener('updatefound', () => {
@@ -9812,7 +9812,7 @@ The member portal is incredibly well-designed with features like direct messagin
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
-                    console.log('[PWA] Install prompt outcome:', outcome);
+                    // console.log('[PWA] Install prompt outcome:', outcome);
                     
                     if (outcome === 'accepted') {
                         localStorage.setItem('pwaInstalled', 'true');
@@ -9885,7 +9885,7 @@ You'll then have quick access to chat with members and manage your business conn
         async function requestNotificationPermission() {
             if ('Notification' in window && 'serviceWorker' in navigator) {
                 const permission = await Notification.requestPermission();
-                console.log('[PWA] Notification permission:', permission);
+                // console.log('[PWA] Notification permission:', permission);
                 
                 if (permission === 'granted') {
                     // Subscribe to push notifications
@@ -9905,7 +9905,7 @@ You'll then have quick access to chat with members and manage your business conn
                     userVisibleOnly: true,
                     applicationServerKey: null // Would use actual VAPID key in production
                 });
-                console.log('[PWA] Push subscription:', subscription);
+                // console.log('[PWA] Push subscription:', subscription);
                 
                 // Send subscription to server (would implement in production)
                 // await sendSubscriptionToServer(subscription);
@@ -9985,14 +9985,14 @@ You'll then have quick access to chat with members and manage your business conn
             isIOS = checkIOS();
             isInStandaloneMode = checkStandaloneMode();
             
-            console.log('[PWA] iOS:', isIOS, 'Standalone:', isInStandaloneMode);
+            // console.log('[PWA] iOS:', isIOS, 'Standalone:', isInStandaloneMode);
             
             // Register service worker
             registerServiceWorker();
             
             // Listen for install prompt
             window.addEventListener('beforeinstallprompt', (e) => {
-                console.log('[PWA] Install prompt available');
+                // console.log('[PWA] Install prompt available');
                 e.preventDefault();
                 deferredPrompt = e;
                 
@@ -10004,7 +10004,7 @@ You'll then have quick access to chat with members and manage your business conn
             
             // Handle app installed
             window.addEventListener('appinstalled', () => {
-                console.log('[PWA] App installed successfully');
+                // console.log('[PWA] App installed successfully');
                 localStorage.setItem('pwaInstalled', 'true');
                 
                 // Hide install banner if showing
@@ -10235,11 +10235,11 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Hidden admin function - add to browser console for preview generation
         window.generatePortalScreenshots = function() {
-            console.log('%c📸 MBC Portal Screenshot Mode', 'color: #d4af37; font-size: 16px; font-weight: bold;');
-            console.log('Use these browser dimensions for optimal screenshots:');
-            console.log('Desktop: 1280x720 (16:9)');
-            console.log('Mobile: 750x1334 (iPhone)');
-            console.log('Take screenshots of each section for the preview gallery.');
+            // console.log('%c📸 MBC Portal Screenshot Mode', 'color: #d4af37; font-size: 16px; font-weight: bold;');
+            // console.log('Use these browser dimensions for optimal screenshots:');
+            // console.log('Desktop: 1280x720 (16:9)');
+            // console.log('Mobile: 750x1334 (iPhone)');
+            // console.log('Take screenshots of each section for the preview gallery.');
             
             // Add visual guidelines
             const overlay = document.createElement('div');
@@ -10298,7 +10298,7 @@ This will enable beautiful previews when sharing the portal link on social media
         // Enhanced member data loading from Supabase
         async function loadMembersFromDatabase() {
             try {
-                console.log('Loading members from Supabase database...');
+                // console.log('Loading members from Supabase database...');
                 
                 const { data: members, error } = await supabase
                     .from('members')
@@ -10316,7 +10316,7 @@ This will enable beautiful previews when sharing the portal link on social media
                     return getHardcodedMembers();
                 }
 
-                console.log(`Loaded ${members.length} members from database`);
+                // console.log(`Loaded ${members.length} members from database`);
                 
                 // Transform database format to portal format
                 return members.map(member => {
@@ -10498,7 +10498,7 @@ This will enable beautiful previews when sharing the portal link on social media
                     return databaseMatches;
                 }
             } catch (error) {
-                console.log('Using fallback matching algorithm');
+                // console.log('Using fallback matching algorithm');
             }
             return originalGenerateMatches();
         };
@@ -10519,7 +10519,7 @@ This will enable beautiful previews when sharing the portal link on social media
             try {
                 await saveProfileToDatabase();
             } catch (error) {
-                console.log('Using fallback profile saving');
+                // console.log('Using fallback profile saving');
                 originalSaveProfile();
             }
         };
@@ -10527,7 +10527,7 @@ This will enable beautiful previews when sharing the portal link on social media
         // Initialize database connection when page loads
         document.addEventListener('DOMContentLoaded', function() {
             loadMembersFromDatabase().then(members => {
-                console.log(`Loaded ${members.length} members from database`);
+                // console.log(`Loaded ${members.length} members from database`);
                 // Update member directory with real data
                 updateMemberDirectory(members);
                 // Update dashboard member counts

@@ -290,7 +290,7 @@
             loginBtn.textContent = 'Verifying membership...';
 
             try {
-                console.log('🔐 Checking if email is registered:', email);
+                // console.log('🔐 Checking if email is registered:', email);
 
                 // SECURITY: Check if email exists in members database FIRST
                 const { data: member, error: memberError } = await supabase
@@ -300,7 +300,7 @@
                     .single();
 
                 if (memberError || !member) {
-                    console.log('❌ Email not found in members database');
+                    // console.log('❌ Email not found in members database');
                     errorMessage.innerHTML = `This email is not registered as a member.<br><br>Please contact <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a> to request access.`;
                     errorMessage.style.display = 'block';
                     loginBtn.disabled = false;
@@ -310,7 +310,7 @@
 
                 // Check if member is active
                 if (!member.is_active) {
-                    console.log('❌ Member account is inactive');
+                    // console.log('❌ Member account is inactive');
                     errorMessage.innerHTML = `Your membership is inactive.<br><br>Please contact <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a> to reactivate your account.`;
                     errorMessage.style.display = 'block';
                     loginBtn.disabled = false;
@@ -318,7 +318,7 @@
                     return;
                 }
 
-                console.log('✅ Email verified as registered member');
+                // console.log('✅ Email verified as registered member');
                 loginBtn.textContent = 'Sending magic link...';
 
                 // Send magic link via Supabase Auth (only for verified members)
@@ -345,7 +345,7 @@
                     return;
                 }
 
-                console.log('✅ Magic link sent successfully!', data);
+                // console.log('✅ Magic link sent successfully!', data);
 
                 // Success!
                 lastRequestTime = now;
@@ -387,14 +387,14 @@
 
             if (session) {
                 // Already logged in, redirect to portal
-                console.log('Active session found, redirecting to portal...');
+                // console.log('Active session found, redirecting to portal...');
                 window.location.href = 'portal';
             }
 
             // Also check URL for magic link token (Supabase will handle this automatically)
             const hashParams = new URLSearchParams(window.location.hash.substring(1));
             if (hashParams.get('access_token')) {
-                console.log('Processing magic link token...');
+                // console.log('Processing magic link token...');
                 // Supabase will automatically handle the token and create a session
                 // Then redirect to the configured redirect URL (portal)
             }
@@ -402,11 +402,11 @@
 
         // Handle Supabase auth state changes
         supabase.auth.onAuthStateChange((event, session) => {
-            console.log('Auth state changed:', event, session);
+            // console.log('Auth state changed:', event, session);
 
             if (event === 'SIGNED_IN' && session) {
                 // Successfully signed in via magic link
-                console.log('Signed in successfully, redirecting to portal...');
+                // console.log('Signed in successfully, redirecting to portal...');
                 window.location.href = 'portal';
             }
         });
@@ -415,10 +415,10 @@
         window.addEventListener('storage', async (e) => {
             // Check if Supabase auth keys changed
             if (e.key && e.key.startsWith('sb-')) {
-                console.log('🔄 Auth change detected in another tab, checking session...');
+                // console.log('🔄 Auth change detected in another tab, checking session...');
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session) {
-                    console.log('✅ Logged in from another tab, redirecting...');
+                    // console.log('✅ Logged in from another tab, redirecting...');
                     // Just redirect - browsers block window.close() on user-opened tabs
                     window.location.href = 'portal';
                 }
@@ -429,7 +429,7 @@
         setInterval(async () => {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
-                console.log('✅ Session detected, redirecting to portal...');
+                // console.log('✅ Session detected, redirecting to portal...');
                 window.location.href = 'portal';
             }
         }, 2000); // Check every 2 seconds

@@ -5220,12 +5220,7 @@
                     memberEventCountEl.textContent = 0; // Will be updated when events system is added
                 }
 
-                // console.log('✅ Dashboard statistics loaded:', {
-                    totalMembers,
-                    totalConnections,
-                    newConnectionsThisMonth,
-                    profileCompletionPercent
-                });
+                // console.log('✅ Dashboard statistics loaded:', { totalMembers, totalConnections, newConnectionsThisMonth, profileCompletionPercent });
 
             } catch (error) {
                 console.error('❌ Error loading dashboard statistics:', error);
@@ -5321,10 +5316,7 @@
                     document.getElementById('onboardingCompleteMessage').style.display = 'none';
                 }
 
-                // console.log('✅ Onboarding progress calculated:', {
-                    progressPercent,
-                    checklist
-                });
+                // console.log('✅ Onboarding progress calculated:', { progressPercent, checklist });
 
             } catch (error) {
                 console.error('❌ Error calculating onboarding progress:', error);
@@ -5457,13 +5449,7 @@
                     document.getElementById('activityMemberSince').textContent = '—';
                 }
 
-                // console.log('✅ Profile analytics calculated:', {
-                    profileViews,
-                    connectionRate,
-                    totalConnections,
-                    messagesSentCount,
-                    strengthChecks
-                });
+                // console.log('✅ Profile analytics calculated:', { profileViews, connectionRate, totalConnections, messagesSentCount, strengthChecks });
 
             } catch (error) {
                 console.error('❌ Error calculating profile analytics:', error);

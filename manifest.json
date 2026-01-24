@@ -2,7 +2,7 @@
   "name": "Miami Business Council Member Portal",
   "short_name": "MBC Portal",
   "description": "Connect with Miami's business leaders through AI-powered networking, smart matching, and direct messaging",
-  "start_url": "/member-portal.html",
+  "start_url": "/portal",
   "display": "standalone",
   "background_color": "#0a0a0b",
   "theme_color": "#d4af37",
@@ -59,7 +59,7 @@
       "name": "Messages",
       "short_name": "Chat",
       "description": "Access member messages and chat",
-      "url": "/member-portal.html#messages",
+      "url": "/portal#messages",
       "icons": [
         {
           "src": "/Images/MBC BLACK LOGO NONTRANSPARENT (1).png",
@@ -72,7 +72,7 @@
       "name": "Smart Matches",
       "short_name": "Matches",
       "description": "Find business opportunities",
-      "url": "/member-portal.html#smart-matches",
+      "url": "/portal#smart-matches",
       "icons": [
         {
           "src": "/Images/MBC BLACK LOGO NONTRANSPARENT (1).png",
@@ -85,7 +85,7 @@
       "name": "Directory",
       "short_name": "Members",
       "description": "Browse member directory",
-      "url": "/member-portal.html#directory",
+      "url": "/portal#directory",
       "icons": [
         {
           "src": "/Images/MBC BLACK LOGO NONTRANSPARENT (1).png",

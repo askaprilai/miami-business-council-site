@@ -325,7 +325,7 @@
                 const { data, error } = await supabase.auth.signInWithOtp({
                     email: email,
                     options: {
-                        emailRedirectTo: window.location.origin + '/member-portal',
+                        emailRedirectTo: window.location.origin + '/portal',
                         shouldCreateUser: true  // Create auth account if needed
                     }
                 });
@@ -388,7 +388,7 @@
             if (session) {
                 // Already logged in, redirect to portal
                 console.log('Active session found, redirecting to portal...');
-                window.location.href = 'member-portal';
+                window.location.href = 'portal';
             }
 
             // Also check URL for magic link token (Supabase will handle this automatically)
@@ -396,7 +396,7 @@
             if (hashParams.get('access_token')) {
                 console.log('Processing magic link token...');
                 // Supabase will automatically handle the token and create a session
-                // Then redirect to the configured redirect URL (member-portal)
+                // Then redirect to the configured redirect URL (portal)
             }
         });
 
@@ -407,7 +407,7 @@
             if (event === 'SIGNED_IN' && session) {
                 // Successfully signed in via magic link
                 console.log('Signed in successfully, redirecting to portal...');
-                window.location.href = 'member-portal';
+                window.location.href = 'portal';
             }
         });
     </script>

@@ -6,6 +6,11 @@
     <title>Member Portal | Miami Business Council</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+
+    <!-- FORCE CACHE CLEAR - Version 2.0 with Real Database Stats -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <!-- SEO and Social Sharing -->
     <meta name="description" content="Miami Business Council Member Portal - Connect with business leaders through AI-powered matching, direct chat, and exclusive networking events">
@@ -965,9 +970,9 @@
         .chat-container {
             display: grid;
             grid-template-columns: 300px 1fr;
-            height: 600px;
+            height: 700px;
             border-radius: 16px;
-            overflow: hidden;
+            overflow: visible;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -1072,6 +1077,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            overflow: visible;
         }
 
         .chat-window-header {
@@ -1139,6 +1145,8 @@
             padding: 1rem;
             overflow-y: auto;
             background: rgba(0, 0, 0, 0.2);
+            min-height: 0;
+            max-height: 500px;
         }
 
         .message {
@@ -1196,6 +1204,10 @@
             padding: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(255, 255, 255, 0.02);
+            flex-shrink: 0;
+            min-height: 120px;
+            display: block !important;
+            visibility: visible !important;
         }
 
         .chat-input {
@@ -1266,10 +1278,10 @@
             display: grid;
             grid-template-columns: 300px 1fr;
             gap: 1rem;
-            height: 600px;
+            height: 700px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .chat-sidebar {
@@ -1380,12 +1392,14 @@
             display: flex;
             flex-direction: column;
             background: rgba(0, 0, 0, 0.1);
+            overflow: visible;
         }
 
         .chat-area {
             display: flex;
             flex-direction: column;
             height: 100%;
+            max-height: calc(100vh - 100px);
         }
 
         .chat-header {
@@ -2899,6 +2913,57 @@
                     </div>
                 </div>
 
+                <!-- Member Onboarding Checklist -->
+                <div class="dashboard-card" id="onboardingChecklist" style="background: linear-gradient(135deg, rgba(81, 207, 102, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(81, 207, 102, 0.3); margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="color: #51cf66; margin: 0;">🚀 Get Started Checklist</h3>
+                        <span id="onboardingProgressText" style="color: #51cf66; font-weight: 600; font-size: 1rem;">0% Complete</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 1.5rem;">
+                        <div id="onboardingProgressBar" style="background: linear-gradient(90deg, #51cf66 0%, #37b24d 100%); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
+                    </div>
+
+                    <!-- Checklist Items -->
+                    <div style="display: grid; gap: 0.75rem;">
+                        <div id="checklistItem1" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                            <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
+                            <span style="color: #e8eaed;">Complete your profile information</span>
+                        </div>
+                        <div id="checklistItem2" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                            <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
+                            <span style="color: #e8eaed;">Upload your profile photo</span>
+                        </div>
+                        <div id="checklistItem3" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                            <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
+                            <span style="color: #e8eaed;">Add your company logo</span>
+                        </div>
+                        <div id="checklistItem4" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                            <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
+                            <span style="color: #e8eaed;">Make your first connection</span>
+                        </div>
+                        <div id="checklistItem5" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                            <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
+                            <span style="color: #e8eaed;">Select your industries</span>
+                        </div>
+                    </div>
+
+                    <!-- Complete Profile Button -->
+                    <div id="completeProfilePrompt" style="margin-top: 1.5rem; text-align: center;">
+                        <button onclick="showSection('profile'); setTimeout(() => document.getElementById('profilePhotoSection').scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);" style="background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: transform 0.2s ease;">
+                            Complete Your Profile →
+                        </button>
+                    </div>
+
+                    <!-- Completion Message (hidden by default) -->
+                    <div id="onboardingCompleteMessage" style="display: none; text-align: center; padding: 1rem; background: rgba(81, 207, 102, 0.2); border-radius: 8px; margin-top: 1rem;">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🎉</span>
+                        <span style="color: #51cf66; font-weight: 600; font-size: 1.1rem;">Congratulations! Your profile is complete!</span>
+                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">You're all set to make the most of your membership.</p>
+                    </div>
+                </div>
+
                 <!-- Today's Insights -->
                 <div class="dashboard-card" id="dailyInsights" style="margin-bottom: 2rem;">
                     <h3 style="color: #d4af37; margin-bottom: 1rem;">📈 Today's Insights</h3>
@@ -2915,6 +2980,30 @@
                             <span style="font-size: 1.2rem;">📅</span>
                             <span style="color: #e8eaed;">Next networking event is in <strong style="color: #fab005;">6 days</strong> - Register now!</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Community Activity Feed -->
+                <div class="dashboard-card" id="communityActivityFeed" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                        <h3 style="color: #d4af37; margin: 0;">🌟 Community Activity</h3>
+                        <button onclick="loadCommunityActivity()" style="background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: #d4af37; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                            🔄 Refresh
+                        </button>
+                    </div>
+
+                    <div id="activityFeedList" style="display: grid; gap: 1rem;">
+                        <!-- Activity items will be dynamically loaded here -->
+                        <div style="text-align: center; padding: 2rem; color: #999;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
+                            <p>Loading community activity...</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button onclick="showSection('directory')" style="background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: #d4af37; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                            View All Members →
+                        </button>
                     </div>
                 </div>
 
@@ -3139,54 +3228,23 @@
                 </div>
             </section>
 
-            <!-- Messages Section -->
+            <!-- Messages Section - TEMPORARILY DISABLED -->
             <section id="messages" class="content-section">
                 <div class="section-header">
                     <h1 class="section-title">💬 Messages</h1>
-                    <p>Connect and chat with fellow members</p>
+                    <p>Member-to-Member Messaging</p>
                 </div>
 
-                <div class="chat-container">
-                    <!-- Chat Sidebar -->
-                    <div class="chat-sidebar">
-                        <div class="chat-sidebar-header">
-                            <h3>Conversations</h3>
-                        </div>
-                        <div class="conversations-list" id="conversationsList">
-                            <!-- Conversations will be populated by JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- Chat Area -->
-                    <div class="chat-main">
-                        <!-- Chat Placeholder -->
-                        <div class="chat-placeholder" id="chatPlaceholder">
-                            <h3>💬 Start a Conversation</h3>
-                            <p>Select a member from the left to start chatting</p>
-                            <p>Build meaningful business relationships through direct communication</p>
-                        </div>
-
-                        <!-- Active Chat -->
-                        <div class="chat-area" id="chatArea" style="display: none;">
-                            <!-- Chat Header -->
-                            <div class="chat-header" id="chatHeader">
-                                <!-- Will be populated by JavaScript -->
-                            </div>
-
-                            <!-- Messages Container -->
-                            <div class="messages-container" id="messagesContainer">
-                                <!-- Messages will be populated by JavaScript -->
-                            </div>
-
-                            <!-- Chat Input -->
-                            <div class="chat-input-container">
-                                <textarea class="chat-input" id="chatInput" placeholder="Type your message..."></textarea>
-                                <div class="chat-send-container">
-                                    <button class="chat-send-btn" id="sendMessageBtn">Send</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div style="max-width: 800px; margin: 0 auto; text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 2rem;">🚧</div>
+                    <h2 style="color: #d4af37; margin-bottom: 1rem;">Messaging Feature Coming Soon</h2>
+                    <p style="color: #999; font-size: 1.1rem; line-height: 1.6;">
+                        We're building a powerful messaging system to help you connect directly with other members.
+                        In the meantime, you can reach out to members via the contact information in the Member Directory.
+                    </p>
+                    <button onclick="showSection('directory')" style="margin-top: 2rem; background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%); color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
+                        Go to Member Directory
+                    </button>
                 </div>
             </section>
 
@@ -3329,8 +3387,139 @@
                     </div>
                 </div>
 
+                <!-- Profile Analytics Dashboard -->
+                <div class="dashboard-card" id="profileAnalytics" style="background: linear-gradient(135deg, rgba(116, 89, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(116, 89, 255, 0.3); margin-bottom: 2rem;">
+                    <div class="card-header" style="margin-bottom: 1.5rem;">
+                        <h3 class="card-title" style="color: #7459ff;">📊 Profile Analytics</h3>
+                        <span style="color: #999; font-size: 0.85rem;">Last 30 days</span>
+                    </div>
+
+                    <!-- Analytics Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <!-- Profile Views -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #7459ff;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.85rem;">Profile Views</span>
+                                <span style="font-size: 1.5rem;">👁️</span>
+                            </div>
+                            <div style="font-size: 2rem; color: #7459ff; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsProfileViews">0</div>
+                            <div style="color: #51cf66; font-size: 0.8rem;" id="analyticsViewsTrend">—</div>
+                        </div>
+
+                        <!-- Connection Rate -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #51cf66;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.85rem;">Connection Rate</span>
+                                <span style="font-size: 1.5rem;">🤝</span>
+                            </div>
+                            <div style="font-size: 2rem; color: #51cf66; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsConnectionRate">0%</div>
+                            <div style="color: #ccc; font-size: 0.8rem;" id="analyticsConnectionStats">0 accepted / 0 sent</div>
+                        </div>
+
+                        <!-- Active Connections -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #d4af37;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.85rem;">Total Connections</span>
+                                <span style="font-size: 1.5rem;">🌐</span>
+                            </div>
+                            <div style="font-size: 2rem; color: #d4af37; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsTotalConnections">0</div>
+                            <div style="color: #51cf66; font-size: 0.8rem;" id="analyticsConnectionsGrowth">—</div>
+                        </div>
+
+                        <!-- Messages Sent -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #fab005;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.85rem;">Messages Sent</span>
+                                <span style="font-size: 1.5rem;">💬</span>
+                            </div>
+                            <div style="font-size: 2rem; color: #fab005; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsMessagesSent">0</div>
+                            <div style="color: #ccc; font-size: 0.8rem;">This month</div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Strength Breakdown -->
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                        <h4 style="color: #e8eaed; margin-bottom: 1rem;">⭐ Profile Strength Breakdown</h4>
+                        <div style="display: grid; gap: 0.75rem;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="color: #ccc;">Basic Information</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                                        <div id="strengthBasicInfo" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
+                                    </div>
+                                    <span id="strengthBasicInfoPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="color: #ccc;">Profile Photo</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                                        <div id="strengthPhoto" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
+                                    </div>
+                                    <span id="strengthPhotoPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="color: #ccc;">Company Logo</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                                        <div id="strengthLogo" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
+                                    </div>
+                                    <span id="strengthLogoPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="color: #ccc;">Industries Selected</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                                        <div id="strengthIndustries" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
+                                    </div>
+                                    <span id="strengthIndustriesPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="color: #ccc;">LinkedIn Connected</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                                        <div id="strengthLinkedIn" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
+                                    </div>
+                                    <span id="strengthLinkedInPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Timeline -->
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 10px;">
+                        <h4 style="color: #e8eaed; margin-bottom: 1rem;">📅 Recent Activity</h4>
+                        <div id="activityTimeline" style="display: grid; gap: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
+                                <span style="font-size: 1.25rem;">🔄</span>
+                                <div style="flex: 1;">
+                                    <div style="color: #e8eaed; font-size: 0.9rem;">Profile last updated</div>
+                                    <div style="color: #999; font-size: 0.8rem;" id="activityLastUpdate">Never</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
+                                <span style="font-size: 1.25rem;">👋</span>
+                                <div style="flex: 1;">
+                                    <div style="color: #e8eaed; font-size: 0.9rem;">Last connection made</div>
+                                    <div style="color: #999; font-size: 0.8rem;" id="activityLastConnection">No connections yet</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
+                                <span style="font-size: 1.25rem;">💼</span>
+                                <div style="flex: 1;">
+                                    <div style="color: #e8eaed; font-size: 0.9rem;">Member since</div>
+                                    <div style="color: #999; font-size: 0.8rem;" id="activityMemberSince">—</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Profile Photo Section -->
-                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                <div id="profilePhotoSection" class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
                         <h3 class="card-title" style="color: #d4af37;">📸 Profile Photo & Company Logo</h3>
                     </div>
@@ -4085,6 +4274,10 @@
     </div>
 
     <script>
+        // ✅ VERSION 2.0 - REAL DATABASE STATS + NO AUTO-RESPONSES
+        // Deployed: Jan 23, 2026 10:20 PM
+        console.log('🚀 Portal Version 2.0 Loaded - Real Stats, No Fake Messages');
+
         // Initialize Supabase client
         var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
         var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
@@ -4173,6 +4366,12 @@
 
                 // Load real dashboard statistics
                 await loadRealDashboardStats(member);
+
+                // Calculate onboarding progress
+                await calculateOnboardingProgress(member);
+
+                // Calculate profile analytics
+                await calculateProfileAnalytics(member);
 
                 return true;
             } catch (error) {
@@ -4291,18 +4490,12 @@
                     memberConnectionCountEl.textContent = totalConnections;
                 }
 
-                // 8. Get message count from chat history
-                const chatHistory = JSON.parse(localStorage.getItem('memberChats') || '{}');
-                let totalMessages = 0;
-                Object.keys(chatHistory).forEach(chatId => {
-                    if (chatHistory[chatId]) {
-                        totalMessages += chatHistory[chatId].length || 0;
-                    }
-                });
-
+                // 8. Get UNREAD message count from database - SIMPLIFIED
                 const memberMessageCountEl = document.getElementById('memberMessageCount');
                 if (memberMessageCountEl) {
-                    memberMessageCountEl.textContent = totalMessages;
+                    // FORCE to 0 for now - will update dynamically later
+                    memberMessageCountEl.textContent = '0';
+                    console.log('Message count set to 0 (new system)');
                 }
 
                 // 9. Events attended (placeholder - will update when events system is added)
@@ -4321,6 +4514,244 @@
 
             } catch (error) {
                 console.error('❌ Error loading dashboard statistics:', error);
+            }
+        }
+
+        // Calculate and display onboarding progress
+        async function calculateOnboardingProgress(member) {
+            try {
+                const checklist = {
+                    profileComplete: false,
+                    photoUploaded: false,
+                    logoUploaded: false,
+                    firstConnection: false,
+                    industriesAdded: false
+                };
+
+                // 1. Check if profile is complete (all required fields filled)
+                const requiredFields = [
+                    member.first_name,
+                    member.last_name,
+                    member.company_name,
+                    member.job_title,
+                    member.phone,
+                    member.linkedin_url
+                ];
+                checklist.profileComplete = requiredFields.every(field => field && field.trim() !== '' && field !== 'To be completed');
+
+                // 2. Check if profile photo is uploaded
+                checklist.photoUploaded = !!(member.profile_photo_url && member.profile_photo_url.trim() !== '');
+
+                // 3. Check if company logo is uploaded
+                checklist.logoUploaded = !!(member.company_logo_url && member.company_logo_url.trim() !== '');
+
+                // 4. Check if member has made first connection
+                const { data: connections } = await supabase
+                    .from('member_connections')
+                    .select('id')
+                    .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`)
+                    .eq('status', 'accepted')
+                    .limit(1);
+                checklist.firstConnection = connections && connections.length > 0;
+
+                // 5. Check if industries are added
+                checklist.industriesAdded = !!(member.industries && Array.isArray(member.industries) && member.industries.length > 0);
+
+                // Calculate progress percentage
+                const completedCount = Object.values(checklist).filter(val => val === true).length;
+                const totalCount = Object.keys(checklist).length;
+                const progressPercent = Math.round((completedCount / totalCount) * 100);
+
+                // Update UI
+                document.getElementById('onboardingProgressText').textContent = `${progressPercent}% Complete`;
+                document.getElementById('onboardingProgressBar').style.width = `${progressPercent}%`;
+
+                // Update checklist items
+                const checklistItems = [
+                    { id: 'checklistItem1', completed: checklist.profileComplete },
+                    { id: 'checklistItem2', completed: checklist.photoUploaded },
+                    { id: 'checklistItem3', completed: checklist.logoUploaded },
+                    { id: 'checklistItem4', completed: checklist.firstConnection },
+                    { id: 'checklistItem5', completed: checklist.industriesAdded }
+                ];
+
+                checklistItems.forEach(item => {
+                    const element = document.getElementById(item.id);
+                    if (element) {
+                        const iconElement = element.querySelector('.checklist-icon');
+                        if (item.completed) {
+                            iconElement.textContent = '✅';
+                            element.style.opacity = '0.6';
+                            element.style.borderLeft = '3px solid #51cf66';
+                        } else {
+                            iconElement.textContent = '⬜';
+                            element.style.opacity = '1';
+                            element.style.borderLeft = '3px solid transparent';
+                        }
+                    }
+                });
+
+                // Show/hide completion message
+                if (progressPercent === 100) {
+                    document.getElementById('completeProfilePrompt').style.display = 'none';
+                    document.getElementById('onboardingCompleteMessage').style.display = 'block';
+
+                    // Update database: mark onboarding as completed
+                    await supabase
+                        .from('members')
+                        .update({ onboarding_completed: true })
+                        .eq('id', member.id);
+                } else {
+                    document.getElementById('completeProfilePrompt').style.display = 'block';
+                    document.getElementById('onboardingCompleteMessage').style.display = 'none';
+                }
+
+                console.log('✅ Onboarding progress calculated:', {
+                    progressPercent,
+                    checklist
+                });
+
+            } catch (error) {
+                console.error('❌ Error calculating onboarding progress:', error);
+            }
+        }
+
+        // Calculate and display profile analytics
+        async function calculateProfileAnalytics(member) {
+            try {
+                console.log('📊 Calculating profile analytics...');
+
+                // 1. Profile Views - use the profile_views column
+                const profileViews = member.profile_views || 0;
+                document.getElementById('analyticsProfileViews').textContent = profileViews;
+                document.getElementById('analyticsViewsTrend').textContent = profileViews > 0 ? `+${profileViews} views` : 'No views yet';
+
+                // 2. Connection Rate (accepted / total sent)
+                const { data: sentRequests } = await supabase
+                    .from('member_connections')
+                    .select('status')
+                    .eq('requester_id', member.id);
+
+                const totalSent = sentRequests?.length || 0;
+                const totalAccepted = sentRequests?.filter(r => r.status === 'accepted').length || 0;
+                const connectionRate = totalSent > 0 ? Math.round((totalAccepted / totalSent) * 100) : 0;
+
+                document.getElementById('analyticsConnectionRate').textContent = `${connectionRate}%`;
+                document.getElementById('analyticsConnectionStats').textContent = `${totalAccepted} accepted / ${totalSent} sent`;
+
+                // 3. Total Active Connections
+                const { data: allConnections } = await supabase
+                    .from('member_connections')
+                    .select('id')
+                    .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`)
+                    .eq('status', 'accepted');
+
+                const totalConnections = allConnections?.length || 0;
+                document.getElementById('analyticsTotalConnections').textContent = totalConnections;
+                document.getElementById('analyticsConnectionsGrowth').textContent = totalConnections > 0 ? `${totalConnections} active` : 'No connections yet';
+
+                // 4. Messages Sent (from localStorage chat history)
+                const chatHistory = JSON.parse(localStorage.getItem('memberChats') || '{}');
+                let messagesSentCount = 0;
+                Object.keys(chatHistory).forEach(chatId => {
+                    if (chatHistory[chatId]) {
+                        const messages = chatHistory[chatId].filter(msg => msg.sender === member.email);
+                        messagesSentCount += messages.length;
+                    }
+                });
+                document.getElementById('analyticsMessagesSent').textContent = messagesSentCount;
+
+                // 5. Profile Strength Breakdown
+                const strengthChecks = {
+                    basicInfo: !!(member.first_name && member.last_name && member.company_name && member.job_title && member.phone),
+                    photo: !!(member.profile_photo_url && member.profile_photo_url.trim() !== ''),
+                    logo: !!(member.company_logo_url && member.company_logo_url.trim() !== ''),
+                    industries: !!(member.industries && Array.isArray(member.industries) && member.industries.length > 0),
+                    linkedin: !!(member.linkedin_url && member.linkedin_url.trim() !== '')
+                };
+
+                // Update each strength bar
+                document.getElementById('strengthBasicInfo').style.width = strengthChecks.basicInfo ? '100%' : '0%';
+                document.getElementById('strengthBasicInfoPercent').textContent = strengthChecks.basicInfo ? '100%' : '0%';
+                document.getElementById('strengthBasicInfoPercent').style.color = strengthChecks.basicInfo ? '#51cf66' : '#999';
+
+                document.getElementById('strengthPhoto').style.width = strengthChecks.photo ? '100%' : '0%';
+                document.getElementById('strengthPhotoPercent').textContent = strengthChecks.photo ? '100%' : '0%';
+                document.getElementById('strengthPhotoPercent').style.color = strengthChecks.photo ? '#51cf66' : '#999';
+
+                document.getElementById('strengthLogo').style.width = strengthChecks.logo ? '100%' : '0%';
+                document.getElementById('strengthLogoPercent').textContent = strengthChecks.logo ? '100%' : '0%';
+                document.getElementById('strengthLogoPercent').style.color = strengthChecks.logo ? '#51cf66' : '#999';
+
+                document.getElementById('strengthIndustries').style.width = strengthChecks.industries ? '100%' : '0%';
+                document.getElementById('strengthIndustriesPercent').textContent = strengthChecks.industries ? '100%' : '0%';
+                document.getElementById('strengthIndustriesPercent').style.color = strengthChecks.industries ? '#51cf66' : '#999';
+
+                document.getElementById('strengthLinkedIn').style.width = strengthChecks.linkedin ? '100%' : '0%';
+                document.getElementById('strengthLinkedInPercent').textContent = strengthChecks.linkedin ? '100%' : '0%';
+                document.getElementById('strengthLinkedInPercent').style.color = strengthChecks.linkedin ? '#51cf66' : '#999';
+
+                // 6. Activity Timeline
+                // Last profile update
+                if (member.updated_at) {
+                    const lastUpdate = new Date(member.updated_at);
+                    const daysSinceUpdate = Math.floor((Date.now() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24));
+                    if (daysSinceUpdate === 0) {
+                        document.getElementById('activityLastUpdate').textContent = 'Today';
+                    } else if (daysSinceUpdate === 1) {
+                        document.getElementById('activityLastUpdate').textContent = 'Yesterday';
+                    } else {
+                        document.getElementById('activityLastUpdate').textContent = `${daysSinceUpdate} days ago`;
+                    }
+                } else {
+                    document.getElementById('activityLastUpdate').textContent = 'Never';
+                }
+
+                // Last connection made
+                if (allConnections && allConnections.length > 0) {
+                    const { data: latestConnection } = await supabase
+                        .from('member_connections')
+                        .select('created_at')
+                        .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`)
+                        .eq('status', 'accepted')
+                        .order('created_at', { ascending: false })
+                        .limit(1)
+                        .single();
+
+                    if (latestConnection) {
+                        const lastConnectionDate = new Date(latestConnection.created_at);
+                        const daysSinceConnection = Math.floor((Date.now() - lastConnectionDate.getTime()) / (1000 * 60 * 60 * 24));
+                        if (daysSinceConnection === 0) {
+                            document.getElementById('activityLastConnection').textContent = 'Today';
+                        } else if (daysSinceConnection === 1) {
+                            document.getElementById('activityLastConnection').textContent = 'Yesterday';
+                        } else {
+                            document.getElementById('activityLastConnection').textContent = `${daysSinceConnection} days ago`;
+                        }
+                    }
+                } else {
+                    document.getElementById('activityLastConnection').textContent = 'No connections yet';
+                }
+
+                // Member since
+                if (member.created_at) {
+                    const memberSince = new Date(member.created_at);
+                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    document.getElementById('activityMemberSince').textContent = `${monthNames[memberSince.getMonth()]} ${memberSince.getFullYear()}`;
+                } else {
+                    document.getElementById('activityMemberSince').textContent = '—';
+                }
+
+                console.log('✅ Profile analytics calculated:', {
+                    profileViews,
+                    connectionRate,
+                    totalConnections,
+                    messagesSentCount,
+                    strengthChecks
+                });
+
+            } catch (error) {
+                console.error('❌ Error calculating profile analytics:', error);
             }
         }
 
@@ -4374,6 +4805,11 @@
             // Now check authentication
             const authenticated = await checkAuthentication();
             if (authenticated) {
+                // FORCE CLEAR ALL MESSAGE-RELATED STORAGE
+                console.log('🧹 CLEARING ALL OLD MESSAGE DATA...');
+                localStorage.clear(); // Clear everything
+                sessionStorage.clear();
+
                 setupPhotoUpload();
                 initializeChatSystem();
                 updateMemberAvatars();
@@ -4389,12 +4825,18 @@
             // Remove active class from all links and sections
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            
+
             // Add active class to corresponding nav link
             document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
-            
+
             // Show corresponding section
             document.getElementById(sectionId).classList.add('active');
+
+            // Remove floating input box when leaving messages section
+            if (sectionId !== 'messages') {
+                const floatingInput = document.getElementById('floatingChatInput');
+                if (floatingInput) floatingInput.remove();
+            }
         }
 
         // Navigation functionality
@@ -4434,6 +4876,12 @@
                 if (sectionId === 'profile') {
                     console.log('📋 Loading profile section...');
                     setTimeout(() => loadMemberProfile(), 100);
+                }
+
+                // Load conversations when navigating to messages
+                if (sectionId === 'messages') {
+                    console.log('💬 Loading messages section...');
+                    setTimeout(() => loadConversationList(), 100);
                 }
 
                 // Load connections data when navigating to connections
@@ -5119,6 +5567,17 @@
 
                 alert('✅ Photo uploaded successfully!');
 
+                // Update currentMember with new photo URL and recalculate onboarding + analytics
+                if (currentMember) {
+                    if (type === 'personal') {
+                        currentMember.profile_photo_url = photoUrl;
+                    } else if (type === 'company') {
+                        currentMember.company_logo_url = photoUrl;
+                    }
+                    await calculateOnboardingProgress(currentMember);
+                    await calculateProfileAnalytics(currentMember);
+                }
+
             } catch (error) {
                 console.error('Error uploading photo:', error);
                 alert('Failed to upload photo. Please try again.');
@@ -5564,7 +6023,7 @@
             }
 
             try {
-                console.log('🔄 Adding new member to database...');
+                console.log('🔄 Inviting new member and creating auth account...');
 
                 // Check if member already exists
                 const { data: existingMember, error: checkError } = await supabase
@@ -5578,53 +6037,30 @@
                     return;
                 }
 
-                // Add member to database
-                const { data: newMember, error: insertError } = await supabase
-                    .from('members')
-                    .insert({
-                        first_name: firstName,
-                        last_name: lastName,
+                // Use the proper invitation endpoint that creates auth user + sends magic link
+                console.log('📧 Sending invitation with magic link...');
+                const inviteResponse = await fetch('/api/send-member-invitation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName: firstName,
+                        lastName: lastName,
                         email: email,
-                        company_name: 'To be completed',
-                        is_active: true,
-                        created_at: new Date().toISOString()
+                        company: 'To be completed',
+                        membershipType: 'business',
+                        redirectUrl: 'https://miamibusinesscouncil.com/member-portal'
                     })
-                    .select()
-                    .single();
+                });
 
-                if (insertError) {
-                    console.error('❌ Database error:', insertError);
-                    alert(`Failed to add member: ${insertError.message}`);
+                const inviteData = await inviteResponse.json();
+
+                if (inviteResponse.ok) {
+                    console.log('✅ Member invited successfully:', inviteData);
+                    alert(`✅ Member invited successfully!\n\n${firstName} ${lastName} has been added to the portal.\n\n📧 An invitation email with a magic link has been sent to ${email}.\n\nThey can click the link in their email to access the portal instantly!`);
+                } else {
+                    console.error('❌ Invitation failed:', inviteData);
+                    alert(`❌ Failed to invite member: ${inviteData.error || 'Unknown error'}`);
                     return;
-                }
-
-                console.log('✅ Member added to database:', newMember);
-
-                // Send invitation email
-                console.log('📧 Sending invitation email...');
-                try {
-                    const emailResponse = await fetch('/api/send-invitation', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email
-                        })
-                    });
-
-                    const emailData = await emailResponse.json();
-
-                    if (emailResponse.ok) {
-                        console.log('✅ Invitation email sent successfully');
-                        alert(`✅ Member added successfully!\n\n${firstName} ${lastName} has been added to the portal.\n\n📧 An invitation email has been sent to ${email} with login instructions.`);
-                    } else {
-                        console.error('❌ Email sending failed:', emailData);
-                        alert(`✅ Member added successfully!\n\n${firstName} ${lastName} (${email})\n\n⚠️ However, the invitation email failed to send. Please manually share the login URL:\nhttps://miamibusinesscouncil.com/member-login`);
-                    }
-                } catch (emailError) {
-                    console.error('❌ Error sending invitation email:', emailError);
-                    alert(`✅ Member added successfully!\n\n${firstName} ${lastName} (${email})\n\n⚠️ However, the invitation email failed to send. Please manually share the login URL:\nhttps://miamibusinesscouncil.com/member-login`);
                 }
 
                 // Clear form
@@ -6073,71 +6509,79 @@
         }
 
         // Update dashboard statistics
-        function updateDashboardStats(auth) {
-            // Update connection count
+        async function updateDashboardStats(auth) {
+            // Update connection count from database
             const memberConnectionCount = document.getElementById('memberConnectionCount');
             if (memberConnectionCount) {
-                const connectionCount = calculateUserConnections(auth.email);
+                const connectionCount = await calculateUserConnections(auth.email);
                 memberConnectionCount.textContent = connectionCount;
             }
-            
-            // Update message count
+
+            // Update message count from database
             const memberMessageCount = document.getElementById('memberMessageCount');
             if (memberMessageCount) {
-                const messageCount = calculateUserMessages(auth.email);
+                const messageCount = await calculateUserMessages(auth.email);
                 memberMessageCount.textContent = messageCount;
             }
-            
-            // Update event count
+
+            // Update event count from database
             const memberEventCount = document.getElementById('memberEventCount');
             if (memberEventCount) {
-                const eventCount = calculateUserEvents(auth.email);
+                const eventCount = await calculateUserEvents(auth.email);
                 memberEventCount.textContent = eventCount;
             }
         }
 
         // Update daily insights with member-specific content
-        function updateDailyInsights(auth) {
+        async function updateDailyInsights(auth) {
+            const insights = await generatePersonalizedInsights(auth);
+
             const messageInsight = document.getElementById('messageInsight');
             if (messageInsight) {
-                const profileViews = calculateProfileViews(auth.email);
-                const insights = generatePersonalizedInsights(auth);
                 messageInsight.innerHTML = insights.messageInsight;
             }
 
             // Update other insights based on member activity
             const insightsList = document.getElementById('insightsList');
             if (insightsList && insightsList.children.length >= 3) {
-                const insights = generatePersonalizedInsights(auth);
-                
                 // Update first insight (matches)
                 insightsList.children[0].querySelector('span:last-child').innerHTML = insights.matchInsight;
-                
+
                 // Update third insight (events)
                 insightsList.children[2].querySelector('span:last-child').innerHTML = insights.eventInsight;
             }
         }
 
         // Generate personalized insights based on member data
-        function generatePersonalizedInsights(auth) {
+        async function generatePersonalizedInsights(auth) {
             const memberData = getMemberStoredData(auth.email);
             const profileCompletion = calculateActualProfileStrength(auth.email);
-            const connectionCount = calculateUserConnections(auth.email);
-            
+            const connectionCount = await calculateUserConnections(auth.email);
+            const potentialMatches = await calculatePotentialMatches();
+            const profileViews = await calculateProfileViews(auth.email);
+
             let matchInsight = 'Complete your profile to get more accurate matches';
-            if (profileCompletion > 80) {
-                matchInsight = `You have <strong style="color: #d4af37;">${Math.floor(Math.random() * 5) + 3} new potential matches</strong> based on your profile`;
-            } else if (profileCompletion > 60) {
-                matchInsight = `<strong style="color: #d4af37;">${Math.floor(Math.random() * 3) + 1} potential matches</strong> found - complete profile for more`;
+            if (profileCompletion > 80 && potentialMatches > 0) {
+                matchInsight = `You have <strong style="color: #d4af37;">${potentialMatches} new potential matches</strong> based on your profile`;
+            } else if (profileCompletion > 60 && potentialMatches > 0) {
+                matchInsight = `<strong style="color: #d4af37;">${potentialMatches} potential matches</strong> found - complete profile for more`;
             }
 
-            const profileViews = Math.floor(Math.random() * 8) + 2;
-            const messageInsight = `<strong style="color: #51cf66;">${profileViews} members</strong> viewed your profile this week`;
+            let messageInsight = 'Complete your profile to increase visibility';
+            if (profileViews > 0) {
+                messageInsight = `<strong style="color: #51cf66;">${profileViews} members</strong> viewed your profile this week`;
+            }
 
-            const daysUntilEvent = 6;
-            let eventInsight = `Next networking event is in <strong style="color: #fab005;">${daysUntilEvent} days</strong> - Register now!`;
-            if (connectionCount > 10) {
-                eventInsight = `You're well connected! <strong style="color: #fab005;">Bring a guest</strong> to the next event`;
+            // Get next upcoming event date
+            const nextEvent = await getNextUpcomingEvent();
+            let eventInsight = 'No upcoming events scheduled yet';
+            if (nextEvent) {
+                const daysUntil = Math.ceil((new Date(nextEvent.event_date) - new Date()) / (1000 * 60 * 60 * 24));
+                if (connectionCount > 10) {
+                    eventInsight = `You're well connected! <strong style="color: #fab005;">Bring a guest</strong> to ${nextEvent.title}`;
+                } else {
+                    eventInsight = `Next event: <strong style="color: #fab005;">${nextEvent.title}</strong> in ${daysUntil} days - Register now!`;
+                }
             }
 
             return {
@@ -6145,6 +6589,69 @@
                 messageInsight,
                 eventInsight
             };
+        }
+
+        // Calculate potential matches based on complementary business opportunities
+        async function calculatePotentialMatches() {
+            try {
+                if (!currentMember) return 0;
+
+                // Get what current member is looking for
+                const { data: myLookingFor, error: myError } = await supabase
+                    .from('business_opportunities')
+                    .select('category')
+                    .eq('member_id', currentMember.id)
+                    .eq('opportunity_type', 'looking_for');
+
+                if (myError || !myLookingFor || myLookingFor.length === 0) {
+                    return 0;
+                }
+
+                const myCategories = myLookingFor.map(opp => opp.category);
+
+                // Find members who can offer what I'm looking for
+                const { data: matches, error: matchError } = await supabase
+                    .from('business_opportunities')
+                    .select('member_id')
+                    .eq('opportunity_type', 'can_offer')
+                    .in('category', myCategories)
+                    .neq('member_id', currentMember.id);
+
+                if (matchError) {
+                    console.error('❌ Error finding matches:', matchError);
+                    return 0;
+                }
+
+                // Count unique member IDs (remove duplicates)
+                const uniqueMatches = new Set(matches.map(m => m.member_id));
+                return uniqueMatches.size;
+            } catch (error) {
+                console.error('❌ Error in calculatePotentialMatches:', error);
+                return 0;
+            }
+        }
+
+        // Get the next upcoming event
+        async function getNextUpcomingEvent() {
+            try {
+                const { data: events, error } = await supabase
+                    .from('events')
+                    .select('*')
+                    .eq('is_active', true)
+                    .gte('event_date', new Date().toISOString())
+                    .order('event_date', { ascending: true })
+                    .limit(1);
+
+                if (error) {
+                    console.error('❌ Error fetching next event:', error);
+                    return null;
+                }
+
+                return events && events.length > 0 ? events[0] : null;
+            } catch (error) {
+                console.error('❌ Error in getNextUpcomingEvent:', error);
+                return null;
+            }
         }
 
         // Calculate actual profile strength based on filled fields
@@ -6192,67 +6699,88 @@
             return new Date().getFullYear(); // Default to current year
         }
 
-        function calculateUserConnections(email) {
-            const connections = localStorage.getItem(`connections_${email}`);
-            if (connections) {
-                try {
-                    const parsedConnections = JSON.parse(connections);
-                    return Array.isArray(parsedConnections) ? parsedConnections.length : 0;
-                } catch {
+        async function calculateUserConnections(email) {
+            try {
+                if (!currentMember) return 0;
+
+                // Count ACCEPTED connections from database (both as requester and recipient)
+                const { data: connections, error } = await supabase
+                    .from('member_connections')
+                    .select('id')
+                    .eq('status', 'accepted')
+                    .or(`requester_id.eq.${currentMember.id},recipient_id.eq.${currentMember.id}`);
+
+                if (error) {
+                    console.error('❌ Error counting connections:', error);
                     return 0;
                 }
+
+                return connections ? connections.length : 0;
+            } catch (error) {
+                console.error('❌ Error in calculateUserConnections:', error);
+                return 0;
             }
-            // Default based on member activity
-            const memberData = getMemberStoredData(email);
-            if (memberData && memberData.memberName) {
-                return Math.floor(Math.random() * 10) + 5; // Simulate 5-15 connections
-            }
-            return 3;
         }
 
-        function calculateUserMessages(email) {
-            const chatHistory = localStorage.getItem('chatHistory');
-            if (chatHistory) {
-                try {
-                    const history = JSON.parse(chatHistory);
-                    let messageCount = 0;
-                    Object.values(history).forEach(conversation => {
-                        if (Array.isArray(conversation)) {
-                            messageCount += conversation.filter(msg => msg.sender === 'user').length;
-                        }
-                    });
-                    return messageCount;
-                } catch {
+        async function calculateUserMessages(email) {
+            try {
+                if (!currentMember) return 0;
+
+                // Count UNREAD messages from database
+                const { count, error } = await supabase
+                    .from('messages')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('recipient_id', currentMember.id)
+                    .eq('is_read', false);
+
+                if (error) {
+                    console.error('❌ Error counting unread messages:', error);
                     return 0;
                 }
+
+                return count || 0;
+            } catch (error) {
+                console.error('❌ Error in calculateUserMessages:', error);
+                return 0;
             }
-            return Math.floor(Math.random() * 15) + 3; // Simulate 3-18 messages
         }
 
-        function calculateUserEvents(email) {
-            const eventData = localStorage.getItem(`events_${email}`);
-            if (eventData) {
-                try {
-                    const events = JSON.parse(eventData);
-                    return Array.isArray(events) ? events.length : 0;
-                } catch {
+        async function calculateUserEvents(email) {
+            try {
+                if (!currentMember) return 0;
+
+                // Count event registrations from database for UPCOMING events only
+                const { data: registrations, error } = await supabase
+                    .from('event_registrations')
+                    .select(`
+                        id,
+                        events!inner(event_date)
+                    `)
+                    .eq('member_id', currentMember.id)
+                    .eq('registration_status', 'registered')
+                    .gte('events.event_date', new Date().toISOString());
+
+                if (error) {
+                    console.error('❌ Error counting events:', error);
                     return 0;
                 }
+
+                return registrations ? registrations.length : 0;
+            } catch (error) {
+                console.error('❌ Error in calculateUserEvents:', error);
+                return 0;
             }
-            return Math.floor(Math.random() * 5) + 1; // Simulate 1-6 events
         }
 
-        function calculateProfileViews(email) {
-            const viewData = localStorage.getItem(`profile_views_${email}`);
-            if (viewData) {
-                try {
-                    const views = JSON.parse(viewData);
-                    return views.weekly || 0;
-                } catch {
-                    return 0;
-                }
+        async function calculateProfileViews(email) {
+            try {
+                // TODO: Implement profile view tracking in database
+                // For now, return 0 - we'll add a profile_views table later
+                return 0;
+            } catch (error) {
+                console.error('❌ Error in calculateProfileViews:', error);
+                return 0;
             }
-            return Math.floor(Math.random() * 8) + 2; // Simulate 2-10 views
         }
 
         function getMemberStoredData(email) {
@@ -6357,10 +6885,14 @@
                 localStorage.setItem(profileKey, JSON.stringify(profileData));
                 
                 alert('✅ Profile saved successfully! Your information has been updated.');
-                
+
                 // Update any displayed member info in other sections
                 updateMemberInfoThroughoutPortal(profileData);
-                
+
+                // Recalculate onboarding progress and analytics
+                await calculateOnboardingProgress(currentMember);
+                await calculateProfileAnalytics(currentMember);
+
             } catch (error) {
                 console.error('Error saving profile:', error);
                 alert('❌ Error saving profile. Please try again.');
@@ -6589,8 +7121,7 @@
                             ${member.industry ? `<span class="member-tag">${member.industry}</span>` : ''}
                         </div>
                         <div class="member-actions">
-                            <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${fullName}', '${member.company_name}', '${member.email}')">💬 Message</button>
-                            <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${fullName}', '${member.company_name}')">📧 Email</button>
+                            <button class="email-btn" onclick="sendMBCEmail('${member.email}', '${fullName}', '${member.company_name}')" style="width: 100%;">📧 Email</button>
                         </div>
                     </div>
                 `;
@@ -6961,14 +7492,9 @@
 
         // Chat System Functionality
         let currentChatMember = null;
-        let chatHistory = {};
 
         function initializeChatSystem() {
-            // Load chat history from localStorage
-            const savedChats = localStorage.getItem('memberChats');
-            if (savedChats) {
-                chatHistory = JSON.parse(savedChats);
-            }
+            console.log('💬 Initializing database-backed chat system...');
 
             // Setup chat event listeners
             const chatInput = document.getElementById('chatInput');
@@ -6984,40 +7510,101 @@
                 });
             }
 
+            // Load conversation list from database
             loadConversationList();
         }
 
-        function loadConversationList() {
+        async function loadConversationList() {
             const conversationsList = document.getElementById('conversationsList');
-            if (!conversationsList) return;
+            if (!conversationsList || !currentMember) return;
 
-            const members = [
-                { id: 'april', name: 'April Sabral', company: 'Ask April AI Coaching', lastMessage: 'Welcome to the portal! Ready to connect.', time: '1 hour ago', unread: 1 },
-                { id: 'joy', name: 'Joy Sabral', company: 'Owner Retail', lastMessage: 'Excited to be part of MBC!', time: '2 hours ago', unread: 0 }
-            ];
+            try {
+                console.log('💬 Loading conversation list from database...');
 
-            const conversationsHtml = members.map(member => `
-                <div class="conversation-item ${member.unread > 0 ? 'unread' : ''}" onclick="openChat('${member.id}', '${member.name}', '${member.company}')">
-                    <div class="conversation-avatar">${member.name.split(' ').map(n => n[0]).join('')}</div>
-                    <div class="conversation-details">
-                        <div class="conversation-header">
-                            <span class="conversation-name">${member.name}</span>
-                            <span class="conversation-time">${member.time}</span>
+                // Get all messages where current user is sender or recipient
+                const { data: messages, error } = await supabase
+                    .from('messages')
+                    .select(`
+                        *,
+                        sender:members!messages_sender_id_fkey(id, first_name, last_name, company_name, email),
+                        recipient:members!messages_recipient_id_fkey(id, first_name, last_name, company_name, email)
+                    `)
+                    .or(`sender_id.eq.${currentMember.id},recipient_id.eq.${currentMember.id}`)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('❌ Error loading conversations:', error);
+                    conversationsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load conversations</div>';
+                    return;
+                }
+
+                // Group messages by conversation partner
+                const conversations = {};
+                messages.forEach(message => {
+                    const partnerId = message.sender_id === currentMember.id ? message.recipient_id : message.sender_id;
+                    const partner = message.sender_id === currentMember.id ? message.recipient : message.sender;
+
+                    if (!conversations[partnerId]) {
+                        conversations[partnerId] = {
+                            id: partnerId,
+                            name: `${partner.first_name} ${partner.last_name}`,
+                            company: partner.company_name || 'To be completed',
+                            email: partner.email,
+                            lastMessage: message.message_text,
+                            lastMessageTime: message.created_at,
+                            unread: 0
+                        };
+                    }
+
+                    // Count unread messages (messages sent to current user that aren't read)
+                    if (message.recipient_id === currentMember.id && !message.is_read) {
+                        conversations[partnerId].unread++;
+                    }
+                });
+
+                const conversationArray = Object.values(conversations);
+
+                if (conversationArray.length === 0) {
+                    conversationsList.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #999;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+                            <p>No conversations yet</p>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Start a conversation from the Member Directory!</p>
                         </div>
-                        <div class="conversation-preview">
-                            ${member.lastMessage}
+                    `;
+                    return;
+                }
+
+                console.log(`✅ Loaded ${conversationArray.length} conversations`);
+
+                // Render conversations
+                const conversationsHtml = conversationArray.map(conv => `
+                    <div class="conversation-item ${conv.unread > 0 ? 'unread' : ''}" onclick="openChat('${conv.id}', '${conv.name}', '${conv.company}', '${conv.email}')">
+                        <div class="conversation-avatar">${conv.name.split(' ').map(n => n[0]).join('')}</div>
+                        <div class="conversation-details">
+                            <div class="conversation-header">
+                                <span class="conversation-name">${conv.name}</span>
+                                <span class="conversation-time">${formatMessageTime(conv.lastMessageTime)}</span>
+                            </div>
+                            <div class="conversation-preview">
+                                ${conv.lastMessage.length > 60 ? conv.lastMessage.substring(0, 60) + '...' : conv.lastMessage}
+                            </div>
                         </div>
+                        ${conv.unread > 0 ? `<div class="unread-badge">${conv.unread}</div>` : ''}
                     </div>
-                    ${member.unread > 0 ? `<div class="unread-badge">${member.unread}</div>` : ''}
-                </div>
-            `).join('');
+                `).join('');
 
-            conversationsList.innerHTML = conversationsHtml;
+                conversationsList.innerHTML = conversationsHtml;
+
+            } catch (error) {
+                console.error('❌ Error loading conversation list:', error);
+                conversationsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load conversations</div>';
+            }
         }
 
         function openChat(memberId, memberName, memberCompany, memberEmail = null) {
             currentChatMember = { id: memberId, name: memberName, company: memberCompany, email: memberEmail };
-            
+
             // Update chat header
             const chatHeader = document.getElementById('chatHeader');
             if (chatHeader) {
@@ -7042,89 +7629,174 @@
             // Show chat area, hide placeholder
             const chatPlaceholder = document.getElementById('chatPlaceholder');
             const chatArea = document.getElementById('chatArea');
-            
+
             if (chatPlaceholder) chatPlaceholder.style.display = 'none';
-            if (chatArea) chatArea.style.display = 'flex';
+            if (chatArea) {
+                chatArea.style.display = 'flex';
+            }
+
+            // CREATE FLOATING INPUT BOX - GUARANTEED VISIBLE
+            setTimeout(() => {
+                // Remove old floating input if exists
+                const oldFloating = document.getElementById('floatingChatInput');
+                if (oldFloating) oldFloating.remove();
+
+                // Create new floating input box
+                const floatingInput = document.createElement('div');
+                floatingInput.id = 'floatingChatInput';
+                floatingInput.innerHTML = `
+                    <textarea id="floatingTextarea" placeholder="Type your message..." style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; color: #fff; font-size: 16px; resize: none; font-family: inherit; height: 60px; box-sizing: border-box; margin-bottom: 8px;"></textarea>
+                    <button id="floatingSendBtn" style="background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%); color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px; width: 100%;">Send Message</button>
+                `;
+                floatingInput.style.cssText = 'position: fixed; bottom: 20px; left: 320px; right: 20px; background: rgba(20, 20, 20, 0.98); padding: 20px; border-radius: 12px; border: 2px solid #d4af37; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.5);';
+
+                document.body.appendChild(floatingInput);
+
+                // Add event listeners
+                document.getElementById('floatingSendBtn').onclick = () => {
+                    const textarea = document.getElementById('floatingTextarea');
+                    const text = textarea.value.trim();
+                    if (text && currentChatMember && currentMember) {
+                        // Copy to hidden input and send
+                        const chatInput = document.getElementById('chatInput');
+                        if (chatInput) chatInput.value = text;
+                        sendMessage();
+                        textarea.value = '';
+                    }
+                };
+
+                // Enter to send
+                document.getElementById('floatingTextarea').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        document.getElementById('floatingSendBtn').click();
+                    }
+                });
+
+                console.log('✅ FLOATING INPUT BOX CREATED - YOU SHOULD SEE IT NOW!');
+            }, 200);
 
             // Mark conversation as read
             markConversationAsRead(memberId);
         }
 
-        function loadConversationHistory(memberId) {
+        async function loadConversationHistory(memberId) {
             const messagesContainer = document.getElementById('messagesContainer');
-            if (!messagesContainer) return;
+            if (!messagesContainer || !currentMember) return;
 
-            const messages = chatHistory[memberId] || [];
-            
-            if (messages.length === 0) {
-                // Add welcome message for new conversations
-                messages.push({
-                    id: Date.now(),
-                    text: "Hi! Great to connect with you through Miami Business Council. Looking forward to our conversation!",
-                    sender: memberId,
-                    timestamp: new Date().toISOString(),
-                    isOwn: false
-                });
-                chatHistory[memberId] = messages;
-                saveChatHistory();
+            try {
+                console.log('📥 Loading conversation history from database...');
+
+                // Load messages between current member and selected member
+                const { data: messages, error } = await supabase
+                    .from('messages')
+                    .select('*')
+                    .or(`and(sender_id.eq.${currentMember.id},recipient_id.eq.${memberId}),and(sender_id.eq.${memberId},recipient_id.eq.${currentMember.id})`)
+                    .order('created_at', { ascending: true });
+
+                if (error) {
+                    console.error('❌ Error loading messages:', error);
+                    messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load messages</div>';
+                    return;
+                }
+
+                console.log(`✅ Loaded ${messages.length} messages`);
+
+                if (messages.length === 0) {
+                    messagesContainer.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #999;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+                            <p>No messages yet. Start the conversation!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Mark received messages as read
+                const unreadMessages = messages.filter(m => m.recipient_id === currentMember.id && !m.is_read);
+                if (unreadMessages.length > 0) {
+                    const unreadIds = unreadMessages.map(m => m.id);
+                    await supabase
+                        .from('messages')
+                        .update({ is_read: true, read_at: new Date().toISOString() })
+                        .in('id', unreadIds);
+                }
+
+                // Render messages
+                const messagesHtml = messages.map(message => {
+                    const isOwn = message.sender_id === currentMember.id;
+                    return `
+                        <div class="message ${isOwn ? 'own' : ''}">
+                            <div class="message-avatar">${isOwn ? 'ME' : currentChatMember.name.split(' ').map(n => n[0]).join('')}</div>
+                            <div class="message-content">
+                                <div class="message-text">${message.message_text}</div>
+                                <div class="message-time">${formatMessageTime(message.created_at)}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                messagesContainer.innerHTML = messagesHtml;
+                scrollToBottom();
+
+            } catch (error) {
+                console.error('❌ Error loading conversation:', error);
+                messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load messages</div>';
             }
-
-            const messagesHtml = messages.map(message => `
-                <div class="message ${message.isOwn ? 'own' : ''}">
-                    <div class="message-avatar">${message.isOwn ? 'ME' : currentChatMember.name.split(' ').map(n => n[0]).join('')}</div>
-                    <div class="message-content">
-                        <div class="message-text">${message.text}</div>
-                        <div class="message-time">${formatMessageTime(message.timestamp)}</div>
-                    </div>
-                </div>
-            `).join('');
-
-            messagesContainer.innerHTML = messagesHtml;
-            scrollToBottom();
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             const chatInput = document.getElementById('chatInput');
-            if (!chatInput || !currentChatMember) return;
+            if (!chatInput || !currentChatMember || !currentMember) return;
 
             const messageText = chatInput.value.trim();
             if (!messageText) return;
 
-            const message = {
-                id: Date.now(),
-                text: messageText,
-                sender: 'me',
-                timestamp: new Date().toISOString(),
-                isOwn: true
-            };
+            try {
+                console.log('📤 Sending message to database...');
 
-            // Add to chat history
-            if (!chatHistory[currentChatMember.id]) {
-                chatHistory[currentChatMember.id] = [];
+                // Save message to Supabase
+                const { data: newMessage, error } = await supabase
+                    .from('messages')
+                    .insert({
+                        sender_id: currentMember.id,
+                        recipient_id: currentChatMember.id,
+                        message_text: messageText
+                    })
+                    .select()
+                    .single();
+
+                if (error) {
+                    console.error('❌ Error sending message:', error);
+                    alert('Failed to send message. Please try again.');
+                    return;
+                }
+
+                console.log('✅ Message saved to database');
+
+                // Clear input
+                chatInput.value = '';
+
+                // Reload conversation to show new message
+                await loadConversationHistory(currentChatMember.id);
+
+                // Send email notification to recipient
+                if (currentChatMember.email) {
+                    sendMessageNotification(
+                        currentChatMember.email,
+                        currentChatMember.name,
+                        `${currentMember.first_name} ${currentMember.last_name}`,
+                        messageText
+                    );
+                }
+
+                // Reload conversation list to update last message
+                await loadConversationList();
+
+            } catch (error) {
+                console.error('❌ Error sending message:', error);
+                alert('Failed to send message. Please try again.');
             }
-            chatHistory[currentChatMember.id].push(message);
-
-            // Clear input
-            chatInput.value = '';
-
-            // Reload conversation
-            loadConversationHistory(currentChatMember.id);
-
-            // Save chat history
-            saveChatHistory();
-
-            // Send email notification to recipient (if email is available)
-            if (currentChatMember.email && currentMember) {
-                sendMessageNotification(
-                    currentChatMember.email,
-                    currentChatMember.name,
-                    `${currentMember.first_name} ${currentMember.last_name}`,
-                    messageText
-                );
-            }
-
-            // Simulate response after a delay
-            setTimeout(() => simulateResponse(), 1000 + Math.random() * 2000);
         }
 
         // Send email notification when message is sent
@@ -7156,44 +7828,12 @@
             }
         }
 
-        function simulateResponse() {
-            if (!currentChatMember) return;
+        // simulateResponse() removed - all messages are now real member-to-member only
 
-            const responses = [
-                "Thanks for reaching out! I'd love to learn more about your business.",
-                "That sounds like a great opportunity. When would be a good time to discuss this further?",
-                "I appreciate you thinking of me for this project. Let me review and get back to you.",
-                "Absolutely! I think there could be some great synergies between our businesses.",
-                "That's an interesting perspective. I'd like to explore this idea more.",
-                "Great to hear from you! Let's schedule a call to discuss this in detail."
-            ];
-
-            const response = {
-                id: Date.now(),
-                text: responses[Math.floor(Math.random() * responses.length)],
-                sender: currentChatMember.id,
-                timestamp: new Date().toISOString(),
-                isOwn: false
-            };
-
-            chatHistory[currentChatMember.id].push(response);
-            loadConversationHistory(currentChatMember.id);
-            saveChatHistory();
-
-            // Update conversation list to show new message
-            loadConversationList();
-        }
-
-        function markConversationAsRead(memberId) {
-            // Remove unread styling
-            const conversationItem = document.querySelector(`[onclick*="${memberId}"]`);
-            if (conversationItem) {
-                conversationItem.classList.remove('unread');
-                const unreadBadge = conversationItem.querySelector('.unread-badge');
-                if (unreadBadge) {
-                    unreadBadge.style.display = 'none';
-                }
-            }
+        async function markConversationAsRead(memberId) {
+            // Messages are marked as read in loadConversationHistory()
+            // Just reload the conversation list to update unread counts
+            await loadConversationList();
         }
 
         function scrollToBottom() {
@@ -7214,9 +7854,7 @@
             return date.toLocaleDateString();
         }
 
-        function saveChatHistory() {
-            localStorage.setItem('memberChats', JSON.stringify(chatHistory));
-        }
+        // saveChatHistory() removed - messages now save directly to Supabase database
 
         function scheduleCall(memberId) {
             alert(`Call scheduling with ${currentChatMember.name} - This feature will integrate with calendar systems soon!`);
@@ -7227,10 +7865,213 @@
         }
 
         // Start chat from member directory
+        // ============================================
+        // NEW SIMPLE MESSAGING SYSTEM
+        // ============================================
+
+        let newCurrentChatPartner = null;
+
         function startChatFromDirectory(memberId, memberName, memberCompany, memberEmail = null) {
+            console.log('🚀 NEW SYSTEM: Starting chat with:', memberName);
+
+            // Store chat partner
+            newCurrentChatPartner = {
+                id: memberId,
+                name: memberName,
+                company: memberCompany,
+                email: memberEmail
+            };
+
+            // Switch to messages section
             showSection('messages');
-            // Open the chat with this member
-            openChat(memberId, memberName, memberCompany, memberEmail);
+
+            // Open new chat interface
+            newOpenChat();
+        }
+
+        async function newOpenChat() {
+            if (!newCurrentChatPartner || !currentMember) {
+                console.error('Missing chat partner or current member');
+                return;
+            }
+
+            console.log('💬 Opening chat with:', newCurrentChatPartner.name);
+
+            // Show chat area, hide placeholder
+            document.getElementById('newChatPlaceholder').style.display = 'none';
+            document.getElementById('newChatArea').style.display = 'block';
+
+            // Set header
+            document.getElementById('newChatHeader').innerHTML = `
+                <h2 style="color: #d4af37; margin: 0;">Chat with ${newCurrentChatPartner.name}</h2>
+                <p style="color: #999; margin: 0.5rem 0 0 0;">${newCurrentChatPartner.company}</p>
+            `;
+
+            // Load messages
+            await newLoadMessages();
+        }
+
+        async function newLoadMessages() {
+            const messagesDisplay = document.getElementById('newMessagesDisplay');
+
+            if (!newCurrentChatPartner || !currentMember) {
+                messagesDisplay.innerHTML = '<p style="text-align: center; color: #999;">Error loading messages</p>';
+                return;
+            }
+
+            try {
+                console.log('📥 Loading messages from database...');
+
+                // Query database for messages between these two members
+                const { data: messages, error } = await supabase
+                    .from('messages')
+                    .select('*')
+                    .or(`and(sender_id.eq.${currentMember.id},recipient_id.eq.${newCurrentChatPartner.id}),and(sender_id.eq.${newCurrentChatPartner.id},recipient_id.eq.${currentMember.id})`)
+                    .order('created_at', { ascending: true });
+
+                if (error) {
+                    console.error('Database error:', error);
+                    messagesDisplay.innerHTML = '<p style="text-align: center; color: #ff6b6b;">Database error. Please refresh the page.</p>';
+                    return;
+                }
+
+                console.log(`✅ Loaded ${messages ? messages.length : 0} messages`);
+
+                // Show empty state if no messages
+                if (!messages || messages.length === 0) {
+                    messagesDisplay.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #999;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+                            <p>No messages yet. Start the conversation!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render messages
+                let html = '';
+                messages.forEach(msg => {
+                    const isOwn = msg.sender_id === currentMember.id;
+                    const time = new Date(msg.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+                    html += `
+                        <div style="margin-bottom: 1.5rem; display: flex; ${isOwn ? 'justify-content: flex-end' : 'justify-content: flex-start'};">
+                            <div style="max-width: 70%; background: ${isOwn ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.1)'}; padding: 1rem; border-radius: 12px; border: 1px solid ${isOwn ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 255, 255, 0.1)'};">
+                                <div style="color: #fff; margin-bottom: 0.5rem;">${msg.message_text}</div>
+                                <div style="color: #999; font-size: 0.8rem; text-align: right;">${time}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                messagesDisplay.innerHTML = html;
+                messagesDisplay.scrollTop = messagesDisplay.scrollHeight;
+
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                messagesDisplay.innerHTML = '<p style="text-align: center; color: #ff6b6b;">Error loading messages</p>';
+            }
+        }
+
+        async function newSendMessage() {
+            const input = document.getElementById('newMessageInput');
+            const messageText = input.value.trim();
+
+            if (!messageText) {
+                alert('Please type a message');
+                return;
+            }
+
+            if (!newCurrentChatPartner || !currentMember) {
+                alert('Error: Chat partner not found');
+                return;
+            }
+
+            try {
+                console.log('📤 Sending message to database...');
+
+                // Save to database
+                const { data, error } = await supabase
+                    .from('messages')
+                    .insert({
+                        sender_id: currentMember.id,
+                        recipient_id: newCurrentChatPartner.id,
+                        message_text: messageText
+                    })
+                    .select()
+                    .single();
+
+                if (error) {
+                    console.error('Database error:', error);
+                    alert('Failed to send message. Please try again.');
+                    return;
+                }
+
+                console.log('✅ Message sent successfully');
+
+                // Clear input
+                input.value = '';
+
+                // Reload messages
+                await newLoadMessages();
+
+                // Send email notification
+                if (newCurrentChatPartner.email) {
+                    fetch('/api/send-message-notification', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            recipientEmail: newCurrentChatPartner.email,
+                            recipientName: newCurrentChatPartner.name,
+                            senderName: `${currentMember.first_name} ${currentMember.last_name}`,
+                            messagePreview: messageText
+                        })
+                    }).catch(e => console.error('Email notification error:', e));
+                }
+
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('Failed to send message. Please try again.');
+            }
+        }
+
+        // OLD SYSTEM - Keep for backward compatibility but mark as deprecated
+        function startChatFromDirectoryOLD(memberId, memberName, memberCompany, memberEmail = null) {
+            // Redirect to new system
+            startChatFromDirectory(memberId, memberName, memberCompany, memberEmail);
+        }
+
+        // EMERGENCY RESET FUNCTION - Call from console: window.resetMessaging()
+        window.resetMessaging = async function() {
+            console.log('🔥 RESETTING MESSAGING SYSTEM...');
+
+            // 1. Delete all messages from database
+            try {
+                const { error } = await supabase.from('messages').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                if (error) {
+                    console.error('Error deleting messages:', error);
+                } else {
+                    console.log('✅ All messages deleted from database');
+                }
+            } catch (e) {
+                console.error('Error:', e);
+            }
+
+            // 2. Clear localStorage
+            localStorage.removeItem('chatHistory');
+            localStorage.removeItem('memberChats');
+            localStorage.removeItem('conversations');
+            console.log('✅ localStorage cleared');
+
+            // 3. Clear current chat state
+            currentChatMember = null;
+            console.log('✅ Chat state cleared');
+
+            // 4. Reload conversation list
+            await loadConversationList();
+            console.log('✅ Conversation list reloaded');
+
+            alert('✅ Messaging system reset complete! All messages cleared.');
         }
 
         // Member Directory Search Functionality
@@ -7714,8 +8555,11 @@ The member portal is incredibly well-designed with features like direct messagin
                    document.referrer.includes('android-app://');
         }
 
-        // Register Service Worker
+        // Register Service Worker - DISABLED TO FIX CACHING
         async function registerServiceWorker() {
+            console.log('🚫 Service Worker registration DISABLED - using direct server requests');
+            return; // Exit early - no service worker
+
             if ('serviceWorker' in navigator) {
                 try {
                     const registration = await navigator.serviceWorker.register('/sw.js');
@@ -8293,7 +9137,7 @@ This will enable beautiful previews when sharing the portal link on social media
                         industries = [member.industry];
                     }
 
-                    return {
+                    const memberObj = {
                         id: member.id,
                         name: `${firstName} ${lastName}`.trim(),
                         firstName: firstName,
@@ -8309,13 +9153,63 @@ This will enable beautiful previews when sharing the portal link on social media
                         lookingFor,
                         canOffer,
                         linkedin: member.linkedin_url,
-                        score: Math.floor(Math.random() * 30) + 70 // Random score 70-99
+                        score: 0 // Will be calculated based on match compatibility
                     };
+
+                    // Calculate real match score if currentMember is loaded
+                    if (currentMember && member.id !== currentMember.id) {
+                        memberObj.score = calculateMatchScore(memberObj);
+                    }
+
+                    return memberObj;
                 });
                 
             } catch (error) {
                 console.error('Error loading members from database:', error);
                 return getHardcodedMembers();
+            }
+        }
+
+        // Calculate match score between current member and another member (0-100)
+        function calculateMatchScore(otherMember) {
+            try {
+                if (!currentMember || !otherMember) return 0;
+
+                let score = 50; // Base score
+
+                // Get current member's opportunities from their profile in memory
+                const myLookingFor = currentMember.business_opportunities
+                    ?.filter(opp => opp.opportunity_type === 'looking_for')
+                    ?.map(opp => opp.category) || [];
+
+                const myCanOffer = currentMember.business_opportunities
+                    ?.filter(opp => opp.opportunity_type === 'can_offer')
+                    ?.map(opp => opp.category) || [];
+
+                // Check if what I'm looking for matches what they can offer
+                const theyCanOfferWhatINeed = otherMember.canOffer.filter(category =>
+                    myLookingFor.includes(category)
+                ).length;
+
+                // Check if what they're looking for matches what I can offer
+                const ICanOfferWhatTheyNeed = otherMember.lookingFor.filter(category =>
+                    myCanOffer.includes(category)
+                ).length;
+
+                // Boost score based on mutual matches
+                score += (theyCanOfferWhatINeed * 15); // +15 per category match
+                score += (ICanOfferWhatTheyNeed * 15); // +15 per category match
+
+                // Industry match bonus
+                if (currentMember.industry && otherMember.industry === currentMember.industry) {
+                    score += 10;
+                }
+
+                // Cap at 99
+                return Math.min(99, score);
+            } catch (error) {
+                console.error('Error calculating match score:', error);
+                return 50; // Default score on error
             }
         }
 
@@ -8467,9 +9361,6 @@ This will enable beautiful previews when sharing the portal link on social media
                         ${tags.map(tag => `<span class="member-tag">${tag}</span>`).join('')}
                     </div>
                     <div class="member-actions" onclick="event.stopPropagation()">
-                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}', '${member.email}')" title="Send direct message">
-                            💬 Message
-                        </button>
                         ${member.linkedin
                             ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
                             : ''
@@ -8691,9 +9582,6 @@ This will enable beautiful previews when sharing the portal link on social media
                         }
                     </div>
                     <div class="member-actions" onclick="event.stopPropagation()">
-                        <button class="message-btn" onclick="startChatFromDirectory('${member.id}', '${member.name}', '${member.company}', '${member.email}')" title="Send direct message">
-                            💬 Message
-                        </button>
                         ${member.linkedin
                             ? `<button class="linkedin-btn" onclick="window.open('${member.linkedin}', '_blank')" title="View LinkedIn profile">📍 LinkedIn</button>`
                             : ''

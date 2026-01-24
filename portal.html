@@ -5820,9 +5820,9 @@
         // Smart Matching System - Global variable to store current matches
         let lastGeneratedMatches = [];
 
-        function generateSmartMatches() {
+        async function generateSmartMatches() {
             const matchResults = document.getElementById('smartMatchResults');
-            
+
             // Enhanced loading with skeleton screens
             const loadingHtml = `
                 <div class="skeleton-card">
@@ -5862,73 +5862,86 @@
                     <div style="margin-top: 1rem; font-weight: 500;">🧠 Analyzing member profiles and generating smart matches...</div>
                 </div>
             `;
-            
+
             matchResults.innerHTML = loadingHtml;
-            
-            // Simulate AI matching algorithm
-            setTimeout(() => {
-                const smartMatches = calculateIntelligentMatches();
+
+            try {
+                // Load real members from database
+                const allMembers = await loadMembersFromDatabase();
+
+                // Filter out current user
+                const otherMembers = allMembers.filter(m => currentMember && m.id !== currentMember.id);
+
+                // Calculate smart matches with real data
+                const smartMatches = calculateIntelligentMatches(otherMembers);
                 lastGeneratedMatches = smartMatches; // Store matches globally for profile viewing
                 displaySmartMatches(smartMatches);
                 updateMatchStats(smartMatches);
-            }, 2000);
+            } catch (error) {
+                console.error('Error generating smart matches:', error);
+                matchResults.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #ff6b6b;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
+                        <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
+                        <p style="color: #999;">Please try refreshing the page</p>
+                    </div>
+                `;
+            }
         }
 
-        function calculateIntelligentMatches() {
-            // Enhanced member database with smart matching profiles
-            const membersWithProfiles = [
-                {
-                    id: 'april',
-                    name: 'April Sabral',
-                    company: 'Ask April AI Coaching',
-                    industry: 'Business Consulting',
-                    avatar: 'AS',
-                    services: ['AI Coaching', 'Business Strategy', 'Digital Transformation'],
+        function calculateIntelligentMatches(membersFromDatabase) {
+            // Transform database members into matching format
+            const membersWithProfiles = membersFromDatabase.map(member => {
+                // Get what they're looking for
+                const lookingFor = member.lookingFor || [];
+                // Get what they can offer
+                const canOffer = member.canOffer || [];
+
+                // Extract initials for avatar
+                const initials = (member.first_name && member.last_name)
+                    ? `${member.first_name[0]}${member.last_name[0]}`.toUpperCase()
+                    : 'MB';
+
+                return {
+                    id: member.id,
+                    name: `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Member',
+                    company: member.company_name || 'Company',
+                    industry: member.industry || member.industries?.[0] || 'Business',
+                    avatar: initials,
+                    avatarUrl: member.profile_photo_url,
+                    services: canOffer, // What they can offer
                     idealClient: {
-                        industries: ['Retail', 'Professional Services', 'Small Business'],
-                        companySize: ['small', 'medium'],
-                        budget: ['10k-50k', '50k-100k'],
-                        needsHelp: ['AI Implementation', 'Business Growth', 'Digital Strategy']
+                        industries: member.industries || [],
+                        companySize: ['small', 'medium', 'large'],
+                        budget: [],
+                        needsHelp: lookingFor // What they're looking for
                     },
-                    businessGoals: ['grow-revenue', 'help-businesses'],
+                    businessGoals: [],
                     location: 'miami',
                     workStyle: 'hybrid',
-                    linkedin: 'https://linkedin.com/in/apriljsabral',
-                    valueProposition: 'AI coaching that helps business owners leverage artificial intelligence for growth',
-                    primaryOffering: 'AI coaching and business transformation consulting'
-                },
-                {
-                    id: 'joy',
-                    name: 'Joy Sabral',
-                    company: 'Owner Retail',
-                    industry: 'Retail',
-                    avatar: 'JS',
-                    services: ['Retail Consulting', 'Store Operations', 'Customer Experience'],
-                    idealClient: {
-                        industries: ['Retail', 'E-commerce', 'Consumer Goods'],
-                        companySize: ['small', 'medium'],
-                        budget: ['5k-25k', '25k-50k'],
-                        needsHelp: ['Store Optimization', 'Customer Service', 'Retail Strategy']
-                    },
-                    businessGoals: ['grow-revenue', 'strategic-partnerships'],
-                    location: 'miami',
-                    workStyle: 'in-person',
-                    linkedin: null,
-                    valueProposition: 'Expert retail guidance to optimize store performance and customer satisfaction',
-                    primaryOffering: 'Retail operations consulting and customer experience optimization'
-                },
-            ];
+                    linkedin: member.linkedin_url,
+                    valueProposition: member.bio || `Connect with ${member.first_name} for business opportunities`,
+                    primaryOffering: canOffer.join(', ') || 'Professional services'
+                };
+            });
 
-            // Current user profile simulation (would come from form data)
-            const currentUser = {
-                industry: 'Technology',
-                services: ['Business Strategy', 'AI Consulting'],
+            // Current user profile from logged in member
+            const currentUser = currentMember ? {
+                industry: currentMember.industry || currentMember.industries?.[0] || 'Business',
+                services: currentMember.canOffer || [],
                 idealClient: {
-                    industries: ['Real Estate', 'Marketing'],
+                    industries: currentMember.industries || [],
                     companySize: ['small', 'medium'],
-                    budget: ['50k-100k']
+                    budget: [],
+                    needsHelp: currentMember.lookingFor || []
                 },
-                businessGoals: ['grow-revenue', 'strategic-partnerships']
+                businessGoals: []
+            } : {
+                // Fallback if no current member
+                industry: 'Business',
+                services: [],
+                idealClient: { industries: [], companySize: [], budget: [], needsHelp: [] },
+                businessGoals: []
             };
 
             // Calculate match scores using intelligent algorithm

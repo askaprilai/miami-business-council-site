@@ -10317,44 +10317,44 @@
         function openChat(memberId, memberName, memberCompany, memberEmail = null) {
             currentChatMember = { id: memberId, name: memberName, company: memberCompany, email: memberEmail };
 
-            // Update chat header
-            const chatHeader = document.getElementById('chatHeader');
-            if (chatHeader) {
-                chatHeader.innerHTML = `
-                    <div class="chat-member-info">
-                        <div class="chat-avatar">${memberName.split(' ').map(n => n[0]).join('')}</div>
-                        <div>
-                            <div class="chat-member-name">${memberName}</div>
-                            <div class="chat-member-company">${memberCompany}</div>
-                        </div>
-                    </div>
-                    <div class="chat-actions">
-                        <button class="chat-action-btn" onclick="scheduleCall('${memberId}')">📞</button>
-                        <button class="chat-action-btn" onclick="viewMemberProfile('${memberId}')">👤</button>
-                    </div>
-                `;
+            // Update chat header with correct element IDs
+            const threadMemberAvatar = document.getElementById('threadMemberAvatar');
+            const threadMemberName = document.getElementById('threadMemberName');
+            const threadMemberTitle = document.getElementById('threadMemberTitle');
+
+            if (threadMemberAvatar) {
+                const initials = memberName.split(' ').map(n => n[0]).join('');
+                threadMemberAvatar.textContent = initials;
+            }
+
+            if (threadMemberName) {
+                threadMemberName.textContent = memberName;
+            }
+
+            if (threadMemberTitle) {
+                threadMemberTitle.textContent = memberCompany || 'Miami Business Council';
             }
 
             // Load conversation history
             loadConversationHistory(memberId);
 
-            // Show chat area, hide placeholder
-            const chatPlaceholder = document.getElementById('chatPlaceholder');
-            const chatArea = document.getElementById('chatArea');
+            // Show chat area, hide placeholder (use correct IDs)
+            const messageThreadEmpty = document.getElementById('messageThreadEmpty');
+            const messageThreadView = document.getElementById('messageThreadView');
 
-            if (chatPlaceholder) chatPlaceholder.style.display = 'none';
-            if (chatArea) {
-                chatArea.style.display = 'flex';
+            if (messageThreadEmpty) {
+                messageThreadEmpty.style.display = 'none';
             }
-
-            // REMOVED: Old floating chat box - now using clean iPhone-style messaging
+            if (messageThreadView) {
+                messageThreadView.style.display = 'flex';
+            }
 
             // Mark conversation as read
             markConversationAsRead(memberId);
         }
 
         async function loadConversationHistory(memberId) {
-            const messagesContainer = document.getElementById('messagesContainer');
+            const messagesContainer = document.getElementById('messagesArea');
             if (!messagesContainer || !currentMember) return;
 
             // Clear previous messages immediately to prevent showing wrong conversation

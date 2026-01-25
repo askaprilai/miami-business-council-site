@@ -4048,14 +4048,18 @@
                 transform: translateX(0); /* Slide chat on-screen from right */
             }
 
-            /* Prevent body scroll on mobile when in messages */
+            /* Prevent horizontal scroll on Messages section only */
             #messages {
-                overflow: hidden !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
             }
 
-            /* Make sure section doesn't cause horizontal scroll */
-            .content-section {
-                overflow-x: hidden !important;
+            /* Other sections should scroll normally */
+            #directory,
+            #events,
+            #profile {
+                overflow-x: visible !important;
+                overflow-y: auto !important;
             }
 
             /* Member directory should be visible */
@@ -4065,6 +4069,25 @@
 
             .member-grid {
                 display: grid !important;
+            }
+
+            /* CRITICAL: Hide messaging container when NOT on messages section */
+            .content-section:not(#messages) .messaging-container {
+                display: none !important;
+            }
+
+            /* Only show messaging container on messages section */
+            #messages .messaging-container {
+                display: block !important;
+            }
+
+            /* Ensure other sections don't show chat elements */
+            #directory .messaging-container,
+            #events .messaging-container,
+            #profile .messaging-container {
+                display: none !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
             }
         }
 

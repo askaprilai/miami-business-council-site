@@ -3889,14 +3889,33 @@
             position: absolute;
             top: 0.25rem;
             right: 0.5rem;
-            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            background: linear-gradient(135deg, #ff3b3b, #ff1f1f);
             color: white;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            padding: 0.15rem 0.35rem;
-            border-radius: 10px;
-            min-width: 18px;
+            padding: 0.2rem 0.45rem;
+            border-radius: 12px;
+            min-width: 20px;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(255, 59, 59, 0.6),
+                        0 0 0 2px rgba(18, 18, 18, 1); /* Dark outline for contrast */
+            animation: notification-pulse 2s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        /* Pulse animation for notification badge */
+        @keyframes notification-pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 2px 8px rgba(255, 59, 59, 0.6),
+                            0 0 0 2px rgba(18, 18, 18, 1);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 4px 12px rgba(255, 59, 59, 0.8),
+                            0 0 0 2px rgba(18, 18, 18, 1),
+                            0 0 20px rgba(255, 59, 59, 0.4);
+            }
         }
 
         /* Mobile-specific layout adjustments */
@@ -12227,7 +12246,70 @@ This will enable beautiful previews when sharing the portal link on social media
             initializePrivacySettings();
             initializeReferralSystem();
             initializePWA();
+
+            // Start polling for new messages (updates notification badge)
+            startMessagePolling();
         });
+
+        // Periodic check for new messages to update notification badge
+        let messagePollingInterval = null;
+
+        function startMessagePolling() {
+            // Check immediately
+            setTimeout(() => {
+                if (currentMember && currentMember.id) {
+                    updateUnreadMessageBadge();
+                }
+            }, 3000); // Wait 3 seconds after page load
+
+            // Then check every 30 seconds
+            messagePollingInterval = setInterval(() => {
+                if (currentMember && currentMember.id) {
+                    updateUnreadMessageBadge();
+                }
+            }, 30000); // 30 seconds
+        }
+
+        // Quick unread count check (doesn't reload full conversations)
+        async function updateUnreadMessageBadge() {
+            try {
+                if (!currentMember || !currentMember.id) return;
+
+                // Query unread messages
+                const { data: unreadMessages, error } = await supabase
+                    .from('messages')
+                    .select('id', { count: 'exact', head: false })
+                    .eq('recipient_id', currentMember.id)
+                    .eq('is_read', false);
+
+                if (error) {
+                    console.error('Error checking unread messages:', error);
+                    return;
+                }
+
+                const unreadCount = unreadMessages?.length || 0;
+
+                // Update both desktop and mobile badges
+                const desktopBadge = document.getElementById('messageNotificationBadge');
+                const mobileBadge = document.getElementById('mobileMessageBadge');
+
+                if (unreadCount > 0) {
+                    if (desktopBadge) {
+                        desktopBadge.textContent = unreadCount;
+                        desktopBadge.style.display = 'inline-block';
+                    }
+                    if (mobileBadge) {
+                        mobileBadge.textContent = unreadCount;
+                        mobileBadge.style.display = 'inline-block';
+                    }
+                } else {
+                    if (desktopBadge) desktopBadge.style.display = 'none';
+                    if (mobileBadge) mobileBadge.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error in updateUnreadMessageBadge:', error);
+            }
+        }
     </script>
 
     <script>

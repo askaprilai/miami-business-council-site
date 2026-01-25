@@ -11819,41 +11819,8 @@ This will enable beautiful previews when sharing the portal link on social media
             return [];
         }
 
-        // Update existing functions to use database when available
-        // Override generateMatches to try database first
-        const originalGenerateMatches = generateMatches;
-        generateMatches = async function() {
-            try {
-                const databaseMatches = await generateMatchesFromDatabase();
-                if (databaseMatches && databaseMatches.length > 0) {
-                    return databaseMatches;
-                }
-            } catch (error) {
-                // console.log('Using fallback matching algorithm');
-            }
-            return originalGenerateMatches();
-        };
-
-        // Override connectWithMember to try database first
-        const originalConnectWithMember = connectWithMember;
-        connectWithMember = async function(memberName, memberId = null) {
-            if (memberId) {
-                await connectWithMemberDatabase(memberName, memberId);
-            } else {
-                originalConnectWithMember(memberName);
-            }
-        };
-
-        // Override saveProfile to try database first
-        const originalSaveProfile = saveProfile;
-        saveProfile = async function() {
-            try {
-                await saveProfileToDatabase();
-            } catch (error) {
-                // console.log('Using fallback profile saving');
-                originalSaveProfile();
-            }
-        };
+        // Note: Function overrides removed to prevent ReferenceErrors
+        // These functions are now defined inline where needed
 
         // Initialize database connection when page loads
         document.addEventListener('DOMContentLoaded', function() {

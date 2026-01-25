@@ -5343,7 +5343,7 @@
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
                         <h3 class="card-title" style="color: #C9A86A;">🎯 Smart Matching Profile</h3>
-                        <button id="findMatchesBtn" class="register-btn" onclick="generateSmartMatches()" style="padding: 0.5rem 1rem;">Find My Matches</button>
+                        <button id="saveProfileBtn" class="register-btn" onclick="saveMatchingProfile()" style="padding: 0.5rem 1rem;">Save Profile</button>
                     </div>
                     <p style="color: #ccc; margin-bottom: 2rem;">Help us connect you with your ideal clients, partners, and opportunities by completing your matching profile.</p>
                     
@@ -5459,6 +5459,22 @@
                                     </label>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Success message and Find Matches button (hidden initially) -->
+                    <div id="matchingProfileSaved" style="display: none; margin-top: 2rem; padding: 1.5rem; background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); border-radius: 8px;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">✅</div>
+                            <div>
+                                <h4 style="color: #4CAF50; margin: 0 0 0.25rem 0;">Profile Saved Successfully!</h4>
+                                <p style="color: #ccc; margin: 0; font-size: 0.9rem;">Your matching preferences have been updated.</p>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button id="findMatchesBtn" class="register-btn" onclick="generateSmartMatches()" style="padding: 0.75rem 2rem; font-size: 1rem;">
+                                🎯 Find My Matches
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -6674,6 +6690,158 @@
 
         // Smart Matching System - Global variable to store current matches
         let lastGeneratedMatches = [];
+
+        // Load Matching Profile (restore saved preferences)
+        async function loadMatchingProfile() {
+            try {
+                let matchingProfile = null;
+
+                // Try to load from database first
+                if (currentMember && currentMember.matching_profile) {
+                    matchingProfile = currentMember.matching_profile;
+                } else {
+                    // Fallback to localStorage
+                    const saved = localStorage.getItem('mbc_matching_profile');
+                    if (saved) {
+                        matchingProfile = JSON.parse(saved);
+                    }
+                }
+
+                if (matchingProfile) {
+                    // Populate form fields
+                    if (matchingProfile.targetIndustry) {
+                        document.getElementById('targetIndustry').value = matchingProfile.targetIndustry;
+                    }
+                    if (matchingProfile.targetSize) {
+                        document.getElementById('targetSize').value = matchingProfile.targetSize;
+                    }
+                    if (matchingProfile.targetBudget) {
+                        document.getElementById('targetBudget').value = matchingProfile.targetBudget;
+                    }
+                    if (matchingProfile.targetLocation) {
+                        document.getElementById('targetLocation').value = matchingProfile.targetLocation;
+                    }
+                    if (matchingProfile.primaryOffering) {
+                        document.getElementById('primaryOffering').value = matchingProfile.primaryOffering;
+                    }
+                    if (matchingProfile.valueProposition) {
+                        document.getElementById('valueProposition').value = matchingProfile.valueProposition;
+                    }
+                    if (matchingProfile.workStyle) {
+                        document.getElementById('workStyle').value = matchingProfile.workStyle;
+                    }
+
+                    // Restore business goals checkboxes
+                    if (matchingProfile.businessGoals && matchingProfile.businessGoals.length > 0) {
+                        matchingProfile.businessGoals.forEach(goal => {
+                            const checkbox = document.querySelector(`input[name="business-goals"][value="${goal}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                            }
+                        });
+                    }
+
+                    // Show the "Find My Matches" button since profile is already saved
+                    const successDiv = document.getElementById('matchingProfileSaved');
+                    if (successDiv) {
+                        successDiv.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading matching profile:', error);
+            }
+        }
+
+        // Save Matching Profile
+        async function saveMatchingProfile() {
+            const saveBtn = document.getElementById('saveProfileBtn');
+            const successDiv = document.getElementById('matchingProfileSaved');
+
+            try {
+                // Update button to show saving state
+                if (saveBtn) {
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = '<span class="loading-spinner" style="width: 14px; height: 14px; border-width: 2px; margin-right: 0.5rem; display: inline-block; vertical-align: middle;"></span>Saving...';
+                    saveBtn.style.opacity = '0.7';
+                }
+
+                // Collect form values
+                const targetIndustry = document.getElementById('targetIndustry').value;
+                const targetSize = document.getElementById('targetSize').value;
+                const targetBudget = document.getElementById('targetBudget').value;
+                const targetLocation = document.getElementById('targetLocation').value;
+                const primaryOffering = document.getElementById('primaryOffering').value;
+                const valueProposition = document.getElementById('valueProposition').value;
+                const workStyle = document.getElementById('workStyle').value;
+
+                // Get selected business goals
+                const businessGoals = Array.from(document.querySelectorAll('input[name="business-goals"]:checked'))
+                    .map(cb => cb.value);
+
+                // Build matching profile object
+                const matchingProfile = {
+                    targetIndustry,
+                    targetSize,
+                    targetBudget,
+                    targetLocation,
+                    primaryOffering,
+                    valueProposition,
+                    workStyle,
+                    businessGoals,
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Save to database
+                if (currentMember && currentMember.id) {
+                    const { error } = await supabase
+                        .from('members')
+                        .update({
+                            matching_profile: matchingProfile
+                        })
+                        .eq('id', currentMember.id);
+
+                    if (error) {
+                        console.error('Error saving matching profile:', error);
+                        throw error;
+                    }
+
+                    // Update current member object
+                    currentMember.matching_profile = matchingProfile;
+                }
+
+                // Also save to localStorage as backup
+                localStorage.setItem('mbc_matching_profile', JSON.stringify(matchingProfile));
+
+                // Show success message and Find Matches button
+                if (successDiv) {
+                    successDiv.style.display = 'block';
+                    successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                // Reset button
+                if (saveBtn) {
+                    saveBtn.innerHTML = '✓ Saved';
+                    saveBtn.style.background = '#4CAF50';
+                    setTimeout(() => {
+                        saveBtn.innerHTML = 'Save Profile';
+                        saveBtn.style.background = '';
+                        saveBtn.disabled = false;
+                        saveBtn.style.opacity = '1';
+                    }, 2000);
+                }
+
+            } catch (error) {
+                console.error('Error saving matching profile:', error);
+                alert('Failed to save profile. Please try again.');
+
+                // Reset button on error
+                if (saveBtn) {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = 'Save Profile';
+                    saveBtn.style.opacity = '1';
+                }
+            }
+        }
 
         async function generateSmartMatches() {
             const matchResults = document.getElementById('smartMatchResults');
@@ -8774,6 +8942,9 @@
 
                 // Load community activity feed
                 setTimeout(() => loadCommunityActivity(), 1000);
+
+                // Load saved matching profile preferences
+                setTimeout(() => loadMatchingProfile(), 1000);
 
             } catch (error) {
                 console.error('Error initializing dashboard personalization:', error);

@@ -4009,6 +4009,7 @@
                 position: relative;
                 height: calc(100vh - 12rem) !important;
                 min-height: unset !important;
+                overflow: hidden !important; /* Prevent horizontal scroll */
             }
 
             .conversations-sidebar {
@@ -4018,8 +4019,10 @@
                 right: 0;
                 bottom: 0;
                 max-height: none !important;
+                width: 100% !important;
                 z-index: 1;
                 transition: transform 0.3s ease;
+                transform: translateX(0); /* Show by default */
             }
 
             .message-thread-container {
@@ -4029,18 +4032,30 @@
                 right: 0;
                 bottom: 0;
                 min-height: unset !important;
+                width: 100% !important;
                 z-index: 2;
-                transform: translateX(100%);
+                transform: translateX(100%); /* Hidden off-screen by default */
                 transition: transform 0.3s ease;
+                background: rgba(18, 18, 18, 1); /* Solid background to cover conversations */
             }
 
             /* When chat is open on mobile */
             .mobile-chat-open .conversations-sidebar {
-                transform: translateX(-100%);
+                transform: translateX(-100%); /* Slide conversations off-screen to left */
             }
 
             .mobile-chat-open .message-thread-container {
-                transform: translateX(0);
+                transform: translateX(0); /* Slide chat on-screen from right */
+            }
+
+            /* Prevent body scroll on mobile when in messages */
+            #messages {
+                overflow: hidden !important;
+            }
+
+            /* Make sure section doesn't cause horizontal scroll */
+            .content-section {
+                overflow-x: hidden !important;
             }
 
             /* Member directory should be visible */

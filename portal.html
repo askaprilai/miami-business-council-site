@@ -7667,7 +7667,7 @@
         }
 
         // Member Profile Modal Functions
-        function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin, photoUrl = null, lookingFor = [], canOffer = []) {
+        async function openMemberProfile(id, name, title, company, avatar, tags, email, linkedin, photoUrl = null, lookingFor = [], canOffer = []) {
             // Update modal content with member data
             const avatarElement = document.getElementById('profileAvatarLarge');
 
@@ -7723,6 +7723,27 @@
             // Show modal
             document.getElementById('memberProfileModal').style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+            // === PROFILE VIEW TRACKING (NEW CODE) ===
+            // Track that current member viewed this profile
+            try {
+                if (currentMember && currentMember.id && currentMember.id !== id) {
+                    // Record view asynchronously (non-blocking)
+                    const { error: viewError } = await supabase
+                        .from('profile_views')
+                        .insert({
+                            viewer_id: currentMember.id,
+                            viewed_member_id: id
+                        });
+
+                    if (viewError) {
+                        console.log('Profile view tracking skipped:', viewError.message);
+                    }
+                }
+            } catch (trackingError) {
+                console.log('Profile view tracking error (non-critical):', trackingError);
+            }
+            // === END PROFILE VIEW TRACKING ===
         }
 
         function closeMemberProfile() {
@@ -8727,7 +8748,10 @@
                 
                 // Update profile strength
                 calculateProfileStrength(auth);
-                
+
+                // Load community activity feed
+                setTimeout(() => loadCommunityActivity(), 1000);
+
             } catch (error) {
                 console.error('Error initializing dashboard personalization:', error);
             }
@@ -9035,11 +9059,20 @@
 
         async function calculateProfileViews(email) {
             try {
-                // TODO: Implement profile view tracking in database
-                // For now, return 0 - we'll add a profile_views table later
-                return 0;
+                const { data: member, error } = await supabase
+                    .from('members')
+                    .select('profile_views')
+                    .eq('email', email)
+                    .single();
+
+                if (error || !member) {
+                    console.error('Error getting profile views:', error);
+                    return 0;
+                }
+
+                return member.profile_views || 0;
             } catch (error) {
-                console.error('❌ Error in calculateProfileViews:', error);
+                console.error('Error in calculateProfileViews:', error);
                 return 0;
             }
         }
@@ -13405,6 +13438,110 @@ This will enable beautiful previews when sharing the portal link on social media
             document.getElementById('tutorialSpotlight').style.display = 'none';
             localStorage.setItem('mbc_tutorial_completed', 'true');
         }
+
+        // === COMMUNITY ACTIVITY FEED (NEW CODE) ===
+        // Load community activity feed
+        async function loadCommunityActivity() {
+            try {
+                const activityList = document.getElementById('activityFeedList');
+                if (!activityList) return;
+
+                activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">Loading...</div>';
+
+                // Get last 10 activities from last 30 days
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                const { data: activities, error } = await supabase
+                    .from('activity_log')
+                    .select(`
+                        id,
+                        activity_type,
+                        activity_data,
+                        created_at,
+                        member:members(first_name, last_name, company_name)
+                    `)
+                    .gte('created_at', thirtyDaysAgo.toISOString())
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+
+                if (error) {
+                    console.error('Error loading activity:', error);
+                    activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">Unable to load activity</div>';
+                    return;
+                }
+
+                if (!activities || activities.length === 0) {
+                    activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">No recent activity</div>';
+                    return;
+                }
+
+                // Render activities
+                activityList.innerHTML = activities.map(activity => {
+                    const member = activity.member;
+                    if (!member) return '';
+
+                    let icon = '📌';
+                    let text = '';
+
+                    switch (activity.activity_type) {
+                        case 'member_joined':
+                            icon = '🎉';
+                            text = `${member.first_name} ${member.last_name} joined the community`;
+                            break;
+                        case 'connection_made':
+                            icon = '🤝';
+                            text = `${member.first_name} ${member.last_name} made a new connection`;
+                            break;
+                        case 'profile_updated':
+                            icon = '✏️';
+                            text = `${member.first_name} ${member.last_name} updated their profile`;
+                            break;
+                        case 'event_registered':
+                            icon = '📅';
+                            text = `${member.first_name} ${member.last_name} registered for an event`;
+                            break;
+                    }
+
+                    const timeAgo = getTimeAgo(new Date(activity.created_at));
+
+                    return `
+                        <div style="display: flex; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px; margin-bottom: 0.5rem;">
+                            <div style="font-size: 1.5rem;">${icon}</div>
+                            <div style="flex: 1;">
+                                <div style="color: #e8eaed; font-size: 0.9rem;">${text}</div>
+                                <div style="color: #C9A86A; font-size: 0.75rem; margin-top: 0.25rem;">${timeAgo}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error in loadCommunityActivity:', error);
+            }
+        }
+
+        // Helper: Get time ago
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            const intervals = {
+                year: 31536000,
+                month: 2592000,
+                week: 604800,
+                day: 86400,
+                hour: 3600,
+                minute: 60
+            };
+
+            for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+                const interval = Math.floor(seconds / secondsInUnit);
+                if (interval >= 1) {
+                    return interval === 1 ? `1 ${unit} ago` : `${interval} ${unit}s ago`;
+                }
+            }
+            return 'Just now';
+        }
+        // === END COMMUNITY ACTIVITY FEED ===
 
         // Start tutorial on page load
         document.addEventListener('DOMContentLoaded', function() {

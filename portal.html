@@ -4929,6 +4929,31 @@
                     </button>
                 </div>
 
+                <!-- AI Recommended Requests -->
+                <div id="aiRecommendations" style="display: none; margin-bottom: 2rem;">
+                    <div class="dashboard-card" style="background: linear-gradient(135deg, rgba(201, 168, 106, 0.1) 0%, rgba(201, 168, 106, 0.05) 100%); border: 1px solid rgba(201, 168, 106, 0.3);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <div>
+                                <h3 style="color: #C9A86A; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                    🎯 Recommended For You
+                                    <span style="background: rgba(201, 168, 106, 0.2); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                                        AI-Powered
+                                    </span>
+                                </h3>
+                                <p style="color: #999; font-size: 0.9rem; margin: 0.5rem 0 0 0;">
+                                    Based on your expertise and profile
+                                </p>
+                            </div>
+                            <button onclick="refreshAIRecommendations()" class="connect-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                        <div id="aiRecommendationsGrid" class="needs-grid" style="gap: 1rem;">
+                            <!-- AI recommendations will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tab Navigation -->
                 <div class="collab-tabs" style="margin-bottom: 2rem;">
                     <button class="collab-tab" data-tab="open" onclick="switchCollabTab('open')">
@@ -6655,7 +6680,10 @@
 
             // Load collaboration hub when navigating to collaboration-hub section
             if (sectionId === 'collaboration-hub') {
-                setTimeout(() => loadMemberNeeds(), 100);
+                setTimeout(() => {
+                    loadMemberNeeds();
+                    loadAIRecommendations(); // Load AI-powered recommendations
+                }, 100);
             }
 
             // Remove floating input box when leaving messages section
@@ -13921,6 +13949,157 @@ This will enable beautiful previews when sharing the portal link on social media
         let allCollabNeeds = [];
         let displayedCount = 15;
         const ITEMS_PER_PAGE = 15;
+        let aiRecommendationsCache = null;
+        let aiRecommendationsCacheTime = null;
+        const AI_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+        // Load AI-powered recommendations
+        async function loadAIRecommendations() {
+            try {
+                // Check cache first
+                if (aiRecommendationsCache && aiRecommendationsCacheTime) {
+                    const cacheAge = Date.now() - aiRecommendationsCacheTime;
+                    if (cacheAge < AI_CACHE_DURATION) {
+                        console.log('✅ Using cached AI recommendations');
+                        displayAIRecommendations(aiRecommendationsCache);
+                        return;
+                    }
+                }
+
+                console.log('🤖 Loading AI recommendations...');
+                const aiContainer = document.getElementById('aiRecommendations');
+                const aiGrid = document.getElementById('aiRecommendationsGrid');
+
+                if (!aiContainer || !aiGrid) return;
+
+                // Show loading state
+                aiContainer.style.display = 'block';
+                aiGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;"><div class="loading-spinner"></div><p style="margin-top: 1rem;">AI is analyzing matches...</p></div>';
+
+                // Call Supabase Edge Function
+                const { data, error } = await supabase.functions.invoke('smart-match-collaborations', {
+                    body: {}
+                });
+
+                if (error) {
+                    console.error('❌ AI recommendations error:', error);
+                    aiContainer.style.display = 'none';
+                    return;
+                }
+
+                console.log('🎯 AI recommendations loaded:', data);
+
+                // Cache the results
+                aiRecommendationsCache = data.matches || [];
+                aiRecommendationsCacheTime = Date.now();
+
+                // Display recommendations
+                displayAIRecommendations(aiRecommendationsCache);
+
+            } catch (error) {
+                console.error('❌ Error loading AI recommendations:', error);
+                const aiContainer = document.getElementById('aiRecommendations');
+                if (aiContainer) aiContainer.style.display = 'none';
+            }
+        }
+
+        // Display AI recommendations
+        function displayAIRecommendations(matches) {
+            const aiContainer = document.getElementById('aiRecommendations');
+            const aiGrid = document.getElementById('aiRecommendationsGrid');
+
+            if (!matches || matches.length === 0) {
+                aiContainer.style.display = 'none';
+                return;
+            }
+
+            aiContainer.style.display = 'block';
+
+            const matchesHtml = matches.slice(0, 3).map(match => {
+                // Calculate match badge color
+                const scoreColor = match.matchScore >= 90 ? '#51cf66' :
+                                  match.matchScore >= 75 ? '#ffd43b' :
+                                  '#ff8c42';
+
+                // Category labels
+                const categoryLabels = {
+                    'marketing': 'Marketing',
+                    'legal': 'Legal',
+                    'design': 'Design',
+                    'development': 'Development',
+                    'finance': 'Finance',
+                    'consulting': 'Consulting',
+                    'real-estate': 'Real Estate',
+                    'other': 'Other'
+                };
+
+                // Budget labels
+                const budgetLabels = {
+                    'under-1k': 'Under $1K',
+                    '1k-5k': '$1K - $5K',
+                    '5k-10k': '$5K - $10K',
+                    '10k-plus': '$10K+',
+                    'trade': 'Trade/Barter',
+                    'pro-bono': 'Pro Bono'
+                };
+
+                return `
+                    <div class="needs-card" style="position: relative; border-color: rgba(201, 168, 106, 0.3);">
+                        <!-- Match Score Badge -->
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: ${scoreColor}; color: #000; padding: 0.5rem 0.75rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">
+                            ${match.matchScore}% Match
+                        </div>
+
+                        <!-- Header -->
+                        <div style="margin-bottom: 1rem; padding-right: 6rem;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: #C9A86A; font-size: 1.1rem;">${match.title}</h3>
+                            <span class="member-tag">${categoryLabels[match.category]}</span>
+                        </div>
+
+                        <!-- AI Match Reason -->
+                        <div style="background: rgba(201, 168, 106, 0.1); border-left: 3px solid #C9A86A; padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: 4px;">
+                            <div style="color: #C9A86A; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem;">🤖 Why this matches you:</div>
+                            <div style="color: #e8eaed; font-size: 0.9rem;">${match.matchReason}</div>
+                        </div>
+
+                        <!-- Description -->
+                        <p style="color: #ccc; margin: 1rem 0; line-height: 1.6;">${match.description}</p>
+
+                        <!-- Meta information -->
+                        ${match.budget_range || match.timeline ? `
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
+                            ${match.budget_range ? `
+                                <div style="flex: 1; min-width: 150px;">
+                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">💰 Budget</div>
+                                    <div style="color: #C9A86A; font-weight: 500;">${budgetLabels[match.budget_range] || match.budget_range}</div>
+                                </div>
+                            ` : ''}
+                            ${match.timeline ? `
+                                <div style="flex: 1; min-width: 150px;">
+                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">⏱️ Timeline</div>
+                                    <div style="color: #C9A86A; font-weight: 500;">${match.timeline}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ` : ''}
+
+                        <!-- Action -->
+                        <button class="register-btn" onclick="respondToNeed('${match.id}', '${match.member_id}', '${match.title.replace(/'/g, "\\'")}', 'Member', '')" style="width: 100%; margin-top: 1rem;">
+                            ✋ I Can Help With This
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            aiGrid.innerHTML = matchesHtml;
+        }
+
+        // Refresh AI recommendations
+        async function refreshAIRecommendations() {
+            aiRecommendationsCache = null;
+            aiRecommendationsCacheTime = null;
+            await loadAIRecommendations();
+        }
 
         // Switch collaboration tab
         function switchCollabTab(tabName) {

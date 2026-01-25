@@ -13875,18 +13875,29 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
 
-                // Query with member relationship
+                // Query member needs
                 console.log('📡 Querying member_needs table...');
                 const { data: needs, error } = await supabase
                     .from('member_needs')
-                    .select(`
-                        *,
-                        member:members(id, first_name, last_name, company_name, profile_photo_url, email)
-                    `)
+                    .select('*')
                     .order('created_at', { ascending: false })
                     .limit(50);
 
-                console.log('📦 Query result:', { needs, error });
+                console.log('📦 Needs data:', needs);
+
+                // If we have needs, fetch member data separately
+                if (needs && needs.length > 0) {
+                    const memberIds = [...new Set(needs.map(n => n.member_id))];
+                    const { data: members } = await supabase
+                        .from('members')
+                        .select('id, first_name, last_name, company_name, profile_photo_url, email')
+                        .in('id', memberIds);
+
+                    // Attach member data to each need
+                    needs.forEach(need => {
+                        need.member = members.find(m => m.id === need.member_id);
+                    });
+                }
 
                 if (error) {
                     console.error('❌ Error loading needs:', error);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Member Portal | Miami Business Council</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
@@ -3506,6 +3506,70 @@
 
             #connectionsSearchBar select {
                 width: 100%;
+            }
+
+            /* Compact header for mobile */
+            .portal-header {
+                padding: 0.75rem 0 !important;
+            }
+
+            .header-content {
+                padding: 0 1rem !important;
+            }
+
+            .portal-logo {
+                gap: 0.5rem !important;
+            }
+
+            .portal-logo img {
+                height: 45px !important;
+            }
+
+            .portal-logo span {
+                font-size: 1rem !important;
+                display: none !important; /* Hide "Member Portal" text on small screens */
+            }
+
+            .user-info {
+                gap: 0.5rem !important;
+            }
+
+            .user-info span {
+                display: none !important; /* Hide user name on small screens */
+            }
+
+            .logout-btn {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            .user-avatar {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 0.9rem !important;
+            }
+        }
+
+        /* PWA Standalone Mode (when installed to home screen) */
+        @media all and (display-mode: standalone) {
+            .portal-header {
+                background: rgba(0, 0, 0, 0.95) !important;
+                border-bottom: 1px solid rgba(201, 168, 106, 0.3) !important;
+            }
+
+            .pwa-install-banner {
+                display: none !important; /* Hide install banner when already installed */
+            }
+
+            body {
+                padding-top: env(safe-area-inset-top); /* Handle notch on iPhone */
+            }
+        }
+
+        /* iOS Safari in Standalone Mode */
+        @media all and (display-mode: standalone) and (-webkit-touch-callout: none) {
+            .portal-header {
+                padding-top: calc(env(safe-area-inset-top) + 0.5rem) !important;
             }
         }
 

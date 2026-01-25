@@ -13866,12 +13866,17 @@ This will enable beautiful previews when sharing the portal link on social media
         // Load member needs from database
         async function loadMemberNeeds() {
             try {
+                console.log('🔄 Loading collaboration requests...');
                 const needsGrid = document.getElementById('needsGrid');
-                if (!needsGrid) return;
+                if (!needsGrid) {
+                    console.log('❌ needsGrid element not found');
+                    return;
+                }
 
                 needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
 
                 // Query with member relationship
+                console.log('📡 Querying member_needs table...');
                 const { data: needs, error } = await supabase
                     .from('member_needs')
                     .select(`
@@ -13881,16 +13886,23 @@ This will enable beautiful previews when sharing the portal link on social media
                     .order('created_at', { ascending: false })
                     .limit(50);
 
+                console.log('📦 Query result:', { needs, error });
+
                 if (error) {
-                    console.error('Error loading needs:', error);
+                    console.error('❌ Error loading needs:', error);
                     needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">Unable to load requests. Please refresh.</div>';
                     return;
                 }
 
+                console.log(`✅ Found ${needs?.length || 0} collaboration requests`);
                 displayNeeds(needs);
 
             } catch (error) {
-                console.error('Error in loadMemberNeeds:', error);
+                console.error('❌ Exception in loadMemberNeeds:', error);
+                const needsGrid = document.getElementById('needsGrid');
+                if (needsGrid) {
+                    needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">An error occurred. Please refresh the page.</div>';
+                }
             }
         }
 

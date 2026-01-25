@@ -3815,6 +3815,152 @@
                 flex-direction: column;
             }
         }
+
+        /* ========================================
+           MOBILE BOTTOM NAVIGATION - NATIVE APP FEEL
+           ======================================== */
+
+        /* Bottom Navigation Bar - Mobile Only */
+        .mobile-bottom-nav {
+            display: none; /* Hidden on desktop */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 26, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(201, 168, 106, 0.2);
+            padding: 0.5rem 0;
+            padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); /* Handle iPhone home indicator */
+            z-index: 1000;
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: #999;
+            font-size: 0.7rem;
+            font-weight: 500;
+            min-width: 60px;
+            position: relative;
+        }
+
+        .mobile-nav-item .nav-icon {
+            font-size: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .mobile-nav-item .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .mobile-nav-item.active {
+            color: #C9A86A;
+        }
+
+        .mobile-nav-item.active .nav-icon {
+            transform: scale(1.1);
+        }
+
+        .mobile-nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Notification badge on mobile nav */
+        .mobile-nav-item .notification-badge {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.5rem;
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.35rem;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Mobile-specific layout adjustments */
+        @media (max-width: 768px) {
+            /* Show bottom nav on mobile */
+            .mobile-bottom-nav {
+                display: block;
+            }
+
+            /* Hide left sidebar on mobile */
+            .sidebar {
+                display: none !important;
+            }
+
+            /* Hide desktop-only sections on mobile */
+            #dashboard,
+            #smart-matches,
+            #connections,
+            #admin {
+                display: none !important;
+            }
+
+            /* Make main content full width on mobile */
+            .portal-container {
+                display: block !important;
+                margin-left: 0 !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                padding: 1rem !important;
+                padding-bottom: 5rem !important; /* Space for bottom nav */
+            }
+
+            /* Mobile sections take full height */
+            .content-section {
+                min-height: calc(100vh - 10rem);
+            }
+
+            /* Set default active section to Messages on mobile */
+            body.mobile-view #messages {
+                display: block !important;
+            }
+
+            body.mobile-view #dashboard {
+                display: none !important;
+            }
+        }
+
+        /* Extra small phones */
+        @media (max-width: 360px) {
+            .mobile-nav-item {
+                min-width: 50px;
+                padding: 0.5rem 0.5rem;
+            }
+
+            .mobile-nav-item .nav-icon {
+                font-size: 1.3rem;
+            }
+
+            .mobile-nav-item .nav-label {
+                font-size: 0.65rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -6160,6 +6306,80 @@
                 if (floatingInput) floatingInput.remove();
             }
         }
+
+        // Mobile Bottom Navigation - Switch Section Function
+        function switchMobileSection(event, sectionId) {
+            event.preventDefault();
+
+            // Remove active class from all mobile nav items
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked mobile nav item
+            event.currentTarget.classList.add('active');
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Also update desktop nav if visible (for consistency)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Load data for specific sections
+            if (sectionId === 'messages') {
+                setTimeout(() => loadConversations(), 100);
+            }
+            if (sectionId === 'directory') {
+                setTimeout(() => loadMembersFromDatabase(), 100);
+            }
+            if (sectionId === 'events') {
+                setTimeout(() => loadEvents(), 100);
+            }
+        }
+
+        // Detect if mobile view and set default section
+        function initializeMobileView() {
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                // Add mobile-view class to body
+                document.body.classList.add('mobile-view');
+
+                // Hide all sections first
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show Messages as default on mobile
+                const messagesSection = document.getElementById('messages');
+                if (messagesSection) {
+                    messagesSection.classList.add('active');
+                }
+
+                // Set Messages nav item as active
+                const messagesNavItem = document.querySelector('.mobile-nav-item[data-section="messages"]');
+                if (messagesNavItem) {
+                    messagesNavItem.classList.add('active');
+                }
+            }
+        }
+
+        // Run on page load and window resize
+        window.addEventListener('DOMContentLoaded', initializeMobileView);
+        window.addEventListener('resize', initializeMobileView);
 
         // Navigation functionality
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -9340,6 +9560,25 @@
 
                 // Render conversations
                 renderConversations(currentConversations);
+
+                // Update notification badges (desktop and mobile)
+                const totalUnread = currentConversations.reduce((sum, conv) => sum + conv.unreadCount, 0);
+                const desktopBadge = document.getElementById('messageNotificationBadge');
+                const mobileBadge = document.getElementById('mobileMessageBadge');
+
+                if (totalUnread > 0) {
+                    if (desktopBadge) {
+                        desktopBadge.textContent = totalUnread;
+                        desktopBadge.style.display = 'inline-block';
+                    }
+                    if (mobileBadge) {
+                        mobileBadge.textContent = totalUnread;
+                        mobileBadge.style.display = 'inline-block';
+                    }
+                } else {
+                    if (desktopBadge) desktopBadge.style.display = 'none';
+                    if (mobileBadge) mobileBadge.style.display = 'none';
+                }
 
             } catch (error) {
                 console.error('Error in loadConversations:', error);
@@ -12719,6 +12958,29 @@ This will enable beautiful previews when sharing the portal link on social media
 
     <!-- Tutorial Spotlight (highlights the current element) -->
     <div id="tutorialSpotlight" style="display: none; position: fixed; border: 3px solid #C9A86A; border-radius: 8px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5), 0 0 30px rgba(201, 168, 106, 0.6); z-index: 10000; pointer-events: none; transition: all 0.4s ease;"></div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-nav-items">
+            <a href="#" class="mobile-nav-item" data-section="messages" onclick="switchMobileSection(event, 'messages')">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Messages</span>
+                <span id="mobileMessageBadge" class="notification-badge" style="display: none;">0</span>
+            </a>
+            <a href="#" class="mobile-nav-item" data-section="directory" onclick="switchMobileSection(event, 'directory')">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Members</span>
+            </a>
+            <a href="#" class="mobile-nav-item" data-section="events" onclick="switchMobileSection(event, 'events')">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">Events</span>
+            </a>
+            <a href="#" class="mobile-nav-item" data-section="profile" onclick="switchMobileSection(event, 'profile')">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Profile</span>
+            </a>
+        </div>
+    </nav>
 
     <script>
         // Interactive Tutorial System

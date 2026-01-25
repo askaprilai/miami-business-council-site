@@ -4132,6 +4132,53 @@
         }
 
         /* Collaboration Hub Styles */
+        /* Collaboration Hub Tab Navigation */
+        .collab-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .collab-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e8eaed;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-bottom: none;
+        }
+
+        .collab-tab:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .collab-tab.active {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: #C9A86A;
+            color: #C9A86A;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .collab-tabs {
+                gap: 0.25rem;
+            }
+
+            .collab-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
         .needs-grid {
             display: grid;
             gap: 1.5rem;
@@ -4880,15 +4927,30 @@
                             style="padding: 0.75rem 2rem; font-size: 1rem;">
                         ➕ Post a Request
                     </button>
-                    <button class="connect-btn" onclick="showMyNeeds()"
-                            style="padding: 0.75rem 2rem; font-size: 1rem;">
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="collab-tabs" style="margin-bottom: 2rem;">
+                    <button class="collab-tab" data-tab="open" onclick="switchCollabTab('open')">
+                        🟢 Open
+                    </button>
+                    <button class="collab-tab" data-tab="all" onclick="switchCollabTab('all')">
+                        📋 All
+                    </button>
+                    <button class="collab-tab" data-tab="in_progress" onclick="switchCollabTab('in_progress')">
+                        🟡 In Progress
+                    </button>
+                    <button class="collab-tab" data-tab="fulfilled" onclick="switchCollabTab('fulfilled')">
+                        ✅ Fulfilled
+                    </button>
+                    <button class="collab-tab" data-tab="my-posts" onclick="switchCollabTab('my-posts')">
                         📝 My Posts
                     </button>
                 </div>
 
                 <!-- Filters -->
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
-                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">🔍 Filter Requests</h3>
+                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">🔍 Refine Results</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                         <div class="profile-field">
                             <label>Category:</label>
@@ -4902,15 +4964,6 @@
                                 <option value="consulting">Consulting</option>
                                 <option value="real-estate">Real Estate</option>
                                 <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="profile-field">
-                            <label>Status:</label>
-                            <select class="profile-input" id="needsStatusFilter" onchange="filterNeeds()">
-                                <option value="all">All Statuses</option>
-                                <option value="open">Open</option>
-                                <option value="in_progress">In Progress</option>
-                                <option value="fulfilled">Fulfilled</option>
                             </select>
                         </div>
                         <div class="profile-field">
@@ -4928,7 +4981,7 @@
                         <div class="profile-field">
                             <label>Search:</label>
                             <input type="text" class="profile-input" id="needsSearchInput"
-                                   placeholder="Search requests..." oninput="filterNeeds()">
+                                   placeholder="Search title or description..." oninput="filterNeeds()">
                         </div>
                     </div>
                 </div>
@@ -13863,6 +13916,81 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // === COLLABORATION HUB FUNCTIONS ===
 
+        // Global state for collaboration hub
+        let currentCollabTab = 'open';
+        let allCollabNeeds = [];
+        let displayedCount = 15;
+        const ITEMS_PER_PAGE = 15;
+
+        // Switch collaboration tab
+        function switchCollabTab(tabName) {
+            currentCollabTab = tabName;
+            displayedCount = ITEMS_PER_PAGE; // Reset pagination
+
+            // Update tab UI
+            document.querySelectorAll('.collab-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`)?.classList.add('active');
+
+            // Filter and display
+            filterAndDisplayNeeds();
+        }
+
+        // Filter and display needs based on current tab
+        function filterAndDisplayNeeds() {
+            let filteredNeeds = [...allCollabNeeds];
+
+            // Apply tab filter
+            if (currentCollabTab === 'open') {
+                filteredNeeds = filteredNeeds.filter(n => n.status === 'open');
+            } else if (currentCollabTab === 'in_progress') {
+                filteredNeeds = filteredNeeds.filter(n => n.status === 'in_progress');
+            } else if (currentCollabTab === 'fulfilled') {
+                filteredNeeds = filteredNeeds.filter(n => n.status === 'fulfilled');
+            } else if (currentCollabTab === 'my-posts') {
+                filteredNeeds = filteredNeeds.filter(n => currentMember && n.member_id === currentMember.id);
+            }
+            // 'all' shows everything
+
+            // Apply additional filters from filter dropdowns
+            const categoryFilter = document.getElementById('needsCategoryFilter')?.value;
+            const budgetFilter = document.getElementById('needsBudgetFilter')?.value;
+            const searchTerm = document.getElementById('needsSearchInput')?.value?.toLowerCase();
+
+            if (categoryFilter && categoryFilter !== 'all') {
+                filteredNeeds = filteredNeeds.filter(n => n.category === categoryFilter);
+            }
+
+            if (budgetFilter && budgetFilter !== 'all') {
+                filteredNeeds = filteredNeeds.filter(n => n.budget_range === budgetFilter);
+            }
+
+            if (searchTerm) {
+                filteredNeeds = filteredNeeds.filter(n =>
+                    n.title.toLowerCase().includes(searchTerm) ||
+                    n.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Display with pagination
+            displayNeedsWithPagination(filteredNeeds);
+        }
+
+        // Display needs with pagination
+        function displayNeedsWithPagination(needs) {
+            const needsToShow = needs.slice(0, displayedCount);
+            const hasMore = needs.length > displayedCount;
+
+            displayNeeds(needsToShow, hasMore, needs.length);
+        }
+
+        // Load more needs
+        function loadMoreNeeds() {
+            displayedCount += ITEMS_PER_PAGE;
+            filterAndDisplayNeeds();
+        }
+
         // Load member needs from database
         async function loadMemberNeeds() {
             try {
@@ -13906,7 +14034,17 @@ This will enable beautiful previews when sharing the portal link on social media
                 }
 
                 console.log(`✅ Found ${needs?.length || 0} collaboration requests`);
-                displayNeeds(needs);
+
+                // Store all needs globally
+                allCollabNeeds = needs || [];
+
+                // Set default tab to 'open' on first load
+                if (!document.querySelector('.collab-tab.active')) {
+                    document.querySelector('[data-tab="open"]')?.classList.add('active');
+                }
+
+                // Filter and display based on current tab
+                filterAndDisplayNeeds();
 
             } catch (error) {
                 console.error('❌ Exception in loadMemberNeeds:', error);
@@ -13918,15 +14056,20 @@ This will enable beautiful previews when sharing the portal link on social media
         }
 
         // Display needs as cards
-        function displayNeeds(needs) {
+        function displayNeeds(needs, hasMore = false, totalCount = 0) {
             const needsGrid = document.getElementById('needsGrid');
 
             if (!needs || needs.length === 0) {
+                const emptyMessage = currentCollabTab === 'my-posts'
+                    ? '<h3 style="color: #e8eaed;">You haven\'t posted any requests yet</h3><p>Post your first collaboration request to get started!</p>'
+                    : currentCollabTab === 'open'
+                    ? '<h3 style="color: #e8eaed;">No open requests</h3><p>All current requests are in progress or fulfilled!</p>'
+                    : '<h3 style="color: #e8eaed;">No collaboration requests found</h3><p>Try adjusting your filters or be the first to post!</p>';
+
                 needsGrid.innerHTML = `
                     <div style="text-align: center; padding: 3rem; color: #ccc;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
-                        <h3 style="color: #e8eaed;">No collaboration requests yet</h3>
-                        <p>Be the first to post what you need help with!</p>
+                        ${emptyMessage}
                         <button class="register-btn" onclick="showCreateNeedModal()" style="margin-top: 1rem;">
                             Post a Request
                         </button>
@@ -14066,7 +14209,19 @@ This will enable beautiful previews when sharing the portal link on social media
                 `;
             }).join('');
 
-            needsGrid.innerHTML = needsHtml;
+            // Add Load More button if there are more items
+            const loadMoreButton = hasMore ? `
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem;">
+                    <p style="color: #999; margin-bottom: 1rem;">
+                        Showing ${needs.length} of ${totalCount} requests
+                    </p>
+                    <button class="connect-btn" onclick="loadMoreNeeds()" style="padding: 0.75rem 2rem;">
+                        Load More
+                    </button>
+                </div>
+            ` : '';
+
+            needsGrid.innerHTML = needsHtml + loadMoreButton;
         }
 
         // Show modal to create a new need
@@ -14265,89 +14420,16 @@ This will enable beautiful previews when sharing the portal link on social media
         }
 
         // Filter needs based on category, status, budget, and search
+        // Filter needs - called when dropdown filters change
         function filterNeeds() {
-            const categoryFilter = document.getElementById('needsCategoryFilter')?.value || 'all';
-            const statusFilter = document.getElementById('needsStatusFilter')?.value || 'all';
-            const budgetFilter = document.getElementById('needsBudgetFilter')?.value || 'all';
-            const searchTerm = document.getElementById('needsSearchInput')?.value.toLowerCase() || '';
-
-            const allCards = document.querySelectorAll('.needs-card');
-            let visibleCount = 0;
-
-            allCards.forEach(card => {
-                let show = true;
-
-                // Category filter
-                if (categoryFilter !== 'all' && card.dataset.category !== categoryFilter) {
-                    show = false;
-                }
-
-                // Status filter
-                if (statusFilter !== 'all' && card.dataset.status !== statusFilter) {
-                    show = false;
-                }
-
-                // Budget filter
-                if (budgetFilter !== 'all' && card.dataset.budget !== budgetFilter) {
-                    show = false;
-                }
-
-                // Search filter
-                if (searchTerm) {
-                    const title = card.dataset.title || '';
-                    const description = card.dataset.description || '';
-                    if (!title.includes(searchTerm) && !description.includes(searchTerm)) {
-                        show = false;
-                    }
-                }
-
-                card.style.display = show ? 'block' : 'none';
-                if (show) visibleCount++;
-            });
-
-            // Show message if no results
-            const needsGrid = document.getElementById('needsGrid');
-            if (visibleCount === 0 && allCards.length > 0) {
-                const noResultsMsg = document.getElementById('noResultsMessage');
-                if (!noResultsMsg) {
-                    needsGrid.insertAdjacentHTML('beforeend', `
-                        <div id="noResultsMessage" style="text-align: center; padding: 2rem; color: #999;">
-                            No requests match your filters. Try adjusting your criteria.
-                        </div>
-                    `);
-                }
-            } else {
-                const noResultsMsg = document.getElementById('noResultsMessage');
-                if (noResultsMsg) noResultsMsg.remove();
-            }
+            displayedCount = ITEMS_PER_PAGE; // Reset pagination when filtering
+            filterAndDisplayNeeds();
         }
 
         // Show only current user's needs
+        // Show my needs - switched to use tab system
         function showMyNeeds() {
-            if (!currentMember || !currentMember.id) {
-                alert('Please log in to view your posts');
-                return;
-            }
-
-            // Filter to show only user's posts
-            const allCards = document.querySelectorAll('.needs-card');
-            let myPostsCount = 0;
-
-            allCards.forEach(card => {
-                const isMyPost = card.dataset.memberId === currentMember.id;
-                card.style.display = isMyPost ? 'block' : 'none';
-                if (isMyPost) myPostsCount++;
-            });
-
-            // Clear filter selections
-            document.getElementById('needsCategoryFilter').value = 'all';
-            document.getElementById('needsStatusFilter').value = 'all';
-            document.getElementById('needsBudgetFilter').value = 'all';
-            document.getElementById('needsSearchInput').value = '';
-
-            if (myPostsCount === 0) {
-                alert('You haven\'t posted any collaboration requests yet.');
-            }
+            switchCollabTab('my-posts');
         }
 
         // Update status of a need

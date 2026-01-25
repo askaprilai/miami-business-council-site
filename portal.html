@@ -4130,6 +4130,43 @@
                 font-size: 0.65rem;
             }
         }
+
+        /* Collaboration Hub Styles */
+        .needs-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .needs-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .needs-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .needs-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .needs-header {
+                flex-direction: column;
+            }
+
+            .needs-header > div:last-child {
+                text-align: left !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -4185,6 +4222,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="events">📅 Events</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="collaboration-hub">🤝 Collaboration Hub</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="profile">⚙️ My Profile</a>
@@ -4825,6 +4865,81 @@
                     <button class="register-btn">Register Now</button>
                 </div>
 
+            </section>
+
+            <!-- Collaboration Hub Section -->
+            <section id="collaboration-hub" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">🤝 Collaboration Hub</h1>
+                    <p>Post what you need help with, or offer your expertise to fellow members</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <button class="register-btn" onclick="showCreateNeedModal()"
+                            style="padding: 0.75rem 2rem; font-size: 1rem;">
+                        ➕ Post a Request
+                    </button>
+                    <button class="connect-btn" onclick="showMyNeeds()"
+                            style="padding: 0.75rem 2rem; font-size: 1rem;">
+                        📝 My Posts
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">🔍 Filter Requests</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="profile-field">
+                            <label>Category:</label>
+                            <select class="profile-input" id="needsCategoryFilter" onchange="filterNeeds()">
+                                <option value="all">All Categories</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="legal">Legal</option>
+                                <option value="design">Design</option>
+                                <option value="development">Development</option>
+                                <option value="finance">Finance</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="real-estate">Real Estate</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label>Status:</label>
+                            <select class="profile-input" id="needsStatusFilter" onchange="filterNeeds()">
+                                <option value="all">All Statuses</option>
+                                <option value="open">Open</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="fulfilled">Fulfilled</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label>Budget:</label>
+                            <select class="profile-input" id="needsBudgetFilter" onchange="filterNeeds()">
+                                <option value="all">Any Budget</option>
+                                <option value="under-1k">Under $1K</option>
+                                <option value="1k-5k">$1K - $5K</option>
+                                <option value="5k-10k">$5K - $10K</option>
+                                <option value="10k-plus">$10K+</option>
+                                <option value="trade">Trade/Barter</option>
+                                <option value="pro-bono">Pro Bono</option>
+                            </select>
+                        </div>
+                        <div class="profile-field">
+                            <label>Search:</label>
+                            <input type="text" class="profile-input" id="needsSearchInput"
+                                   placeholder="Search requests..." oninput="filterNeeds()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collaboration Grid -->
+                <div id="needsGrid" class="needs-grid">
+                    <div style="text-align: center; padding: 3rem; color: #999;">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top: 1rem;">Loading collaboration requests...</p>
+                    </div>
+                </div>
             </section>
 
             <!-- Profile Section -->
@@ -6483,6 +6598,11 @@
             // Load weekly alerts preference when navigating to smart matches
             if (sectionId === 'smart-matches') {
                 setTimeout(() => loadWeeklyAlertsPreference(), 100);
+            }
+
+            // Load collaboration hub when navigating to collaboration-hub section
+            if (sectionId === 'collaboration-hub') {
+                setTimeout(() => loadMemberNeeds(), 100);
             }
 
             // Remove floating input box when leaving messages section
@@ -13473,6 +13593,10 @@ This will enable beautiful previews when sharing the portal link on social media
                 <span class="nav-icon">📅</span>
                 <span class="nav-label">Events</span>
             </a>
+            <a href="#" class="mobile-nav-item" data-section="collaboration-hub" onclick="switchMobileSection(event, 'collaboration-hub')">
+                <span class="nav-icon">🤝</span>
+                <span class="nav-label">Collab</span>
+            </a>
             <a href="#" class="mobile-nav-item" data-section="profile" onclick="switchMobileSection(event, 'profile')">
                 <span class="nav-icon">👤</span>
                 <span class="nav-label">Profile</span>
@@ -13736,6 +13860,517 @@ This will enable beautiful previews when sharing the portal link on social media
             return 'Just now';
         }
         // === END COMMUNITY ACTIVITY FEED ===
+
+        // === COLLABORATION HUB FUNCTIONS ===
+
+        // Load member needs from database
+        async function loadMemberNeeds() {
+            try {
+                const needsGrid = document.getElementById('needsGrid');
+                if (!needsGrid) return;
+
+                needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
+
+                // Query with member relationship
+                const { data: needs, error } = await supabase
+                    .from('member_needs')
+                    .select(`
+                        *,
+                        member:members(id, first_name, last_name, company_name, profile_photo_url, email)
+                    `)
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+
+                if (error) {
+                    console.error('Error loading needs:', error);
+                    needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">Unable to load requests. Please refresh.</div>';
+                    return;
+                }
+
+                displayNeeds(needs);
+
+            } catch (error) {
+                console.error('Error in loadMemberNeeds:', error);
+            }
+        }
+
+        // Display needs as cards
+        function displayNeeds(needs) {
+            const needsGrid = document.getElementById('needsGrid');
+
+            if (!needs || needs.length === 0) {
+                needsGrid.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #ccc;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
+                        <h3 style="color: #e8eaed;">No collaboration requests yet</h3>
+                        <p>Be the first to post what you need help with!</p>
+                        <button class="register-btn" onclick="showCreateNeedModal()" style="margin-top: 1rem;">
+                            Post a Request
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const needsHtml = needs.map(need => {
+                const memberName = `${need.member.first_name} ${need.member.last_name}`;
+                const initials = `${need.member.first_name[0]}${need.member.last_name[0]}`.toUpperCase();
+
+                // Time ago
+                const createdDate = new Date(need.created_at);
+                const now = new Date();
+                const diffDays = Math.floor((now - createdDate) / (1000 * 60 * 60 * 24));
+                const timeAgo = diffDays === 0 ? 'Today' :
+                               diffDays === 1 ? 'Yesterday' :
+                               diffDays < 7 ? `${diffDays}d ago` :
+                               `${Math.floor(diffDays / 7)}w ago`;
+
+                // Status badge styling
+                const statusConfig = {
+                    'open': { color: '#51cf66', label: 'Open', icon: '🟢' },
+                    'in_progress': { color: '#ffd43b', label: 'In Progress', icon: '🟡' },
+                    'fulfilled': { color: '#adb5bd', label: 'Fulfilled', icon: '✅' },
+                    'closed': { color: '#495057', label: 'Closed', icon: '🔒' }
+                };
+                const status = statusConfig[need.status] || statusConfig['open'];
+
+                // Budget display
+                const budgetLabels = {
+                    'under-1k': 'Under $1K',
+                    '1k-5k': '$1K - $5K',
+                    '5k-10k': '$5K - $10K',
+                    '10k-plus': '$10K+',
+                    'trade': 'Trade/Barter',
+                    'pro-bono': 'Pro Bono'
+                };
+
+                // Timeline display
+                const timelineLabels = {
+                    'urgent': '⚡ Urgent (1 week)',
+                    'short-term': '📅 Short-term (1-4 weeks)',
+                    'medium-term': '📆 Medium-term (1-3 months)',
+                    'long-term': '🗓️ Long-term (3+ months)',
+                    'flexible': '🔄 Flexible'
+                };
+
+                // Category display
+                const categoryLabels = {
+                    'marketing': 'Marketing',
+                    'legal': 'Legal',
+                    'design': 'Design',
+                    'development': 'Development',
+                    'finance': 'Finance',
+                    'consulting': 'Consulting',
+                    'real-estate': 'Real Estate',
+                    'other': 'Other'
+                };
+
+                // Check if current user is the poster
+                const isOwnPost = currentMember && currentMember.id === need.member_id;
+
+                return `
+                    <div class="needs-card"
+                         data-category="${need.category}"
+                         data-status="${need.status}"
+                         data-budget="${need.budget_range || 'none'}"
+                         data-member-id="${need.member_id}"
+                         data-title="${need.title.toLowerCase()}"
+                         data-description="${need.description.toLowerCase()}">
+
+                        <!-- Header with member info -->
+                        <div class="needs-header">
+                            ${need.member.profile_photo_url
+                                ? `<img src="${need.member.profile_photo_url}" alt="${memberName}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">`
+                                : `<div class="member-avatar" style="width: 50px; height: 50px; font-size: 1rem;">${initials}</div>`
+                            }
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; color: #e8eaed; font-size: 1.1rem;">${need.title}</h3>
+                                <p style="margin: 0.25rem 0 0 0; color: #999; font-size: 0.9rem;">
+                                    ${memberName} • ${need.member.company_name}
+                                </p>
+                                <p style="margin: 0.25rem 0 0 0; color: #666; font-size: 0.8rem;">${timeAgo}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="background: ${status.color}; color: #000; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem;">
+                                    ${status.icon} ${status.label}
+                                </div>
+                                <span class="member-tag">${categoryLabels[need.category]}</span>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p style="color: #ccc; margin: 1rem 0; line-height: 1.6;">${need.description}</p>
+
+                        <!-- Meta information -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
+                            ${need.budget_range ? `
+                                <div style="flex: 1; min-width: 150px;">
+                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">💰 Budget</div>
+                                    <div style="color: #C9A86A; font-weight: 500;">${budgetLabels[need.budget_range]}</div>
+                                </div>
+                            ` : ''}
+                            ${need.timeline ? `
+                                <div style="flex: 1; min-width: 150px;">
+                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">Timeline</div>
+                                    <div style="color: #C9A86A; font-weight: 500;">${timelineLabels[need.timeline]}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <!-- Actions -->
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            ${isOwnPost ? `
+                                <button class="connect-btn" onclick="updateNeedStatus('${need.id}')" style="flex: 1;">
+                                    🔄 Update Status
+                                </button>
+                                <button class="register-btn" onclick="editNeed('${need.id}')" style="flex: 1;">
+                                    ✏️ Edit
+                                </button>
+                            ` : need.status === 'open' ? `
+                                <button class="register-btn" onclick="respondToNeed('${need.id}', '${need.member_id}', '${need.title.replace(/'/g, "\\'")}', '${memberName.replace(/'/g, "\\'")}', '${need.member.email}')" style="flex: 1;">
+                                    ✋ I Can Help
+                                </button>
+                                <button class="connect-btn" onclick="viewMemberProfile('${need.member_id}')" style="flex: 1;">
+                                    👤 View Profile
+                                </button>
+                            ` : `
+                                <button class="connect-btn" onclick="viewMemberProfile('${need.member_id}')" style="flex: 1;">
+                                    👤 View Profile
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            needsGrid.innerHTML = needsHtml;
+        }
+
+        // Show modal to create a new need
+        function showCreateNeedModal() {
+            const modalHtml = `
+                <div id="createNeedModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; overflow-y: auto;">
+                    <div style="background: #1a1a1a; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 2rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto;">
+                        <h2 style="color: #C9A86A; margin-bottom: 1.5rem;">🤝 Post a Collaboration Request</h2>
+
+                        <div class="profile-field">
+                            <label>Title *</label>
+                            <input type="text" id="needTitle" class="profile-input"
+                                   placeholder="Brief title (e.g., 'Need logo designer for startup')"
+                                   maxlength="100">
+                            <small style="color: #999;">10-100 characters</small>
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Description *</label>
+                            <textarea id="needDescription" class="profile-input"
+                                      placeholder="Describe what you need in detail..."
+                                      rows="5"></textarea>
+                            <small style="color: #999;">At least 20 characters</small>
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Category *</label>
+                            <select id="needCategory" class="profile-input">
+                                <option value="">Select category...</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="legal">Legal</option>
+                                <option value="design">Design</option>
+                                <option value="development">Development</option>
+                                <option value="finance">Finance</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="real-estate">Real Estate</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Budget Range</label>
+                            <select id="needBudget" class="profile-input">
+                                <option value="">Not specified</option>
+                                <option value="under-1k">Under $1,000</option>
+                                <option value="1k-5k">$1,000 - $5,000</option>
+                                <option value="5k-10k">$5,000 - $10,000</option>
+                                <option value="10k-plus">$10,000+</option>
+                                <option value="trade">Trade/Barter</option>
+                                <option value="pro-bono">Pro Bono</option>
+                            </select>
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Timeline</label>
+                            <select id="needTimeline" class="profile-input">
+                                <option value="">Not specified</option>
+                                <option value="urgent">⚡ Urgent (within 1 week)</option>
+                                <option value="short-term">📅 Short-term (1-4 weeks)</option>
+                                <option value="medium-term">📆 Medium-term (1-3 months)</option>
+                                <option value="long-term">🗓️ Long-term (3+ months)</option>
+                                <option value="flexible">🔄 Flexible</option>
+                            </select>
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Visibility</label>
+                            <select id="needVisibility" class="profile-input">
+                                <option value="public">Public (all members can see)</option>
+                                <option value="connections_only">Connections Only</option>
+                            </select>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button class="register-btn" onclick="submitNeed()" style="flex: 1;">
+                                ✅ Post Request
+                            </button>
+                            <button class="connect-btn" onclick="closeCreateNeedModal()" style="flex: 1;">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function closeCreateNeedModal() {
+            const modal = document.getElementById('createNeedModal');
+            if (modal) modal.remove();
+        }
+
+        // Submit a new need post
+        async function submitNeed() {
+            const title = document.getElementById('needTitle').value.trim();
+            const description = document.getElementById('needDescription').value.trim();
+            const category = document.getElementById('needCategory').value;
+            const budget = document.getElementById('needBudget').value;
+            const timeline = document.getElementById('needTimeline').value;
+            const visibility = document.getElementById('needVisibility').value;
+
+            // Validation
+            if (!title || title.length < 10 || title.length > 100) {
+                alert('Title must be between 10 and 100 characters');
+                return;
+            }
+
+            if (!description || description.length < 20) {
+                alert('Description must be at least 20 characters');
+                return;
+            }
+
+            if (!category) {
+                alert('Please select a category');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('member_needs')
+                    .insert([{
+                        member_id: currentMember.id,
+                        title,
+                        description,
+                        category,
+                        budget_range: budget || null,
+                        timeline: timeline || null,
+                        visibility,
+                        status: 'open'
+                    }])
+                    .select();
+
+                if (error) {
+                    console.error('Error posting need:', error);
+                    alert('Failed to post request. Please try again.');
+                    return;
+                }
+
+                alert('✅ Your collaboration request has been posted successfully!');
+                closeCreateNeedModal();
+                loadMemberNeeds(); // Reload grid
+
+            } catch (error) {
+                console.error('Error in submitNeed:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+
+        // Respond to a need post - sends message to poster
+        async function respondToNeed(needId, posterId, needTitle, posterName, posterEmail) {
+            if (!currentMember || !currentMember.id) {
+                alert('Please log in to respond');
+                return;
+            }
+
+            if (currentMember.id === posterId) {
+                alert('You cannot respond to your own post');
+                return;
+            }
+
+            // Confirm action
+            if (!confirm(`Send a message offering to help with: "${needTitle}"?`)) {
+                return;
+            }
+
+            try {
+                // Pre-fill message
+                const message = `Hi ${posterName}! I saw your collaboration request: "${needTitle}" and I'd love to help. Can we discuss further?`;
+
+                // Send message via existing messaging system
+                const { data, error } = await supabase
+                    .from('messages')
+                    .insert([{
+                        sender_id: currentMember.id,
+                        recipient_id: posterId,
+                        message_text: message,
+                        is_read: false
+                    }]);
+
+                if (error) {
+                    console.error('Error sending response:', error);
+                    alert('Failed to send message. Please try again.');
+                    return;
+                }
+
+                alert('✅ Your message has been sent! You can continue the conversation in Messages.');
+
+                // Optionally navigate to messages
+                showSection('messages');
+
+            } catch (error) {
+                console.error('Error in respondToNeed:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+
+        // Filter needs based on category, status, budget, and search
+        function filterNeeds() {
+            const categoryFilter = document.getElementById('needsCategoryFilter')?.value || 'all';
+            const statusFilter = document.getElementById('needsStatusFilter')?.value || 'all';
+            const budgetFilter = document.getElementById('needsBudgetFilter')?.value || 'all';
+            const searchTerm = document.getElementById('needsSearchInput')?.value.toLowerCase() || '';
+
+            const allCards = document.querySelectorAll('.needs-card');
+            let visibleCount = 0;
+
+            allCards.forEach(card => {
+                let show = true;
+
+                // Category filter
+                if (categoryFilter !== 'all' && card.dataset.category !== categoryFilter) {
+                    show = false;
+                }
+
+                // Status filter
+                if (statusFilter !== 'all' && card.dataset.status !== statusFilter) {
+                    show = false;
+                }
+
+                // Budget filter
+                if (budgetFilter !== 'all' && card.dataset.budget !== budgetFilter) {
+                    show = false;
+                }
+
+                // Search filter
+                if (searchTerm) {
+                    const title = card.dataset.title || '';
+                    const description = card.dataset.description || '';
+                    if (!title.includes(searchTerm) && !description.includes(searchTerm)) {
+                        show = false;
+                    }
+                }
+
+                card.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Show message if no results
+            const needsGrid = document.getElementById('needsGrid');
+            if (visibleCount === 0 && allCards.length > 0) {
+                const noResultsMsg = document.getElementById('noResultsMessage');
+                if (!noResultsMsg) {
+                    needsGrid.insertAdjacentHTML('beforeend', `
+                        <div id="noResultsMessage" style="text-align: center; padding: 2rem; color: #999;">
+                            No requests match your filters. Try adjusting your criteria.
+                        </div>
+                    `);
+                }
+            } else {
+                const noResultsMsg = document.getElementById('noResultsMessage');
+                if (noResultsMsg) noResultsMsg.remove();
+            }
+        }
+
+        // Show only current user's needs
+        function showMyNeeds() {
+            if (!currentMember || !currentMember.id) {
+                alert('Please log in to view your posts');
+                return;
+            }
+
+            // Filter to show only user's posts
+            const allCards = document.querySelectorAll('.needs-card');
+            let myPostsCount = 0;
+
+            allCards.forEach(card => {
+                const isMyPost = card.dataset.memberId === currentMember.id;
+                card.style.display = isMyPost ? 'block' : 'none';
+                if (isMyPost) myPostsCount++;
+            });
+
+            // Clear filter selections
+            document.getElementById('needsCategoryFilter').value = 'all';
+            document.getElementById('needsStatusFilter').value = 'all';
+            document.getElementById('needsBudgetFilter').value = 'all';
+            document.getElementById('needsSearchInput').value = '';
+
+            if (myPostsCount === 0) {
+                alert('You haven\'t posted any collaboration requests yet.');
+            }
+        }
+
+        // Update status of a need
+        async function updateNeedStatus(needId) {
+            const newStatus = prompt('Enter new status:\n1 = In Progress\n2 = Fulfilled\n3 = Closed\n4 = Reopen');
+
+            const statusMap = {
+                '1': 'in_progress',
+                '2': 'fulfilled',
+                '3': 'closed',
+                '4': 'open'
+            };
+
+            const status = statusMap[newStatus];
+            if (!status) {
+                alert('Invalid selection');
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('member_needs')
+                    .update({ status })
+                    .eq('id', needId);
+
+                if (error) {
+                    console.error('Error updating status:', error);
+                    alert('Failed to update status');
+                    return;
+                }
+
+                alert('✅ Status updated!');
+                loadMemberNeeds(); // Reload
+
+            } catch (error) {
+                console.error('Error in updateNeedStatus:', error);
+                alert('An error occurred');
+            }
+        }
+
+        // Edit need - placeholder for future implementation
+        function editNeed(needId) {
+            alert('Edit functionality coming soon! For now, please update the status or create a new post.');
+        }
+
+        // === END COLLABORATION HUB FUNCTIONS ===
 
         // Start tutorial on page load
         document.addEventListener('DOMContentLoaded', function() {

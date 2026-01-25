@@ -4004,16 +4004,17 @@
                 padding: 0.75rem 1rem !important;
             }
 
-            /* WhatsApp-style messaging on mobile */
-            .messaging-container {
-                position: relative;
+            /* WhatsApp-style messaging on mobile - ONLY INSIDE #messages */
+            #messages .messaging-container {
+                position: relative !important;
+                display: block !important;
                 height: calc(100vh - 12rem) !important;
                 min-height: unset !important;
                 overflow: hidden !important; /* Prevent horizontal scroll */
             }
 
-            .conversations-sidebar {
-                position: absolute;
+            #messages .conversations-sidebar {
+                position: absolute !important;
                 top: 0;
                 left: 0;
                 right: 0;
@@ -4025,8 +4026,8 @@
                 transform: translateX(0); /* Show by default */
             }
 
-            .message-thread-container {
-                position: absolute;
+            #messages .message-thread-container {
+                position: absolute !important;
                 top: 0;
                 left: 0;
                 right: 0;
@@ -4039,27 +4040,50 @@
                 background: rgba(18, 18, 18, 1); /* Solid background to cover conversations */
             }
 
-            /* When chat is open on mobile */
-            .mobile-chat-open .conversations-sidebar {
+            /* When chat is open on mobile - ONLY IN #messages */
+            #messages .mobile-chat-open .conversations-sidebar {
                 transform: translateX(-100%); /* Slide conversations off-screen to left */
             }
 
-            .mobile-chat-open .message-thread-container {
+            #messages .mobile-chat-open .message-thread-container {
                 transform: translateX(0); /* Slide chat on-screen from right */
             }
 
-            /* Prevent horizontal scroll on Messages section only */
+            /* Force hide messaging elements on other sections */
+            #directory .messaging-container,
+            #directory .conversations-sidebar,
+            #directory .message-thread-container,
+            #events .messaging-container,
+            #events .conversations-sidebar,
+            #events .message-thread-container,
+            #profile .messaging-container,
+            #profile .conversations-sidebar,
+            #profile .message-thread-container {
+                display: none !important;
+                visibility: hidden !important;
+                position: static !important;
+            }
+
+            /* Messages section containment */
             #messages {
+                position: relative !important;
+                overflow-x: hidden !important;
+                overflow-y: hidden !important;
+                contain: layout style paint !important; /* CSS containment to prevent leaking */
+            }
+
+            /* Other sections should scroll normally and NOT contain messaging */
+            #directory,
+            #events,
+            #profile {
+                position: relative !important;
                 overflow-x: hidden !important;
                 overflow-y: auto !important;
             }
 
-            /* Other sections should scroll normally */
-            #directory,
-            #events,
-            #profile {
-                overflow-x: visible !important;
-                overflow-y: auto !important;
+            /* Ensure content sections are isolated */
+            .content-section {
+                isolation: isolate !important; /* Creates new stacking context */
             }
 
             /* Member directory should be visible */
@@ -4069,25 +4093,6 @@
 
             .member-grid {
                 display: grid !important;
-            }
-
-            /* CRITICAL: Hide messaging container when NOT on messages section */
-            .content-section:not(#messages) .messaging-container {
-                display: none !important;
-            }
-
-            /* Only show messaging container on messages section */
-            #messages .messaging-container {
-                display: block !important;
-            }
-
-            /* Ensure other sections don't show chat elements */
-            #directory .messaging-container,
-            #events .messaging-container,
-            #profile .messaging-container {
-                display: none !important;
-                visibility: hidden !important;
-                pointer-events: none !important;
             }
         }
 

@@ -5343,7 +5343,7 @@
                 <div class="dashboard-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
                         <h3 class="card-title" style="color: #C9A86A;">🎯 Smart Matching Profile</h3>
-                        <button class="register-btn" onclick="generateSmartMatches()" style="padding: 0.5rem 1rem;">Find My Matches</button>
+                        <button id="findMatchesBtn" class="register-btn" onclick="generateSmartMatches()" style="padding: 0.5rem 1rem;">Find My Matches</button>
                     </div>
                     <p style="color: #ccc; margin-bottom: 2rem;">Help us connect you with your ideal clients, partners, and opportunities by completing your matching profile.</p>
                     
@@ -6677,6 +6677,18 @@
 
         async function generateSmartMatches() {
             const matchResults = document.getElementById('smartMatchResults');
+            const findMatchesBtn = document.getElementById('findMatchesBtn');
+
+            // Update button to show loading state
+            if (findMatchesBtn) {
+                findMatchesBtn.disabled = true;
+                findMatchesBtn.innerHTML = '<span class="loading-spinner" style="width: 14px; height: 14px; border-width: 2px; margin-right: 0.5rem; display: inline-block; vertical-align: middle;"></span>Searching...';
+                findMatchesBtn.style.opacity = '0.7';
+                findMatchesBtn.style.cursor = 'not-allowed';
+                findMatchesBtn.style.display = 'inline-flex';
+                findMatchesBtn.style.alignItems = 'center';
+                findMatchesBtn.style.justifyContent = 'center';
+            }
 
             // Enhanced loading with skeleton screens
             const loadingHtml = `
@@ -6721,8 +6733,11 @@
             matchResults.innerHTML = loadingHtml;
 
             try {
-                // Load real members from database
-                const allMembers = await loadMembersFromDatabase();
+                // Add minimum delay to make search feel substantial (1.5 seconds)
+                const [allMembers] = await Promise.all([
+                    loadMembersFromDatabase(),
+                    new Promise(resolve => setTimeout(resolve, 1500))
+                ]);
 
                 // Filter out current user
                 const otherMembers = allMembers.filter(m => currentMember && m.id !== currentMember.id);
@@ -6741,6 +6756,14 @@
                         <p style="color: #999;">Please try refreshing the page</p>
                     </div>
                 `;
+            } finally {
+                // Reset button state
+                if (findMatchesBtn) {
+                    findMatchesBtn.disabled = false;
+                    findMatchesBtn.innerHTML = 'Find My Matches';
+                    findMatchesBtn.style.opacity = '1';
+                    findMatchesBtn.style.cursor = 'pointer';
+                }
             }
         }
 

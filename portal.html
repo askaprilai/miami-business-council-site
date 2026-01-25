@@ -3481,6 +3481,13 @@
             #tutorialIcon {
                 font-size: 2.5rem !important;
             }
+
+            /* Stack all 2-column grids in profile section */
+            .profile-2col-grid,
+            #profile [style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
         }
 
         /* Touch-friendly improvements */
@@ -4605,7 +4612,7 @@
                     </div>
                     <p style="color: #ccc; margin-bottom: 1.5rem;">Add your personal photo or company logo to help other members recognize and connect with you.</p>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="profile-2col-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                         <div>
                             <h4 style="color: #e8eaed; margin-bottom: 1rem;">👤 Personal Photo</h4>
                             <div class="photo-upload-section">

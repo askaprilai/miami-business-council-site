@@ -3463,6 +3463,15 @@
                 flex: none;
                 width: 100%;
             }
+
+            .directory-filters {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+
+            .directory-filters > div:last-child {
+                justify-self: start;
+            }
         }
 
         /* Touch-friendly improvements */
@@ -4069,7 +4078,7 @@
                     </div>
 
                     <!-- Filters and Controls Row -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: center;">
+                    <div class="directory-filters" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: center;">
                         <!-- Industry Filter -->
                         <div>
                             <label style="display: block; color: #ccc; font-size: 0.85rem; margin-bottom: 0.5rem;">Industry</label>

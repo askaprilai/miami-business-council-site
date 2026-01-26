@@ -13631,7 +13631,7 @@ This will enable beautiful previews when sharing the portal link on social media
     <div id="tutorialOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; pointer-events: none;"></div>
 
     <!-- Tutorial Tooltip -->
-    <div id="tutorialTooltip" style="display: none; position: fixed; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border: 2px solid #C9A86A; border-radius: 12px; padding: 2rem; max-width: 400px; width: 90%; z-index: 10001; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); pointer-events: auto;">
+    <div id="tutorialTooltip" style="display: none; position: fixed; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border: 2px solid #C9A86A; border-radius: 12px; padding: 2rem; max-width: min(400px, calc(100vw - 40px)); width: 90%; z-index: 10001; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); pointer-events: auto;">
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
             <div style="background: rgba(201, 168, 106, 0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; color: #C9A86A; font-weight: 600;">
                 Step <span id="tutorialStepNumber">1</span> of <span id="tutorialTotalSteps">7</span>
@@ -13793,10 +13793,45 @@ This will enable beautiful previews when sharing the portal link on social media
                     spotlight.style.width = (rect.width + 20) + 'px';
                     spotlight.style.height = (rect.height + 20) + 'px';
 
-                    // Position tooltip
-                    if (step.position === 'right') {
-                        tooltip.style.top = rect.top + 'px';
-                        tooltip.style.left = (rect.right + 30) + 'px';
+                    // Position tooltip with viewport awareness
+                    const tooltipWidth = 400; // max-width from CSS
+                    const tooltipHeight = tooltip.offsetHeight || 300;
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+                    const padding = 20;
+                    const isMobile = viewportWidth < 768;
+
+                    // On mobile, always center the tooltip
+                    if (isMobile) {
+                        tooltip.style.top = '50%';
+                        tooltip.style.left = '50%';
+                        tooltip.style.transform = 'translate(-50%, -50%)';
+                    } else if (step.position === 'right') {
+                        let left = rect.right + 30;
+                        let top = rect.top;
+
+                        // Check if tooltip goes off-screen to the right
+                        if (left + tooltipWidth > viewportWidth - padding) {
+                            // Try positioning to the left instead
+                            left = rect.left - tooltipWidth - 30;
+
+                            // If still off-screen, center it
+                            if (left < padding) {
+                                left = (viewportWidth - tooltipWidth) / 2;
+                                top = rect.bottom + 20;
+                            }
+                        }
+
+                        // Check if tooltip goes off-screen vertically
+                        if (top + tooltipHeight > viewportHeight - padding) {
+                            top = viewportHeight - tooltipHeight - padding;
+                        }
+                        if (top < padding) {
+                            top = padding;
+                        }
+
+                        tooltip.style.top = top + 'px';
+                        tooltip.style.left = Math.max(padding, left) + 'px';
                         tooltip.style.transform = 'none';
                     }
                 } else {

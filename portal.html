@@ -9903,13 +9903,13 @@
                             ${member.industry ? `<span class="member-tag">${member.industry}</span>` : ''}
                         </div>
                         <div class="member-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
-                            <button class="profile-action-btn primary" onclick="openDirectMessage('${member.email}', '${fullName}')" title="Send message">
+                            <button class="profile-action-btn primary" onclick="startChatFromDirectory('${member.id}', '${fullName}', '${member.company_name || 'N/A'}', '${member.email}')" title="Send message">
                                 💬 Message
                             </button>
                             <button class="profile-action-btn secondary" onclick="window.location.href='mailto:${member.email}'" title="Send email">
                                 📧 Email
                             </button>
-                            <button class="profile-action-btn secondary" onclick="viewMemberProfile('${member.id}')" title="View full profile">
+                            <button class="profile-action-btn secondary" onclick="viewConnectionProfile('${member.id}')" title="View full profile">
                                 👤 Profile
                             </button>
                             ${member.linkedin_url ? `
@@ -10024,6 +10024,49 @@
         function viewMemberProfile(memberId) {
             // For now, just show a message. In future, could open a profile modal
             alert('Full profile view coming soon! For now, use the Message or Email buttons to connect.');
+        }
+
+        // View connection profile
+        async function viewConnectionProfile(memberId) {
+            try {
+                // Fetch member details from database
+                const { data: member, error } = await supabase
+                    .from('members')
+                    .select('*')
+                    .eq('id', memberId)
+                    .single();
+
+                if (error || !member) {
+                    console.error('Error loading member profile:', error);
+                    alert('Unable to load member profile');
+                    return;
+                }
+
+                // Prepare data for openMemberProfile
+                const fullName = `${member.first_name} ${member.last_name}`;
+                const initials = `${member.first_name[0]}${member.last_name[0]}`;
+                const tags = member.industry ? [member.industry] : [];
+                const lookingFor = member.looking_for || [];
+                const canOffer = member.services_offered || [];
+
+                // Open member profile modal
+                openMemberProfile(
+                    member.id,
+                    fullName,
+                    member.job_title || '',
+                    member.company_name || '',
+                    initials,
+                    tags,
+                    member.email,
+                    member.linkedin_url || '',
+                    member.profile_photo_url || null,
+                    lookingFor,
+                    canOffer
+                );
+            } catch (error) {
+                console.error('Error in viewConnectionProfile:', error);
+                alert('Unable to load member profile');
+            }
         }
 
         // Accept connection request

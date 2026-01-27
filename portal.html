@@ -9067,7 +9067,11 @@
             }
 
             try {
-                const supabase = window.supabaseClient;
+                // Use the global supabase client
+                if (!supabase) {
+                    console.error('Supabase client not available');
+                    return;
+                }
 
                 // Get member's referral code from members table
                 const { data: memberData, error: memberError } = await supabase
@@ -14268,14 +14272,28 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
 
+                // Check if supabase is initialized
+                if (!supabase) {
+                    console.error('❌ Supabase client not initialized');
+                    needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">Supabase not initialized. Please refresh.</div>';
+                    return;
+                }
+
                 // Query member needs
                 console.log('📡 Querying member_needs table...');
 
                 // 🔍 DEBUG: Check authentication and member matching
-                const { data: currentUser } = await supabase.auth.getUser();
-                console.log('🔍 DEBUG: Current user auth.uid:', currentUser?.user?.id);
-                console.log('🔍 DEBUG: Current member.id:', currentMember?.id);
-                console.log('🔍 DEBUG: Current member auth_user_id:', currentMember?.auth_user_id);
+                try {
+                    const { data: currentUser, error: authError } = await supabase.auth.getUser();
+                    if (authError) {
+                        console.error('❌ Auth error:', authError);
+                    }
+                    console.log('🔍 DEBUG: Current user auth.uid:', currentUser?.user?.id);
+                    console.log('🔍 DEBUG: Current member.id:', currentMember?.id);
+                    console.log('🔍 DEBUG: Current member auth_user_id:', currentMember?.auth_user_id);
+                } catch (authErr) {
+                    console.error('❌ Exception getting user:', authErr);
+                }
 
                 const { data: needs, error } = await supabase
                     .from('member_needs')
@@ -14285,7 +14303,9 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 console.log('📦 Needs data:', needs);
                 console.log('🔍 DEBUG: Total needs returned:', needs?.length);
-                console.log('🔍 DEBUG: User\'s own posts in results:', needs?.filter(n => n.member_id === currentMember?.id).length);
+                if (currentMember?.id) {
+                    console.log('🔍 DEBUG: User\'s own posts in results:', needs?.filter(n => n.member_id === currentMember?.id).length);
+                }
                 console.log('🔍 DEBUG: All member_ids in results:', needs?.map(n => n.member_id));
 
                 // If we have needs, fetch member data separately

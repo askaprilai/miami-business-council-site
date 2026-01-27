@@ -6689,6 +6689,12 @@
             if (sectionId === 'events') {
                 setTimeout(() => loadEvents(), 100);
             }
+            if (sectionId === 'collaboration-hub') {
+                setTimeout(() => {
+                    loadMemberNeeds();
+                    loadAIRecommendations();
+                }, 100);
+            }
         }
 
         // Detect if mobile view and set default section

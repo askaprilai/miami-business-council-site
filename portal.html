@@ -6609,15 +6609,25 @@
                 // Initialize dashboard personalization after profile loads
                 setTimeout(() => initializeDashboardPersonalization(), 800);
 
-                // Check if Collaboration Hub is the active section on page load
-                setTimeout(() => {
+                // CRITICAL: Force load Collaboration Hub if it's the active section
+                // Multiple checks at different intervals to catch all scenarios
+                function checkAndLoadCollabHub() {
                     const collabSection = document.getElementById('collaboration-hub');
                     if (collabSection && collabSection.classList.contains('active')) {
-                        console.log('🔄 Collaboration Hub active on page load, loading data...');
+                        console.log('🔄 Collaboration Hub is active, forcing data load...');
                         loadMemberNeeds();
                         loadAIRecommendations();
+                        return true;
                     }
-                }, 1000);
+                    return false;
+                }
+
+                // Try immediately
+                setTimeout(() => checkAndLoadCollabHub(), 500);
+                // Try again after 1 second
+                setTimeout(() => checkAndLoadCollabHub(), 1000);
+                // Final check after 2 seconds
+                setTimeout(() => checkAndLoadCollabHub(), 2000);
             }
         });
 
@@ -14280,7 +14290,7 @@ This will enable beautiful previews when sharing the portal link on social media
                 const { data: needs, error } = await Promise.race([queryPromise, timeoutPromise])
                     .catch(err => {
                         console.error('❌ Query failed or timed out:', err);
-                        return { data: null, error: err };
+                        return { data: [], error: err };
                     });
 
                 console.log('📦 Needs data:', needs);
@@ -14306,17 +14316,13 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 if (error) {
                     console.error('❌ Error loading needs:', error);
-                    needsGrid.innerHTML = `<div style="text-align: center; padding: 2rem;">
-                        <div style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ Unable to load collaboration requests</div>
-                        <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;">
-                            ${error.message === 'Query timeout after 10 seconds'
-                                ? 'The request timed out. This may be due to database permissions.'
-                                : 'There was an error loading the data.'}
-                        </p>
-                        <button class="register-btn" onclick="loadMemberNeeds()" style="margin-top: 1rem;">
-                            🔄 Try Again
-                        </button>
-                    </div>`;
+                    console.log('ℹ️ Showing empty state due to error');
+                    // Show empty state instead of error to avoid blocking users
+                    allCollabNeeds = [];
+                    if (!document.querySelector('.collab-tab.active')) {
+                        document.querySelector('[data-tab="open"]')?.classList.add('active');
+                    }
+                    filterAndDisplayNeeds();
                     return;
                 }
 

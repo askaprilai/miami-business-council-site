@@ -6610,24 +6610,15 @@
                 setTimeout(() => initializeDashboardPersonalization(), 800);
 
                 // CRITICAL: Force load Collaboration Hub if it's the active section
-                // Multiple checks at different intervals to catch all scenarios
-                function checkAndLoadCollabHub() {
+                // Check only once after everything is initialized
+                setTimeout(() => {
                     const collabSection = document.getElementById('collaboration-hub');
-                    if (collabSection && collabSection.classList.contains('active')) {
-                        console.log('🔄 Collaboration Hub is active, forcing data load...');
+                    if (collabSection && collabSection.classList.contains('active') && !isLoadingCollabNeeds) {
+                        console.log('🔄 Collaboration Hub is active on page load, loading data...');
                         loadMemberNeeds();
                         loadAIRecommendations();
-                        return true;
                     }
-                    return false;
-                }
-
-                // Try immediately
-                setTimeout(() => checkAndLoadCollabHub(), 500);
-                // Try again after 1 second
-                setTimeout(() => checkAndLoadCollabHub(), 1000);
-                // Final check after 2 seconds
-                setTimeout(() => checkAndLoadCollabHub(), 2000);
+                }, 1000);
             }
         });
 
@@ -14241,13 +14232,25 @@ This will enable beautiful previews when sharing the portal link on social media
             filterAndDisplayNeeds();
         }
 
+        // Loading flag to prevent duplicate calls
+        let isLoadingCollabNeeds = false;
+
         // Load member needs from database
         async function loadMemberNeeds() {
             try {
+                // Prevent duplicate simultaneous loads
+                if (isLoadingCollabNeeds) {
+                    console.log('⏸️ Already loading collaboration requests, skipping duplicate call');
+                    return;
+                }
+
+                isLoadingCollabNeeds = true;
                 console.log('🔄 Loading collaboration requests...');
+
                 const needsGrid = document.getElementById('needsGrid');
                 if (!needsGrid) {
                     console.log('❌ needsGrid element not found');
+                    isLoadingCollabNeeds = false;
                     return;
                 }
 
@@ -14323,6 +14326,7 @@ This will enable beautiful previews when sharing the portal link on social media
                         document.querySelector('[data-tab="open"]')?.classList.add('active');
                     }
                     filterAndDisplayNeeds();
+                    isLoadingCollabNeeds = false;
                     return;
                 }
 
@@ -14351,6 +14355,9 @@ This will enable beautiful previews when sharing the portal link on social media
                         </button>
                     </div>`;
                 }
+            } finally {
+                // Always reset loading flag
+                isLoadingCollabNeeds = false;
             }
         }
 

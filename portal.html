@@ -6608,6 +6608,16 @@
 
                 // Initialize dashboard personalization after profile loads
                 setTimeout(() => initializeDashboardPersonalization(), 800);
+
+                // Check if Collaboration Hub is the active section on page load
+                setTimeout(() => {
+                    const collabSection = document.getElementById('collaboration-hub');
+                    if (collabSection && collabSection.classList.contains('active')) {
+                        console.log('🔄 Collaboration Hub active on page load, loading data...');
+                        loadMemberNeeds();
+                        loadAIRecommendations();
+                    }
+                }, 1000);
             }
         });
 

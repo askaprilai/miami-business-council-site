@@ -14250,11 +14250,22 @@ This will enable beautiful previews when sharing the portal link on social media
                     console.error('❌ Exception getting user:', authErr);
                 }
 
-                const { data: needs, error } = await supabase
+                // Add timeout to prevent infinite loading
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Query timeout after 10 seconds')), 10000)
+                );
+
+                const queryPromise = supabase
                     .from('member_needs')
                     .select('*')
                     .order('created_at', { ascending: false })
                     .limit(50);
+
+                const { data: needs, error } = await Promise.race([queryPromise, timeoutPromise])
+                    .catch(err => {
+                        console.error('❌ Query failed or timed out:', err);
+                        return { data: null, error: err };
+                    });
 
                 console.log('📦 Needs data:', needs);
                 console.log('🔍 DEBUG: Total needs returned:', needs?.length);
@@ -14279,7 +14290,17 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 if (error) {
                     console.error('❌ Error loading needs:', error);
-                    needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">Unable to load requests. Please refresh.</div>';
+                    needsGrid.innerHTML = `<div style="text-align: center; padding: 2rem;">
+                        <div style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ Unable to load collaboration requests</div>
+                        <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;">
+                            ${error.message === 'Query timeout after 10 seconds'
+                                ? 'The request timed out. This may be due to database permissions.'
+                                : 'There was an error loading the data.'}
+                        </p>
+                        <button class="register-btn" onclick="loadMemberNeeds()" style="margin-top: 1rem;">
+                            🔄 Try Again
+                        </button>
+                    </div>`;
                     return;
                 }
 
@@ -14300,7 +14321,13 @@ This will enable beautiful previews when sharing the portal link on social media
                 console.error('❌ Exception in loadMemberNeeds:', error);
                 const needsGrid = document.getElementById('needsGrid');
                 if (needsGrid) {
-                    needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">An error occurred. Please refresh the page.</div>';
+                    needsGrid.innerHTML = `<div style="text-align: center; padding: 2rem;">
+                        <div style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ An error occurred</div>
+                        <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;">${error.message || 'Unknown error'}</p>
+                        <button class="register-btn" onclick="loadMemberNeeds()" style="margin-top: 1rem;">
+                            🔄 Try Again
+                        </button>
+                    </div>`;
                 }
             }
         }

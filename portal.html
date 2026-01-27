@@ -14270,6 +14270,13 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 // Query member needs
                 console.log('📡 Querying member_needs table...');
+
+                // 🔍 DEBUG: Check authentication and member matching
+                const { data: currentUser } = await supabase.auth.getUser();
+                console.log('🔍 DEBUG: Current user auth.uid:', currentUser?.user?.id);
+                console.log('🔍 DEBUG: Current member.id:', currentMember?.id);
+                console.log('🔍 DEBUG: Current member auth_user_id:', currentMember?.auth_user_id);
+
                 const { data: needs, error } = await supabase
                     .from('member_needs')
                     .select('*')
@@ -14277,6 +14284,9 @@ This will enable beautiful previews when sharing the portal link on social media
                     .limit(50);
 
                 console.log('📦 Needs data:', needs);
+                console.log('🔍 DEBUG: Total needs returned:', needs?.length);
+                console.log('🔍 DEBUG: User\'s own posts in results:', needs?.filter(n => n.member_id === currentMember?.id).length);
+                console.log('🔍 DEBUG: All member_ids in results:', needs?.map(n => n.member_id));
 
                 // If we have needs, fetch member data separately
                 if (needs && needs.length > 0) {

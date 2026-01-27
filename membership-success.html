@@ -281,18 +281,17 @@
 
         <!-- Portal Access Section -->
         <div class="event-info" style="background: rgba(40, 167, 69, 0.1); border: 1px solid #51cf66;">
-            <h3 style="color: #51cf66;">🚀 Access Your Member Portal Now</h3>
-            <div id="portalCredentials" style="display: none; margin: 1.5rem 0;">
-                <p style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                    <strong>Email:</strong> <span id="memberEmail" style="color: #d4af37;"></span><br>
-                    <strong>Access Code:</strong> <span id="accessCode" style="color: #d4af37; font-family: monospace;"></span>
+            <h3 style="color: #51cf66;">📧 Check Your Email for Portal Access</h3>
+            <p style="color: #e8eaed; font-size: 1.1em; line-height: 1.6; margin: 1rem 0;">
+                We just sent you a welcome email with a <strong>secure magic link</strong> to access your member portal.
+            </p>
+            <p style="color: #ccc; font-size: 0.95em; margin: 1rem 0;">
+                Click the button in the email to log in - no password needed! The email will arrive within the next 2-3 minutes.
+            </p>
+            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 1.5rem 0;">
+                <p style="color: #51cf66; font-size: 0.9em; margin: 0;">
+                    💡 <strong>Tip:</strong> Check your spam folder if you don't see the email. Add welcome@miamibusinesscouncil.com to your contacts.
                 </p>
-                <p style="font-size: 0.9em; color: #ccc; margin-bottom: 1rem;">
-                    💡 Save these credentials - they've also been sent to your email
-                </p>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <a href="member-portal.html" class="btn-register" style="background: #51cf66; color: #000;">Access Member Portal</a>
             </div>
         </div>
 
@@ -344,7 +343,7 @@
                 try {
                     const data = JSON.parse(membershipData);
                     
-                    // Process paid member - generates access code and sends portal credentials
+                    // Process paid member - creates database record and sends magic link
                     fetch('/api/process-paid-member', {
                         method: 'POST',
                         headers: {
@@ -354,25 +353,29 @@
                             email: data.email,
                             firstName: data.firstName,
                             lastName: data.lastName,
-                            membershipType: data.membershipType,
-                            paymentAmount: getPaymentAmount(data.membershipType)
+                            businessName: data.businessName,
+                            jobTitle: data.jobTitle,
+                            industry: data.industry,
+                            phone: data.phone,
+                            linkedIn: data.linkedIn,
+                            employeeCount: data.employeeCount,
+                            incorporated: data.incorporated,
+                            interests: data.interests,
+                            membershipType: data.membershipType
                         })
                     })
                     .then(response => response.json())
                     .then(result => {
                         if (result.success) {
-                            console.log('Paid member processed successfully');
-                            
-                            // Display portal credentials on page
-                            if (result.memberCredentials) {
-                                displayPortalCredentials(result.memberCredentials.email, result.memberCredentials.accessCode);
-                            }
-                            
+                            console.log('Paid member processed successfully:', result);
+                            console.log('✅ Member created in database');
+                            console.log('✅ Welcome email with magic link sent');
+
                             showWelcomeEmailNotification();
-                            // Clear localStorage after successful email
+                            // Clear localStorage after successful processing
                             localStorage.removeItem('membershipApplication');
                         } else {
-                            console.error('Failed to send welcome email:', result.error);
+                            console.error('Failed to process member:', result.error);
                         }
                     })
                     .catch(error => {

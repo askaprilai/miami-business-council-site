@@ -42,21 +42,22 @@ export default async function handler(req, res) {
             </p>
           </div>
 
-          <!-- Magic Link Access -->
+          <!-- Portal Access Information -->
           <div style="background: #fff3cd; border: 2px solid #d4af37; padding: 25px; border-radius: 8px; margin-bottom: 30px;">
-            <h3 style="color: #856404; margin-top: 0; margin-bottom: 20px;">🚀 Access Your Member Portal</h3>
-            <p style="color: #333; margin-bottom: 20px; line-height: 1.6;">
-              Click the button below to securely log into your exclusive member portal. No password needed - just one click!
+            <h3 style="color: #856404; margin-top: 0; margin-bottom: 20px;">🚀 Your Member Portal Access</h3>
+            <p style="color: #333; margin-bottom: 20px; line-height: 1.6; font-size: 16px;">
+              <strong>Great news!</strong> Your membership is confirmed and we're setting up your exclusive member portal access.
             </p>
 
-            <div style="text-align: center; margin: 25px 0;">
-              <a href="${magicLink}" style="background: #d4af37; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 18px;">
-                🔓 Access Portal Now
-              </a>
+            <div style="background: rgba(212, 175, 55, 0.2); padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <p style="color: #333; margin: 0; line-height: 1.6; font-size: 15px; text-align: center;">
+                📧 <strong>You'll receive your portal invitation within the next 48 hours</strong><br>
+                <span style="color: #666; font-size: 14px;">We're personally setting up your account to ensure the best experience</span>
+              </p>
             </div>
 
             <p style="color: #666; margin: 20px 0 0 0; font-size: 14px; text-align: center; line-height: 1.5;">
-              💡 This is a secure one-time link. After your first login, you'll use magic links sent to your email each time you sign in.
+              💡 Your invitation will include a secure login link with no password required
             </p>
           </div>
 
@@ -70,7 +71,7 @@ export default async function handler(req, res) {
 
           <!-- Portal Features -->
           <div style="background: #f8f8f8; padding: 25px; border-radius: 8px; margin-bottom: 30px;">
-            <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 20px;">What You Can Do in Your Portal</h3>
+            <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 20px;">What You'll Have Access To</h3>
 
             <div style="margin-bottom: 15px;">
               <h4 style="color: #333; margin: 0 0 8px 0; font-size: 16px;">✏️ Complete Your Profile</h4>

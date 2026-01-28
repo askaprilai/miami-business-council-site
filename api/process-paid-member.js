@@ -232,12 +232,12 @@ export default async function handler(req, res) {
             <h3 style="color: #2f9e44; margin-top: 0; margin-bottom: 15px;">📅 Join Our Next Event</h3>
             <p style="color: #333; margin: 0 0 15px 0; line-height: 1.5;">
               <strong>Monthly Breakfast Networking</strong><br>
-              <strong>Date:</strong> Last Wednesday of every month • 9:00 AM - 10:30 AM<br>
+              <strong>Date:</strong> February 25th, 2026 • 9:00 AM - 10:30 AM<br>
               <strong>Location:</strong> Miami Design District<br>
               Your first networking breakfast as a member!
             </p>
             <div style="text-align: center;">
-              <a href="https://luma.com/au2tl4nm" style="background: #2f9e44; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">View Upcoming Events</a>
+              <a href="https://luma.com/8tp3t1g5" style="background: #2f9e44; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">Register for February 25th Event</a>
             </div>
           </div>
 

@@ -7,7 +7,10 @@
     "build": "echo 'No build step required for static site'",
     "start": "echo 'Static site served by Vercel'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "stripe": "^14.15.0",
+    "@supabase/supabase-js": "^2.39.0"
+  },
   "devDependencies": {},
   "engines": {
     "node": ">=18.x"

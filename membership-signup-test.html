@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Application | Miami Business Council [TEST MODE]</title>
+
+    <!-- Prevent search engine indexing -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #e8eaed;
+            background: #0a0a0b;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Test Mode Badge */
+        .test-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: auto;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            color: #d4af37;
+            font-size: 1.3em;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e8eaed;
+        }
+
+        .form-group label .required {
+            color: #d4af37;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        /* Membership Type Selection */
+        .membership-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .membership-option {
+            position: relative;
+        }
+
+        .membership-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .membership-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+        }
+
+        .membership-option input[type="radio"]:checked + .membership-card {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .membership-card h4 {
+            color: #d4af37;
+            font-size: 1.1em;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .membership-card .price {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .membership-card p {
+            color: #ccc;
+            font-size: 0.9em;
+        }
+
+        /* Billing Frequency Selection */
+        .billing-toggle-container {
+            margin-top: 1.5rem;
+        }
+
+        .billing-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .billing-option {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .billing-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .billing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .billing-option input[type="radio"]:checked + .billing-card {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .billing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .billing-header h4 {
+            color: #d4af37;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .savings-badge {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .billing-prices {
+            margin-bottom: 1rem;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-item span:first-child {
+            color: #ccc;
+            font-size: 0.9em;
+        }
+
+        .price-item strong {
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .price-item .price-detail {
+            color: #999;
+            font-size: 0.85em;
+            margin-left: 0.5rem;
+        }
+
+        .billing-note {
+            color: #4CAF50;
+            font-size: 0.9em;
+            margin-top: 0.5rem;
+        }
+
+        /* Employee Count */
+        .employee-info {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #d4af37;
+            margin-bottom: 1.5rem;
+        }
+
+        .employee-info h4 {
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .employee-info p {
+            color: #ccc;
+            font-size: 0.9em;
+        }
+
+        /* Submit Button */
+        .submit-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .message.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        /* Footer Note */
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .membership-types {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .membership-card {
+                min-height: 160px;
+            }
+
+            .billing-options {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Test Mode Badge -->
+        <div class="test-badge">
+            TEST MODE - This is a preview page. No real payments will be processed.
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
+            </div>
+            <h1>Membership Application</h1>
+            <p>Join Miami's premier business community. Please complete the form below to begin your membership application.</p>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <div id="message" class="message"></div>
+
+            <form id="membershipForm">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3>Personal Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Information -->
+                <div class="form-section">
+                    <h3>Business Information</h3>
+                    <div class="form-group">
+                        <label for="businessName">Business/Organization Name <span class="required">*</span></label>
+                        <input type="text" id="businessName" name="businessName" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobTitle">Your Job Title <span class="required">*</span></label>
+                            <input type="text" id="jobTitle" name="jobTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <select id="industry" name="industry">
+                                <option value="">Select Industry</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="Design">Design</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Non-Profit">Non-Profit</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incorporation Requirement -->
+                <div class="form-section">
+                    <h3>Business Structure</h3>
+                    <div class="employee-info">
+                        <h4>Incorporation Requirement</h4>
+                        <p>All business members must have an incorporated business entity (LLC, Corporation, etc.). Non-profit members must have 501(c)(3) status or equivalent.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="incorporated">Is your business incorporated? <span class="required">*</span></label>
+                        <select id="incorporated" name="incorporated" required>
+                            <option value="">Select...</option>
+                            <option value="yes">Yes - Incorporated (LLC, Corp, etc.)</option>
+                            <option value="nonprofit">Yes - Non-Profit (501c3 or equivalent)</option>
+                            <option value="no">No - Not incorporated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Employee Count -->
+                <div class="form-section">
+                    <h3>Company Size</h3>
+                    <div class="form-group">
+                        <label for="employeeCount">Number of Employees <span class="required">*</span></label>
+                        <select id="employeeCount" name="employeeCount" required>
+                            <option value="">Select Employee Count</option>
+                            <option value="1">Just me (1)</option>
+                            <option value="2-5">2-5 employees</option>
+                            <option value="6-10">6-10 employees</option>
+                            <option value="11-25">11-25 employees</option>
+                            <option value="26-50">26-50 employees</option>
+                            <option value="51-100">51-100 employees</option>
+                            <option value="101-250">101-250 employees</option>
+                            <option value="250+">250+ employees</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Membership Type Selection -->
+                <div class="form-section">
+                    <h3>Membership Type <span class="required">*</span></h3>
+                    <div class="membership-types">
+                        <div class="membership-option">
+                            <input type="radio" id="individual" name="membershipType" value="individual" required>
+                            <label for="individual" class="membership-card">
+                                <h4>Individual</h4>
+                                <div class="price" id="individualPrice">$250/year</div>
+                                <p>For entrepreneurs, freelancers, and individual professionals</p>
+                            </label>
+                        </div>
+                        <div class="membership-option">
+                            <input type="radio" id="nonprofit" name="membershipType" value="nonprofit" required>
+                            <label for="nonprofit" class="membership-card">
+                                <h4>Non-Profit</h4>
+                                <div class="price" id="nonprofitPrice">$350/year</div>
+                                <p>For 501(c)(3) organizations making a positive impact</p>
+                            </label>
+                        </div>
+                        <div class="membership-option">
+                            <input type="radio" id="business" name="membershipType" value="business" required>
+                            <label for="business" class="membership-card">
+                                <h4>Business</h4>
+                                <div class="price" id="businessPrice">$450/year</div>
+                                <p>For incorporated businesses and companies</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Billing Frequency Selection -->
+                <div class="form-section">
+                    <h3>Billing Frequency <span class="required">*</span></h3>
+
+                    <div class="billing-toggle-container">
+                        <div class="billing-options">
+                            <label class="billing-option" id="annualOption">
+                                <input type="radio" name="billingFrequency" value="annual" checked>
+                                <div class="billing-card">
+                                    <div class="billing-header">
+                                        <h4>Annual</h4>
+                                        <span class="savings-badge">Save 17%</span>
+                                    </div>
+                                    <div class="billing-prices">
+                                        <div class="price-item">
+                                            <span>Individual:</span>
+                                            <div>
+                                                <strong>$250/year</strong>
+                                                <span class="price-detail">($20.83/mo)</span>
+                                            </div>
+                                        </div>
+                                        <div class="price-item">
+                                            <span>Nonprofit:</span>
+                                            <div>
+                                                <strong>$350/year</strong>
+                                                <span class="price-detail">($29.17/mo)</span>
+                                            </div>
+                                        </div>
+                                        <div class="price-item">
+                                            <span>Business:</span>
+                                            <div>
+                                                <strong>$450/year</strong>
+                                                <span class="price-detail">($37.50/mo)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="billing-note">One payment, full year access</p>
+                                </div>
+                            </label>
+
+                            <label class="billing-option" id="monthlyOption">
+                                <input type="radio" name="billingFrequency" value="monthly">
+                                <div class="billing-card">
+                                    <div class="billing-header">
+                                        <h4>Monthly</h4>
+                                    </div>
+                                    <div class="billing-prices">
+                                        <div class="price-item">
+                                            <span>Individual:</span>
+                                            <strong>$25/month</strong>
+                                        </div>
+                                        <div class="price-item">
+                                            <span>Nonprofit:</span>
+                                            <strong>$35/month</strong>
+                                        </div>
+                                        <div class="price-item">
+                                            <span>Business:</span>
+                                            <strong>$45/month</strong>
+                                        </div>
+                                    </div>
+                                    <p class="billing-note">Flexible monthly billing</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-section">
+                    <h3>Additional Information</h3>
+                    <div class="form-group">
+                        <label for="interests">What interests you most about joining Miami Business Council?</label>
+                        <textarea id="interests" name="interests" placeholder="Tell us what you hope to gain from membership and how you'd like to contribute to the community..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn" id="submitBtn">Proceed to Payment</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section" style="margin-top: 4rem; background: rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 3rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+            <h2 style="color: #d4af37; font-size: 2em; margin-bottom: 2rem; text-align: center; font-weight: 300;">Frequently Asked Questions</h2>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    What's included in my membership?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    All memberships include access to our monthly breakfast networking events, member directory, exclusive event invitations, and professional development opportunities.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    Can I switch between monthly and annual billing?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    Yes! You can upgrade from monthly to annual billing at any time through your member portal. Annual billing saves you 17% compared to monthly payments.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    How often are events held?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    We hold monthly breakfast networking events on the last Wednesday of each month from 9:00 AM - 10:30 AM in the Miami Design District. Additional special events and workshops are held throughout the year exclusively for members.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    What are the membership requirements?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    All business and individual members must have an incorporated business entity (LLC, Corporation, etc.). Non-profit members must have 501(c)(3) status or equivalent. We welcome entrepreneurs, business leaders, and professionals committed to Miami's business community growth.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    Where are the breakfast events held?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    Our monthly breakfast networking events are held in premium venues throughout the Miami Design District. The exact address is provided upon registration approval to ensure an intimate, professional setting for our members.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    How do I access the member directory?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    Our comprehensive member portal is launching in early 2026! Once available, you'll receive access credentials to view the member directory, connect with other members, and stay updated on exclusive opportunities. In the meantime, we'll keep you connected through email updates and our monthly breakfast events.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: rgba(255, 255, 255, 0.05); margin-bottom: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="faq-question" style="padding: 1.5rem; background: none; border: none; color: #e8eaed; font-size: 1.1em; font-weight: 600; text-align: left; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    What is your refund policy?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer" style="padding: 0 1.5rem 1.5rem; color: #ccc; line-height: 1.6; display: none;">
+                    We offer a satisfaction guarantee for new members. Contact us within the first 30 days if you're not completely satisfied with your membership experience and we'll work with you to address any concerns.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="footer-note">
+            <p><strong>Note:</strong> This application will redirect you to secure payment processing. Your membership will be activated upon successful payment verification.</p>
+            <p>Questions? Contact us at <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Update prices when billing frequency changes
+        const billingFrequencyInputs = document.querySelectorAll('input[name="billingFrequency"]');
+        billingFrequencyInputs.forEach(input => {
+            input.addEventListener('change', updatePrices);
+        });
+
+        function updatePrices() {
+            const billingFrequency = document.querySelector('input[name="billingFrequency"]:checked').value;
+
+            if (billingFrequency === 'monthly') {
+                document.getElementById('individualPrice').textContent = '$25/month';
+                document.getElementById('nonprofitPrice').textContent = '$35/month';
+                document.getElementById('businessPrice').textContent = '$45/month';
+            } else {
+                document.getElementById('individualPrice').textContent = '$250/year';
+                document.getElementById('nonprofitPrice').textContent = '$350/year';
+                document.getElementById('businessPrice').textContent = '$450/year';
+            }
+        }
+
+        // Form submission handler
+        document.getElementById('membershipForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Validate required fields
+            const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'businessName', 'jobTitle', 'incorporated', 'employeeCount', 'membershipType'];
+            let isValid = true;
+
+            for (const field of requiredFields) {
+                if (!data[field]) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            // Check incorporation requirement
+            if (data.incorporated === 'no') {
+                showMessage('Membership requires an incorporated business or non-profit status. Please incorporate your business before applying.', 'error');
+                return;
+            }
+
+            if (!isValid) {
+                showMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            // Get billing frequency
+            const billingFrequency = document.querySelector('input[name="billingFrequency"]:checked').value;
+
+            try {
+                // Call Stripe Checkout Session API
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...data,
+                        billingFrequency
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to create checkout session');
+                }
+
+                // Store form data in localStorage for post-payment processing
+                localStorage.setItem('membershipApplication', JSON.stringify({
+                    ...data,
+                    billingFrequency
+                }));
+
+                // Show success message
+                showMessage('Redirecting to Stripe Checkout...', 'success');
+
+                // Redirect to Stripe Checkout
+                setTimeout(() => {
+                    window.location.href = result.url;
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage(`Error: ${error.message}`, 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Auto-select membership type based on incorporation status
+        document.getElementById('incorporated').addEventListener('change', function() {
+            const value = this.value;
+            if (value === 'nonprofit') {
+                document.getElementById('nonprofit').checked = true;
+            }
+        });
+
+        // FAQ Toggle functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('span');
+
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+                icon.textContent = answer.style.display === 'block' ? '−' : '+';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -55,56 +55,66 @@ export default async function handler(req, res) {
 
     console.log(`📧 Inviting new member: ${email}`);
 
-    // Step 1: Create member record in database
+    // Step 1: Create or get auth user first
+    let authUserId;
+
+    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+      email: email.toLowerCase(),
+      email_confirm: true,
+      user_metadata: {
+        first_name: firstName,
+        last_name: lastName,
+        company_name: company,
+        membership_type: membershipType || 'business'
+      }
+    });
+
+    if (authError) {
+      // Check if user already exists
+      if (authError.message.includes('already registered')) {
+        console.log(`  ℹ️  Auth user already exists: ${email}`);
+        const { data: existingUser } = await supabaseAdmin.auth.admin.getUserByEmail(email.toLowerCase());
+        if (!existingUser) {
+          throw new Error('Could not find or create auth user');
+        }
+        authUserId = existingUser.user.id;
+      } else {
+        throw new Error(`Failed to create auth user: ${authError.message}`);
+      }
+    } else {
+      authUserId = authData.user.id;
+      console.log(`  ✅ Auth user created: ${authUserId}`);
+    }
+
+    // Step 2: Create member record in database with auth_user_id
     const { data: memberData, error: memberError } = await supabaseAdmin
       .from('members')
-      .insert({
+      .upsert({
+        auth_user_id: authUserId,
         email: email.toLowerCase(),
         first_name: firstName,
         last_name: lastName,
         company_name: company,
         membership_type: membershipType || 'business',
-        is_active: true
+        is_active: true,
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'email',
+        returning: 'representation'
       })
       .select()
       .single();
 
     if (memberError) {
-      // Check if member already exists
-      if (memberError.code === '23505') {
-        console.log(`  ℹ️  Member already exists: ${email}`);
-
-        // Update existing member
-        const { data: existingMember, error: updateError } = await supabaseAdmin
-          .from('members')
-          .update({
-            first_name: firstName,
-            last_name: lastName,
-            company_name: company,
-            membership_type: membershipType || 'business',
-            is_active: true,
-            updated_at: new Date().toISOString()
-          })
-          .eq('email', email.toLowerCase())
-          .select()
-          .single();
-
-        if (updateError) {
-          throw new Error(`Failed to update existing member: ${updateError.message}`);
-        }
-
-        console.log(`  ✅ Existing member updated`);
-      } else {
-        throw new Error(`Failed to create member: ${memberError.message}`);
-      }
-    } else {
-      console.log(`  ✅ Member record created: ${memberData.id}`);
+      throw new Error(`Failed to create/update member: ${memberError.message}`);
     }
 
-    // Step 2: Generate magic link using Supabase Auth Admin API
+    console.log(`  ✅ Member record created/updated: ${memberData.id}`);
+
+    // Step 3: Generate magic link using Supabase Auth Admin API
     const finalRedirectUrl = redirectUrl || 'https://miamibusinesscouncil.com/member-portal';
 
-    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.generateLink({
+    const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
       type: 'magiclink',
       email: email.toLowerCase(),
       options: {
@@ -117,16 +127,16 @@ export default async function handler(req, res) {
       }
     });
 
-    if (authError) {
-      console.error(`  ❌ Failed to generate magic link:`, authError);
-      throw new Error(`Failed to generate magic link: ${authError.message}`);
+    if (linkError) {
+      console.error(`  ❌ Failed to generate magic link:`, linkError);
+      throw new Error(`Failed to generate magic link: ${linkError.message}`);
     }
 
     console.log(`  ✅ Magic link generated`);
 
-    const magicLink = authData.properties.action_link;
+    const magicLink = linkData.properties.action_link;
 
-    // Step 3: Send custom welcome email with Resend
+    // Step 4: Send custom welcome email with Resend
     const emailHtml = `
       <!DOCTYPE html>
       <html>

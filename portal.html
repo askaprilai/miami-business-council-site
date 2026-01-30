@@ -6646,7 +6646,10 @@
 
             // Load collaboration hub when navigating to collaboration-hub section
             if (sectionId === 'collaboration-hub') {
+                // Reset loading flag to allow fresh load
+                isLoadingCollabNeeds = false;
                 setTimeout(() => {
+                    console.log('🔄 Navigation to Collaboration Hub - forcing data load');
                     loadMemberNeeds();
                     loadAIRecommendations(); // Load AI-powered recommendations
                 }, 100);
@@ -6701,7 +6704,10 @@
                 setTimeout(() => loadEvents(), 100);
             }
             if (sectionId === 'collaboration-hub') {
+                // Reset loading flag to allow fresh load
+                isLoadingCollabNeeds = false;
                 setTimeout(() => {
+                    console.log('🔄 Mobile navigation to Collaboration Hub - forcing data load');
                     loadMemberNeeds();
                     loadAIRecommendations();
                 }, 100);

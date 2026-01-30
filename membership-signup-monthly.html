@@ -751,7 +751,7 @@
         }
 
         // Form submission handler
-        document.getElementById('membershipForm').addEventListener('submit', async function(e) {
+        document.getElementById('membershipForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const form = e.target;
@@ -789,45 +789,54 @@
             // Get billing frequency
             const billingFrequency = document.querySelector('input[name="billingFrequency"]:checked').value;
 
-            try {
-                // Call Stripe Checkout Session API
-                const response = await fetch('/api/create-checkout-session', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        ...data,
-                        billingFrequency
-                    })
-                });
+            // Stripe Buy Button URLs based on membership type and billing frequency
+            let stripeUrl = '';
 
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.error || 'Failed to create checkout session');
+            if (billingFrequency === 'annual') {
+                switch (data.membershipType) {
+                    case 'individual':
+                        stripeUrl = 'https://buy.stripe.com/8x2eVf91t8rwb2T1Jpasg02?redirect_to=https://miamibusinesscouncil.com/membership-success.html';
+                        break;
+                    case 'nonprofit':
+                        stripeUrl = 'https://buy.stripe.com/6oU00lgtV2383Ar2Ntasg01?redirect_to=https://miamibusinesscouncil.com/membership-success.html';
+                        break;
+                    case 'business':
+                        stripeUrl = 'https://buy.stripe.com/4gMfZj0uX8rw8UL4VBasg00?redirect_to=https://miamibusinesscouncil.com/membership-success.html';
+                        break;
                 }
+            } else {
+                // Monthly URLs
+                switch (data.membershipType) {
+                    case 'individual':
+                        stripeUrl = 'https://buy.stripe.com/3cI6oJcdFbDIc6Xewbasg03?redirect_to=https://miamibusinesscouncil.com/membership-success.html';
+                        break;
+                    case 'nonprofit':
+                        stripeUrl = 'https://buy.stripe.com/9B68wR2D56jo8ULds7asg04?redirect_to=https://miamibusinesscouncil.com/membership-success.html';
+                        break;
+                    case 'business':
+                        stripeUrl = 'https://buy.stripe.com/9B63cx3H9azE7QH9bRasg05?redirect_to=https://miamibusinesscouncil.com/membership-success.html';
+                        break;
+                }
+            }
 
-                // Store form data in localStorage for post-payment processing
-                localStorage.setItem('membershipApplication', JSON.stringify({
-                    ...data,
-                    billingFrequency
-                }));
-
-                // Show success message
-                showMessage('Redirecting to Stripe Checkout...', 'success');
-
-                // Redirect to Stripe Checkout
-                setTimeout(() => {
-                    window.location.href = result.url;
-                }, 1000);
-
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage(`Error: ${error.message}`, 'error');
+            if (!stripeUrl) {
+                showMessage('Please select a membership type.', 'error');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
+                return;
             }
+
+            // Store form data in localStorage for post-payment processing
+            localStorage.setItem('membershipApplication', JSON.stringify({
+                ...data,
+                billingFrequency
+            }));
+
+            // Redirect to Stripe checkout
+            setTimeout(() => {
+                showMessage('Redirecting to payment...', 'success');
+                window.location.href = stripeUrl;
+            }, 1000);
         });
 
         function showMessage(text, type) {

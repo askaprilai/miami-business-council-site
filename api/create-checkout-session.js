@@ -36,47 +36,33 @@ export default async function handler(req, res) {
     // Import Stripe dynamically (Vercel serverless functions)
     const stripe = require('stripe')(stripeSecretKey);
 
-    // Price mapping for test mode
-    // TODO: Replace these with your actual Stripe Price IDs from dashboard
-    // For now, we'll create prices dynamically
-    const prices = {
+    // Price IDs from Stripe Dashboard
+    const priceIds = {
       individual: {
-        annual: { amount: 25000, interval: null }, // $250.00
-        monthly: { amount: 2500, interval: 'month' } // $25.00/month
+        monthly: 'price_1SvMGiQhcUWOrFc9s5cDcTtO', // $25/month
+        annual: 'price_1Sh99YQhcUWOrFc9P6MnzUGy'   // $250/year
       },
       nonprofit: {
-        annual: { amount: 35000, interval: null }, // $350.00
-        monthly: { amount: 3500, interval: 'month' } // $35.00/month
+        monthly: 'price_1SvMIMQhcUWOrFc9B8KlRXN7', // $35/month
+        annual: 'price_1Sh9A6QhcUWOrFc9Mdhby1S8'   // $350/year
       },
       business: {
-        annual: { amount: 45000, interval: null }, // $450.00
-        monthly: { amount: 4500, interval: 'month' } // $45.00/month
+        monthly: 'price_1SvMItQhcUWOrFc9nVU3t9ee', // $45/month
+        annual: 'price_1Sh9AcQhcUWOrFc9rE01LU0O'   // $450/year
       }
     };
 
-    const priceConfig = prices[membershipType]?.[billingFrequency];
-    if (!priceConfig) {
+    const priceId = priceIds[membershipType]?.[billingFrequency];
+    if (!priceId) {
       return res.status(400).json({ error: 'Invalid membership type or billing frequency' });
     }
 
     // Determine session mode based on billing frequency
     const mode = billingFrequency === 'monthly' ? 'subscription' : 'payment';
 
-    // Create line item
+    // Create line item with Price ID
     const lineItems = [{
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: `${membershipType.charAt(0).toUpperCase() + membershipType.slice(1)} Membership`,
-          description: `Miami Business Council ${membershipType} membership - ${billingFrequency === 'monthly' ? 'Monthly' : 'Annual'} billing`,
-        },
-        unit_amount: priceConfig.amount,
-        ...(priceConfig.interval && {
-          recurring: {
-            interval: priceConfig.interval
-          }
-        })
-      },
+      price: priceId,
       quantity: 1
     }];
 
@@ -88,7 +74,7 @@ export default async function handler(req, res) {
       mode: mode,
       line_items: lineItems,
       success_url: `${domain}/membership-success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domain}/membership-signup-test.html?canceled=true`,
+      cancel_url: `${domain}/membership-signup-monthly.html?canceled=true`,
       customer_email: email,
       metadata: {
         // Store all form data for webhook processing

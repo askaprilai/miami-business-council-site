@@ -14422,22 +14422,12 @@ This will enable beautiful previews when sharing the portal link on social media
                     console.error('❌ Exception getting user:', authErr);
                 }
 
-                // Add timeout to prevent infinite loading
-                const timeoutPromise = new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error('Query timeout after 10 seconds')), 10000)
-                );
-
-                const queryPromise = supabase
+                // Query member needs
+                const { data: needs, error } = await supabase
                     .from('member_needs')
                     .select('*')
                     .order('created_at', { ascending: false })
                     .limit(50);
-
-                const { data: needs, error } = await Promise.race([queryPromise, timeoutPromise])
-                    .catch(err => {
-                        console.error('❌ Query failed or timed out:', err);
-                        return { data: [], error: err };
-                    });
 
                 console.log('📦 Needs data:', needs);
                 console.log('🔍 DEBUG: Total needs returned:', needs?.length);

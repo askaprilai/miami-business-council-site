@@ -127,7 +127,7 @@ async function handleCheckoutSessionCompleted(session) {
 
   // Initialize Supabase
   const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   const resendApiKey = process.env.RESEND_API_KEY;
 
   if (!supabaseUrl || !supabaseServiceKey) {
@@ -320,7 +320,7 @@ async function handleInvoicePaymentFailed(invoice) {
 // Helper to get Supabase admin client
 function getSupabaseAdmin() {
   const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   return createClient(supabaseUrl, supabaseServiceKey, {
     auth: {

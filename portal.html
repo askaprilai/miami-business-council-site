@@ -6289,15 +6289,27 @@
                 document.getElementById('analyticsTotalConnections').textContent = totalConnections;
                 document.getElementById('analyticsConnectionsGrowth').textContent = totalConnections > 0 ? `${totalConnections} active` : 'No connections yet';
 
-                // 4. Messages Sent (from localStorage chat history)
-                const chatHistory = JSON.parse(localStorage.getItem('memberChats') || '{}');
+                // 4. Messages Sent (from database)
                 let messagesSentCount = 0;
-                Object.keys(chatHistory).forEach(chatId => {
-                    if (chatHistory[chatId]) {
-                        const messages = chatHistory[chatId].filter(msg => msg.sender === member.email);
-                        messagesSentCount += messages.length;
+                try {
+                    const { data: sentMessages, error: messagesError } = await supabase
+                        .from('messages')
+                        .select('id', { count: 'exact', head: true })
+                        .eq('sender_id', member.id);
+
+                    if (!messagesError && sentMessages !== null) {
+                        // Note: When using head: true with count: exact, the count is in the response metadata
+                        // But since we're not getting the actual count back correctly, let's query normally
+                        const { data: actualMessages } = await supabase
+                            .from('messages')
+                            .select('id')
+                            .eq('sender_id', member.id);
+
+                        messagesSentCount = actualMessages?.length || 0;
                     }
-                });
+                } catch (err) {
+                    console.error('Error counting messages:', err);
+                }
                 document.getElementById('analyticsMessagesSent').textContent = messagesSentCount;
 
                 // 5. Profile Strength Breakdown

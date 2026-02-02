@@ -11018,6 +11018,12 @@
                 document.getElementById('profileCompletionPercentage').textContent = percentage + '%';
                 document.getElementById('profileProgressFill').style.width = percentage + '%';
 
+                // Update dashboard profile strength as well
+                const dashboardStrength = document.getElementById('memberProfileStrength');
+                if (dashboardStrength) {
+                    dashboardStrength.textContent = percentage + '%';
+                }
+
                 // Update action button text
                 const actionText = document.getElementById('progressActionText');
                 if (percentage === 100) {

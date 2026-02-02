@@ -5028,7 +5028,7 @@
                 </div>
 
                 <!-- Profile Completion Progress -->
-                <div class="profile-progress-card">
+                <div class="profile-progress-card" id="profileStrengthCard">
                     <div class="progress-header">
                         <h3>🎯 Profile Strength</h3>
                         <span class="progress-percentage" id="profileCompletionPercentage">0%</span>
@@ -11025,6 +11025,16 @@
                 const dashboardStrength = document.getElementById('memberProfileStrength');
                 if (dashboardStrength) {
                     dashboardStrength.textContent = percentage + '%';
+                }
+
+                // Hide/show profile strength card based on completion
+                const profileStrengthCard = document.getElementById('profileStrengthCard');
+                if (profileStrengthCard) {
+                    if (percentage === 100) {
+                        profileStrengthCard.style.display = 'none';
+                    } else {
+                        profileStrengthCard.style.display = 'block';
+                    }
                 }
 
                 // Update action button text

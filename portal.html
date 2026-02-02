@@ -8954,7 +8954,7 @@
                 loadExistingPhotos();
 
                 // Update profile progress
-                setTimeout(() => updateProfileProgress(), 500);
+                setTimeout(async () => await updateProfileProgress(), 500);
 
                 // Load referral data and stats
                 setTimeout(() => loadReferralData(), 500);
@@ -9578,7 +9578,7 @@
                 await reloadCurrentMember();
 
                 // Update any displayed member info in other sections
-                updateMemberInfoThroughoutPortal(profileData);
+                await updateMemberInfoThroughoutPortal(profileData);
 
                 // Recalculate onboarding progress and analytics
                 await calculateOnboardingProgress(currentMember);
@@ -9593,12 +9593,12 @@
             }
         }
 
-        function updateMemberInfoThroughoutPortal(profileData) {
+        async function updateMemberInfoThroughoutPortal(profileData) {
             // Update header if name changed
             if (profileData.name) {
                 const userNameElement = document.getElementById('userName');
                 if (userNameElement) userNameElement.textContent = profileData.name;
-                
+
                 // Update avatar initials
                 const userAvatarElement = document.getElementById('userAvatar');
                 if (userAvatarElement && !userAvatarElement.style.backgroundImage) {
@@ -9606,10 +9606,10 @@
                     userAvatarElement.textContent = initials;
                 }
             }
-            
+
             // Update profile progress after saving
-            updateProfileProgress();
-            
+            await updateProfileProgress();
+
             // Show success message
             validator.showSuccessToast('✅ Profile saved successfully!');
         }
@@ -10922,7 +10922,7 @@
             }, 'Value proposition should be at least 10 characters');
 
         // Profile Progress Functions
-        function updateProfileProgress() {
+        async function updateProfileProgress() {
             const memberAuth = sessionStorage.getItem('memberAuth');
             if (!memberAuth) return;
 
@@ -10945,8 +10945,8 @@
                 updateProgressItem('tipPhoto', 'statusPhoto', hasPhoto);
                 if (hasPhoto) completedItems++;
 
-                // Check business preferences
-                const hasBusinessInfo = checkBusinessPreferences();
+                // Check business preferences from database
+                const hasBusinessInfo = await checkBusinessPreferences();
                 updateProgressItem('tipBusinessInfo', 'statusBusinessInfo', hasBusinessInfo);
                 if (hasBusinessInfo) completedItems++;
 
@@ -11013,8 +11013,30 @@
             return name && company && title && hasIndustries;
         }
 
-        function checkBusinessPreferences() {
-            // Check active tags in the DOM
+        async function checkBusinessPreferences() {
+            // First check database if currentMember exists
+            if (currentMember && currentMember.id) {
+                try {
+                    const { data: opportunities } = await supabase
+                        .from('business_opportunities')
+                        .select('opportunity_type, category')
+                        .eq('member_id', currentMember.id);
+
+                    const hasLookingFor = opportunities?.some(opp => opp.opportunity_type === 'looking_for') || false;
+                    const hasCanOffer = opportunities?.some(opp => opp.opportunity_type === 'can_offer') || false;
+
+                    // For company size, check if it's set (we don't store this in DB yet, so assume true if other conditions met)
+                    // Or check the DOM if on profile page
+                    const companySize = document.querySelector('input[name="company-size"]:checked');
+                    const hasCompanySize = companySize !== null;
+
+                    return hasLookingFor && hasCanOffer;
+                } catch (error) {
+                    console.error('Error checking business preferences:', error);
+                }
+            }
+
+            // Fallback to DOM check if database check fails or currentMember not loaded
             const lookingForTags = document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active');
             const canOfferTags = document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active');
             const companySize = document.querySelector('input[name="company-size"]:checked');

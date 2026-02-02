@@ -10947,8 +10947,9 @@
                 updateProgressItem('tipBusinessInfo', 'statusBusinessInfo', hasBusinessInfo);
                 if (hasBusinessInfo) completedItems++;
 
-                // Check LinkedIn
-                const hasLinkedIn = document.getElementById('memberLinkedIn')?.value.trim().length > 0;
+                // Check LinkedIn - use database data first, fallback to form
+                const hasLinkedIn = (currentMember && currentMember.linkedin_url && currentMember.linkedin_url.trim() !== '') ||
+                                   (document.getElementById('memberLinkedIn')?.value.trim().length > 0);
                 updateProgressItem('tipLinkedIn', 'statusLinkedIn', hasLinkedIn);
                 if (hasLinkedIn) completedItems++;
 
@@ -10991,6 +10992,16 @@
         }
 
         function checkBasicInformation() {
+            // Check from database first (currentMember), fallback to form fields
+            if (currentMember) {
+                const hasName = currentMember.first_name && currentMember.last_name;
+                const hasCompany = currentMember.company_name && currentMember.company_name.trim() !== '';
+                const hasTitle = currentMember.job_title && currentMember.job_title.trim() !== '';
+                const hasIndustries = currentMember.industries && Array.isArray(currentMember.industries) && currentMember.industries.length > 0;
+                return hasName && hasCompany && hasTitle && hasIndustries;
+            }
+
+            // Fallback to form fields if currentMember not loaded yet
             const name = document.getElementById('memberName')?.value.trim();
             const company = document.getElementById('memberCompany')?.value.trim();
             const title = document.getElementById('memberTitle')?.value.trim();
@@ -11000,10 +11011,11 @@
         }
 
         function checkBusinessPreferences() {
+            // Check active tags in the DOM
             const lookingForTags = document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active');
             const canOfferTags = document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active');
             const companySize = document.querySelector('input[name="company-size"]:checked');
-            
+
             return lookingForTags.length > 0 && canOfferTags.length > 0 && companySize;
         }
 

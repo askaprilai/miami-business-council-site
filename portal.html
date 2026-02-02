@@ -8959,10 +8959,9 @@
                         checkbox.checked = true;
                     }
                 });
-                // Phone number loading temporarily disabled until database column is added
-                // if (document.getElementById('memberPhone')) {
-                //     document.getElementById('memberPhone').value = currentMember.phone_number || '';
-                // }
+                if (document.getElementById('memberPhone')) {
+                    document.getElementById('memberPhone').value = currentMember.phone || '';
+                }
                 if (document.getElementById('memberLinkedIn')) {
                     document.getElementById('memberLinkedIn').value = currentMember.linkedin_url || '';
                 }
@@ -9520,10 +9519,10 @@
                     last_name: lastName,
                     company_name: document.getElementById('memberCompany')?.value || '',
                     job_title: document.getElementById('memberTitle')?.value || '',
+                    phone: document.getElementById('memberPhone')?.value || '',
                     industries: selectedIndustries, // Array of industries
                     industry: selectedIndustries[0] || '', // Keep first for backwards compatibility
                     linkedin_url: document.getElementById('memberLinkedIn')?.value || ''
-                    // phone_number temporarily removed until database column is added
                 };
 
                 // console.log('💾 Saving profile data:', profileData);

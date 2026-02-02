@@ -7489,10 +7489,23 @@
         });
 
         // Business matching functionality
+        // Debounce timer for auto-matching
+        let matchDebounceTimer;
+
         function toggleTag(tag) {
             tag.classList.toggle('active');
-            // Auto-update matches when preferences change
-            setTimeout(findMatches, 500);
+
+            // Clear previous timer to prevent excessive API calls
+            clearTimeout(matchDebounceTimer);
+
+            // Only call findMatches after user stops clicking for 2 seconds
+            matchDebounceTimer = setTimeout(() => {
+                // Only auto-match if on Smart Matches page
+                const smartMatchesSection = document.getElementById('smart-matches');
+                if (smartMatchesSection && smartMatchesSection.style.display !== 'none') {
+                    findMatches();
+                }
+            }, 2000);
         }
 
         async function findMatches() {
@@ -11169,11 +11182,22 @@
             }
 
             // Fallback to DOM check if database check fails or currentMember not loaded
-            const lookingForTags = document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active');
-            const canOfferTags = document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active');
+            // Use content-based selectors to find sections regardless of position
+            const lookingForSection = Array.from(document.querySelectorAll('.opportunity-section'))
+                .find(section => section.querySelector('h4')?.textContent.includes("What I'm Looking For"));
+            const lookingForTags = lookingForSection
+                ? lookingForSection.querySelectorAll('.opportunity-tag.active')
+                : [];
+
+            const canOfferSection = Array.from(document.querySelectorAll('.opportunity-section'))
+                .find(section => section.querySelector('h4')?.textContent.includes("What I Can Offer"));
+            const canOfferTags = canOfferSection
+                ? canOfferSection.querySelectorAll('.opportunity-tag.active')
+                : [];
+
             const companySize = document.querySelector('input[name="company-size"]:checked');
 
-            return lookingForTags.length > 0 && canOfferTags.length > 0 && companySize;
+            return lookingForTags.length > 0 && canOfferTags.length > 0;
         }
 
         function updateProgressItem(tipId, statusId, isCompleted) {

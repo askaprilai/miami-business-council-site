@@ -7080,17 +7080,21 @@
             matchResults.innerHTML = loadingHtml;
 
             try {
-                // Add minimum delay to make search feel substantial (1.5 seconds)
-                const [allMembers] = await Promise.all([
-                    loadMembersFromDatabase(),
-                    new Promise(resolve => setTimeout(resolve, 1500))
-                ]);
+                // Call AI-powered matching Edge Function
+                console.log('🤖 Loading AI-powered smart matches...');
 
-                // Filter out current user
-                const otherMembers = allMembers.filter(m => currentMember && m.id !== currentMember.id);
+                const { data, error } = await supabase.functions.invoke('smart-match-members', {
+                    body: {}
+                });
 
-                // Calculate smart matches with real data
-                const smartMatches = calculateIntelligentMatches(otherMembers);
+                if (error) {
+                    console.error('❌ AI matching error:', error);
+                    throw new Error('AI matching failed');
+                }
+
+                console.log('🎯 AI matches loaded:', data);
+
+                const smartMatches = data.matches || [];
                 lastGeneratedMatches = smartMatches; // Store matches globally for profile viewing
                 displaySmartMatches(smartMatches);
                 updateMatchStats(smartMatches);
@@ -7506,19 +7510,26 @@
 
         async function findMatches() {
             const matchResults = document.getElementById('matchResults');
-            const loadingHtml = '<div style="text-align: center; padding: 2rem; color: #ccc;">🔍 Finding new business matches...</div>';
+            const loadingHtml = '<div style="text-align: center; padding: 2rem; color: #ccc;">🤖 AI is analyzing your matches...</div>';
 
             matchResults.innerHTML = loadingHtml;
 
             try {
-                // Load real members from database
-                const allMembers = await loadMembersFromDatabase();
+                // Call AI-powered matching Edge Function
+                console.log('🤖 Loading AI-powered matches for profile section...');
 
-                // Filter out current user
-                const otherMembers = allMembers.filter(m => currentMember && m.id !== currentMember.id);
+                const { data, error } = await supabase.functions.invoke('smart-match-members', {
+                    body: {}
+                });
 
-                // Calculate smart matches with real data
-                const smartMatches = calculateIntelligentMatches(otherMembers);
+                if (error) {
+                    console.error('❌ AI matching error:', error);
+                    throw new Error('AI matching failed');
+                }
+
+                console.log('🎯 AI matches loaded:', data);
+
+                const smartMatches = data.matches || [];
 
                 // Display using the same smart matches display function
                 displayMatchesInGrid(smartMatches, 'matchResults');

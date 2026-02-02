@@ -462,7 +462,7 @@
         /* Email Capture */
         .email-capture {
             background: rgba(255, 255, 255, 0.95);
-            padding: 3rem 2.5rem 4rem 2.5rem;
+            padding: 3rem 2.5rem 0.5rem 2.5rem;
             border-radius: 20px;
             max-width: 450px;
             margin: 6rem auto 10rem auto;
@@ -874,7 +874,7 @@
 
             .email-capture {
                 width: 92%;
-                padding: 2.5rem 2rem 3.5rem 2rem;
+                padding: 2.5rem 2rem 0.5rem 2rem;
                 margin: 4rem auto 6rem auto;
             }
 
@@ -939,7 +939,7 @@
 
             .email-capture {
                 width: 90%;
-                padding: 2rem 1.5rem 3rem 1.5rem;
+                padding: 2rem 1.5rem 0.5rem 1.5rem;
                 margin: 3rem auto 5rem auto;
             }
 
@@ -1469,19 +1469,18 @@
                         <div style="width: 8px; height: 8px; background: #ccc; border-radius: 50%;"></div>
                     </div>
                 </div>
-                <p style="color: #000; font-size: 1em; font-weight: 700; text-align: center; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">2026 memberships invitations opening soon - submit your information to learn more</p>
+                <p style="color: #000; font-size: 1em; font-weight: 700; text-align: center; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">2026 memberships invitations opening soon</p>
                 
                 <div style="margin: 1.5rem 0;"></div>
-                <form class="email-form" id="emailForm">
-                    <!-- Visible Form Fields -->
-                    <input type="text" id="nameInput" name="name" placeholder="Your Name" required>
-                    <input type="email" id="emailInput" name="email" placeholder="Your Email" required>
-                    <input type="text" id="companyInput" name="company" placeholder="Company/Business Name" required>
-                    <button type="submit">Get Notified</button>
-                </form>
-                
-                <div class="success-message" id="successMessage">
-                    Thank you! We'll keep you updated on our launch.
+
+                <!-- Zeffy Newsletter Signup Form -->
+                <div style="position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px;">
+                    <iframe
+                        title='Signup form powered by Zeffy'
+                        style='position:absolute;border:0;top:0;left:0;bottom:0;right:0;width:100%;height:100%'
+                        src='https://www.zeffy.com/en-US/embed/newsletter-form/sign-up-for-newsletter'
+                        allowTransparency="true">
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -1877,7 +1876,8 @@
         // Initialize EmailJS
         emailjs.init("SAU17WFhPmeQLrng7");
         
-        // Multi-service form handler (EmailJS + Google Sheets + Autoresponder)
+        // DISABLED: Old Google Form handler (now using Zeffy iframe)
+        /*
         document.getElementById('emailForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -2061,8 +2061,10 @@
             submitButton.textContent = originalButtonText;
             submitButton.disabled = false;
         });
+        */
         
-        // Helper function to show messages
+        // DISABLED: Helper function for old form (now using Zeffy iframe)
+        /*
         function showMessage(message, type) {
             const successElement = document.getElementById('successMessage');
             successElement.innerHTML = message;
@@ -2070,7 +2072,7 @@
             successElement.style.padding = '1rem';
             successElement.style.borderRadius = '8px';
             successElement.style.marginTop = '1rem';
-            
+
             // Style based on type
             switch(type) {
                 case 'success':
@@ -2089,12 +2091,13 @@
                     successElement.style.background = '#17a2b8';
                     successElement.style.color = 'white';
             }
-            
+
             // Hide message after 8 seconds
             setTimeout(() => {
                 successElement.style.display = 'none';
             }, 8000);
         }
+        */
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2197,23 +2200,23 @@
             });
         });
 
-        // Enhanced form submission with loading state
-        const originalFormHandler = document.getElementById('emailForm').onsubmit;
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
-            const submitButton = e.target.querySelector('button[type="submit"]');
-            
-            // Add loading animation
-            submitButton.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⚡</span> Joining Waitlist...';
-            submitButton.style.background = '#d4af37';
-            
-            // Add spin animation
-            if (!document.getElementById('spinAnimation')) {
-                const style = document.createElement('style');
-                style.id = 'spinAnimation';
-                style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
-                document.head.appendChild(style);
-            }
-        });
+        // DISABLED: Enhanced form submission with loading state (now using Zeffy iframe)
+        // const originalFormHandler = document.getElementById('emailForm').onsubmit;
+        // document.getElementById('emailForm').addEventListener('submit', function(e) {
+        //     const submitButton = e.target.querySelector('button[type="submit"]');
+        //
+        //     // Add loading animation
+        //     submitButton.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⚡</span> Joining Waitlist...';
+        //     submitButton.style.background = '#d4af37';
+        //
+        //     // Add spin animation
+        //     if (!document.getElementById('spinAnimation')) {
+        //         const style = document.createElement('style');
+        //         style.id = 'spinAnimation';
+        //         style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+        //         document.head.appendChild(style);
+        //     }
+        // });
 
         // Mobile slide-in animations
         function initMobileAnimations() {

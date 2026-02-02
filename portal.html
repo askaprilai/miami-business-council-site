@@ -5065,14 +5065,14 @@
                             <div style="color: #51cf66; font-size: 0.7rem;" id="analyticsConnectionsGrowth">2 active</div>
                         </div>
 
-                        <!-- Messages Sent -->
+                        <!-- Total Messages -->
                         <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #fab005;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.75rem;">Messages Sent</span>
+                                <span style="color: #999; font-size: 0.75rem;">Total Messages</span>
                                 <span style="font-size: 1.25rem;">💬</span>
                             </div>
                             <div style="font-size: 1.5rem; color: #fab005; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsMessagesSent">0</div>
-                            <div style="color: #ccc; font-size: 0.7rem;">This month</div>
+                            <div style="color: #ccc; font-size: 0.7rem;">Sent & Received</div>
                         </div>
                     </div>
                 </div>
@@ -6289,28 +6289,19 @@
                 document.getElementById('analyticsTotalConnections').textContent = totalConnections;
                 document.getElementById('analyticsConnectionsGrowth').textContent = totalConnections > 0 ? `${totalConnections} active` : 'No connections yet';
 
-                // 4. Messages Sent (from database)
-                let messagesSentCount = 0;
+                // 4. Total Messages (sent + received from database)
+                let totalMessagesCount = 0;
                 try {
-                    const { data: sentMessages, error: messagesError } = await supabase
+                    const { data: allMessages } = await supabase
                         .from('messages')
-                        .select('id', { count: 'exact', head: true })
-                        .eq('sender_id', member.id);
+                        .select('id')
+                        .or(`sender_id.eq.${member.id},recipient_id.eq.${member.id}`);
 
-                    if (!messagesError && sentMessages !== null) {
-                        // Note: When using head: true with count: exact, the count is in the response metadata
-                        // But since we're not getting the actual count back correctly, let's query normally
-                        const { data: actualMessages } = await supabase
-                            .from('messages')
-                            .select('id')
-                            .eq('sender_id', member.id);
-
-                        messagesSentCount = actualMessages?.length || 0;
-                    }
+                    totalMessagesCount = allMessages?.length || 0;
                 } catch (err) {
                     console.error('Error counting messages:', err);
                 }
-                document.getElementById('analyticsMessagesSent').textContent = messagesSentCount;
+                document.getElementById('analyticsMessagesSent').textContent = totalMessagesCount;
 
                 // 5. Profile Strength Breakdown
                 const strengthChecks = {

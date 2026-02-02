@@ -16,6 +16,8 @@ serve(async (req) => {
   }
 
   try {
+    console.log('🚀 Smart match members function called');
+
     // Initialize Supabase client
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
@@ -28,29 +30,52 @@ serve(async (req) => {
     )
 
     // Get current user's profile
-    const { data: { user } } = await supabaseClient.auth.getUser()
+    console.log('🔐 Getting current user...');
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser()
+    if (authError) {
+      console.error('❌ Auth error:', authError);
+      return new Response(
+        JSON.stringify({ error: 'Authentication failed', details: authError.message }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
     if (!user) {
+      console.error('❌ No user found');
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
+    console.log('✅ User authenticated:', user.id);
 
     // Fetch current member profile
+    console.log('👤 Fetching current member profile...');
     const { data: currentMember, error: memberError } = await supabaseClient
       .from('members')
       .select('id, first_name, last_name, industry, expertise, services_offered, looking_for, business_description, company_name, job_title')
       .eq('auth_user_id', user.id)
       .single()
 
-    if (memberError || !currentMember) {
+    if (memberError) {
+      console.error('❌ Member fetch error:', memberError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch member profile', details: memberError.message }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    if (!currentMember) {
+      console.error('❌ No member found for user:', user.id);
       return new Response(
         JSON.stringify({ error: 'Member profile not found' }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
+    console.log('✅ Current member found:', currentMember.id, currentMember.first_name, currentMember.last_name);
+
     // Fetch other active members (excluding current user)
+    console.log('👥 Fetching other members...');
     const { data: otherMembers, error: membersError } = await supabaseClient
       .from('members')
       .select('id, first_name, last_name, industry, expertise, services_offered, looking_for, business_description, company_name, job_title, linkedin_url, profile_photo_url')
@@ -59,18 +84,22 @@ serve(async (req) => {
       .limit(50) // Get top 50 to analyze
 
     if (membersError) {
+      console.error('❌ Members fetch error:', membersError);
       return new Response(
-        JSON.stringify({ error: 'Failed to fetch members' }),
+        JSON.stringify({ error: 'Failed to fetch members', details: membersError.message }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
     if (!otherMembers || otherMembers.length === 0) {
+      console.log('⚠️ No other members found');
       return new Response(
         JSON.stringify({ matches: [] }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
+
+    console.log('✅ Found', otherMembers.length, 'other members');
 
     // Prepare current member profile for AI
     const currentProfile = {

@@ -5027,6 +5027,56 @@
                     <p>Optimize your profile for better business matching and opportunities</p>
                 </div>
 
+                <!-- Profile Analytics - Compact Single Row -->
+                <div class="dashboard-card" id="profileAnalyticsCompact" style="background: linear-gradient(135deg, rgba(116, 89, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(116, 89, 255, 0.3); margin-bottom: 1.5rem; padding: 1.25rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="color: #7459ff; font-size: 1.1rem; margin: 0;">📊 Profile Analytics</h3>
+                        <span style="color: #999; font-size: 0.8rem;">Last 30 days</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                        <!-- Profile Views -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #7459ff;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.75rem;">Profile Views</span>
+                                <span style="font-size: 1.25rem;">👁️</span>
+                            </div>
+                            <div style="font-size: 1.5rem; color: #7459ff; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsProfileViews">0</div>
+                            <div style="color: #51cf66; font-size: 0.7rem;" id="analyticsViewsTrend">No views yet</div>
+                        </div>
+
+                        <!-- Connection Rate -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #51cf66;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.75rem;">Connection Rate</span>
+                                <span style="font-size: 1.25rem;">🤝</span>
+                            </div>
+                            <div style="font-size: 1.5rem; color: #51cf66; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsConnectionRate">0%</div>
+                            <div style="color: #ccc; font-size: 0.7rem;" id="analyticsConnectionStats">0 accepted / 0 sent</div>
+                        </div>
+
+                        <!-- Total Connections -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #C9A86A;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.75rem;">Total Connections</span>
+                                <span style="font-size: 1.25rem;">🌐</span>
+                            </div>
+                            <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsTotalConnections">0</div>
+                            <div style="color: #51cf66; font-size: 0.7rem;" id="analyticsConnectionsGrowth">2 active</div>
+                        </div>
+
+                        <!-- Messages Sent -->
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #fab005;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #999; font-size: 0.75rem;">Messages Sent</span>
+                                <span style="font-size: 1.25rem;">💬</span>
+                            </div>
+                            <div style="font-size: 1.5rem; color: #fab005; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsMessagesSent">0</div>
+                            <div style="color: #ccc; font-size: 0.7rem;">This month</div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Profile Completion Progress -->
                 <div class="profile-progress-card" id="profileStrengthCard">
                     <div class="progress-header">
@@ -5065,136 +5115,6 @@
                     </div>
                 </div>
 
-                <!-- Profile Analytics Dashboard -->
-                <div class="dashboard-card" id="profileAnalytics" style="background: linear-gradient(135deg, rgba(116, 89, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(116, 89, 255, 0.3); margin-bottom: 2rem;">
-                    <div class="card-header" style="margin-bottom: 1.5rem;">
-                        <h3 class="card-title" style="color: #7459ff;">📊 Profile Analytics</h3>
-                        <span style="color: #999; font-size: 0.85rem;">Last 30 days</span>
-                    </div>
-
-                    <!-- Analytics Grid -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <!-- Profile Views -->
-                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #7459ff;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.85rem;">Profile Views</span>
-                                <span style="font-size: 1.5rem;">👁️</span>
-                            </div>
-                            <div style="font-size: 2rem; color: #7459ff; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsProfileViews">0</div>
-                            <div style="color: #51cf66; font-size: 0.8rem;" id="analyticsViewsTrend">—</div>
-                        </div>
-
-                        <!-- Connection Rate -->
-                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #51cf66;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.85rem;">Connection Rate</span>
-                                <span style="font-size: 1.5rem;">🤝</span>
-                            </div>
-                            <div style="font-size: 2rem; color: #51cf66; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsConnectionRate">0%</div>
-                            <div style="color: #ccc; font-size: 0.8rem;" id="analyticsConnectionStats">0 accepted / 0 sent</div>
-                        </div>
-
-                        <!-- Active Connections -->
-                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #C9A86A;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.85rem;">Total Connections</span>
-                                <span style="font-size: 1.5rem;">🌐</span>
-                            </div>
-                            <div style="font-size: 2rem; color: #C9A86A; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsTotalConnections">0</div>
-                            <div style="color: #51cf66; font-size: 0.8rem;" id="analyticsConnectionsGrowth">—</div>
-                        </div>
-
-                        <!-- Messages Sent -->
-                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 10px; border-left: 4px solid #fab005;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.85rem;">Messages Sent</span>
-                                <span style="font-size: 1.5rem;">💬</span>
-                            </div>
-                            <div style="font-size: 2rem; color: #fab005; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsMessagesSent">0</div>
-                            <div style="color: #ccc; font-size: 0.8rem;">This month</div>
-                        </div>
-                    </div>
-
-                    <!-- Profile Strength Breakdown -->
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
-                        <h4 style="color: #e8eaed; margin-bottom: 1rem;">⭐ Profile Strength Breakdown</h4>
-                        <div style="display: grid; gap: 0.75rem;">
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="color: #ccc;">Basic Information</span>
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
-                                        <div id="strengthBasicInfo" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
-                                    </div>
-                                    <span id="strengthBasicInfoPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="color: #ccc;">Profile Photo</span>
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
-                                        <div id="strengthPhoto" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
-                                    </div>
-                                    <span id="strengthPhotoPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="color: #ccc;">Company Logo</span>
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
-                                        <div id="strengthLogo" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
-                                    </div>
-                                    <span id="strengthLogoPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="color: #ccc;">Industries Selected</span>
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
-                                        <div id="strengthIndustries" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
-                                    </div>
-                                    <span id="strengthIndustriesPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="color: #ccc;">LinkedIn Connected</span>
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div style="width: 100px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
-                                        <div id="strengthLinkedIn" style="height: 100%; background: #51cf66; width: 0%; transition: width 0.5s ease;"></div>
-                                    </div>
-                                    <span id="strengthLinkedInPercent" style="color: #51cf66; font-weight: 600; min-width: 35px;">0%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Activity Timeline -->
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 10px;">
-                        <h4 style="color: #e8eaed; margin-bottom: 1rem;">📅 Recent Activity</h4>
-                        <div id="activityTimeline" style="display: grid; gap: 0.75rem;">
-                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
-                                <span style="font-size: 1.25rem;">🔄</span>
-                                <div style="flex: 1;">
-                                    <div style="color: #e8eaed; font-size: 0.9rem;">Profile last updated</div>
-                                    <div style="color: #999; font-size: 0.8rem;" id="activityLastUpdate">Never</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
-                                <span style="font-size: 1.25rem;">👋</span>
-                                <div style="flex: 1;">
-                                    <div style="color: #e8eaed; font-size: 0.9rem;">Last connection made</div>
-                                    <div style="color: #999; font-size: 0.8rem;" id="activityLastConnection">No connections yet</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
-                                <span style="font-size: 1.25rem;">💼</span>
-                                <div style="flex: 1;">
-                                    <div style="color: #e8eaed; font-size: 0.9rem;">Member since</div>
-                                    <div style="color: #999; font-size: 0.8rem;" id="activityMemberSince">—</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Profile Photo Section -->
                 <div id="profilePhotoSection" class="dashboard-card" style="margin-bottom: 2rem;">
@@ -6389,76 +6309,92 @@
                     linkedin: !!(member.linkedin_url && member.linkedin_url.trim() !== '')
                 };
 
-                // Update each strength bar
-                document.getElementById('strengthBasicInfo').style.width = strengthChecks.basicInfo ? '100%' : '0%';
-                document.getElementById('strengthBasicInfoPercent').textContent = strengthChecks.basicInfo ? '100%' : '0%';
-                document.getElementById('strengthBasicInfoPercent').style.color = strengthChecks.basicInfo ? '#51cf66' : '#999';
+                // Update each strength bar (if elements exist)
+                if (document.getElementById('strengthBasicInfo')) {
+                    document.getElementById('strengthBasicInfo').style.width = strengthChecks.basicInfo ? '100%' : '0%';
+                    document.getElementById('strengthBasicInfoPercent').textContent = strengthChecks.basicInfo ? '100%' : '0%';
+                    document.getElementById('strengthBasicInfoPercent').style.color = strengthChecks.basicInfo ? '#51cf66' : '#999';
+                }
 
-                document.getElementById('strengthPhoto').style.width = strengthChecks.photo ? '100%' : '0%';
-                document.getElementById('strengthPhotoPercent').textContent = strengthChecks.photo ? '100%' : '0%';
-                document.getElementById('strengthPhotoPercent').style.color = strengthChecks.photo ? '#51cf66' : '#999';
+                if (document.getElementById('strengthPhoto')) {
+                    document.getElementById('strengthPhoto').style.width = strengthChecks.photo ? '100%' : '0%';
+                    document.getElementById('strengthPhotoPercent').textContent = strengthChecks.photo ? '100%' : '0%';
+                    document.getElementById('strengthPhotoPercent').style.color = strengthChecks.photo ? '#51cf66' : '#999';
+                }
 
-                document.getElementById('strengthLogo').style.width = strengthChecks.logo ? '100%' : '0%';
-                document.getElementById('strengthLogoPercent').textContent = strengthChecks.logo ? '100%' : '0%';
-                document.getElementById('strengthLogoPercent').style.color = strengthChecks.logo ? '#51cf66' : '#999';
+                if (document.getElementById('strengthLogo')) {
+                    document.getElementById('strengthLogo').style.width = strengthChecks.logo ? '100%' : '0%';
+                    document.getElementById('strengthLogoPercent').textContent = strengthChecks.logo ? '100%' : '0%';
+                    document.getElementById('strengthLogoPercent').style.color = strengthChecks.logo ? '#51cf66' : '#999';
+                }
 
-                document.getElementById('strengthIndustries').style.width = strengthChecks.industries ? '100%' : '0%';
-                document.getElementById('strengthIndustriesPercent').textContent = strengthChecks.industries ? '100%' : '0%';
-                document.getElementById('strengthIndustriesPercent').style.color = strengthChecks.industries ? '#51cf66' : '#999';
+                if (document.getElementById('strengthIndustries')) {
+                    document.getElementById('strengthIndustries').style.width = strengthChecks.industries ? '100%' : '0%';
+                    document.getElementById('strengthIndustriesPercent').textContent = strengthChecks.industries ? '100%' : '0%';
+                    document.getElementById('strengthIndustriesPercent').style.color = strengthChecks.industries ? '#51cf66' : '#999';
+                }
 
-                document.getElementById('strengthLinkedIn').style.width = strengthChecks.linkedin ? '100%' : '0%';
-                document.getElementById('strengthLinkedInPercent').textContent = strengthChecks.linkedin ? '100%' : '0%';
-                document.getElementById('strengthLinkedInPercent').style.color = strengthChecks.linkedin ? '#51cf66' : '#999';
+                if (document.getElementById('strengthLinkedIn')) {
+                    document.getElementById('strengthLinkedIn').style.width = strengthChecks.linkedin ? '100%' : '0%';
+                    document.getElementById('strengthLinkedInPercent').textContent = strengthChecks.linkedin ? '100%' : '0%';
+                    document.getElementById('strengthLinkedInPercent').style.color = strengthChecks.linkedin ? '#51cf66' : '#999';
+                }
 
-                // 6. Activity Timeline
+                // 6. Activity Timeline (if elements exist)
                 // Last profile update
-                if (member.updated_at) {
-                    const lastUpdate = new Date(member.updated_at);
-                    const daysSinceUpdate = Math.floor((Date.now() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24));
-                    if (daysSinceUpdate === 0) {
-                        document.getElementById('activityLastUpdate').textContent = 'Today';
-                    } else if (daysSinceUpdate === 1) {
-                        document.getElementById('activityLastUpdate').textContent = 'Yesterday';
-                    } else {
-                        document.getElementById('activityLastUpdate').textContent = `${daysSinceUpdate} days ago`;
-                    }
-                } else {
-                    document.getElementById('activityLastUpdate').textContent = 'Never';
-                }
-
-                // Last connection made
-                if (allConnections && allConnections.length > 0) {
-                    const { data: latestConnection } = await supabase
-                        .from('member_connections')
-                        .select('created_at')
-                        .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`)
-                        .eq('status', 'accepted')
-                        .order('created_at', { ascending: false })
-                        .limit(1)
-                        .single();
-
-                    if (latestConnection) {
-                        const lastConnectionDate = new Date(latestConnection.created_at);
-                        const daysSinceConnection = Math.floor((Date.now() - lastConnectionDate.getTime()) / (1000 * 60 * 60 * 24));
-                        if (daysSinceConnection === 0) {
-                            document.getElementById('activityLastConnection').textContent = 'Today';
-                        } else if (daysSinceConnection === 1) {
-                            document.getElementById('activityLastConnection').textContent = 'Yesterday';
+                if (document.getElementById('activityLastUpdate')) {
+                    if (member.updated_at) {
+                        const lastUpdate = new Date(member.updated_at);
+                        const daysSinceUpdate = Math.floor((Date.now() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24));
+                        if (daysSinceUpdate === 0) {
+                            document.getElementById('activityLastUpdate').textContent = 'Today';
+                        } else if (daysSinceUpdate === 1) {
+                            document.getElementById('activityLastUpdate').textContent = 'Yesterday';
                         } else {
-                            document.getElementById('activityLastConnection').textContent = `${daysSinceConnection} days ago`;
+                            document.getElementById('activityLastUpdate').textContent = `${daysSinceUpdate} days ago`;
                         }
+                    } else {
+                        document.getElementById('activityLastUpdate').textContent = 'Never';
                     }
-                } else {
-                    document.getElementById('activityLastConnection').textContent = 'No connections yet';
                 }
 
-                // Member since
-                if (member.created_at) {
-                    const memberSince = new Date(member.created_at);
-                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    document.getElementById('activityMemberSince').textContent = `${monthNames[memberSince.getMonth()]} ${memberSince.getFullYear()}`;
-                } else {
-                    document.getElementById('activityMemberSince').textContent = '—';
+                // Last connection made (if element exists)
+                if (document.getElementById('activityLastConnection')) {
+                    if (allConnections && allConnections.length > 0) {
+                        const { data: latestConnection } = await supabase
+                            .from('member_connections')
+                            .select('created_at')
+                            .or(`requester_id.eq.${member.id},recipient_id.eq.${member.id}`)
+                            .eq('status', 'accepted')
+                            .order('created_at', { ascending: false })
+                            .limit(1)
+                            .single();
+
+                        if (latestConnection) {
+                            const lastConnectionDate = new Date(latestConnection.created_at);
+                            const daysSinceConnection = Math.floor((Date.now() - lastConnectionDate.getTime()) / (1000 * 60 * 60 * 24));
+                            if (daysSinceConnection === 0) {
+                                document.getElementById('activityLastConnection').textContent = 'Today';
+                            } else if (daysSinceConnection === 1) {
+                                document.getElementById('activityLastConnection').textContent = 'Yesterday';
+                            } else {
+                                document.getElementById('activityLastConnection').textContent = `${daysSinceConnection} days ago`;
+                            }
+                        }
+                    } else {
+                        document.getElementById('activityLastConnection').textContent = 'No connections yet';
+                    }
+                }
+
+                // Member since (if element exists)
+                if (document.getElementById('activityMemberSince')) {
+                    if (member.created_at) {
+                        const memberSince = new Date(member.created_at);
+                        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        document.getElementById('activityMemberSince').textContent = `${monthNames[memberSince.getMonth()]} ${memberSince.getFullYear()}`;
+                    } else {
+                        document.getElementById('activityMemberSince').textContent = '—';
+                    }
                 }
 
                 // console.log('✅ Profile analytics calculated:', { profileViews, connectionRate, totalConnections, messagesSentCount, strengthChecks });

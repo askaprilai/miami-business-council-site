@@ -4557,6 +4557,97 @@
                     </div>
                 </div>
 
+                <!-- Business Matching Card -->
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #C9A86A; margin-bottom: 1rem;">Business Matching</h3>
+
+                    <div class="opportunity-section">
+                        <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🎯 What I'm Looking For:</h4>
+                        <div class="tag-container">
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Clients</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Partnerships</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Investors</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Mentors</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Vendors</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Co-founders</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Fashion</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Retail</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Boutiques</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Fashion Designers</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Restaurants</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Artists</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Galleries</span>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">💼 What I Can Offer:</h4>
+                        <div class="tag-container">
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Business Strategy</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Consulting</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Coaching</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Training</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Advisory</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Funding</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Mentoring</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Services</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Expertise</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Fashion</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Retail</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Boutiques</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Fashion Designers</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Restaurants</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Artists</span>
+                            <span class="opportunity-tag" onclick="toggleTag(this)">Galleries</span>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🏢 Company Size:</h4>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="company-size" value="solo">
+                                <span>Solo/Freelancer (1)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="company-size" value="small">
+                                <span>Small Team (2-10)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="company-size" value="medium">
+                                <span>Medium Business (11-50)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="company-size" value="large">
+                                <span>Large Company (50+)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="register-btn" onclick="saveBusinessPreferences()" style="padding: 0.75rem 2rem;">
+                            💾 Save Preferences
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Potential Business Matches Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">🤝 Potential Business Matches</h3>
+                        <button class="register-btn" onclick="findMatches()" style="padding: 0.5rem 1rem;">Find New Matches</button>
+                    </div>
+
+                    <div class="match-grid" id="matchResults">
+                        <div style="text-align: center; padding: 3rem; color: #999; grid-column: 1 / -1;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No matches yet</h4>
+                            <p>Complete your profile and business preferences to get AI-powered match recommendations.</p>
+                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Browse All Members</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Smart Matches Results -->
                 <div class="match-grid" id="smartMatchResults">
                     <!-- Matches will be populated by JavaScript -->
@@ -5594,91 +5685,9 @@
 
                 <div class="dashboard-grid" style="max-width: 1000px;">
                     <!-- Business Information -->
-                    <!-- Business Opportunities -->
-                    <div class="dashboard-card">
-                        <h3 style="color: #C9A86A; margin-bottom: 1rem;">Business Matching</h3>
-                        
-                        <div class="opportunity-section">
-                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🎯 What I'm Looking For:</h4>
-                            <div class="tag-container">
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Clients</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Partnerships</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Investors</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Mentors</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Vendors</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Co-founders</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Fashion</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Retail</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Boutiques</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Fashion Designers</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Restaurants</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Artists</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Galleries</span>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-section">
-                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">💼 What I Can Offer:</h4>
-                            <div class="tag-container">
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Business Strategy</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Consulting</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Coaching</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Training</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Advisory</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Funding</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Mentoring</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Services</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Expertise</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Fashion</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Retail</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Boutiques</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Fashion Designers</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Restaurants</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Artists</span>
-                                <span class="opportunity-tag" onclick="toggleTag(this)">Galleries</span>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-section">
-                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">🏢 Company Size:</h4>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="company-size" value="solo">
-                                    <span>Solo/Freelancer (1)</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="company-size" value="small">
-                                    <span>Small Team (2-10)</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="company-size" value="medium">
-                                    <span>Medium Business (11-50)</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="company-size" value="large">
-                                    <span>Large Company (50+)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Matching Results -->
-                <div class="dashboard-card" style="margin-top: 2rem;">
-                    <div class="card-header">
-                        <h3 class="card-title">🤝 Potential Business Matches</h3>
-                        <button class="register-btn" onclick="findMatches()" style="padding: 0.5rem 1rem;">Find New Matches</button>
-                    </div>
-                    
-                    <div class="match-grid" id="matchResults">
-                        <div style="text-align: center; padding: 3rem; color: #999; grid-column: 1 / -1;">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-                            <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No matches yet</h4>
-                            <p>Complete your profile and business preferences to get AI-powered match recommendations.</p>
-                            <button class="register-btn" onclick="showSection('directory')" style="margin-top: 1rem;">Browse All Members</button>
-                        </div>
-                    </div>
-                </div>
+                <!-- Matching Results (moved to Smart Matches page) -->
 
                 <div class="profile-actions" style="text-align: center; margin-top: 2rem;">
                     <button class="register-btn" onclick="saveProfile()" style="margin-right: 1rem;">Save Profile</button>
@@ -7477,9 +7486,14 @@
 
         async function findMatches() {
             const matchResults = document.getElementById('matchResults');
+            const smartMatchResults = document.getElementById('smartMatchResults');
             const loadingHtml = '<div style="text-align: center; padding: 2rem; color: #ccc;">🤖 AI is analyzing your matches...</div>';
 
+            // Show loading in both areas
             matchResults.innerHTML = loadingHtml;
+            if (smartMatchResults) {
+                smartMatchResults.innerHTML = loadingHtml;
+            }
 
             try {
                 // Call AI-powered matching Edge Function
@@ -7498,17 +7512,31 @@
 
                 const smartMatches = data.matches || [];
 
-                // Display using the same smart matches display function
+                // Display in Potential Business Matches card
                 displayMatchesInGrid(smartMatches, 'matchResults');
+
+                // Also display in main Smart Matches grid if we're on that page
+                if (smartMatchResults) {
+                    displayMatchesInGrid(smartMatches, 'smartMatchResults');
+                }
+
+                // Update match stats if the function exists
+                if (typeof updateMatchStats === 'function') {
+                    updateMatchStats(smartMatches);
+                }
             } catch (error) {
                 console.error('Error finding matches:', error);
-                matchResults.innerHTML = `
+                const errorHtml = `
                     <div style="text-align: center; padding: 3rem; color: #ff6b6b; grid-column: 1 / -1;">
                         <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
                         <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
                         <p style="color: #999;">Please try refreshing the page</p>
                     </div>
                 `;
+                matchResults.innerHTML = errorHtml;
+                if (smartMatchResults) {
+                    smartMatchResults.innerHTML = errorHtml;
+                }
             }
         }
 
@@ -9516,10 +9544,18 @@
                 currentMember = { ...currentMember, ...data };
 
                 // Save business opportunities to database
-                const lookingForTags = Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active'))
-                    .map(tag => tag.textContent.trim());
-                const canOfferTags = Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active'))
-                    .map(tag => tag.textContent.trim());
+                // Find sections by heading text to avoid position-dependent selectors
+                const lookingForSection = Array.from(document.querySelectorAll('.opportunity-section'))
+                    .find(section => section.querySelector('h4')?.textContent.includes("What I'm Looking For"));
+                const lookingForTags = lookingForSection
+                    ? Array.from(lookingForSection.querySelectorAll('.opportunity-tag.active')).map(tag => tag.textContent.trim())
+                    : [];
+
+                const canOfferSection = Array.from(document.querySelectorAll('.opportunity-section'))
+                    .find(section => section.querySelector('h4')?.textContent.includes("What I Can Offer"));
+                const canOfferTags = canOfferSection
+                    ? Array.from(canOfferSection.querySelectorAll('.opportunity-tag.active')).map(tag => tag.textContent.trim())
+                    : [];
 
                 // Delete existing business opportunities
                 await supabase
@@ -9564,8 +9600,8 @@
                     title: profileData.job_title,
                     industry: profileData.industry,
                     linkedin: profileData.linkedin_url,
-                    lookingFor: Array.from(document.querySelectorAll('.opportunity-section:first-child .opportunity-tag.active')).map(tag => tag.textContent),
-                    canOffer: Array.from(document.querySelectorAll('.opportunity-section:nth-child(2) .opportunity-tag.active')).map(tag => tag.textContent),
+                    lookingFor: lookingForTags,
+                    canOffer: canOfferTags,
                     companySize: document.querySelector('input[name="company-size"]:checked')?.value || '',
                     lastUpdated: new Date().toISOString()
                 };
@@ -9590,6 +9626,80 @@
             } catch (error) {
                 console.error('Error saving profile:', error);
                 alert('❌ Error saving profile. Please try again.');
+            }
+        }
+
+        async function saveBusinessPreferences() {
+            if (!currentMember) {
+                alert('Session expired. Please log in again.');
+                window.location.href = '/member-login';
+                return;
+            }
+
+            try {
+                // Get selected tags using the same robust selectors as saveProfile
+                const lookingForSection = Array.from(document.querySelectorAll('.opportunity-section'))
+                    .find(section => section.querySelector('h4')?.textContent.includes("What I'm Looking For"));
+                const lookingForTags = lookingForSection
+                    ? Array.from(lookingForSection.querySelectorAll('.opportunity-tag.active')).map(tag => tag.textContent.trim())
+                    : [];
+
+                const canOfferSection = Array.from(document.querySelectorAll('.opportunity-section'))
+                    .find(section => section.querySelector('h4')?.textContent.includes("What I Can Offer"));
+                const canOfferTags = canOfferSection
+                    ? Array.from(canOfferSection.querySelectorAll('.opportunity-tag.active')).map(tag => tag.textContent.trim())
+                    : [];
+
+                // Delete existing business opportunities
+                await supabase
+                    .from('business_opportunities')
+                    .delete()
+                    .eq('member_id', currentMember.id);
+
+                // Insert new business opportunities
+                const opportunitiesToInsert = [];
+
+                lookingForTags.forEach(category => {
+                    opportunitiesToInsert.push({
+                        member_id: currentMember.id,
+                        opportunity_type: 'looking_for',
+                        category: category
+                    });
+                });
+
+                canOfferTags.forEach(category => {
+                    opportunitiesToInsert.push({
+                        member_id: currentMember.id,
+                        opportunity_type: 'can_offer',
+                        category: category
+                    });
+                });
+
+                if (opportunitiesToInsert.length > 0) {
+                    const { error } = await supabase
+                        .from('business_opportunities')
+                        .insert(opportunitiesToInsert);
+
+                    if (error) {
+                        console.error('Error saving business preferences:', error);
+                        alert('Error saving preferences: ' + error.message);
+                        return;
+                    }
+                }
+
+                // Reload member data
+                await reloadCurrentMember();
+
+                // Update profile completion
+                await calculateOnboardingProgress(currentMember);
+
+                // Show success and trigger new matches
+                alert('✅ Preferences saved! Finding new matches...');
+                await findMatches();
+
+            } catch (error) {
+                console.error('Error saving business preferences:', error);
+                alert('Error saving preferences. Please try again.');
             }
         }
 

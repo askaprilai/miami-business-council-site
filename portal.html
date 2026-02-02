@@ -7056,8 +7056,16 @@
             matchResults.innerHTML = loadingHtml;
 
             try {
+                // Check session first
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError || !session) {
+                    console.error('❌ No valid session:', sessionError);
+                    throw new Error('Please log in again');
+                }
+
                 // Call AI-powered matching Edge Function
                 console.log('🤖 Loading AI-powered smart matches...');
+                console.log('🔐 Session valid, calling Edge Function...');
 
                 const { data, error } = await supabase.functions.invoke('smart-match-members', {
                     body: {}
@@ -7065,7 +7073,8 @@
 
                 if (error) {
                     console.error('❌ AI matching error:', error);
-                    throw new Error('AI matching failed');
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                    throw new Error(error.message || 'AI matching failed');
                 }
 
                 console.log('🎯 AI matches loaded:', data);
@@ -7076,11 +7085,13 @@
                 updateMatchStats(smartMatches);
             } catch (error) {
                 console.error('Error generating smart matches:', error);
+                const errorMessage = error.message || 'Unknown error';
                 matchResults.innerHTML = `
                     <div style="text-align: center; padding: 3rem; color: #ff6b6b;">
                         <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
                         <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
-                        <p style="color: #999;">Please try refreshing the page</p>
+                        <p style="color: #999;">${errorMessage}</p>
+                        <button class="register-btn" onclick="generateSmartMatches()" style="margin-top: 1rem;">🔄 Try Again</button>
                     </div>
                 `;
             } finally {
@@ -7496,8 +7507,16 @@
             }
 
             try {
+                // Check session first
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError || !session) {
+                    console.error('❌ No valid session:', sessionError);
+                    throw new Error('Please log in again');
+                }
+
                 // Call AI-powered matching Edge Function
                 console.log('🤖 Loading AI-powered matches for profile section...');
+                console.log('🔐 Session valid, calling Edge Function...');
 
                 const { data, error } = await supabase.functions.invoke('smart-match-members', {
                     body: {}
@@ -7505,7 +7524,8 @@
 
                 if (error) {
                     console.error('❌ AI matching error:', error);
-                    throw new Error('AI matching failed');
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                    throw new Error(error.message || 'AI matching failed');
                 }
 
                 console.log('🎯 AI matches loaded:', data);
@@ -7526,11 +7546,13 @@
                 }
             } catch (error) {
                 console.error('Error finding matches:', error);
+                const errorMessage = error.message || 'Unknown error';
                 const errorHtml = `
                     <div style="text-align: center; padding: 3rem; color: #ff6b6b; grid-column: 1 / -1;">
                         <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
                         <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
-                        <p style="color: #999;">Please try refreshing the page</p>
+                        <p style="color: #999;">${errorMessage}</p>
+                        <button class="register-btn" onclick="findMatches()" style="margin-top: 1rem;">🔄 Try Again</button>
                     </div>
                 `;
                 matchResults.innerHTML = errorHtml;

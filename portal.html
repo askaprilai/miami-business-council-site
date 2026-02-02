@@ -5343,12 +5343,12 @@
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                             <div class="form-group">
-                                <label for="memberPhone" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Phone Number (Optional)</label>
-                                <input type="tel" id="memberPhone" name="memberPhone" class="profile-input" placeholder="(305) 123-4567" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <label for="memberPhone" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Phone Number * <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Required for profile completion)</span></label>
+                                <input type="tel" id="memberPhone" name="memberPhone" class="profile-input" placeholder="(305) 123-4567" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
-                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL (Optional)</label>
-                                <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL * <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Required for profile completion)</span></label>
+                                <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                         </div>
 
@@ -6224,6 +6224,20 @@
                     member.phone,
                     member.linkedin_url
                 ];
+
+                // Debug: Log each field status
+                console.log('🔍 Checklist Debug - Profile Fields:', {
+                    first_name: member.first_name || 'MISSING',
+                    last_name: member.last_name || 'MISSING',
+                    company_name: member.company_name || 'MISSING',
+                    job_title: member.job_title || 'MISSING',
+                    phone: member.phone || 'MISSING',
+                    linkedin_url: member.linkedin_url || 'MISSING',
+                    profile_photo_url: member.profile_photo_url || 'MISSING',
+                    company_logo_url: member.company_logo_url || 'MISSING',
+                    industries: member.industries || 'MISSING'
+                });
+
                 checklist.profileComplete = requiredFields.every(field => field && field.trim() !== '' && field !== 'To be completed');
 
                 // 2. Check if profile photo is uploaded
@@ -6248,6 +6262,17 @@
                 const completedCount = Object.values(checklist).filter(val => val === true).length;
                 const totalCount = Object.keys(checklist).length;
                 const progressPercent = Math.round((completedCount / totalCount) * 100);
+
+                // Debug: Log checklist status
+                console.log('✅ Checklist Status:', {
+                    profileComplete: checklist.profileComplete,
+                    photoUploaded: checklist.photoUploaded,
+                    logoUploaded: checklist.logoUploaded,
+                    firstConnection: checklist.firstConnection,
+                    industriesAdded: checklist.industriesAdded,
+                    progressPercent: progressPercent + '%',
+                    completedCount: completedCount + '/' + totalCount
+                });
 
                 // Update UI
                 document.getElementById('onboardingProgressText').textContent = `${progressPercent}% Complete`;

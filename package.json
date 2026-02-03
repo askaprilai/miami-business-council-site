@@ -8,10 +8,13 @@
     "start": "echo 'Static site served by Vercel'"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
     "stripe": "^14.15.0",
-    "@supabase/supabase-js": "^2.39.0"
+    "formidable": "^3.5.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^17.2.3"
+  },
   "engines": {
     "node": ">=18.x"
   }

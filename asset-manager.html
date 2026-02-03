@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Manager | Miami Business Council</title>
+
+    <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #0a0a0b;
+            color: #e8eaed;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #d4af37;
+        }
+
+        .header h1 {
+            color: #d4af37;
+            font-size: 2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #ccc;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #d4af37;
+            border-bottom-color: #d4af37;
+        }
+
+        .tab:hover {
+            color: #fff;
+        }
+
+        .upload-section {
+            background: rgba(255,255,255,0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .upload-area {
+            border: 2px dashed #d4af37;
+            padding: 3rem;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .upload-area.dragging {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #fff;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .asset-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border-color: #d4af37;
+        }
+
+        .asset-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+        }
+
+        .asset-info {
+            padding: 1rem;
+        }
+
+        .asset-name {
+            color: #e8eaed;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .asset-meta {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 0.25rem;
+        }
+
+        .asset-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-view {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #ccc;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #ccc;
+            margin-top: 0.5rem;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e8eaed;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #e8eaed;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e8eaed;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖼️ Asset Manager</h1>
+            <p>Manage all logos, brand assets, sponsor materials, and marketing content</p>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="statMemberLogos">0</div>
+                <div class="stat-label">Member Logos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statBrandAssets">0</div>
+                <div class="stat-label">Brand Assets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statSponsorLogos">0</div>
+                <div class="stat-label">Sponsor Logos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statMarketing">0</div>
+                <div class="stat-label">Marketing Assets</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-type="all" onclick="switchTab('all')">All Assets</button>
+            <button class="tab" data-type="member_logo" onclick="switchTab('member_logo')">Member Logos</button>
+            <button class="tab" data-type="mbc_brand" onclick="switchTab('mbc_brand')">Brand Assets</button>
+            <button class="tab" data-type="sponsor_logo" onclick="switchTab('sponsor_logo')">Sponsor Logos</button>
+            <button class="tab" data-type="marketing" onclick="switchTab('marketing')">Marketing</button>
+        </div>
+
+        <!-- Upload Section (Admin Only) -->
+        <div class="upload-section" id="uploadSection">
+            <h3 style="color: #d4af37; margin-bottom: 1rem;">📤 Upload New Asset</h3>
+
+            <div class="form-group">
+                <label>Asset Type</label>
+                <select id="uploadAssetType">
+                    <option value="mbc_brand">MBC Brand Asset</option>
+                    <option value="sponsor_logo">Sponsor Logo</option>
+                    <option value="marketing">Marketing Asset</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Description (Optional)</label>
+                <textarea id="uploadDescription" placeholder="Describe this asset..."></textarea>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div style="font-size: 3em; margin-bottom: 1rem;">📁</div>
+                <p style="color: #d4af37; font-size: 1.1em; margin-bottom: 0.5rem;">Drag & drop image here or click to browse</p>
+                <p style="color: #999; font-size: 0.9em;">PNG, JPG, SVG up to 10MB</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Choose File</button>
+            </div>
+
+            <div id="uploadProgress" style="display: none; margin-top: 1rem; text-align: center; color: #d4af37;">
+                <p>Uploading... Please wait</p>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search assets by name, company, or description...">
+
+        <!-- Assets Grid -->
+        <div id="assetsContainer">
+            <div class="loading">Loading assets...</div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.j_JYDmCvt3QxQ0XrEj_l3J7FxfKJrvnokKBpvuPU8bM';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentFilter = 'all';
+        let allAssets = [];
+        let currentUser = null;
+        let isAdmin = false;
+
+        // Check authentication on load
+        async function checkAuth() {
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session) {
+                alert('Please log in to access Asset Manager');
+                window.location.href = '/member-login';
+                return false;
+            }
+
+            currentUser = session.user;
+
+            // Check if admin
+            const { data: member } = await supabase
+                .from('members')
+                .select('email')
+                .eq('auth_user_id', currentUser.id)
+                .single();
+
+            isAdmin = member && (
+                member.email === 'april@miamibusinesscouncil.com' ||
+                member.email === 'info@miamibusinesscouncil.com'
+            );
+
+            if (!isAdmin) {
+                document.getElementById('uploadSection').style.display = 'none';
+            }
+
+            return true;
+        }
+
+        // Load assets
+        async function loadAssets() {
+            try {
+                const { data, error } = await supabase
+                    .from('asset_library')
+                    .select(`
+                        *,
+                        members:member_id (
+                            first_name,
+                            last_name,
+                            company_name
+                        )
+                    `)
+                    .eq('is_active', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allAssets = data || [];
+                updateStats();
+                displayAssets();
+
+            } catch (error) {
+                console.error('Error loading assets:', error);
+                document.getElementById('assetsContainer').innerHTML =
+                    '<div class="empty-state">Failed to load assets. Please try again.</div>';
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('statMemberLogos').textContent =
+                allAssets.filter(a => a.asset_type === 'member_logo').length;
+            document.getElementById('statBrandAssets').textContent =
+                allAssets.filter(a => a.asset_type === 'mbc_brand').length;
+            document.getElementById('statSponsorLogos').textContent =
+                allAssets.filter(a => a.asset_type === 'sponsor_logo').length;
+            document.getElementById('statMarketing').textContent =
+                allAssets.filter(a => a.asset_type === 'marketing').length;
+        }
+
+        // Display assets
+        function displayAssets() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+
+            let filtered = allAssets.filter(asset => {
+                const matchesFilter = currentFilter === 'all' || asset.asset_type === currentFilter;
+                const matchesSearch = !searchTerm ||
+                    asset.file_name.toLowerCase().includes(searchTerm) ||
+                    asset.description?.toLowerCase().includes(searchTerm) ||
+                    asset.members?.company_name?.toLowerCase().includes(searchTerm);
+
+                return matchesFilter && matchesSearch;
+            });
+
+            const container = document.getElementById('assetsContainer');
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="empty-state">No assets found</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="assets-grid">
+                    ${filtered.map(asset => createAssetCard(asset)).join('')}
+                </div>
+            `;
+        }
+
+        // Create asset card HTML
+        function createAssetCard(asset) {
+            const typeLabel = {
+                'member_logo': 'Member Logo',
+                'mbc_brand': 'Brand Asset',
+                'sponsor_logo': 'Sponsor Logo',
+                'marketing': 'Marketing'
+            }[asset.asset_type];
+
+            const companyName = asset.members?.company_name || 'MBC';
+            const fileSize = formatFileSize(asset.file_size);
+            const uploadDate = new Date(asset.created_at).toLocaleDateString();
+
+            return `
+                <div class="asset-card">
+                    <img src="${asset.file_url}" alt="${asset.alt_text}" class="asset-image" loading="lazy">
+                    <div class="asset-info">
+                        <div class="asset-name" title="${asset.file_name}">${asset.file_name}</div>
+                        <div class="asset-meta">📁 ${typeLabel}</div>
+                        <div class="asset-meta">🏢 ${companyName}</div>
+                        <div class="asset-meta">📏 ${fileSize} • ${uploadDate}</div>
+                        <div class="asset-actions">
+                            <button class="btn btn-view" onclick="viewAsset('${asset.file_url}')">View</button>
+                            ${isAdmin ? `<button class="btn btn-delete" onclick="deleteAsset('${asset.id}')">Delete</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 KB';
+            const mb = bytes / 1024 / 1024;
+            if (mb >= 1) return mb.toFixed(2) + ' MB';
+            return (bytes / 1024).toFixed(2) + ' KB';
+        }
+
+        // Switch tabs
+        function switchTab(type) {
+            currentFilter = type;
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.type === type) {
+                    tab.classList.add('active');
+                }
+            });
+
+            displayAssets();
+        }
+
+        // View asset
+        function viewAsset(url) {
+            window.open(url, '_blank');
+        }
+
+        // Delete asset
+        async function deleteAsset(assetId) {
+            if (!confirm('Are you sure you want to delete this asset?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('asset_library')
+                    .update({ is_active: false })
+                    .eq('id', assetId);
+
+                if (error) throw error;
+
+                alert('✅ Asset deleted successfully');
+                loadAssets();
+
+            } catch (error) {
+                console.error('Error deleting asset:', error);
+                alert('Failed to delete asset: ' + error.message);
+            }
+        }
+
+        // Handle file upload
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            await uploadAsset(file);
+        });
+
+        // Drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragging');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragging');
+        });
+
+        uploadArea.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragging');
+
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                await uploadAsset(file);
+            } else {
+                alert('Please upload an image file');
+            }
+        });
+
+        // Upload asset
+        async function uploadAsset(file) {
+            const assetType = document.getElementById('uploadAssetType').value;
+            const description = document.getElementById('uploadDescription').value;
+
+            document.getElementById('uploadProgress').style.display = 'block';
+
+            try {
+                // Get admin member ID
+                const { data: member } = await supabase
+                    .from('members')
+                    .select('id')
+                    .eq('auth_user_id', currentUser.id)
+                    .single();
+
+                // Determine bucket based on asset type
+                const bucket = {
+                    'mbc_brand': 'mbc-brand-assets',
+                    'sponsor_logo': 'sponsor-logos',
+                    'marketing': 'marketing-assets'
+                }[assetType];
+
+                // Generate unique filename
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+                const filePath = fileName;
+
+                // Upload to storage
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from(bucket)
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (uploadError) throw uploadError;
+
+                // Get public URL
+                const { data: urlData } = supabase.storage
+                    .from(bucket)
+                    .getPublicUrl(filePath);
+
+                // Create asset record
+                const { error: assetError } = await supabase
+                    .from('asset_library')
+                    .insert({
+                        member_id: member?.id || null,
+                        asset_type: assetType,
+                        file_name: file.name,
+                        file_url: urlData.publicUrl,
+                        file_type: fileExt,
+                        file_size: file.size,
+                        uploaded_by: currentUser.id,
+                        description: description || null,
+                        is_active: true
+                    });
+
+                if (assetError) throw assetError;
+
+                alert('✅ Asset uploaded successfully!');
+                document.getElementById('uploadDescription').value = '';
+                document.getElementById('fileInput').value = '';
+                loadAssets();
+
+            } catch (error) {
+                console.error('Error uploading asset:', error);
+                alert('Failed to upload: ' + error.message);
+            } finally {
+                document.getElementById('uploadProgress').style.display = 'none';
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchBar').addEventListener('input', displayAssets);
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const authOk = await checkAuth();
+            if (authOk) {
+                await loadAssets();
+            }
+        });
+    </script>
+</body>
+</html>

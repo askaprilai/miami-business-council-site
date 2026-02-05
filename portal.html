@@ -5363,6 +5363,29 @@
                             </div>
                         </div>
 
+                        <!-- Social Media Links Section -->
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <h4 style="color: #C9A86A; margin-bottom: 1rem; font-size: 1rem;">Social Media & Website <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Optional)</span></h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div class="form-group">
+                                    <label for="memberInstagram" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Instagram</label>
+                                    <input type="url" id="memberInstagram" name="memberInstagram" class="profile-input" placeholder="https://instagram.com/yourhandle" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberFacebook" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Facebook</label>
+                                    <input type="url" id="memberFacebook" name="memberFacebook" class="profile-input" placeholder="https://facebook.com/yourpage" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberTwitter" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Twitter / X</label>
+                                    <input type="url" id="memberTwitter" name="memberTwitter" class="profile-input" placeholder="https://twitter.com/yourhandle" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberWebsite" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Website</label>
+                                    <input type="url" id="memberWebsite" name="memberWebsite" class="profile-input" placeholder="https://yourwebsite.com" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                </div>
+                            </div>
+                        </div>
+
                         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
                             <button type="button" onclick="saveProfile()" style="padding: 0.75rem 2rem; background: #C9A86A; color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
                                 💾 Save Profile
@@ -8995,6 +9018,19 @@
                 if (document.getElementById('memberLinkedIn')) {
                     document.getElementById('memberLinkedIn').value = currentMember.linkedin_url || '';
                 }
+                // Populate social media fields
+                if (document.getElementById('memberInstagram')) {
+                    document.getElementById('memberInstagram').value = currentMember.instagram_url || '';
+                }
+                if (document.getElementById('memberFacebook')) {
+                    document.getElementById('memberFacebook').value = currentMember.facebook_url || '';
+                }
+                if (document.getElementById('memberTwitter')) {
+                    document.getElementById('memberTwitter').value = currentMember.twitter_url || '';
+                }
+                if (document.getElementById('memberWebsite')) {
+                    document.getElementById('memberWebsite').value = currentMember.website_url || '';
+                }
 
                 // console.log('✅ Profile fields populated successfully');
 
@@ -9552,7 +9588,11 @@
                     phone: document.getElementById('memberPhone')?.value || '',
                     industries: selectedIndustries, // Array of industries
                     industry: selectedIndustries[0] || '', // Keep first for backwards compatibility
-                    linkedin_url: document.getElementById('memberLinkedIn')?.value || ''
+                    linkedin_url: document.getElementById('memberLinkedIn')?.value || '',
+                    instagram_url: document.getElementById('memberInstagram')?.value || '',
+                    facebook_url: document.getElementById('memberFacebook')?.value || '',
+                    twitter_url: document.getElementById('memberTwitter')?.value || '',
+                    website_url: document.getElementById('memberWebsite')?.value || ''
                 };
 
                 // console.log('💾 Saving profile data:', profileData);

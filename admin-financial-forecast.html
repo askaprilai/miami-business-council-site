@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Forecast | Miami Business Council Admin</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --gold: #C9A86A;
+            --teal: #1BA6A0;
+            --pink: #FF6B9D;
+            --slate: #3A3A3A;
+            --white: #FFFFFF;
+            --gray-100: #F5F5F5;
+            --gray-200: #E8E8E8;
+            --gray-800: #2A2A2A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--slate);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            background: #d4b87a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--slate);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: #4a4a4a;
+        }
+
+        .back-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--gray-800);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--slate);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-subtitle {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--slate);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-prefix {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 0.875rem;
+        }
+
+        .input-group .form-input {
+            padding-left: 1.75rem;
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .summary-card {
+            flex: 1;
+            min-width: 130px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 14px 18px;
+        }
+
+        .summary-card.highlight {
+            background: var(--gold);
+        }
+
+        .summary-card.highlight .summary-label,
+        .summary-card.highlight .summary-value,
+        .summary-card.highlight .summary-sub {
+            color: var(--black);
+        }
+
+        .summary-card.profit {
+            background: var(--teal);
+        }
+
+        .summary-card.profit .summary-label,
+        .summary-card.profit .summary-value,
+        .summary-card.profit .summary-sub {
+            color: var(--white);
+        }
+
+        .summary-card.loss {
+            background: var(--pink);
+        }
+
+        .summary-label {
+            font-size: 10px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .summary-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .summary-sub {
+            font-size: 10px;
+            color: #777;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Platform Costs */
+        .platform-costs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-item {
+            flex: 1;
+            min-width: 100px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: center;
+        }
+
+        .platform-name {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .platform-cost {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: linear-gradient(135deg, var(--gray-800), var(--black));
+            border: 2px solid var(--gold);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-header h2 {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .results-header p {
+            color: #999;
+            font-size: 0.875rem;
+        }
+
+        .projection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .projection-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--slate);
+        }
+
+        .projection-card.primary {
+            border-color: var(--gold);
+            background: rgba(201, 168, 106, 0.1);
+        }
+
+        .projection-period {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .projection-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--white);
+        }
+
+        .projection-amount.positive {
+            color: var(--teal);
+        }
+
+        .projection-amount.negative {
+            color: var(--pink);
+        }
+
+        .projection-label {
+            font-size: 0.75rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        /* Breakdown Table */
+        .breakdown-table {
+            width: 100%;
+            margin-top: 2rem;
+            border-collapse: collapse;
+        }
+
+        .breakdown-table th,
+        .breakdown-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--slate);
+        }
+
+        .breakdown-table th {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .breakdown-table td {
+            font-size: 0.875rem;
+        }
+
+        .breakdown-table .category {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .breakdown-table .amount {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .breakdown-table .positive {
+            color: var(--teal);
+        }
+
+        .breakdown-table .negative {
+            color: var(--pink);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--slate);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover {
+            color: var(--white);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .tab.active {
+            color: var(--gold);
+            background: rgba(201, 168, 106, 0.15);
+        }
+
+        /* Chart placeholder */
+        .chart-container {
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--slate);
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 2rem;
+            height: 200px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .chart-bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-bar {
+            width: 60px;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+        }
+
+        .chart-bar.revenue {
+            background: var(--teal);
+        }
+
+        .chart-bar.costs {
+            background: var(--pink);
+        }
+
+        .chart-bar.profit {
+            background: var(--gold);
+        }
+
+        .chart-label {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Scenario Selector */
+        .scenario-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--slate);
+            border-radius: 6px;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .scenario-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .scenario-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--black);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .summary-grid {
+                flex-direction: column;
+            }
+
+            .summary-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Access Denied Screen -->
+    <div id="accessDenied" style="display: none; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🔒</div>
+            <h1 style="color: var(--gold); margin-bottom: 1rem;">Access Restricted</h1>
+            <p style="color: #999; margin-bottom: 2rem;">This page is only accessible to authorized administrators.</p>
+            <a href="portal.html" class="btn btn-primary" style="text-decoration: none; display: inline-block;">Return to Portal</a>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 1rem; animation: pulse 1.5s infinite;">⏳</div>
+            <p style="color: #999;">Verifying access...</p>
+        </div>
+    </div>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+
+    <div class="container" id="mainContent" style="display: none;">
+        <a href="portal.html" class="back-link">&larr; Back to Portal</a>
+
+        <div class="header">
+            <h1>Financial Forecast Tool</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="resetToDefaults()">Reset</button>
+                <button class="btn btn-primary" onclick="exportForecast()">Export PDF</button>
+            </div>
+        </div>
+
+        <!-- Scenario Selector -->
+        <div class="scenario-selector">
+            <button class="scenario-btn active" onclick="setScenario('conservative')">Conservative</button>
+            <button class="scenario-btn" onclick="setScenario('moderate')">Moderate</button>
+            <button class="scenario-btn" onclick="setScenario('optimistic')">Optimistic</button>
+        </div>
+
+        <div class="grid">
+            <!-- Revenue Inputs -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Revenue Drivers</h3>
+                    <span class="card-subtitle">Monthly projections</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Membership Tiers</label>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <span class="input-prefix">#</span>
+                            <input type="number" class="form-input" id="membersIndividual" value="15" oninput="calculate()">
+                        </div>
+                        <div style="display: flex; align-items: center; color: #999; font-size: 0.875rem;">
+                            Individual @ $50/mo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <span class="input-prefix">#</span>
+                            <input type="number" class="form-input" id="membersNonprofit" value="5" oninput="calculate()">
+                        </div>
+                        <div style="display: flex; align-items: center; color: #999; font-size: 0.875rem;">
+                            Nonprofit @ $75/mo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <span class="input-prefix">#</span>
+                            <input type="number" class="form-input" id="membersBusiness" value="10" oninput="calculate()">
+                        </div>
+                        <div style="display: flex; align-items: center; color: #999; font-size: 0.875rem;">
+                            Business @ $100/mo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label class="form-label">Sponsorship Revenue</label>
+                    <div class="input-group">
+                        <span class="input-prefix">$</span>
+                        <input type="number" class="form-input" id="sponsorship" value="500" oninput="calculate()">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label class="form-label">Breakfast Events (Monthly)</label>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <span class="input-prefix">#</span>
+                            <input type="number" class="form-input" id="eventMembers" value="20" oninput="calculate()">
+                        </div>
+                        <div style="display: flex; align-items: center; color: #999; font-size: 0.875rem;">
+                            Members @ $0
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <span class="input-prefix">#</span>
+                            <input type="number" class="form-input" id="eventNonMembers" value="10" oninput="calculate()">
+                        </div>
+                        <div style="display: flex; align-items: center; color: #999; font-size: 0.875rem;">
+                            Non-members @ $<input type="number" class="form-input" id="eventTicketPrice" value="45" style="width: 60px; display: inline; padding: 0.25rem 0.5rem;" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Memberships</div>
+                        <div class="summary-value" id="revenueMemberships">$2,125</div>
+                        <div class="summary-sub">/month</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Sponsorship</div>
+                        <div class="summary-value" id="revenueSponsorship">$500</div>
+                        <div class="summary-sub">/month</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Events</div>
+                        <div class="summary-value" id="revenueEvents">$450</div>
+                        <div class="summary-sub">/month</div>
+                    </div>
+                    <div class="summary-card highlight">
+                        <div class="summary-label">Total Revenue</div>
+                        <div class="summary-value" id="revenueTotal">$3,075</div>
+                        <div class="summary-sub" id="revenueTotalAnnual">/mo &middot; $36,900/yr</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Inputs -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Operating Costs</h3>
+                    <span class="card-subtitle">Monthly expenses</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Food & Catering</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costFood" value="400" oninput="calculate()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Marketing</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costMarketing" value="200" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Signage & Materials</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costSignage" value="50" oninput="calculate()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Venue</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costVenue" value="0" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Staff</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costStaff" value="500" oninput="calculate()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tech / AV</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costTech" value="100" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Insurance</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costInsurance" value="100" oninput="calculate()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Admin / Misc</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costAdmin" value="100" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Speakers / Guests</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costSpeakers" value="0" oninput="calculate()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Printing</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" class="form-input" id="costPrinting" value="50" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label class="form-label">Platform Costs</label>
+                    <div class="platform-costs">
+                        <div class="platform-item">
+                            <div class="platform-name">Vercel</div>
+                            <div class="platform-cost">$<span id="costVercel">20</span></div>
+                        </div>
+                        <div class="platform-item">
+                            <div class="platform-name">Supabase</div>
+                            <div class="platform-cost">$<span id="costSupabase">25</span></div>
+                        </div>
+                        <div class="platform-item">
+                            <div class="platform-name">OpenAI</div>
+                            <div class="platform-cost">$<span id="costOpenai">30</span></div>
+                        </div>
+                        <div class="platform-item">
+                            <div class="platform-name">Resend</div>
+                            <div class="platform-cost">$<span id="costResend">20</span></div>
+                        </div>
+                        <div class="platform-item">
+                            <div class="platform-name">Domain</div>
+                            <div class="platform-cost">$<span id="costDomain">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Operations</div>
+                        <div class="summary-value" id="costOperations">$1,500</div>
+                        <div class="summary-sub">/month</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Platform</div>
+                        <div class="summary-value" id="costPlatformTotal">$96</div>
+                        <div class="summary-sub">/month</div>
+                    </div>
+                    <div class="summary-card highlight">
+                        <div class="summary-label">Total Costs</div>
+                        <div class="summary-value" id="costTotal">$1,596</div>
+                        <div class="summary-sub" id="costTotalAnnual">/mo &middot; $19,152/yr</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <div class="results-header">
+                <h2>Financial Projections</h2>
+                <p>Based on current inputs</p>
+            </div>
+
+            <div class="projection-grid">
+                <div class="projection-card">
+                    <div class="projection-period">Monthly Revenue</div>
+                    <div class="projection-amount" id="projMonthlyRevenue">$3,075</div>
+                    <div class="projection-label">Total income</div>
+                </div>
+                <div class="projection-card">
+                    <div class="projection-period">Monthly Costs</div>
+                    <div class="projection-amount" id="projMonthlyCosts">$1,596</div>
+                    <div class="projection-label">Total expenses</div>
+                </div>
+                <div class="projection-card primary">
+                    <div class="projection-period">Monthly Profit</div>
+                    <div class="projection-amount positive" id="projMonthlyProfit">$1,479</div>
+                    <div class="projection-label" id="projMargin">48% margin</div>
+                </div>
+                <div class="projection-card primary">
+                    <div class="projection-period">Annual Profit</div>
+                    <div class="projection-amount positive" id="projAnnualProfit">$17,748</div>
+                    <div class="projection-label">Projected yearly</div>
+                </div>
+            </div>
+
+            <!-- Simple Bar Chart -->
+            <div class="chart-container">
+                <div style="width: 100%;">
+                    <div class="chart-bars">
+                        <div class="chart-bar-group">
+                            <div class="chart-bar revenue" id="barRevenue" style="height: 180px;"></div>
+                            <div class="chart-label">Revenue</div>
+                        </div>
+                        <div class="chart-bar-group">
+                            <div class="chart-bar costs" id="barCosts" style="height: 100px;"></div>
+                            <div class="chart-label">Costs</div>
+                        </div>
+                        <div class="chart-bar-group">
+                            <div class="chart-bar profit" id="barProfit" style="height: 80px;"></div>
+                            <div class="chart-label">Profit</div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: var(--teal);"></div>
+                            Revenue
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: var(--pink);"></div>
+                            Costs
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: var(--gold);"></div>
+                            Profit
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Table -->
+            <table class="breakdown-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Monthly</th>
+                        <th>Annual</th>
+                        <th>% of Total</th>
+                    </tr>
+                </thead>
+                <tbody id="breakdownBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Break-Even Analysis -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">Break-Even Analysis</h3>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-label">Break-Even Members</div>
+                    <div class="summary-value" id="breakEvenMembers">22</div>
+                    <div class="summary-sub">at avg $70/mo dues</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Current Members</div>
+                    <div class="summary-value" id="currentMembers">30</div>
+                    <div class="summary-sub">total active</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Buffer</div>
+                    <div class="summary-value positive" id="memberBuffer">+8</div>
+                    <div class="summary-sub">above break-even</div>
+                </div>
+                <div class="summary-card highlight">
+                    <div class="summary-label">Runway</div>
+                    <div class="summary-value" id="runway">Sustainable</div>
+                    <div class="summary-sub" id="runwayDetail">Profitable at current scale</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Platform costs (fixed)
+        const platformCosts = {
+            vercel: 20,
+            supabase: 25,
+            openai: 30,
+            resend: 20,
+            domain: 1
+        };
+
+        // Scenarios
+        const scenarios = {
+            conservative: {
+                membersIndividual: 10,
+                membersNonprofit: 3,
+                membersBusiness: 5,
+                sponsorship: 250,
+                eventNonMembers: 5,
+                eventTicketPrice: 40
+            },
+            moderate: {
+                membersIndividual: 15,
+                membersNonprofit: 5,
+                membersBusiness: 10,
+                sponsorship: 500,
+                eventNonMembers: 10,
+                eventTicketPrice: 45
+            },
+            optimistic: {
+                membersIndividual: 25,
+                membersNonprofit: 10,
+                membersBusiness: 20,
+                sponsorship: 1000,
+                eventNonMembers: 20,
+                eventTicketPrice: 50
+            }
+        };
+
+        let currentScenario = 'moderate';
+
+        function getValue(id) {
+            return parseFloat(document.getElementById(id).value) || 0;
+        }
+
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+
+        function calculate() {
+            // Revenue calculations
+            const membersIndividual = getValue('membersIndividual');
+            const membersNonprofit = getValue('membersNonprofit');
+            const membersBusiness = getValue('membersBusiness');
+            const sponsorship = getValue('sponsorship');
+            const eventMembers = getValue('eventMembers');
+            const eventNonMembers = getValue('eventNonMembers');
+            const eventTicketPrice = getValue('eventTicketPrice');
+
+            const revenueMemberships = (membersIndividual * 50) + (membersNonprofit * 75) + (membersBusiness * 100);
+            const revenueEvents = eventNonMembers * eventTicketPrice;
+            const revenueTotal = revenueMemberships + sponsorship + revenueEvents;
+
+            // Cost calculations
+            const costFood = getValue('costFood');
+            const costMarketing = getValue('costMarketing');
+            const costSignage = getValue('costSignage');
+            const costVenue = getValue('costVenue');
+            const costStaff = getValue('costStaff');
+            const costTech = getValue('costTech');
+            const costInsurance = getValue('costInsurance');
+            const costAdmin = getValue('costAdmin');
+            const costSpeakers = getValue('costSpeakers');
+            const costPrinting = getValue('costPrinting');
+
+            const costOperations = costFood + costMarketing + costSignage + costVenue + costStaff + costTech + costInsurance + costAdmin + costSpeakers + costPrinting;
+            const costPlatform = platformCosts.vercel + platformCosts.supabase + platformCosts.openai + platformCosts.resend + platformCosts.domain;
+            const costTotal = costOperations + costPlatform;
+
+            // Profit calculations
+            const monthlyProfit = revenueTotal - costTotal;
+            const annualProfit = monthlyProfit * 12;
+            const margin = revenueTotal > 0 ? (monthlyProfit / revenueTotal * 100) : 0;
+
+            // Update Revenue Display
+            document.getElementById('revenueMemberships').textContent = formatCurrency(revenueMemberships);
+            document.getElementById('revenueSponsorship').textContent = formatCurrency(sponsorship);
+            document.getElementById('revenueEvents').textContent = formatCurrency(revenueEvents);
+            document.getElementById('revenueTotal').textContent = formatCurrency(revenueTotal);
+            document.getElementById('revenueTotalAnnual').textContent = `/mo · ${formatCurrency(revenueTotal * 12)}/yr`;
+
+            // Update Cost Display
+            document.getElementById('costOperations').textContent = formatCurrency(costOperations);
+            document.getElementById('costPlatformTotal').textContent = formatCurrency(costPlatform);
+            document.getElementById('costTotal').textContent = formatCurrency(costTotal);
+            document.getElementById('costTotalAnnual').textContent = `/mo · ${formatCurrency(costTotal * 12)}/yr`;
+
+            // Update Projections
+            document.getElementById('projMonthlyRevenue').textContent = formatCurrency(revenueTotal);
+            document.getElementById('projMonthlyCosts').textContent = formatCurrency(costTotal);
+            document.getElementById('projMonthlyProfit').textContent = formatCurrency(monthlyProfit);
+            document.getElementById('projAnnualProfit').textContent = formatCurrency(annualProfit);
+            document.getElementById('projMargin').textContent = `${margin.toFixed(0)}% margin`;
+
+            // Update profit color
+            const profitEl = document.getElementById('projMonthlyProfit');
+            const annualProfitEl = document.getElementById('projAnnualProfit');
+            if (monthlyProfit >= 0) {
+                profitEl.classList.remove('negative');
+                profitEl.classList.add('positive');
+                annualProfitEl.classList.remove('negative');
+                annualProfitEl.classList.add('positive');
+            } else {
+                profitEl.classList.remove('positive');
+                profitEl.classList.add('negative');
+                annualProfitEl.classList.remove('positive');
+                annualProfitEl.classList.add('negative');
+            }
+
+            // Update Chart
+            const maxValue = Math.max(revenueTotal, costTotal, Math.abs(monthlyProfit));
+            const scale = 180 / maxValue;
+            document.getElementById('barRevenue').style.height = (revenueTotal * scale) + 'px';
+            document.getElementById('barCosts').style.height = (costTotal * scale) + 'px';
+            document.getElementById('barProfit').style.height = (Math.abs(monthlyProfit) * scale) + 'px';
+            document.getElementById('barProfit').style.background = monthlyProfit >= 0 ? 'var(--gold)' : 'var(--pink)';
+
+            // Update Breakdown Table
+            const breakdown = [
+                { category: 'Membership Dues', monthly: revenueMemberships, type: 'revenue' },
+                { category: 'Sponsorship', monthly: sponsorship, type: 'revenue' },
+                { category: 'Event Tickets', monthly: revenueEvents, type: 'revenue' },
+                { category: 'Food & Catering', monthly: costFood, type: 'cost' },
+                { category: 'Staff', monthly: costStaff, type: 'cost' },
+                { category: 'Marketing', monthly: costMarketing, type: 'cost' },
+                { category: 'Tech / AV', monthly: costTech, type: 'cost' },
+                { category: 'Insurance', monthly: costInsurance, type: 'cost' },
+                { category: 'Admin / Misc', monthly: costAdmin, type: 'cost' },
+                { category: 'Platform (Tech Stack)', monthly: costPlatform, type: 'cost' },
+                { category: 'Other (Signage, Printing, etc.)', monthly: costSignage + costPrinting + costVenue + costSpeakers, type: 'cost' }
+            ];
+
+            let tableHTML = '';
+            breakdown.forEach(item => {
+                const annual = item.monthly * 12;
+                const pct = ((item.monthly / (item.type === 'revenue' ? revenueTotal : costTotal)) * 100).toFixed(0);
+                const colorClass = item.type === 'revenue' ? 'positive' : 'negative';
+                tableHTML += `
+                    <tr>
+                        <td class="category">${item.category}</td>
+                        <td class="amount ${colorClass}">${item.type === 'cost' ? '-' : ''}${formatCurrency(item.monthly)}</td>
+                        <td class="amount ${colorClass}">${item.type === 'cost' ? '-' : ''}${formatCurrency(annual)}</td>
+                        <td>${pct}%</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('breakdownBody').innerHTML = tableHTML;
+
+            // Break-Even Analysis
+            const totalMembers = membersIndividual + membersNonprofit + membersBusiness;
+            const avgDues = totalMembers > 0 ? revenueMemberships / totalMembers : 70;
+            const fixedCosts = costTotal - (costFood * 0.5); // Assume half of food is variable
+            const breakEvenMembers = Math.ceil(fixedCosts / avgDues);
+            const memberBuffer = totalMembers - breakEvenMembers;
+
+            document.getElementById('breakEvenMembers').textContent = breakEvenMembers;
+            document.getElementById('currentMembers').textContent = totalMembers;
+            document.getElementById('memberBuffer').textContent = (memberBuffer >= 0 ? '+' : '') + memberBuffer;
+            document.getElementById('memberBuffer').className = 'summary-value ' + (memberBuffer >= 0 ? 'positive' : 'negative');
+
+            if (monthlyProfit > 500) {
+                document.getElementById('runway').textContent = 'Strong';
+                document.getElementById('runwayDetail').textContent = 'Healthy profit margin';
+                document.getElementById('runway').style.color = 'var(--teal)';
+            } else if (monthlyProfit > 0) {
+                document.getElementById('runway').textContent = 'Sustainable';
+                document.getElementById('runwayDetail').textContent = 'Profitable at current scale';
+                document.getElementById('runway').style.color = 'var(--gold)';
+            } else {
+                document.getElementById('runway').textContent = 'At Risk';
+                document.getElementById('runwayDetail').textContent = 'Need to increase revenue or cut costs';
+                document.getElementById('runway').style.color = 'var(--pink)';
+            }
+        }
+
+        function setScenario(scenario) {
+            currentScenario = scenario;
+            const s = scenarios[scenario];
+
+            // Update buttons
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update inputs
+            document.getElementById('membersIndividual').value = s.membersIndividual;
+            document.getElementById('membersNonprofit').value = s.membersNonprofit;
+            document.getElementById('membersBusiness').value = s.membersBusiness;
+            document.getElementById('sponsorship').value = s.sponsorship;
+            document.getElementById('eventNonMembers').value = s.eventNonMembers;
+            document.getElementById('eventTicketPrice').value = s.eventTicketPrice;
+
+            calculate();
+        }
+
+        function resetToDefaults() {
+            setScenario('moderate');
+            document.getElementById('costFood').value = 400;
+            document.getElementById('costMarketing').value = 200;
+            document.getElementById('costSignage').value = 50;
+            document.getElementById('costVenue').value = 0;
+            document.getElementById('costStaff').value = 500;
+            document.getElementById('costTech').value = 100;
+            document.getElementById('costInsurance').value = 100;
+            document.getElementById('costAdmin').value = 100;
+            document.getElementById('costSpeakers').value = 0;
+            document.getElementById('costPrinting').value = 50;
+            document.getElementById('eventMembers').value = 20;
+            calculate();
+        }
+
+        function exportForecast() {
+            alert('Export feature coming soon! For now, use your browser\'s Print function (Ctrl+P / Cmd+P) to save as PDF.');
+            window.print();
+        }
+
+        // ============================================
+        // ADMIN AUTHENTICATION
+        // ============================================
+
+        // Authorized admin emails
+        const AUTHORIZED_ADMINS = [
+            'april@apriljsabral.com',
+            'atiba@themadyungroup.com'
+        ];
+
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://ggufxkynwzygberrbxns.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdndWZ4a3lud3p5Z2JlcnJieG5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5OTUyNzAsImV4cCI6MjA0ODU3MTI3MH0.EjGjft-SvMJrSLB_-H7I9pMMSLB8XwTkIMGNJ4wWslw';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function checkAdminAccess() {
+            try {
+                const { data: { user }, error } = await supabase.auth.getUser();
+
+                if (error || !user) {
+                    showAccessDenied();
+                    return;
+                }
+
+                const userEmail = user.email.toLowerCase();
+
+                if (AUTHORIZED_ADMINS.includes(userEmail)) {
+                    // Access granted
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    calculate();
+                } else {
+                    showAccessDenied();
+                }
+            } catch (err) {
+                console.error('Auth check error:', err);
+                showAccessDenied();
+            }
+        }
+
+        function showAccessDenied() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('accessDenied').style.display = 'flex';
+        }
+
+        // Check access on page load
+        checkAdminAccess();
+    </script>
+</body>
+</html>

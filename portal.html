@@ -4279,6 +4279,9 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="admin">👑 Admin Panel</a>
                 </li>
+                <li class="nav-item" id="financialsNavItem" style="display: none;">
+                    <a href="#" class="nav-link" data-section="financials">💰 Financials</a>
+                </li>
             </ul>
             
             <!-- Support Button at Bottom of Sidebar -->
@@ -5849,6 +5852,244 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Financials Section (Admin Only) -->
+            <section id="financials" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">💰 Financial Forecast</h1>
+                    <p>Budget projections and analysis for the board</p>
+                </div>
+
+                <!-- Scenario Selector -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                    <button class="scenario-btn active" onclick="setFinancialScenario('conservative', this)" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #999; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Conservative</button>
+                    <button class="scenario-btn" onclick="setFinancialScenario('moderate', this)" style="padding: 0.5rem 1rem; background: var(--gold); border: 1px solid var(--gold); border-radius: 6px; color: #000; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Moderate</button>
+                    <button class="scenario-btn" onclick="setFinancialScenario('optimistic', this)" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #999; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Optimistic</button>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Revenue Card -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Revenue Drivers</h3>
+                            <span class="card-icon">📈</span>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-transform: uppercase;">Membership Tiers</label>
+                            <div style="display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                <input type="number" id="finMembersIndividual" value="15" oninput="calculateFinancials()" style="padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                                <span style="color: #ccc; font-size: 0.875rem;">Individual @ $50/mo</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                <input type="number" id="finMembersNonprofit" value="5" oninput="calculateFinancials()" style="padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                                <span style="color: #ccc; font-size: 0.875rem;">Nonprofit @ $75/mo</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem; align-items: center;">
+                                <input type="number" id="finMembersBusiness" value="10" oninput="calculateFinancials()" style="padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                                <span style="color: #ccc; font-size: 0.875rem;">Business @ $100/mo</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-transform: uppercase;">Sponsorship (Monthly)</label>
+                            <div style="position: relative;">
+                                <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #999;">$</span>
+                                <input type="number" id="finSponsorship" value="500" oninput="calculateFinancials()" style="padding: 0.5rem 0.5rem 0.5rem 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-transform: uppercase;">Breakfast Events</label>
+                            <div style="display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                <input type="number" id="finEventMembers" value="20" oninput="calculateFinancials()" style="padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                                <span style="color: #ccc; font-size: 0.875rem;">Members @ $0</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 80px 80px 1fr; gap: 0.5rem; align-items: center;">
+                                <input type="number" id="finEventNonMembers" value="10" oninput="calculateFinancials()" style="padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                                <span style="color: #ccc; font-size: 0.875rem;">Non-members @</span>
+                                <div style="position: relative; width: 80px;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999;">$</span>
+                                    <input type="number" id="finTicketPrice" value="45" oninput="calculateFinancials()" style="padding: 0.5rem 0.5rem 0.5rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--slate);">
+                            <div style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 10px; color: #999; text-transform: uppercase;">Memberships</div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--teal);" id="finRevMemberships">$2,125</div>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 10px; color: #999; text-transform: uppercase;">Events</div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--teal);" id="finRevEvents">$450</div>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; background: var(--gold); border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 10px; color: #000; text-transform: uppercase; font-weight: 700;">Total Revenue</div>
+                                <div style="font-size: 18px; font-weight: 700; color: #000;" id="finRevTotal">$3,075</div>
+                                <div style="font-size: 10px; color: var(--slate);" id="finRevTotalAnnual">/mo · $36,900/yr</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Costs Card -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Operating Costs</h3>
+                            <span class="card-icon">💸</span>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <label style="display: block; font-size: 0.7rem; color: #999; margin-bottom: 0.25rem; text-transform: uppercase;">Food</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.875rem;">$</span>
+                                    <input type="number" id="finCostFood" value="400" oninput="calculateFinancials()" style="padding: 0.4rem 0.4rem 0.4rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%; font-size: 0.875rem;">
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.7rem; color: #999; margin-bottom: 0.25rem; text-transform: uppercase;">Marketing</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.875rem;">$</span>
+                                    <input type="number" id="finCostMarketing" value="200" oninput="calculateFinancials()" style="padding: 0.4rem 0.4rem 0.4rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%; font-size: 0.875rem;">
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.7rem; color: #999; margin-bottom: 0.25rem; text-transform: uppercase;">Staff</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.875rem;">$</span>
+                                    <input type="number" id="finCostStaff" value="500" oninput="calculateFinancials()" style="padding: 0.4rem 0.4rem 0.4rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%; font-size: 0.875rem;">
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.7rem; color: #999; margin-bottom: 0.25rem; text-transform: uppercase;">Venue</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.875rem;">$</span>
+                                    <input type="number" id="finCostVenue" value="0" oninput="calculateFinancials()" style="padding: 0.4rem 0.4rem 0.4rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%; font-size: 0.875rem;">
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.7rem; color: #999; margin-bottom: 0.25rem; text-transform: uppercase;">Insurance</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.875rem;">$</span>
+                                    <input type="number" id="finCostInsurance" value="100" oninput="calculateFinancials()" style="padding: 0.4rem 0.4rem 0.4rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%; font-size: 0.875rem;">
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.7rem; color: #999; margin-bottom: 0.25rem; text-transform: uppercase;">Admin/Misc</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.875rem;">$</span>
+                                    <input type="number" id="finCostAdmin" value="100" oninput="calculateFinancials()" style="padding: 0.4rem 0.4rem 0.4rem 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid var(--slate); border-radius: 6px; color: #fff; width: 100%; font-size: 0.875rem;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-transform: uppercase;">Platform Costs (Fixed)</label>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 70px; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #777; text-transform: uppercase;">Vercel</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #fff;">$20</div>
+                                </div>
+                                <div style="flex: 1; min-width: 70px; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #777; text-transform: uppercase;">Supabase</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #fff;">$25</div>
+                                </div>
+                                <div style="flex: 1; min-width: 70px; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #777; text-transform: uppercase;">OpenAI</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #fff;">$30</div>
+                                </div>
+                                <div style="flex: 1; min-width: 70px; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #777; text-transform: uppercase;">Resend</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #fff;">$20</div>
+                                </div>
+                                <div style="flex: 1; min-width: 70px; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #777; text-transform: uppercase;">Domain</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #fff;">$1</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--slate);">
+                            <div style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 10px; color: #999; text-transform: uppercase;">Operations</div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--pink);" id="finCostOps">$1,300</div>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 10px; color: #999; text-transform: uppercase;">Platform</div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--pink);">$96</div>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; background: var(--gold); border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 10px; color: #000; text-transform: uppercase; font-weight: 700;">Total Costs</div>
+                                <div style="font-size: 18px; font-weight: 700; color: #000;" id="finCostTotal">$1,396</div>
+                                <div style="font-size: 10px; color: var(--slate);" id="finCostTotalAnnual">/mo · $16,752/yr</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projections Summary -->
+                <div class="dashboard-card" style="margin-top: 1.5rem; background: linear-gradient(135deg, rgba(201, 168, 106, 0.1), rgba(0,0,0,0.3)); border: 2px solid var(--gold);">
+                    <div class="card-header">
+                        <h3 class="card-title">Financial Projections</h3>
+                        <span class="card-icon">🎯</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                        <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <div style="font-size: 0.7rem; color: #999; text-transform: uppercase; margin-bottom: 0.5rem;">Monthly Revenue</div>
+                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--teal);" id="finProjRevenue">$3,075</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <div style="font-size: 0.7rem; color: #999; text-transform: uppercase; margin-bottom: 0.5rem;">Monthly Costs</div>
+                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--pink);" id="finProjCosts">$1,396</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(201, 168, 106, 0.15); border-radius: 12px; border: 1px solid var(--gold);">
+                            <div style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem;">Monthly Profit</div>
+                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--teal);" id="finProjProfit">$1,679</div>
+                            <div style="font-size: 0.7rem; color: #999;" id="finProjMargin">55% margin</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(201, 168, 106, 0.15); border-radius: 12px; border: 1px solid var(--gold);">
+                            <div style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem;">Annual Profit</div>
+                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--teal);" id="finProjAnnual">$20,148</div>
+                        </div>
+                    </div>
+
+                    <!-- Break-Even -->
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--slate);">
+                        <h4 style="color: var(--gold); margin-bottom: 1rem; font-size: 0.875rem;">Break-Even Analysis</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase;">Break-Even</div>
+                                <div style="font-size: 1.25rem; font-weight: 700; color: #fff;" id="finBreakEven">20</div>
+                                <div style="font-size: 0.65rem; color: #777;">members needed</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase;">Current</div>
+                                <div style="font-size: 1.25rem; font-weight: 700; color: #fff;" id="finCurrentMembers">30</div>
+                                <div style="font-size: 0.65rem; color: #777;">total members</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase;">Buffer</div>
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--teal);" id="finBuffer">+10</div>
+                                <div style="font-size: 0.65rem; color: #777;">above break-even</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase;">Status</div>
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--teal);" id="finStatus">Healthy</div>
+                                <div style="font-size: 0.65rem; color: #777;" id="finStatusDetail">Profitable</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Button -->
+                <div style="margin-top: 1.5rem; text-align: right;">
+                    <button onclick="window.print()" class="register-btn" style="background: var(--gold); color: #000;">
+                        📄 Export to PDF
+                    </button>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -6024,6 +6265,17 @@
                     adminNavItem.style.display = isAdmin ? 'block' : 'none';
                 }
 
+                // Show/hide financials tab (admin only - completely hidden from non-admins)
+                const financialsNavItem = document.getElementById('financialsNavItem');
+                if (financialsNavItem) {
+                    financialsNavItem.style.display = isAdmin ? 'block' : 'none';
+                }
+
+                // Initialize financials calculator if admin
+                if (isAdmin) {
+                    setTimeout(() => calculateFinancials(), 100);
+                }
+
                 // Load real dashboard statistics
                 await loadRealDashboardStats(member);
 
@@ -6041,6 +6293,117 @@
                 console.error('Authentication check failed:', error);
                 window.location.href = '/member-login';
                 return false;
+            }
+        }
+
+        // ==========================================
+        // FINANCIAL FORECAST FUNCTIONS (Admin Only)
+        // ==========================================
+
+        const financialScenarios = {
+            conservative: { membersIndividual: 10, membersNonprofit: 3, membersBusiness: 5, sponsorship: 250, eventNonMembers: 5, ticketPrice: 40 },
+            moderate: { membersIndividual: 15, membersNonprofit: 5, membersBusiness: 10, sponsorship: 500, eventNonMembers: 10, ticketPrice: 45 },
+            optimistic: { membersIndividual: 25, membersNonprofit: 10, membersBusiness: 20, sponsorship: 1000, eventNonMembers: 20, ticketPrice: 50 }
+        };
+
+        const platformCosts = { vercel: 20, supabase: 25, openai: 30, resend: 20, domain: 1 };
+
+        function setFinancialScenario(scenario, btn) {
+            const s = financialScenarios[scenario];
+            document.getElementById('finMembersIndividual').value = s.membersIndividual;
+            document.getElementById('finMembersNonprofit').value = s.membersNonprofit;
+            document.getElementById('finMembersBusiness').value = s.membersBusiness;
+            document.getElementById('finSponsorship').value = s.sponsorship;
+            document.getElementById('finEventNonMembers').value = s.eventNonMembers;
+            document.getElementById('finTicketPrice').value = s.ticketPrice;
+
+            // Update button styles
+            document.querySelectorAll('.scenario-btn').forEach(b => {
+                b.style.background = 'rgba(255,255,255,0.05)';
+                b.style.borderColor = 'var(--slate)';
+                b.style.color = '#999';
+            });
+            btn.style.background = 'var(--gold)';
+            btn.style.borderColor = 'var(--gold)';
+            btn.style.color = '#000';
+
+            calculateFinancials();
+        }
+
+        function calculateFinancials() {
+            // Get values
+            const membersIndividual = parseFloat(document.getElementById('finMembersIndividual')?.value) || 0;
+            const membersNonprofit = parseFloat(document.getElementById('finMembersNonprofit')?.value) || 0;
+            const membersBusiness = parseFloat(document.getElementById('finMembersBusiness')?.value) || 0;
+            const sponsorship = parseFloat(document.getElementById('finSponsorship')?.value) || 0;
+            const eventMembers = parseFloat(document.getElementById('finEventMembers')?.value) || 0;
+            const eventNonMembers = parseFloat(document.getElementById('finEventNonMembers')?.value) || 0;
+            const ticketPrice = parseFloat(document.getElementById('finTicketPrice')?.value) || 0;
+
+            const costFood = parseFloat(document.getElementById('finCostFood')?.value) || 0;
+            const costMarketing = parseFloat(document.getElementById('finCostMarketing')?.value) || 0;
+            const costStaff = parseFloat(document.getElementById('finCostStaff')?.value) || 0;
+            const costVenue = parseFloat(document.getElementById('finCostVenue')?.value) || 0;
+            const costInsurance = parseFloat(document.getElementById('finCostInsurance')?.value) || 0;
+            const costAdmin = parseFloat(document.getElementById('finCostAdmin')?.value) || 0;
+
+            // Calculate revenue
+            const revMemberships = (membersIndividual * 50) + (membersNonprofit * 75) + (membersBusiness * 100);
+            const revEvents = eventNonMembers * ticketPrice;
+            const revTotal = revMemberships + sponsorship + revEvents;
+
+            // Calculate costs
+            const costOps = costFood + costMarketing + costStaff + costVenue + costInsurance + costAdmin;
+            const costPlatform = platformCosts.vercel + platformCosts.supabase + platformCosts.openai + platformCosts.resend + platformCosts.domain;
+            const costTotal = costOps + costPlatform;
+
+            // Calculate profit
+            const profit = revTotal - costTotal;
+            const margin = revTotal > 0 ? (profit / revTotal * 100) : 0;
+
+            // Update displays
+            const fmt = (n) => '$' + n.toLocaleString();
+
+            document.getElementById('finRevMemberships').textContent = fmt(revMemberships);
+            document.getElementById('finRevEvents').textContent = fmt(revEvents);
+            document.getElementById('finRevTotal').textContent = fmt(revTotal);
+            document.getElementById('finRevTotalAnnual').textContent = `/mo · ${fmt(revTotal * 12)}/yr`;
+
+            document.getElementById('finCostOps').textContent = fmt(costOps);
+            document.getElementById('finCostTotal').textContent = fmt(costTotal);
+            document.getElementById('finCostTotalAnnual').textContent = `/mo · ${fmt(costTotal * 12)}/yr`;
+
+            document.getElementById('finProjRevenue').textContent = fmt(revTotal);
+            document.getElementById('finProjCosts').textContent = fmt(costTotal);
+            document.getElementById('finProjProfit').textContent = fmt(profit);
+            document.getElementById('finProjProfit').style.color = profit >= 0 ? 'var(--teal)' : 'var(--pink)';
+            document.getElementById('finProjMargin').textContent = `${margin.toFixed(0)}% margin`;
+            document.getElementById('finProjAnnual').textContent = fmt(profit * 12);
+            document.getElementById('finProjAnnual').style.color = profit >= 0 ? 'var(--teal)' : 'var(--pink)';
+
+            // Break-even analysis
+            const totalMembers = membersIndividual + membersNonprofit + membersBusiness;
+            const avgDues = totalMembers > 0 ? revMemberships / totalMembers : 70;
+            const breakEven = Math.ceil(costTotal / avgDues);
+            const buffer = totalMembers - breakEven;
+
+            document.getElementById('finBreakEven').textContent = breakEven;
+            document.getElementById('finCurrentMembers').textContent = totalMembers;
+            document.getElementById('finBuffer').textContent = (buffer >= 0 ? '+' : '') + buffer;
+            document.getElementById('finBuffer').style.color = buffer >= 0 ? 'var(--teal)' : 'var(--pink)';
+
+            if (profit > 500) {
+                document.getElementById('finStatus').textContent = 'Healthy';
+                document.getElementById('finStatus').style.color = 'var(--teal)';
+                document.getElementById('finStatusDetail').textContent = 'Strong margin';
+            } else if (profit > 0) {
+                document.getElementById('finStatus').textContent = 'Stable';
+                document.getElementById('finStatus').style.color = 'var(--gold)';
+                document.getElementById('finStatusDetail').textContent = 'Profitable';
+            } else {
+                document.getElementById('finStatus').textContent = 'At Risk';
+                document.getElementById('finStatus').style.color = 'var(--pink)';
+                document.getElementById('finStatusDetail').textContent = 'Review costs';
             }
         }
 

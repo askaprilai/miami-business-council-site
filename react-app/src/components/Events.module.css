@@ -1,0 +1,179 @@
+.events {
+  min-height: 80vh;
+  padding: 6rem 0;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
+    url('/Images/IMG_2442.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.title {
+  font-size: 2.5em;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.eventCardFeatured {
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 2px solid #d4af37;
+  backdrop-filter: blur(10px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+}
+
+.eventCardFeatured:hover {
+  transform: translateY(-20px) scale(1.05);
+  box-shadow: 0 30px 60px rgba(212, 175, 55, 0.5);
+}
+
+.eventDate {
+  color: #000;
+  font-weight: 700;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.eventTitle {
+  color: #000;
+  font-size: 1.6em;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.eventDescription {
+  color: #000;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.eventMeta {
+  color: #000;
+  font-size: 1em;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.eventMeta span {
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.registerBtn {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.registerBtn:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+/* Secondary Event Card */
+.eventCardSecondary {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(244, 241, 232, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.eventCardSecondary:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(244, 241, 232, 0.4);
+}
+
+.comingSoon {
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.eventTitleDark {
+  color: #0a0a0b;
+  font-size: 1.4em;
+  margin-bottom: 1rem;
+}
+
+.eventDescriptionDark {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.eventMetaDark {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.comingSoonBadge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .events {
+    background-attachment: scroll;
+  }
+
+  .eventsGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .eventCardFeatured:hover,
+  .eventCardSecondary:hover {
+    transform: none;
+  }
+}

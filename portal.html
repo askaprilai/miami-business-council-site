@@ -6129,24 +6129,26 @@
                     totalMatchesEl.textContent = Math.max(0, otherMembers.length);
                 }
 
+                // Match stats are populated with real data when "Find Matches" is clicked
+                // Initial values shown until user runs smart matching
                 const highPriorityMatchesEl = document.getElementById('highPriorityMatches');
                 if (highPriorityMatchesEl) {
-                    highPriorityMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
+                    highPriorityMatchesEl.textContent = '—'; // Updated when matches are generated
                 }
 
                 const newMatchesEl = document.getElementById('newMatches');
                 if (newMatchesEl) {
-                    newMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
+                    newMatchesEl.textContent = '—'; // Updated when matches are generated
                 }
 
                 const avgMatchScoreEl = document.getElementById('avgMatchScore');
                 if (avgMatchScoreEl) {
-                    avgMatchScoreEl.textContent = otherMembers.length > 0 ? '-' : 'N/A';
+                    avgMatchScoreEl.textContent = '—'; // Updated when matches are generated
                 }
 
                 const mutualMatchesEl = document.getElementById('mutualMatches');
                 if (mutualMatchesEl) {
-                    mutualMatchesEl.textContent = 0; // Will be calculated when matching algorithm is added
+                    mutualMatchesEl.textContent = '—'; // Updated when matches are generated
                 }
 
                 // 7. Update welcome card stats
@@ -7209,7 +7211,8 @@
                     workStyle: 'hybrid',
                     linkedin: member.linkedin_url,
                     valueProposition: member.bio || `Connect with ${member.first_name} for business opportunities`,
-                    primaryOffering: canOffer.join(', ') || 'Professional services'
+                    primaryOffering: canOffer.join(', ') || 'Professional services',
+                    createdAt: member.created_at // Track when member joined for "new this week"
                 };
             });
 
@@ -7394,7 +7397,33 @@
         function updateMatchStats(matches) {
             document.getElementById('totalMatches').textContent = matches.length;
             document.getElementById('highPriorityMatches').textContent = matches.filter(m => m.priority === 'high').length;
-            document.getElementById('newMatches').textContent = Math.floor(matches.length * 0.3); // Simulate new matches
+
+            // Calculate real "new this week" - members who joined in the last 7 days
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            const newThisWeek = matches.filter(m => {
+                if (!m.createdAt) return false;
+                const memberJoinDate = new Date(m.createdAt);
+                return memberJoinDate >= oneWeekAgo;
+            }).length;
+            document.getElementById('newMatches').textContent = newThisWeek;
+
+            // Calculate real average match score
+            const avgMatchScoreEl = document.getElementById('avgMatchScore');
+            if (avgMatchScoreEl && matches.length > 0) {
+                const totalScore = matches.reduce((sum, m) => sum + (m.matchScore || m.score || 0), 0);
+                const avgScore = Math.round(totalScore / matches.length);
+                avgMatchScoreEl.textContent = avgScore + '%';
+            } else if (avgMatchScoreEl) {
+                avgMatchScoreEl.textContent = 'N/A';
+            }
+
+            // Calculate real mutual interest matches
+            const mutualMatchesEl = document.getElementById('mutualMatches');
+            if (mutualMatchesEl) {
+                const mutualCount = matches.filter(m => m.mutualBenefit || m.matchType === 'mutual').length;
+                mutualMatchesEl.textContent = mutualCount;
+            }
         }
 
         function filterMatches() {

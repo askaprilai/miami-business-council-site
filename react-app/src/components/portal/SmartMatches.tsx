@@ -6,282 +6,78 @@ import styles from './SmartMatches.module.css';
 const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
-interface MatchResult {
-  member: any;
-  score: number;
-  reasons: string[];
-  isHighPriority: boolean;
-  isNewThisWeek: boolean;
-}
-
-interface MatchStats {
-  totalMatches: number;
-  highPriorityMatches: number;
-  newThisWeek: number;
-  averageScore: number;
-  mutualInterestMatches: number;
-  profileCompletion: number;
-}
-
-interface Filters {
-  matchType: string;
-  industry: string;
-  matchScore: string;
-  availability: string;
-}
-
-// Get member email from localStorage
-function getMemberEmail(): string | null {
-  if (typeof window === 'undefined') return null;
-  const storageKey = 'sb-vsnvtujkkkbjpuuwxvyd-auth-token';
-  const stored = localStorage.getItem(storageKey);
-  if (stored) {
-    try {
-      const parsed = JSON.parse(stored);
-      return parsed?.user?.email || null;
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
-
 interface SmartMatchesProps {
   member?: any;
 }
 
-export default function SmartMatches({ member: propMember }: SmartMatchesProps) {
-  const [currentMember, setCurrentMember] = useState<any>(propMember || null);
-  const [matches, setMatches] = useState<MatchResult[]>([]);
-  const [filteredMatches, setFilteredMatches] = useState<MatchResult[]>([]);
+export default function SmartMatches({ member }: SmartMatchesProps) {
+  const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<MatchStats>({
-    totalMatches: 0,
-    highPriorityMatches: 0,
-    newThisWeek: 0,
-    averageScore: 0,
-    mutualInterestMatches: 0,
-    profileCompletion: 0,
-  });
-  const [filters, setFilters] = useState<Filters>({
-    matchType: '',
-    industry: '',
-    matchScore: '',
-    availability: '',
-  });
-  const [industries, setIndustries] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('SmartMatches: Component mounted, propMember:', propMember?.email);
-    if (propMember) {
-      loadData(propMember);
-    } else {
-      // Try to load without prop
-      loadData(null);
-    }
-  }, [propMember]);
+    const fetchMembers = async () => {
+      try {
+        console.log('SmartMatches: Fetching members, current member:', member?.email);
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, matches]);
-
-  const loadData = async (memberFromProp: any) => {
-    console.log('SmartMatches: loadData called');
-    try {
-      let member = memberFromProp;
-
-      if (!member) {
-        console.log('SmartMatches: No prop member, trying localStorage');
-        const email = getMemberEmail();
-        console.log('SmartMatches: Got email from storage:', email);
-
-        if (email) {
-          const res = await fetch(
-            `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(email.toLowerCase())}&limit=1`,
-            { headers: { 'apikey': SUPABASE_KEY } }
-          );
-          const data = await res.json();
-          member = data && data.length > 0 ? data[0] : null;
-        }
-      }
-
-      console.log('SmartMatches: Using member:', member?.email);
-
-      if (!member) {
-        console.log('SmartMatches: No member found');
-        setLoading(false);
-        return;
-      }
-      setCurrentMember(member);
-
-      // Calculate profile completion
-      const profileFields = [
-        member.first_name, member.last_name, member.company_name,
-        member.job_title, member.industry, member.bio,
-        member.profile_photo_url, member.linkedin_url
-      ];
-      const completedFields = profileFields.filter(Boolean).length;
-      const profileCompletion = Math.round((completedFields / profileFields.length) * 100);
-
-      // Fetch all active members using REST API
-      console.log('SmartMatches: Fetching all members...');
-      const membersRes = await fetch(
-        `${SUPABASE_URL}/rest/v1/members?is_active=eq.true`,
-        { headers: { 'apikey': SUPABASE_KEY } }
-      );
-      const membersData = await membersRes.json();
-      console.log('SmartMatches: Fetched', membersData?.length, 'members');
-      const otherMembers = (membersData || []).filter((m: any) => m.id !== member.id);
-
-      // Get unique industries for filter
-      const uniqueIndustries = [...new Set(otherMembers.map((m: any) => m.industry).filter(Boolean))] as string[];
-      setIndustries(uniqueIndustries.sort());
-
-      // Calculate matches
-      const oneWeekAgo = new Date();
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-      const matchResults: MatchResult[] = [];
-      let mutualCount = 0;
-
-      otherMembers.forEach((m: any) => {
-        const { score, reasons, isMutual } = calculateMatchScore(member, m);
-        if (score > 0) {
-          const isNewThisWeek = m.created_at && new Date(m.created_at) > oneWeekAgo;
-          const isHighPriority = score >= 70;
-
-          if (isMutual) mutualCount++;
-
-          matchResults.push({
-            member: m,
-            score,
-            reasons,
-            isHighPriority,
-            isNewThisWeek,
-          });
-        }
-      });
-
-      // Sort by score
-      matchResults.sort((a, b) => b.score - a.score);
-      setMatches(matchResults);
-      setFilteredMatches(matchResults);
-
-      // Calculate stats
-      const totalMatches = matchResults.length;
-      const highPriorityMatches = matchResults.filter(m => m.isHighPriority).length;
-      const newThisWeek = matchResults.filter(m => m.isNewThisWeek).length;
-      const averageScore = totalMatches > 0
-        ? Math.round(matchResults.reduce((sum, m) => sum + m.score, 0) / totalMatches)
-        : 0;
-
-      setStats({
-        totalMatches,
-        highPriorityMatches,
-        newThisWeek,
-        averageScore,
-        mutualInterestMatches: mutualCount,
-        profileCompletion,
-      });
-    } catch (e) {
-      console.error('SmartMatches: Error loading:', e);
-    } finally {
-      console.log('SmartMatches: Setting loading to false');
-      setLoading(false);
-    }
-  };
-
-  const calculateMatchScore = (currentMember: any, otherMember: any) => {
-    const reasons: string[] = [];
-    let score = 0;
-    let isMutual = false;
-
-    // Industry match
-    if (otherMember.industry && currentMember.industry) {
-      if (otherMember.industry === currentMember.industry) {
-        score += 25;
-        reasons.push(`Same industry: ${otherMember.industry}`);
-      }
-    }
-
-    // Has matching profile preferences
-    if (otherMember.matching_profile && currentMember.matching_profile) {
-      // Check mutual interest
-      if (otherMember.matching_profile.targetIndustry === currentMember.industry ||
-          currentMember.matching_profile.targetIndustry === otherMember.industry) {
-        score += 20;
-        isMutual = true;
-        reasons.push('Mutual business interest');
-      }
-
-      // Work style compatibility
-      if (currentMember.matching_profile.workStyle &&
-          otherMember.matching_profile.workStyle === currentMember.matching_profile.workStyle) {
-        score += 15;
-        reasons.push('Compatible work style');
-      }
-
-      // Business goals overlap
-      if (currentMember.matching_profile.businessGoals && otherMember.matching_profile.businessGoals) {
-        const overlap = currentMember.matching_profile.businessGoals.filter((g: string) =>
-          otherMember.matching_profile?.businessGoals?.includes(g)
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/members?is_active=eq.true&select=id,first_name,last_name,company_name,job_title,industry,profile_photo_url,bio,linkedin_url`,
+          { headers: { 'apikey': SUPABASE_KEY } }
         );
-        if (overlap.length > 0) {
-          score += overlap.length * 10;
-          reasons.push(`Shared goals: ${overlap.join(', ')}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch members');
         }
+
+        const data = await response.json();
+        console.log('SmartMatches: Got', data?.length, 'members');
+
+        // Filter out current member and calculate basic scores
+        const otherMembers = (data || [])
+          .filter((m: any) => m.id !== member?.id)
+          .map((m: any) => ({
+            ...m,
+            score: calculateScore(member, m),
+          }))
+          .sort((a: any, b: any) => b.score - a.score);
+
+        setMembers(otherMembers);
+      } catch (err: any) {
+        console.error('SmartMatches: Error:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
+    };
+
+    // Small delay to ensure component is mounted
+    const timer = setTimeout(fetchMembers, 100);
+    return () => clearTimeout(timer);
+  }, [member?.id]);
+
+  const calculateScore = (currentMember: any, otherMember: any) => {
+    if (!currentMember) return 20;
+    let score = 20; // Base score
+
+    // Same industry
+    if (otherMember.industry && currentMember.industry &&
+        otherMember.industry === currentMember.industry) {
+      score += 30;
     }
 
-    // Profile completeness bonus
-    if (otherMember.bio) {
-      score += 10;
-    }
-    if (otherMember.linkedin_url) {
-      score += 5;
-      reasons.push('Has LinkedIn profile');
-    }
-    if (otherMember.profile_photo_url) {
-      score += 5;
-    }
+    // Has profile photo
+    if (otherMember.profile_photo_url) score += 10;
 
-    // Cap at 100
-    return { score: Math.min(score, 100), reasons, isMutual };
-  };
+    // Has bio
+    if (otherMember.bio) score += 15;
 
-  const applyFilters = () => {
-    let result = [...matches];
+    // Has LinkedIn
+    if (otherMember.linkedin_url) score += 10;
 
-    if (filters.matchType === 'high-priority') {
-      result = result.filter(m => m.isHighPriority);
-    } else if (filters.matchType === 'mutual') {
-      result = result.filter(m => m.reasons.some(r => r.includes('Mutual')));
-    } else if (filters.matchType === 'new') {
-      result = result.filter(m => m.isNewThisWeek);
-    }
+    // Has company
+    if (otherMember.company_name) score += 15;
 
-    if (filters.industry) {
-      result = result.filter(m => m.member.industry === filters.industry);
-    }
-
-    if (filters.matchScore === '90+') {
-      result = result.filter(m => m.score >= 90);
-    } else if (filters.matchScore === '70-89') {
-      result = result.filter(m => m.score >= 70 && m.score < 90);
-    } else if (filters.matchScore === '50-69') {
-      result = result.filter(m => m.score >= 50 && m.score < 70);
-    }
-
-    setFilteredMatches(result);
-  };
-
-  const handleFilterChange = (key: keyof Filters, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  const refreshMatches = () => {
-    setLoading(true);
-    loadData(currentMember);
+    return Math.min(score, 100);
   };
 
   if (loading) {
@@ -293,13 +89,30 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
     );
   }
 
+  if (error) {
+    return (
+      <div className={styles.noMatches}>
+        <h3>Error loading matches</h3>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()} className={styles.connectBtn}>
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  const highPriority = members.filter(m => m.score >= 70).length;
+  const avgScore = members.length > 0
+    ? Math.round(members.reduce((sum, m) => sum + m.score, 0) / members.length)
+    : 0;
+
   return (
     <div className={styles.smartMatches}>
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Smart Matches</h1>
           <p className={styles.subtitle}>
-            AI-powered connections based on your ideal client profile and business goals
+            Connect with fellow members based on shared interests and goals
           </p>
         </div>
       </div>
@@ -313,42 +126,18 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
           </div>
           <div className={styles.statsContent}>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>Total Matches Found:</span>
-              <span className={styles.statValue}>{stats.totalMatches}</span>
+              <span className={styles.statLabel}>Total Matches:</span>
+              <span className={styles.statValue}>{members.length}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>High-Priority Matches:</span>
-              <span className={styles.statValue}>{stats.highPriorityMatches}</span>
+              <span className={styles.statLabel}>High Priority:</span>
+              <span className={styles.statValue}>{highPriority}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>New This Week:</span>
-              <span className={styles.statValue}>{stats.newThisWeek}</span>
+              <span className={styles.statLabel}>Avg Score:</span>
+              <span className={styles.statValue}>{avgScore}%</span>
             </div>
           </div>
-        </div>
-
-        <div className={styles.statsCard}>
-          <div className={styles.statsCardHeader}>
-            <h3>Match Quality</h3>
-            <span className={styles.statsIcon}>⭐</span>
-          </div>
-          <div className={styles.statsContent}>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Average Match Score:</span>
-              <span className={styles.statValue}>{stats.averageScore}%</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Mutual Interest Matches:</span>
-              <span className={styles.statValue}>{stats.mutualInterestMatches}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Your Profile Completion:</span>
-              <span className={styles.statValue}>{stats.profileCompletion}%</span>
-            </div>
-          </div>
-          {stats.profileCompletion < 100 && (
-            <button className={styles.completeProfileBtn}>Complete Profile</button>
-          )}
         </div>
 
         <div className={styles.statsCard}>
@@ -357,132 +146,57 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
             <span className={styles.statsIcon}>⚡</span>
           </div>
           <div className={styles.quickActions}>
-            <button className={styles.actionLink} onClick={refreshMatches}>
+            <button className={styles.actionLink} onClick={() => window.location.reload()}>
               🔄 Refresh Matches
             </button>
-            <button className={styles.actionLink}>
-              📋 Export Match List
-            </button>
-            <button className={styles.actionLink}>
-              🔔 Weekly Match Alerts
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className={styles.filtersSection}>
-        <h3 className={styles.filterTitle}>🔍 Filter Your Matches</h3>
-        <div className={styles.filtersGrid}>
-          <div className={styles.filterGroup}>
-            <label>Match Type:</label>
-            <select
-              value={filters.matchType}
-              onChange={(e) => handleFilterChange('matchType', e.target.value)}
-            >
-              <option value="">All Matches</option>
-              <option value="high-priority">High Priority</option>
-              <option value="mutual">Mutual Interest</option>
-              <option value="new">New This Week</option>
-            </select>
-          </div>
-
-          <div className={styles.filterGroup}>
-            <label>Industry:</label>
-            <select
-              value={filters.industry}
-              onChange={(e) => handleFilterChange('industry', e.target.value)}
-            >
-              <option value="">All Industries</option>
-              {industries.map(ind => (
-                <option key={ind} value={ind}>{ind}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className={styles.filterGroup}>
-            <label>Match Score:</label>
-            <select
-              value={filters.matchScore}
-              onChange={(e) => handleFilterChange('matchScore', e.target.value)}
-            >
-              <option value="">Any Score</option>
-              <option value="90+">90%+</option>
-              <option value="70-89">70-89%</option>
-              <option value="50-69">50-69%</option>
-            </select>
-          </div>
-
-          <div className={styles.filterGroup}>
-            <label>Availability:</label>
-            <select
-              value={filters.availability}
-              onChange={(e) => handleFilterChange('availability', e.target.value)}
-            >
-              <option value="">All Members</option>
-              <option value="available">Available Now</option>
-              <option value="busy">Currently Busy</option>
-            </select>
           </div>
         </div>
       </div>
 
       {/* Results */}
       <div className={styles.resultsCount}>
-        Showing {filteredMatches.length} of {matches.length} matches
+        Showing {members.length} potential matches
       </div>
 
-      {filteredMatches.length === 0 ? (
+      {members.length === 0 ? (
         <div className={styles.noMatches}>
           <span className={styles.noMatchIcon}>🎯</span>
           <h3>No matches found</h3>
-          <p>Try adjusting your filters or complete your profile to get better matches.</p>
+          <p>Check back soon as more members join!</p>
         </div>
       ) : (
         <div className={styles.matchesGrid}>
-          {filteredMatches.map((match) => (
-            <div key={match.member.id} className={styles.matchCard}>
+          {members.map((m) => (
+            <div key={m.id} className={styles.matchCard}>
               <div className={styles.matchScore}>
-                <span className={styles.scoreValue}>{match.score}%</span>
+                <span className={styles.scoreValue}>{m.score}%</span>
                 <span className={styles.scoreLabel}>Match</span>
               </div>
 
-              {match.isHighPriority && (
+              {m.score >= 70 && (
                 <span className={styles.priorityBadge}>High Priority</span>
-              )}
-              {match.isNewThisWeek && (
-                <span className={styles.newBadge}>New</span>
               )}
 
               <div className={styles.matchHeader}>
                 <div className={styles.avatar}>
-                  {match.member.profile_photo_url ? (
-                    <img src={match.member.profile_photo_url} alt={match.member.first_name} />
+                  {m.profile_photo_url ? (
+                    <img src={m.profile_photo_url} alt={m.first_name} />
                   ) : (
-                    <span>{match.member.first_name?.[0]}{match.member.last_name?.[0]}</span>
+                    <span>{m.first_name?.[0]}{m.last_name?.[0]}</span>
                   )}
                 </div>
                 <div className={styles.matchInfo}>
-                  <h3>{match.member.first_name} {match.member.last_name}</h3>
-                  <p>{match.member.job_title}</p>
-                  {match.member.company_name && (
-                    <span className={styles.company}>{match.member.company_name}</span>
+                  <h3>{m.first_name} {m.last_name}</h3>
+                  <p>{m.job_title || 'Member'}</p>
+                  {m.company_name && (
+                    <span className={styles.company}>{m.company_name}</span>
                   )}
                 </div>
               </div>
 
-              {match.member.industry && (
-                <span className={styles.industry}>{match.member.industry}</span>
+              {m.industry && (
+                <span className={styles.industry}>{m.industry}</span>
               )}
-
-              <div className={styles.reasons}>
-                <h4>Why you match:</h4>
-                <ul>
-                  {match.reasons.map((reason, idx) => (
-                    <li key={idx}>{reason}</li>
-                  ))}
-                </ul>
-              </div>
 
               <button className={styles.connectBtn}>
                 Connect

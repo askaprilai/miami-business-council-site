@@ -204,6 +204,46 @@
             color: #fff;
         }
 
+        .maintenance-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.4);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .maintenance-banner .icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .maintenance-banner strong {
+            display: block;
+            color: #ffd54f;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .maintenance-banner p {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .form-disabled {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: #888;
+        }
+
         @media (max-width: 480px) {
             .login-container {
                 margin: 1rem;
@@ -214,25 +254,40 @@
 </head>
 <body>
     <div class="login-container">
+        <div class="maintenance-banner">
+            <span class="icon">🔧</span>
+            <div>
+                <strong>Portal Update in Progress</strong>
+                <p>We're making improvements to the member portal. Please check back shortly.</p>
+            </div>
+        </div>
+
         <div class="logo-container">
             <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
             <div class="logo-text">Member Portal</div>
             <div class="subtitle">Access Your Member Dashboard</div>
         </div>
 
-        <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
+        <div class="form-disabled">
+            <p>Login temporarily unavailable during update.</p>
+        </div>
 
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your member email" required>
-            </div>
+        <!-- Login form hidden during maintenance -->
+        <div style="display: none;">
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
 
-            <button type="submit" class="btn-login" id="loginBtn">
-                Send Magic Link to Email
-            </button>
-        </form>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your member email" required>
+                </div>
+
+                <button type="submit" class="btn-login" id="loginBtn">
+                    Send Magic Link to Email
+                </button>
+            </form>
+        </div>
 
         <div class="help-text">
             <p>We'll send a secure login link to your email.<br>

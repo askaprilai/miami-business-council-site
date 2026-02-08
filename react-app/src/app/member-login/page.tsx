@@ -90,6 +90,14 @@ export default function MemberLoginPage() {
       <main className={styles.main}>
         <div className={styles.loginContainer}>
           <div className={styles.loginCard}>
+            <div className={styles.maintenanceBanner}>
+              <span className={styles.maintenanceIcon}>🔧</span>
+              <div>
+                <strong>Portal Update in Progress</strong>
+                <p>We're making improvements to the member portal. Please check back shortly.</p>
+              </div>
+            </div>
+
             <div className={styles.logoSection}>
               <Image
                 src="/Images/MBC BLACK LOGO NONTRANSPARENT (1).png"
@@ -102,9 +110,10 @@ export default function MemberLoginPage() {
               <p>Sign in to access your exclusive member benefits</p>
             </div>
 
-            <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
-              <LoginFormContent />
-            </Suspense>
+            {/* Login form temporarily disabled during maintenance */}
+            <div className={styles.formDisabled}>
+              <p>Login temporarily unavailable during update.</p>
+            </div>
 
             <div className={styles.divider}>
               <span>or</span>

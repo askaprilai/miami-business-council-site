@@ -19,8 +19,9 @@ export default function AuthCallbackPage() {
 
         // Check for error in URL
         const error = queryParams.get('error');
+        const errorDescription = queryParams.get('error_description');
         if (error) {
-          console.error('Auth error:', error);
+          console.error('Auth error:', error, errorDescription);
           setStatus('Authentication failed. Redirecting...');
           setTimeout(() => {
             window.location.href = '/member-login?error=auth_failed';
@@ -30,7 +31,17 @@ export default function AuthCallbackPage() {
 
         if (code) {
           setStatus('Exchanging code for session...');
-          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
+          // Use a timeout for the exchange operation
+          const exchangePromise = supabase.auth.exchangeCodeForSession(code);
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Exchange timeout')), 15000)
+          );
+
+          const { data, error: exchangeError } = await Promise.race([
+            exchangePromise,
+            timeoutPromise.then(() => ({ data: null, error: { message: 'Timeout' } })),
+          ]) as any;
 
           if (exchangeError) {
             console.error('Code exchange error:', exchangeError);
@@ -41,13 +52,16 @@ export default function AuthCallbackPage() {
             return;
           }
 
-          if (data.session) {
+          if (data?.session) {
             setStatus('Success! Verifying member...');
 
             // Use REST API to verify member (avoid Supabase client hanging)
             const memberRes = await fetch(
               `${SUPABASE_URL}/rest/v1/members?auth_user_id=eq.${data.session.user.id}&limit=1`,
-              { headers: { 'apikey': SUPABASE_KEY } }
+              {
+                headers: { 'apikey': SUPABASE_KEY, 'Accept': 'application/json' },
+                cache: 'no-store',
+              }
             );
             const memberData = await memberRes.json();
 
@@ -55,7 +69,10 @@ export default function AuthCallbackPage() {
               // Try to find by email if auth_user_id doesn't match
               const emailRes = await fetch(
                 `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(data.session.user.email?.toLowerCase() || '')}&limit=1`,
-                { headers: { 'apikey': SUPABASE_KEY } }
+                {
+                  headers: { 'apikey': SUPABASE_KEY, 'Accept': 'application/json' },
+                  cache: 'no-store',
+                }
               );
               const memberByEmail = await emailRes.json();
 
@@ -97,11 +114,24 @@ export default function AuthCallbackPage() {
           }
         }
 
-        // No code in URL - check if already have session
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          window.location.href = '/portal';
-          return;
+        // No code in URL - check if already have session with timeout
+        try {
+          const sessionPromise = supabase.auth.getSession();
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Session check timeout')), 5000)
+          );
+
+          const { data: { session } } = await Promise.race([
+            sessionPromise,
+            timeoutPromise.then(() => ({ data: { session: null } })),
+          ]) as any;
+
+          if (session) {
+            window.location.href = '/portal';
+            return;
+          }
+        } catch {
+          // Ignore session check errors, just redirect to login
         }
 
         setStatus('No authentication data found. Redirecting...');

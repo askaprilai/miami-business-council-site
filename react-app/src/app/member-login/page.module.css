@@ -211,6 +211,53 @@
   color: #888;
 }
 
+/* Maintenance Banner */
+.maintenanceBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(255, 193, 7, 0.15);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.maintenanceIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.maintenanceBanner strong {
+  display: block;
+  color: #ffd54f;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.maintenanceBanner p {
+  color: #ccc;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Form Disabled State */
+.formDisabled {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.formDisabled p {
+  color: #888;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .loginCard {

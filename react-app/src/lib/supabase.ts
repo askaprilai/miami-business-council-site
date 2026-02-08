@@ -1,10 +1,10 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key-for-build';
+// Hardcode the values to avoid any env var issues during build/runtime
+const supabaseUrl = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
-// Create a singleton client - the placeholder key is only used during build
-// At runtime, the real key from environment variables will be used
+// Create a singleton client
 export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 // Types for database tables

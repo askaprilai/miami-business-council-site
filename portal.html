@@ -4347,7 +4347,11 @@
                             <p style="color: #ccc; margin: 0; font-size: 0.9rem;" id="dashboardUserRole">Loading...</p>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;">
+                        <div>
+                            <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 600;" id="memberProfileStrength">0%</div>
+                            <div style="color: #ccc; font-size: 0.8rem;">Profile Strength</div>
+                        </div>
                         <div>
                             <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 600;" id="memberConnectionCount">0</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Connections</div>
@@ -11308,61 +11312,31 @@
                 let completedItems = 0;
                 const totalItems = 3;
 
-                // Check basic information
+                // Check basic information (name, company, title)
                 const hasBasicInfo = checkBasicInformation();
-                updateProgressItem('tipBasicInfo', 'statusBasicInfo', hasBasicInfo);
                 if (hasBasicInfo) completedItems++;
 
-                // Check profile photo or company logo - use currentMember data from database
-                const hasProfilePhoto = !!(currentMember && currentMember.profile_photo_url && currentMember.profile_photo_url.trim() !== '');
-                const hasCompanyLogo = !!(currentMember && currentMember.company_logo_url && currentMember.company_logo_url.trim() !== '');
-                const hasPhoto = hasProfilePhoto || hasCompanyLogo;
-                console.log('📸 Photo Check:', { hasProfilePhoto, hasCompanyLogo, photoUrl: currentMember?.profile_photo_url });
-                updateProgressItem('tipPhoto', 'statusPhoto', hasPhoto);
+                // Check profile photo or company logo
+                const hasPhoto = !!(currentMember && (
+                    (currentMember.profile_photo_url && currentMember.profile_photo_url.trim() !== '') ||
+                    (currentMember.company_logo_url && currentMember.company_logo_url.trim() !== '')
+                ));
                 if (hasPhoto) completedItems++;
 
-                // Check business preferences from database
+                // Check business preferences (industries selected)
                 const hasBusinessInfo = await checkBusinessPreferences();
-                updateProgressItem('tipBusinessInfo', 'statusBusinessInfo', hasBusinessInfo);
                 if (hasBusinessInfo) completedItems++;
 
-                // Check LinkedIn - optional, just update the UI indicator but don't count towards completion
-                const hasLinkedIn = (currentMember && currentMember.linkedin_url && currentMember.linkedin_url.trim() !== '') ||
-                                   (document.getElementById('memberLinkedIn')?.value.trim().length > 0);
-                updateProgressItem('tipLinkedIn', 'statusLinkedIn', hasLinkedIn);
-
-                // Update progress bar and percentage
+                // Calculate percentage
                 const percentage = Math.round((completedItems / totalItems) * 100);
-                document.getElementById('profileCompletionPercentage').textContent = percentage + '%';
-                document.getElementById('profileProgressFill').style.width = percentage + '%';
 
-                // Update dashboard profile strength as well
+                // Update dashboard profile strength
                 const dashboardStrength = document.getElementById('memberProfileStrength');
                 if (dashboardStrength) {
                     dashboardStrength.textContent = percentage + '%';
                 }
 
-                // Hide/show profile strength card based on completion
-                const profileStrengthCard = document.getElementById('profileStrengthCard');
-                if (profileStrengthCard) {
-                    if (percentage === 100) {
-                        profileStrengthCard.style.display = 'none';
-                    } else {
-                        profileStrengthCard.style.display = 'block';
-                    }
-                }
-
-                // Update action button text
-                const actionText = document.getElementById('progressActionText');
-                if (percentage === 100) {
-                    actionText.textContent = '🎉 Profile Complete!';
-                } else if (percentage >= 75) {
-                    actionText.textContent = 'Almost Done! Add Final Details';
-                } else if (percentage >= 50) {
-                    actionText.textContent = 'You\'re Halfway There!';
-                } else {
-                    actionText.textContent = 'Complete Your Profile';
-                }
+                console.log('📊 Profile Strength:', percentage + '%', { hasBasicInfo, hasPhoto, hasBusinessInfo });
 
             } catch (error) {
                 console.error('Error updating profile progress:', error);

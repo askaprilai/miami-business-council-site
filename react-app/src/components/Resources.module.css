@@ -1,0 +1,72 @@
+.resources {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0f0f0f 100%);
+}
+
+.title {
+  font-size: 2.5em;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.resourcesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.resourceCard {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.resourceCard:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.resourceCard h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.2em;
+}
+
+.resourceCard p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .resources {
+    padding: 4rem 0;
+  }
+
+  .resourcesGrid {
+    grid-template-columns: 1fr;
+  }
+}

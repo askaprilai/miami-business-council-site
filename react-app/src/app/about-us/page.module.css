@@ -1,0 +1,241 @@
+.main {
+  padding-top: 80px;
+  background: #0a0a0b;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero {
+  padding: 6rem 0 4rem;
+  text-align: center;
+  background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1a 50%, #0a0a0b 100%);
+}
+
+.heroTitle {
+  font-size: 3em;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: 1.2em;
+  color: #ccc;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Section Title */
+.sectionTitle {
+  font-size: 2.2em;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Executive Section */
+.executiveSection {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0f0f0f 100%);
+}
+
+.executiveCard {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 3rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.executiveImage {
+  flex-shrink: 0;
+}
+
+.profileImage {
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+}
+
+.executiveInfo h2 {
+  font-size: 2em;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.executiveInfo .title {
+  color: #d4af37;
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.executiveInfo .bio {
+  color: #ccc;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.linkedinBtn {
+  display: inline-block;
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  color: #000;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.linkedinBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+/* Board Section */
+.boardSection {
+  padding: 4rem 0;
+  background: #0a0a0b;
+}
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.boardCard {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.boardCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+}
+
+.cardImage {
+  margin-bottom: 1.5rem;
+}
+
+.memberImage {
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.boardCard h3 {
+  color: #fff;
+  font-size: 1.3em;
+  margin-bottom: 0.5rem;
+}
+
+.memberTitle {
+  color: #d4af37;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.memberBio {
+  color: #ccc;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+/* CTA Section */
+.ctaSection {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0f0f0f 100%);
+  text-align: center;
+}
+
+.ctaSection h2 {
+  font-size: 2em;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.ctaSection p {
+  color: #ccc;
+  font-size: 1.1em;
+  margin-bottom: 2rem;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  color: #000;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: #d4af37;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  border: 2px solid #d4af37;
+  transition: all 0.3s ease;
+}
+
+.btnSecondary:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2em;
+  }
+
+  .executiveCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .boardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+  }
+}

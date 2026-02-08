@@ -1,0 +1,206 @@
+.main {
+  padding-top: 80px;
+  background: #0a0a0b;
+  min-height: 100vh;
+}
+
+/* Hero */
+.hero {
+  padding: 6rem 0 4rem;
+  text-align: center;
+  background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1a 50%, #0a0a0b 100%);
+}
+
+.heroTitle {
+  font-size: 3em;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: 1.2em;
+  color: #ccc;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Pricing Section */
+.pricingSection {
+  padding: 4rem 0;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pricingCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.pricingCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.pricingCard.popular {
+  border: 2px solid #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  color: #000;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tierName {
+  font-size: 1.5em;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.price {
+  margin-bottom: 1rem;
+}
+
+.amount {
+  font-size: 3em;
+  font-weight: 700;
+  color: #d4af37;
+}
+
+.period {
+  font-size: 1em;
+  color: #ccc;
+}
+
+.description {
+  color: #ccc;
+  font-size: 0.95em;
+  margin-bottom: 2rem;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  text-align: left;
+}
+
+.features li {
+  color: #e8eaed;
+  padding: 0.6rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.features li:last-child {
+  border-bottom: none;
+}
+
+.features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #d4af37;
+}
+
+.joinBtn {
+  display: block;
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  color: #000;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.joinBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+/* Section Title */
+.sectionTitle {
+  font-size: 2em;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #fff;
+}
+
+/* FAQ Section */
+.faqSection {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0f0f0f 100%);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 3px solid #d4af37;
+}
+
+.faqItem h4 {
+  color: #fff;
+  font-size: 1.1em;
+  margin-bottom: 1rem;
+}
+
+.faqItem p {
+  color: #ccc;
+  line-height: 1.6;
+  font-size: 0.95em;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2em;
+  }
+
+  .pricingGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .amount {
+    font-size: 2.5em;
+  }
+}

@@ -1,4 +1,14 @@
-import { Header, Hero, About, Events, Footer } from '@/components';
+import {
+  Header,
+  Hero,
+  About,
+  Events,
+  Resources,
+  ConnectBenefits,
+  LogoBanner,
+  FloatingCTA,
+  Footer,
+} from '@/components';
 
 export default function Home() {
   return (
@@ -8,15 +18,12 @@ export default function Home() {
         <Hero />
         <About />
         <Events />
-        {/* Additional sections will be added here:
-            - Resources
-            - ConnectBenefits
-            - LogoBanner
-            - PortalPreviewModal
-            - FloatingCTA
-        */}
+        <Resources />
+        <ConnectBenefits />
+        <LogoBanner />
       </main>
       <Footer />
+      <FloatingCTA />
     </>
   );
 }

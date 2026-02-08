@@ -1,0 +1,114 @@
+.logoBanner {
+  padding: 4rem 0;
+  background: #0a0a0b;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 1.8em;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.logoSlider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.logoSlider::before,
+.logoSlider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.logoSlider::before {
+  left: 0;
+  background: linear-gradient(to right, #0a0a0b, transparent);
+}
+
+.logoSlider::after {
+  right: 0;
+  background: linear-gradient(to left, #0a0a0b, transparent);
+}
+
+.logoTrack {
+  display: flex;
+  gap: 3rem;
+  animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+
+.logoTrack:hover {
+  animation-play-state: paused;
+}
+
+.businessLogo {
+  flex-shrink: 0;
+  width: 150px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.businessLogo:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.logoImage {
+  max-width: 90%;
+  max-height: 60%;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.businessLogo:hover .logoImage {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.fallbackText {
+  display: none;
+  color: #d4af37;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .logoBanner {
+    padding: 3rem 0;
+  }
+
+  .businessLogo {
+    width: 120px;
+    height: 60px;
+  }
+
+  .logoTrack {
+    gap: 2rem;
+  }
+}

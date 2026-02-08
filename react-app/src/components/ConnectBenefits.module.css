@@ -1,0 +1,268 @@
+.connectBenefits {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #0f0f0f 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-size: 2.8em;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #f4f1e8 30%, #d4af37 70%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #d4af37;
+}
+
+/* Portal Preview */
+.portalPreview {
+  margin: 3rem auto;
+  max-width: 600px;
+}
+
+.previewCard {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 3rem 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  text-align: center;
+}
+
+.previewImage {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.4);
+  transition: all 0.4s ease;
+  margin-bottom: 1.5rem;
+}
+
+.previewImage:hover {
+  transform: scale(1.05) translateY(-5px);
+}
+
+.previewLabel {
+  color: #d4af37;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.previewBtn {
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  color: #000;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+.previewBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5);
+}
+
+/* Value Propositions */
+.valueProps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 800px;
+}
+
+.valueProp {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 3px solid #d4af37;
+}
+
+.valueProp h4 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.valueProp p {
+  color: #ccc;
+  font-size: 0.9em;
+  margin: 0;
+}
+
+.sectionDescription {
+  color: #ccc;
+  font-size: 1.1em;
+  max-width: 600px;
+  margin: 2rem auto 0;
+  line-height: 1.6;
+}
+
+/* Benefits Grid */
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.benefitCard {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.benefitCard:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.3);
+}
+
+.benefitIcon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  color: #d4af37;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.benefitCard h3 {
+  color: #fff;
+  font-size: 1.4em;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.benefitCard p {
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.benefitCard ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.benefitCard li {
+  color: #e8eaed;
+  padding: 0.3rem 0;
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  color: #d4af37;
+  font-size: 0.8em;
+}
+
+/* CTA Section */
+.ctaSection {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ctaSection h3 {
+  color: #d4af37;
+  font-size: 1.8em;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.ctaSection p {
+  color: #ccc;
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  color: #000;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+@media (max-width: 768px) {
+  .connectBenefits {
+    padding: 4rem 0;
+  }
+
+  .title {
+    font-size: 2em;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+  }
+
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefitCard:hover {
+    transform: none;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+  }
+}

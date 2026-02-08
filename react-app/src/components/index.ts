@@ -2,4 +2,8 @@ export { default as Header } from './Header';
 export { default as Hero } from './Hero';
 export { default as About } from './About';
 export { default as Events } from './Events';
+export { default as Resources } from './Resources';
+export { default as ConnectBenefits } from './ConnectBenefits';
+export { default as LogoBanner } from './LogoBanner';
+export { default as FloatingCTA } from './FloatingCTA';
 export { default as Footer } from './Footer';

@@ -6320,8 +6320,18 @@
             try {
                 // console.log('📊 Calculating profile analytics...');
 
-                // 1. Profile Views - use the profile_views column
-                const profileViews = member.profile_views || 0;
+                // 1. Profile Views - count from profile_views table
+                let profileViews = 0;
+                try {
+                    const { data: viewsData, count } = await supabase
+                        .from('profile_views')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('viewed_member_id', member.id);
+                    profileViews = count || 0;
+                } catch (e) {
+                    // Table might not exist, fall back to member column
+                    profileViews = member.profile_views || 0;
+                }
                 document.getElementById('analyticsProfileViews').textContent = profileViews;
                 document.getElementById('analyticsViewsTrend').textContent = profileViews > 0 ? `+${profileViews} views` : 'No views yet';
 
@@ -9706,18 +9716,29 @@
 
         async function calculateProfileViews(email) {
             try {
-                const { data: member, error } = await supabase
+                // First get the member ID
+                const { data: member, error: memberError } = await supabase
                     .from('members')
-                    .select('profile_views')
+                    .select('id')
                     .eq('email', email)
                     .single();
 
-                if (error || !member) {
-                    console.error('Error getting profile views:', error);
+                if (memberError || !member) {
                     return 0;
                 }
 
-                return member.profile_views || 0;
+                // Count views from profile_views table
+                const { count, error } = await supabase
+                    .from('profile_views')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('viewed_member_id', member.id);
+
+                if (error) {
+                    console.log('Profile views table may not exist:', error.message);
+                    return 0;
+                }
+
+                return count || 0;
             } catch (error) {
                 console.error('Error in calculateProfileViews:', error);
                 return 0;

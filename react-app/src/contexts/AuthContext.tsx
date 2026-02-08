@@ -4,6 +4,9 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Member } from '@/lib/supabase';
 
+const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
+
 interface AuthContextType {
   user: User | null;
   member: Member | null;
@@ -21,26 +24,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Use REST API instead of Supabase client to avoid hanging
   const fetchMember = async (userId: string, userEmail?: string): Promise<Member | null> => {
     console.log('Fetching member for userId:', userId, 'email:', userEmail);
 
     try {
-      // Simple query by email - most reliable
       if (userEmail) {
-        console.log('Querying by email...');
-        const { data, error } = await supabase
-          .from('members')
-          .select('id, auth_user_id, email, first_name, last_name, company_name, job_title, industry, phone_number, linkedin_url, instagram_url, facebook_url, twitter_url, website_url, profile_photo_url, company_logo_url, bio, membership_type, billing_frequency, is_active, is_admin, matching_profile, created_at, updated_at')
-          .eq('email', userEmail.toLowerCase())
-          .limit(1);
+        console.log('Querying by email via REST...');
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(userEmail.toLowerCase())}&limit=1`,
+          {
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+            },
+          }
+        );
+        const data = await response.json();
 
-        console.log('Query result:', data, error);
-
-        if (error) {
-          console.error('Query error:', error);
-          setMember(null);
-          return null;
-        }
+        console.log('REST query result:', data);
 
         if (data && data.length > 0) {
           console.log('Found member:', data[0].email);

@@ -72,8 +72,8 @@
 
 .formGroup input:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+  border-color: #C9A86A;
+  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.2);
 }
 
 .formGroup input::placeholder {
@@ -83,7 +83,7 @@
 .submitBtn {
   width: 100%;
   padding: 1rem;
-  background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+  background: #C9A86A;
   color: #000;
   border: none;
   border-radius: 8px;
@@ -97,7 +97,7 @@
 
 .submitBtn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 10px 30px rgba(201, 168, 106, 0.4);
 }
 
 .submitBtn:disabled {
@@ -159,26 +159,26 @@
 }
 
 .joinLink {
-  color: #d4af37;
+  color: #C9A86A;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .joinLink:hover {
-  color: #f4f1e8;
+  color: #1BA6A0;
 }
 
 /* Features */
 .features {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(201, 168, 106, 0.1);
   border-radius: 12px;
   padding: 1.5rem;
-  border-left: 3px solid #d4af37;
+  border-left: 3px solid #C9A86A;
 }
 
 .features h3 {
-  color: #d4af37;
+  color: #C9A86A;
   font-size: 1em;
   margin-bottom: 1rem;
 }
@@ -198,10 +198,17 @@
 }
 
 .features li::before {
-  content: '✓';
+  content: '';
   position: absolute;
   left: 0;
-  color: #d4af37;
+  color: #C9A86A;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
 }
 
 /* Mobile */

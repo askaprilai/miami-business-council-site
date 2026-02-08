@@ -1,0 +1,9 @@
+export { default as PortalLayout } from './PortalLayout';
+export { default as Dashboard } from './Dashboard';
+export { default as SmartMatches } from './SmartMatches';
+export { default as Directory } from './Directory';
+export { default as Connections } from './Connections';
+export { default as Messages } from './Messages';
+export { default as Events } from './Events';
+export { default as CollaborationHub } from './CollaborationHub';
+export { default as Profile } from './Profile';

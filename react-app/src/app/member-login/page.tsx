@@ -1,17 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-import { Metadata } from 'next';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
 import { Header, Footer } from '@/components';
 import styles from './page.module.css';
 
-export default function MemberLoginPage() {
+function LoginFormContent() {
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+
+  // Check for auth errors from callback
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error === 'auth_failed') {
+      setMessage('Authentication failed. Please try again.');
+      setIsSuccess(false);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,19 +30,60 @@ export default function MemberLoginPage() {
     setMessage('');
 
     try {
-      // This will be connected to Supabase Auth
-      // For now, show a placeholder message
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Send magic link via Supabase Auth
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.toLowerCase(),
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
       setIsSuccess(true);
-      setMessage('Check your email for a magic link to sign in!');
-    } catch (error) {
+      setMessage('Check your email for a magic link to sign in! (Check spam folder too)');
+    } catch (error: any) {
       setIsSuccess(false);
-      setMessage('An error occurred. Please try again.');
+      setMessage(error.message || 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
+  return (
+    <form onSubmit={handleSubmit} className={styles.loginForm}>
+      <div className={styles.formGroup}>
+        <label htmlFor="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.com"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        className={styles.submitBtn}
+        disabled={isLoading}
+      >
+        {isLoading ? 'Sending...' : 'Send Magic Link'}
+      </button>
+
+      {message && (
+        <div className={`${styles.message} ${isSuccess ? styles.success : styles.error}`}>
+          {message}
+        </div>
+      )}
+    </form>
+  );
+}
+
+export default function MemberLoginPage() {
   return (
     <>
       <Header />
@@ -50,33 +102,9 @@ export default function MemberLoginPage() {
               <p>Sign in to access your exclusive member benefits</p>
             </div>
 
-            <form onSubmit={handleSubmit} className={styles.loginForm}>
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className={styles.submitBtn}
-                disabled={isLoading}
-              >
-                {isLoading ? 'Sending...' : 'Send Magic Link'}
-              </button>
-
-              {message && (
-                <div className={`${styles.message} ${isSuccess ? styles.success : styles.error}`}>
-                  {message}
-                </div>
-              )}
-            </form>
+            <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
+              <LoginFormContent />
+            </Suspense>
 
             <div className={styles.divider}>
               <span>or</span>

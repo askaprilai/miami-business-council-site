@@ -281,7 +281,7 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
 
   const refreshMatches = () => {
     setLoading(true);
-    loadData();
+    loadData(currentMember);
   };
 
   if (loading) {

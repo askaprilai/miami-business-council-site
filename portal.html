@@ -14638,45 +14638,69 @@ This will enable beautiful previews when sharing the portal link on social media
                 // Query member needs using REST API (bypasses RLS issues)
                 console.log('📡 Querying member_needs table via REST API...');
 
-                const needsResponse = await fetch(
-                    `${SUPABASE_URL}/rest/v1/member_needs?order=created_at.desc&limit=50`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY,
-                            'Accept': 'application/json'
+                // Add timeout to prevent infinite loading
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+                let needs = [];
+                try {
+                    const needsResponse = await fetch(
+                        `${SUPABASE_URL}/rest/v1/member_needs?order=created_at.desc&limit=50`,
+                        {
+                            headers: {
+                                'apikey': SUPABASE_ANON_KEY,
+                                'Accept': 'application/json'
+                            },
+                            signal: controller.signal
                         }
+                    );
+                    clearTimeout(timeoutId);
+
+                    if (!needsResponse.ok) {
+                        console.error('❌ API returned error:', needsResponse.status);
+                        // Show empty state instead of error for RLS/permission issues
+                        needs = [];
+                    } else {
+                        needs = await needsResponse.json();
                     }
-                );
-
-                if (!needsResponse.ok) {
-                    throw new Error(`Failed to fetch collaboration requests: ${needsResponse.status}`);
+                } catch (fetchError) {
+                    clearTimeout(timeoutId);
+                    if (fetchError.name === 'AbortError') {
+                        console.error('❌ Request timed out');
+                    } else {
+                        console.error('❌ Fetch error:', fetchError);
+                    }
+                    needs = []; // Show empty state on error
                 }
-
-                const needs = await needsResponse.json();
                 console.log('📦 Needs data:', needs);
                 console.log('✅ Total needs returned:', needs?.length);
 
                 // If we have needs, fetch member data separately via REST API
                 if (needs && needs.length > 0) {
-                    const memberIds = [...new Set(needs.map(n => n.member_id))];
-                    const memberIdsParam = memberIds.map(id => `"${id}"`).join(',');
+                    try {
+                        const memberIds = [...new Set(needs.map(n => n.member_id))];
+                        const memberIdsParam = memberIds.map(id => `"${id}"`).join(',');
 
-                    const membersResponse = await fetch(
-                        `${SUPABASE_URL}/rest/v1/members?id=in.(${memberIdsParam})&select=id,first_name,last_name,company_name,profile_photo_url,email`,
-                        {
-                            headers: {
-                                'apikey': SUPABASE_ANON_KEY,
-                                'Accept': 'application/json'
+                        const membersResponse = await fetch(
+                            `${SUPABASE_URL}/rest/v1/members?id=in.(${memberIdsParam})&select=id,first_name,last_name,company_name,profile_photo_url,email`,
+                            {
+                                headers: {
+                                    'apikey': SUPABASE_ANON_KEY,
+                                    'Accept': 'application/json'
+                                }
                             }
-                        }
-                    );
+                        );
 
-                    const members = membersResponse.ok ? await membersResponse.json() : [];
+                        const members = membersResponse.ok ? await membersResponse.json() : [];
 
-                    // Attach member data to each need
-                    needs.forEach(need => {
-                        need.member = members.find(m => m.id === need.member_id);
-                    });
+                        // Attach member data to each need
+                        needs.forEach(need => {
+                            need.member = members.find(m => m.id === need.member_id);
+                        });
+                    } catch (memberFetchError) {
+                        console.error('❌ Error fetching member data:', memberFetchError);
+                        // Continue without member data
+                    }
                 }
 
                 console.log(`✅ Found ${needs?.length || 0} collaboration requests`);

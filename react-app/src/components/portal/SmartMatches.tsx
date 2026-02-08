@@ -72,19 +72,26 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
   const [industries, setIndustries] = useState<string[]>([]);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    console.log('SmartMatches: Component mounted, propMember:', propMember?.email);
+    if (propMember) {
+      loadData(propMember);
+    } else {
+      // Try to load without prop
+      loadData(null);
+    }
+  }, [propMember]);
 
   useEffect(() => {
     applyFilters();
   }, [filters, matches]);
 
-  const loadData = async () => {
+  const loadData = async (memberFromProp: any) => {
+    console.log('SmartMatches: loadData called');
     try {
-      // Use prop member if available, otherwise fetch
-      let member = propMember;
+      let member = memberFromProp;
 
       if (!member) {
+        console.log('SmartMatches: No prop member, trying localStorage');
         const email = getMemberEmail();
         console.log('SmartMatches: Got email from storage:', email);
 
@@ -101,7 +108,7 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
       console.log('SmartMatches: Using member:', member?.email);
 
       if (!member) {
-        console.log('SmartMatches: No member found, showing empty state');
+        console.log('SmartMatches: No member found');
         setLoading(false);
         return;
       }
@@ -117,6 +124,7 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
       const profileCompletion = Math.round((completedFields / profileFields.length) * 100);
 
       // Fetch all active members using REST API
+      console.log('SmartMatches: Fetching all members...');
       const membersRes = await fetch(
         `${SUPABASE_URL}/rest/v1/members?is_active=eq.true`,
         { headers: { 'apikey': SUPABASE_KEY } }
@@ -176,9 +184,11 @@ export default function SmartMatches({ member: propMember }: SmartMatchesProps) 
         profileCompletion,
       });
     } catch (e) {
-      console.error('Error loading smart matches:', e);
+      console.error('SmartMatches: Error loading:', e);
+    } finally {
+      console.log('SmartMatches: Setting loading to false');
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const calculateMatchScore = (currentMember: any, otherMember: any) => {

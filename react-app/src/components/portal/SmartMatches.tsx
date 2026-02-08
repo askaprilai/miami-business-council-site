@@ -46,8 +46,12 @@ function getMemberEmail(): string | null {
   return null;
 }
 
-export default function SmartMatches() {
-  const [currentMember, setCurrentMember] = useState<any>(null);
+interface SmartMatchesProps {
+  member?: any;
+}
+
+export default function SmartMatches({ member: propMember }: SmartMatchesProps) {
+  const [currentMember, setCurrentMember] = useState<any>(propMember || null);
   const [matches, setMatches] = useState<MatchResult[]>([]);
   const [filteredMatches, setFilteredMatches] = useState<MatchResult[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,21 +81,24 @@ export default function SmartMatches() {
 
   const loadData = async () => {
     try {
-      // Fetch current member using REST API
-      const email = getMemberEmail();
-      console.log('SmartMatches: Got email from storage:', email);
+      // Use prop member if available, otherwise fetch
+      let member = propMember;
 
-      let member = null;
-      if (email) {
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(email.toLowerCase())}&limit=1`,
-          { headers: { 'apikey': SUPABASE_KEY } }
-        );
-        const data = await res.json();
-        member = data && data.length > 0 ? data[0] : null;
+      if (!member) {
+        const email = getMemberEmail();
+        console.log('SmartMatches: Got email from storage:', email);
+
+        if (email) {
+          const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(email.toLowerCase())}&limit=1`,
+            { headers: { 'apikey': SUPABASE_KEY } }
+          );
+          const data = await res.json();
+          member = data && data.length > 0 ? data[0] : null;
+        }
       }
 
-      console.log('SmartMatches: Found member:', member?.email);
+      console.log('SmartMatches: Using member:', member?.email);
 
       if (!member) {
         console.log('SmartMatches: No member found, showing empty state');

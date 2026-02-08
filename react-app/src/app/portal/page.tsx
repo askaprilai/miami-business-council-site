@@ -95,7 +95,7 @@ function PortalContent() {
       case 'dashboard':
         return <Dashboard />;
       case 'smart-matches':
-        return <SmartMatches />;
+        return <SmartMatches member={activeMember} />;
       case 'directory':
         return <Directory />;
       case 'connections':

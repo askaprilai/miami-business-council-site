@@ -4309,7 +4309,7 @@
                         </div>
                         <div style="margin-left: auto; text-align: center;">
                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
-                            <div style="color: #C9A86A; font-weight: 600;" id="memberProfileStrength">75%</div>
+                            <div style="color: #C9A86A; font-weight: 600;" id="memberProfileStrength">--</div>
                             <div style="color: #ccc; font-size: 0.8rem;">Profile Strength</div>
                         </div>
                     </div>
@@ -6023,6 +6023,9 @@
 
                 // Calculate profile analytics
                 await calculateProfileAnalytics(member);
+
+                // Update profile progress/strength display
+                await updateProfileProgress();
 
                 // Load today's insights
                 await loadTodaysInsights(member);
@@ -11279,9 +11282,10 @@
                 if (hasBasicInfo) completedItems++;
 
                 // Check profile photo or company logo - use currentMember data from database
-                const hasProfilePhoto = currentMember && (currentMember.profile_photo_url && currentMember.profile_photo_url.trim() !== '');
-                const hasCompanyLogo = currentMember && (currentMember.company_logo_url && currentMember.company_logo_url.trim() !== '');
+                const hasProfilePhoto = !!(currentMember && currentMember.profile_photo_url && currentMember.profile_photo_url.trim() !== '');
+                const hasCompanyLogo = !!(currentMember && currentMember.company_logo_url && currentMember.company_logo_url.trim() !== '');
                 const hasPhoto = hasProfilePhoto || hasCompanyLogo;
+                console.log('📸 Photo Check:', { hasProfilePhoto, hasCompanyLogo, photoUrl: currentMember?.profile_photo_url });
                 updateProgressItem('tipPhoto', 'statusPhoto', hasPhoto);
                 if (hasPhoto) completedItems++;
 
@@ -11336,20 +11340,20 @@
         function checkBasicInformation() {
             // Check from database first (currentMember), fallback to form fields
             if (currentMember) {
-                const hasName = currentMember.first_name && currentMember.last_name;
-                const hasCompany = currentMember.company_name && currentMember.company_name.trim() !== '';
-                const hasTitle = currentMember.job_title && currentMember.job_title.trim() !== '';
-                const hasIndustries = currentMember.industries && Array.isArray(currentMember.industries) && currentMember.industries.length > 0;
-                return hasName && hasCompany && hasTitle && hasIndustries;
+                const hasName = !!(currentMember.first_name && currentMember.last_name);
+                const hasCompany = !!(currentMember.company_name && currentMember.company_name.trim() !== '');
+                const hasTitle = !!(currentMember.job_title && currentMember.job_title.trim() !== '');
+                // Industries are optional for basic info - just need name, company, title
+                console.log('📊 Basic Info Check:', { hasName, hasCompany, hasTitle, member: currentMember?.email });
+                return hasName && hasCompany && hasTitle;
             }
 
             // Fallback to form fields if currentMember not loaded yet
             const name = document.getElementById('memberName')?.value.trim();
             const company = document.getElementById('memberCompany')?.value.trim();
             const title = document.getElementById('memberTitle')?.value.trim();
-            const hasIndustries = document.querySelectorAll('input[name="industry"]:checked').length > 0;
 
-            return name && company && title && hasIndustries;
+            return !!(name && company && title);
         }
 
         async function checkBusinessPreferences() {

@@ -6556,11 +6556,22 @@
                     `;
                 }
 
-                // If no insights, show friendly message
+                // Always show member network insight
+                const totalOtherMembers = allMembers?.length || 0;
+                if (totalOtherMembers > 0 && !insightsHtml.includes('potential')) {
+                    insightsHtml += `
+                        <div class="insight-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid #C9A86A;">
+                            <span style="font-size: 1.2rem;">👥</span>
+                            <span style="color: #e8eaed;">Connect with <strong style="color: #C9A86A;">${totalOtherMembers} members</strong> in the network</span>
+                        </div>
+                    `;
+                }
+
+                // If still no insights, show friendly message
                 if (!insightsHtml) {
                     insightsHtml = `
-                        <div style="text-align: center; padding: 2rem; color: #999;">
-                            <p>Complete your profile to get personalized insights!</p>
+                        <div style="text-align: center; padding: 1.5rem; color: #999;">
+                            <p style="margin: 0;">✨ You're all caught up! Check back soon for new activity.</p>
                         </div>
                     `;
                 }

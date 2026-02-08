@@ -9397,8 +9397,8 @@
                 // Update insights
                 updateDailyInsights(auth);
                 
-                // Update profile strength
-                calculateProfileStrength(auth);
+                // Profile strength is already calculated in updateProfileProgress() with database data
+                // No need to call here - it runs during checkMemberAuthentication()
 
                 // Load community activity feed
                 setTimeout(() => loadCommunityActivity(), 1000);

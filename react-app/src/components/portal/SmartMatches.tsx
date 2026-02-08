@@ -12,99 +12,40 @@ interface SmartMatchesProps {
 
 export default function SmartMatches({ member }: SmartMatchesProps) {
   const [members, setMembers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState('Loading matches...');
 
   useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        console.log('SmartMatches: Fetching members, current member:', member?.email);
+    fetchMembers();
+  }, []);
 
-        const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/members?is_active=eq.true&select=id,first_name,last_name,company_name,job_title,industry,profile_photo_url,bio,linkedin_url`,
-          { headers: { 'apikey': SUPABASE_KEY } }
-        );
+  const fetchMembers = async () => {
+    try {
+      setStatus('Fetching members...');
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch members');
+      const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/members?is_active=eq.true&select=id,first_name,last_name,company_name,job_title,industry,profile_photo_url`,
+        {
+          headers: { 'apikey': SUPABASE_KEY },
         }
+      );
 
-        const data = await response.json();
-        console.log('SmartMatches: Got', data?.length, 'members');
-
-        // Filter out current member and calculate basic scores
-        const otherMembers = (data || [])
-          .filter((m: any) => m.id !== member?.id)
-          .map((m: any) => ({
-            ...m,
-            score: calculateScore(member, m),
-          }))
-          .sort((a: any, b: any) => b.score - a.score);
-
-        setMembers(otherMembers);
-      } catch (err: any) {
-        console.error('SmartMatches: Error:', err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        setStatus(`Error: ${response.status}`);
+        return;
       }
-    };
 
-    // Small delay to ensure component is mounted
-    const timer = setTimeout(fetchMembers, 100);
-    return () => clearTimeout(timer);
-  }, [member?.id]);
+      const data = await response.json();
+      setStatus(`Found ${data?.length || 0} members`);
 
-  const calculateScore = (currentMember: any, otherMember: any) => {
-    if (!currentMember) return 20;
-    let score = 20; // Base score
+      const filtered = (data || [])
+        .filter((m: any) => m.id !== member?.id)
+        .slice(0, 20);
 
-    // Same industry
-    if (otherMember.industry && currentMember.industry &&
-        otherMember.industry === currentMember.industry) {
-      score += 30;
+      setMembers(filtered);
+    } catch (err: any) {
+      setStatus(`Error: ${err.message}`);
     }
-
-    // Has profile photo
-    if (otherMember.profile_photo_url) score += 10;
-
-    // Has bio
-    if (otherMember.bio) score += 15;
-
-    // Has LinkedIn
-    if (otherMember.linkedin_url) score += 10;
-
-    // Has company
-    if (otherMember.company_name) score += 15;
-
-    return Math.min(score, 100);
   };
-
-  if (loading) {
-    return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
-        <p>Finding your best matches...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.noMatches}>
-        <h3>Error loading matches</h3>
-        <p>{error}</p>
-        <button onClick={() => window.location.reload()} className={styles.connectBtn}>
-          Try Again
-        </button>
-      </div>
-    );
-  }
-
-  const highPriority = members.filter(m => m.score >= 70).length;
-  const avgScore = members.length > 0
-    ? Math.round(members.reduce((sum, m) => sum + m.score, 0) / members.length)
-    : 0;
 
   return (
     <div className={styles.smartMatches}>
@@ -112,12 +53,12 @@ export default function SmartMatches({ member }: SmartMatchesProps) {
         <div>
           <h1 className={styles.title}>Smart Matches</h1>
           <p className={styles.subtitle}>
-            Connect with fellow members based on shared interests and goals
+            Connect with fellow members - Status: {status}
           </p>
         </div>
       </div>
 
-      {/* Stats Cards */}
+      {/* Stats */}
       <div className={styles.statsRow}>
         <div className={styles.statsCard}>
           <div className={styles.statsCardHeader}>
@@ -129,14 +70,6 @@ export default function SmartMatches({ member }: SmartMatchesProps) {
               <span className={styles.statLabel}>Total Matches:</span>
               <span className={styles.statValue}>{members.length}</span>
             </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>High Priority:</span>
-              <span className={styles.statValue}>{highPriority}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Avg Score:</span>
-              <span className={styles.statValue}>{avgScore}%</span>
-            </div>
           </div>
         </div>
 
@@ -146,7 +79,7 @@ export default function SmartMatches({ member }: SmartMatchesProps) {
             <span className={styles.statsIcon}>⚡</span>
           </div>
           <div className={styles.quickActions}>
-            <button className={styles.actionLink} onClick={() => window.location.reload()}>
+            <button className={styles.actionLink} onClick={fetchMembers}>
               🔄 Refresh Matches
             </button>
           </div>
@@ -161,22 +94,16 @@ export default function SmartMatches({ member }: SmartMatchesProps) {
       {members.length === 0 ? (
         <div className={styles.noMatches}>
           <span className={styles.noMatchIcon}>🎯</span>
-          <h3>No matches found</h3>
-          <p>Check back soon as more members join!</p>
+          <h3>{status.includes('Error') ? 'Error Loading' : 'Loading...'}</h3>
+          <p>{status}</p>
+          <button onClick={fetchMembers} className={styles.connectBtn} style={{marginTop: '1rem'}}>
+            Try Again
+          </button>
         </div>
       ) : (
         <div className={styles.matchesGrid}>
           {members.map((m) => (
             <div key={m.id} className={styles.matchCard}>
-              <div className={styles.matchScore}>
-                <span className={styles.scoreValue}>{m.score}%</span>
-                <span className={styles.scoreLabel}>Match</span>
-              </div>
-
-              {m.score >= 70 && (
-                <span className={styles.priorityBadge}>High Priority</span>
-              )}
-
               <div className={styles.matchHeader}>
                 <div className={styles.avatar}>
                   {m.profile_photo_url ? (

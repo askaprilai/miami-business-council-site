@@ -13531,9 +13531,9 @@ This will enable beautiful previews when sharing the portal link on social media
                     case 'company-asc':
                         return a.company.localeCompare(b.company);
                     case 'date-desc':
-                        return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
                     case 'date-asc':
-                        return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+                        return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
                     default:
                         return 0;
                 }
@@ -13669,18 +13669,27 @@ This will enable beautiful previews when sharing the portal link on social media
         // Update pagination controls
         function updatePaginationControls() {
             const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+            const paginationControls = document.getElementById('paginationControls');
             const prevBtn = document.getElementById('prevPageBtn');
             const nextBtn = document.getElementById('nextPageBtn');
             const pageNumbers = document.getElementById('pageNumbers');
+
+            // Hide pagination if only one page or no results
+            if (totalPages <= 1) {
+                paginationControls.style.display = 'none';
+                return;
+            } else {
+                paginationControls.style.display = 'flex';
+            }
 
             // Update button states
             prevBtn.disabled = currentPage === 1;
             prevBtn.style.opacity = currentPage === 1 ? '0.5' : '1';
             prevBtn.style.cursor = currentPage === 1 ? 'not-allowed' : 'pointer';
 
-            nextBtn.disabled = currentPage === totalPages || totalPages === 0;
-            nextBtn.style.opacity = (currentPage === totalPages || totalPages === 0) ? '0.5' : '1';
-            nextBtn.style.cursor = (currentPage === totalPages || totalPages === 0) ? 'not-allowed' : 'pointer';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.style.opacity = currentPage === totalPages ? '0.5' : '1';
+            nextBtn.style.cursor = currentPage === totalPages ? 'not-allowed' : 'pointer';
 
             // Generate page numbers
             let pageNumbersHtml = '';

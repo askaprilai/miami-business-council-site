@@ -4990,7 +4990,7 @@
                         <div class="event-info">
                             <h3>Monthly Breakfast Networking</h3>
                             <div class="event-details">
-                                <p><strong>Date:</strong> February 25th, 2025</p>
+                                <p><strong>Date:</strong> February 25th, 2026</p>
                                 <p><strong>Time:</strong> 9:00 AM - 10:30 AM</p>
                                 <p><strong>Location:</strong> Miami Design District</p>
                                 <p><strong>Description:</strong> Connect with fellow business leaders over breakfast and coffee. Network, share insights, and build meaningful relationships.</p>
@@ -5193,9 +5193,9 @@
                             <span class="tip-text">Set business preferences</span>
                             <span class="tip-status" id="statusBusinessInfo">○</span>
                         </div>
-                        <div class="tip-item" id="tipLinkedIn">
+                        <div class="tip-item" id="tipLinkedIn" style="opacity: 0.7;">
                             <span class="tip-icon">🔗</span>
-                            <span class="tip-text">Add LinkedIn profile</span>
+                            <span class="tip-text">Add LinkedIn profile <span style="color: #888; font-size: 0.8em;">(optional)</span></span>
                             <span class="tip-status" id="statusLinkedIn">○</span>
                         </div>
                     </div>
@@ -5358,8 +5358,8 @@
                                 <input type="tel" id="memberPhone" name="memberPhone" class="profile-input" placeholder="(305) 123-4567" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
-                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL * <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Required for profile completion)</span></label>
-                                <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
+                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Optional)</span></label>
+                                <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                         </div>
 
@@ -5871,10 +5871,6 @@
                         <div class="profile-info-label">Industry Focus</div>
                         <div class="profile-info-value" id="profileIndustry">Technology, AI/ML</div>
                     </div>
-                    <div class="profile-info-item">
-                        <div class="profile-info-label">Member Since</div>
-                        <div class="profile-info-value">January 2025</div>
-                    </div>
                 </div>
             </div>
 
@@ -6202,8 +6198,7 @@
                     member.last_name,
                     member.company_name,
                     member.job_title,
-                    member.phone,
-                    member.linkedin_url
+                    member.phone
                 ];
 
                 // Debug: Log each field status
@@ -8449,7 +8444,7 @@
             preview += `• Email: [Member's Email]\n`;
             preview += `• Access Code: [Auto-Generated]\n`;
             preview += `• Login: https://miamibusinesscouncil.com/member-login\n\n`;
-            preview += `Next Event: February 25th, 2025 • 9:00 AM\n`;
+            preview += `Next Event: February 25th, 2026 • 9:00 AM\n`;
             preview += `Miami Design District\n\n`;
             preview += `Questions? Contact us at info@miamibusinesscouncil.com`;
 
@@ -9544,8 +9539,8 @@
         // Calculate actual profile strength based on filled fields
         function calculateActualProfileStrength(email) {
             const memberData = getMemberStoredData(email);
-            const requiredFields = ['memberName', 'memberCompany', 'memberTitle', 'memberIndustry', 'memberLinkedIn'];
-            const optionalFields = ['targetIndustry', 'targetSize', 'primaryOffering', 'valueProposition'];
+            const requiredFields = ['memberName', 'memberCompany', 'memberTitle', 'memberIndustry'];
+            const optionalFields = ['memberLinkedIn', 'targetIndustry', 'targetSize', 'primaryOffering', 'valueProposition'];
             
             let completed = 0;
             let total = requiredFields.length + optionalFields.length;
@@ -11265,7 +11260,7 @@
                 const memberEmail = auth.email;
 
                 let completedItems = 0;
-                const totalItems = 4;
+                const totalItems = 3;
 
                 // Check basic information
                 const hasBasicInfo = checkBasicInformation();
@@ -11284,11 +11279,10 @@
                 updateProgressItem('tipBusinessInfo', 'statusBusinessInfo', hasBusinessInfo);
                 if (hasBusinessInfo) completedItems++;
 
-                // Check LinkedIn - use database data first, fallback to form
+                // Check LinkedIn - optional, just update the UI indicator but don't count towards completion
                 const hasLinkedIn = (currentMember && currentMember.linkedin_url && currentMember.linkedin_url.trim() !== '') ||
                                    (document.getElementById('memberLinkedIn')?.value.trim().length > 0);
                 updateProgressItem('tipLinkedIn', 'statusLinkedIn', hasLinkedIn);
-                if (hasLinkedIn) completedItems++;
 
                 // Update progress bar and percentage
                 const percentage = Math.round((completedItems / totalItems) * 100);
@@ -11444,15 +11438,7 @@
                     return;
                 }
 
-                // 4. Check LinkedIn
-                if (!currentMember.linkedin_url) {
-                    const linkedInField = document.getElementById('memberLinkedIn');
-                    if (linkedInField) {
-                        linkedInField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        linkedInField.focus();
-                    }
-                    return;
-                }
+                // LinkedIn is optional - skip checking it
 
                 // If all complete, show success message
                 alert('🎉 Congratulations! Your profile is 100% complete. You\'re ready to make great connections!');

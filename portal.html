@@ -14620,68 +14620,48 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
 
-                // Check if supabase is initialized
-                if (!supabase) {
-                    console.error('❌ Supabase client not initialized');
-                    needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #ff6b6b;">Supabase not initialized. Please refresh.</div>';
-                    return;
-                }
+                // Query member needs using REST API (bypasses RLS issues)
+                console.log('📡 Querying member_needs table via REST API...');
 
-                // Query member needs
-                console.log('📡 Querying member_needs table...');
-
-                // 🔍 DEBUG: Check authentication and member matching
-                try {
-                    const { data: currentUser, error: authError } = await supabase.auth.getUser();
-                    if (authError) {
-                        console.error('❌ Auth error:', authError);
+                const needsResponse = await fetch(
+                    `${SUPABASE_URL}/rest/v1/member_needs?order=created_at.desc&limit=50`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Accept': 'application/json'
+                        }
                     }
-                    console.log('🔍 DEBUG: Current user auth.uid:', currentUser?.user?.id);
-                    console.log('🔍 DEBUG: Current member.id:', currentMember?.id);
-                    console.log('🔍 DEBUG: Current member auth_user_id:', currentMember?.auth_user_id);
-                } catch (authErr) {
-                    console.error('❌ Exception getting user:', authErr);
+                );
+
+                if (!needsResponse.ok) {
+                    throw new Error(`Failed to fetch collaboration requests: ${needsResponse.status}`);
                 }
 
-                // Query member needs
-                const { data: needs, error } = await supabase
-                    .from('member_needs')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(50);
-
+                const needs = await needsResponse.json();
                 console.log('📦 Needs data:', needs);
-                console.log('🔍 DEBUG: Total needs returned:', needs?.length);
-                if (currentMember?.id) {
-                    console.log('🔍 DEBUG: User\'s own posts in results:', needs?.filter(n => n.member_id === currentMember?.id).length);
-                }
-                console.log('🔍 DEBUG: All member_ids in results:', needs?.map(n => n.member_id));
+                console.log('✅ Total needs returned:', needs?.length);
 
-                // If we have needs, fetch member data separately
+                // If we have needs, fetch member data separately via REST API
                 if (needs && needs.length > 0) {
                     const memberIds = [...new Set(needs.map(n => n.member_id))];
-                    const { data: members } = await supabase
-                        .from('members')
-                        .select('id, first_name, last_name, company_name, profile_photo_url, email')
-                        .in('id', memberIds);
+                    const memberIdsParam = memberIds.map(id => `"${id}"`).join(',');
+
+                    const membersResponse = await fetch(
+                        `${SUPABASE_URL}/rest/v1/members?id=in.(${memberIdsParam})&select=id,first_name,last_name,company_name,profile_photo_url,email`,
+                        {
+                            headers: {
+                                'apikey': SUPABASE_ANON_KEY,
+                                'Accept': 'application/json'
+                            }
+                        }
+                    );
+
+                    const members = membersResponse.ok ? await membersResponse.json() : [];
 
                     // Attach member data to each need
                     needs.forEach(need => {
                         need.member = members.find(m => m.id === need.member_id);
                     });
-                }
-
-                if (error) {
-                    console.error('❌ Error loading needs:', error);
-                    console.log('ℹ️ Showing empty state due to error');
-                    // Show empty state instead of error to avoid blocking users
-                    allCollabNeeds = [];
-                    if (!document.querySelector('.collab-tab.active')) {
-                        document.querySelector('[data-tab="open"]')?.classList.add('active');
-                    }
-                    filterAndDisplayNeeds();
-                    isLoadingCollabNeeds = false;
-                    return;
                 }
 
                 console.log(`✅ Found ${needs?.length || 0} collaboration requests`);

@@ -5578,30 +5578,25 @@
                         <div>
                             <h4 style="color: #e8eaed; margin-bottom: 1rem;">🎯 My Ideal Client Profile</h4>
                             <div class="profile-field">
-                                <label>Industry Focus:</label>
-                                <select class="profile-input" id="targetIndustry">
-                                    <option value="">Select target industry</option>
-                                    <option value="Technology">Technology & Software</option>
-                                    <option value="Real Estate">Real Estate & Construction</option>
-                                    <option value="Healthcare">Healthcare & Wellness</option>
-                                    <option value="Finance">Finance & Investment</option>
-                                    <option value="Marketing">Marketing & Advertising</option>
-                                    <option value="Legal">Legal & Professional Services</option>
-                                    <option value="Retail">Retail & E-commerce</option>
-                                    <option value="Hospitality">Hospitality & Tourism</option>
-                                    <option value="Non-Profit">Non-Profit & Social Impact</option>
-                                    <option value="Design">Design & Creative</option>
-                                    <option value="Creative">Creative & Arts</option>
-                                    <option value="Fashion">Fashion & Apparel</option>
-                                    <option value="Manufacturing">Manufacturing & Industrial</option>
-                                    <option value="Public Relations">Public Relations & Communications</option>
-                                    <option value="Media">Media & Entertainment</option>
-                                    <option value="Wellness">Wellness & Fitness</option>
-                                    <option value="Architecture">Architecture & Engineering</option>
-                                    <option value="Consulting">Consulting & Advisory</option>
-                                    <option value="Education">Education & Training</option>
-                                    <option value="Any">Open to All Industries</option>
-                                </select>
+                                <label>Industry Focus: <span style="font-size: 0.85rem; color: #888;">(Select all that apply)</span></label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; max-height: 200px; overflow-y: auto; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Technology"><span>Technology & Software</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Real Estate"><span>Real Estate & Construction</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Healthcare"><span>Healthcare & Wellness</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Finance"><span>Finance & Investment</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Marketing"><span>Marketing & Advertising</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Legal"><span>Legal & Professional Services</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Retail"><span>Retail & E-commerce</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Hospitality"><span>Hospitality & Tourism</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Non-Profit"><span>Non-Profit & Social Impact</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Design"><span>Design & Creative</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Fashion"><span>Fashion & Apparel</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Manufacturing"><span>Manufacturing & Industrial</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Media"><span>Media & Entertainment</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Consulting"><span>Consulting & Advisory</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Education"><span>Education & Training</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Any"><span>Open to All Industries</span></label>
+                                </div>
                             </div>
                             <div class="profile-field">
                                 <label>Company Size Preference:</label>
@@ -5625,15 +5620,15 @@
                                 </select>
                             </div>
                             <div class="profile-field">
-                                <label>Geographic Focus:</label>
-                                <select class="profile-input" id="targetLocation">
-                                    <option value="miami">Miami-Dade County</option>
-                                    <option value="south-florida">South Florida Region</option>
-                                    <option value="florida">Florida Statewide</option>
-                                    <option value="southeast">Southeast US</option>
-                                    <option value="national">National/Remote</option>
-                                    <option value="international">International</option>
-                                </select>
+                                <label>Geographic Focus: <span style="font-size: 0.85rem; color: #888;">(Select all that apply)</span></label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                    <label class="radio-option"><input type="checkbox" name="targetLocation" value="miami"><span>Miami-Dade County</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetLocation" value="south-florida"><span>South Florida Region</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetLocation" value="florida"><span>Florida Statewide</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetLocation" value="southeast"><span>Southeast US</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetLocation" value="national"><span>National/Remote</span></label>
+                                    <label class="radio-option"><input type="checkbox" name="targetLocation" value="international"><span>International</span></label>
+                                </div>
                             </div>
                         </div>
                         
@@ -6908,8 +6903,15 @@
 
                 if (matchingProfile) {
                     // Populate form fields
+                    // Restore target industries (now multi-select checkboxes)
                     if (matchingProfile.targetIndustry) {
-                        document.getElementById('targetIndustry').value = matchingProfile.targetIndustry;
+                        const industries = Array.isArray(matchingProfile.targetIndustry)
+                            ? matchingProfile.targetIndustry
+                            : [matchingProfile.targetIndustry];
+                        industries.forEach(industry => {
+                            const checkbox = document.querySelector(`input[name="targetIndustry"][value="${industry}"]`);
+                            if (checkbox) checkbox.checked = true;
+                        });
                     }
                     if (matchingProfile.targetSize) {
                         document.getElementById('targetSize').value = matchingProfile.targetSize;
@@ -6917,8 +6919,15 @@
                     if (matchingProfile.targetBudget) {
                         document.getElementById('targetBudget').value = matchingProfile.targetBudget;
                     }
+                    // Restore target locations (now multi-select checkboxes)
                     if (matchingProfile.targetLocation) {
-                        document.getElementById('targetLocation').value = matchingProfile.targetLocation;
+                        const locations = Array.isArray(matchingProfile.targetLocation)
+                            ? matchingProfile.targetLocation
+                            : [matchingProfile.targetLocation];
+                        locations.forEach(location => {
+                            const checkbox = document.querySelector(`input[name="targetLocation"][value="${location}"]`);
+                            if (checkbox) checkbox.checked = true;
+                        });
                     }
                     if (matchingProfile.primaryOffering) {
                         document.getElementById('primaryOffering').value = matchingProfile.primaryOffering;
@@ -6964,11 +6973,13 @@
                     saveBtn.style.opacity = '0.7';
                 }
 
-                // Collect form values
-                const targetIndustry = document.getElementById('targetIndustry').value;
+                // Collect form values - industries and locations are now multi-select checkboxes
+                const targetIndustry = Array.from(document.querySelectorAll('input[name="targetIndustry"]:checked'))
+                    .map(cb => cb.value);
                 const targetSize = document.getElementById('targetSize').value;
                 const targetBudget = document.getElementById('targetBudget').value;
-                const targetLocation = document.getElementById('targetLocation').value;
+                const targetLocation = Array.from(document.querySelectorAll('input[name="targetLocation"]:checked'))
+                    .map(cb => cb.value);
                 const primaryOffering = document.getElementById('primaryOffering').value;
                 const valueProposition = document.getElementById('valueProposition').value;
                 const workStyle = document.getElementById('workStyle').value;

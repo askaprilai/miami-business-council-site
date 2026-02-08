@@ -855,6 +855,20 @@
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
         }
 
+        .founding-member-badge {
+            background: linear-gradient(135deg, #C9A86A 0%, #F4E4BA 50%, #C9A86A 100%);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(201, 168, 106, 0.4);
+        }
+
         .member-header {
             display: flex;
             align-items: center;
@@ -13206,6 +13220,8 @@ This will enable beautiful previews when sharing the portal link on social media
                         lookingFor,
                         canOffer,
                         linkedin: member.linkedin_url,
+                        createdAt: member.created_at || null,
+                        isFoundingMember: member.created_at ? new Date(member.created_at) < new Date('2026-08-01') : false,
                         score: 0 // Will be calculated based on match compatibility
                     };
 
@@ -13365,6 +13381,7 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 return `
                 <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'}, [${lookingForArray}], [${canOfferArray}])">
+                    ${member.isFoundingMember ? `<div class="founding-member-badge" title="Founding Member - Joined before August 2026">⭐ Founding Member</div>` : ''}
                     <div class="member-header">
                         ${member.photoUrl
                             ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`
@@ -13590,6 +13607,7 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 return `
                 <div class="member-card" onclick="openMemberProfile('${member.id}', '${member.name}', '${member.title}', '${member.company}', '${member.avatar}', [${tagsArray}], '${member.email}', ${member.linkedin ? `'${member.linkedin}'` : 'null'}, ${member.photoUrl ? `'${member.photoUrl}'` : 'null'}, [${lookingForArray}], [${canOfferArray}])">
+                    ${member.isFoundingMember ? `<div class="founding-member-badge" title="Founding Member - Joined before August 2026">⭐ Founding Member</div>` : ''}
                     <div class="member-header">
                         ${member.photoUrl
                             ? `<img src="${member.photoUrl}" alt="${member.name}" class="member-avatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">`

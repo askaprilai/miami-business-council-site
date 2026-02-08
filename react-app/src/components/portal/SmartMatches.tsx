@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchFromSupabase, getCurrentMember, updateSupabase } from '@/lib/api';
 import styles from './SmartMatches.module.css';
+
+const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
 interface MatchResult {
   member: any;
@@ -26,6 +28,22 @@ interface Filters {
   industry: string;
   matchScore: string;
   availability: string;
+}
+
+// Get member email from localStorage
+function getMemberEmail(): string | null {
+  if (typeof window === 'undefined') return null;
+  const storageKey = 'sb-vsnvtujkkkbjpuuwxvyd-auth-token';
+  const stored = localStorage.getItem(storageKey);
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      return parsed?.user?.email || null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
 }
 
 export default function SmartMatches() {
@@ -59,8 +77,24 @@ export default function SmartMatches() {
 
   const loadData = async () => {
     try {
-      const member = await getCurrentMember();
+      // Fetch current member using REST API
+      const email = getMemberEmail();
+      console.log('SmartMatches: Got email from storage:', email);
+
+      let member = null;
+      if (email) {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(email.toLowerCase())}&limit=1`,
+          { headers: { 'apikey': SUPABASE_KEY } }
+        );
+        const data = await res.json();
+        member = data && data.length > 0 ? data[0] : null;
+      }
+
+      console.log('SmartMatches: Found member:', member?.email);
+
       if (!member) {
+        console.log('SmartMatches: No member found, showing empty state');
         setLoading(false);
         return;
       }
@@ -75,8 +109,13 @@ export default function SmartMatches() {
       const completedFields = profileFields.filter(Boolean).length;
       const profileCompletion = Math.round((completedFields / profileFields.length) * 100);
 
-      // Fetch all active members
-      const membersData = await fetchFromSupabase('members', '?is_active=eq.true');
+      // Fetch all active members using REST API
+      const membersRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/members?is_active=eq.true`,
+        { headers: { 'apikey': SUPABASE_KEY } }
+      );
+      const membersData = await membersRes.json();
+      console.log('SmartMatches: Fetched', membersData?.length, 'members');
       const otherMembers = (membersData || []).filter((m: any) => m.id !== member.id);
 
       // Get unique industries for filter

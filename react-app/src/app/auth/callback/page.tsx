@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import styles from './page.module.css';
 
+const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
+
 export default function AuthCallbackPage() {
   const [status, setStatus] = useState('Authenticating...');
 
@@ -41,31 +44,41 @@ export default function AuthCallbackPage() {
           if (data.session) {
             setStatus('Success! Verifying member...');
 
-            // Verify member exists in database
-            const { data: memberData, error: memberError } = await supabase
-              .from('members')
-              .select('id, email')
-              .eq('auth_user_id', data.session.user.id)
-              .single();
+            // Use REST API to verify member (avoid Supabase client hanging)
+            const memberRes = await fetch(
+              `${SUPABASE_URL}/rest/v1/members?auth_user_id=eq.${data.session.user.id}&limit=1`,
+              { headers: { 'apikey': SUPABASE_KEY } }
+            );
+            const memberData = await memberRes.json();
 
-            if (memberError || !memberData) {
+            if (!memberData || memberData.length === 0) {
               // Try to find by email if auth_user_id doesn't match
-              const { data: memberByEmail } = await supabase
-                .from('members')
-                .select('id, auth_user_id')
-                .eq('email', data.session.user.email)
-                .single();
+              const emailRes = await fetch(
+                `${SUPABASE_URL}/rest/v1/members?email=eq.${encodeURIComponent(data.session.user.email?.toLowerCase() || '')}&limit=1`,
+                { headers: { 'apikey': SUPABASE_KEY } }
+              );
+              const memberByEmail = await emailRes.json();
 
-              if (memberByEmail && !memberByEmail.auth_user_id) {
-                // Update the member record with auth_user_id
-                await supabase
-                  .from('members')
-                  .update({ auth_user_id: data.session.user.id })
-                  .eq('id', memberByEmail.id);
-
-                setStatus('Account linked! Redirecting to portal...');
-              } else if (memberByEmail) {
-                setStatus('Redirecting to portal...');
+              if (memberByEmail && memberByEmail.length > 0) {
+                const member = memberByEmail[0];
+                if (!member.auth_user_id) {
+                  // Update the member record with auth_user_id
+                  await fetch(
+                    `${SUPABASE_URL}/rest/v1/members?id=eq.${member.id}`,
+                    {
+                      method: 'PATCH',
+                      headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ auth_user_id: data.session.user.id }),
+                    }
+                  );
+                  setStatus('Account linked! Redirecting to portal...');
+                } else {
+                  setStatus('Redirecting to portal...');
+                }
               } else {
                 setStatus('No member account found. Please contact support.');
                 setTimeout(() => {

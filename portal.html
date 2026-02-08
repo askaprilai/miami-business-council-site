@@ -900,8 +900,33 @@
             font-size: 0.9em;
         }
 
+        .member-bottom-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .member-company-logo {
+            width: 60px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .member-logo-placeholder {
+            width: 60px;
+            flex-shrink: 0;
+        }
+
         .member-details {
-            margin: 1rem 0;
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .member-tag {
@@ -910,8 +935,8 @@
             color: #C9A86A;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.8em;
-            margin: 0.25rem 0.25rem 0.25rem 0;
+            font-size: 0.75em;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .linkedin-btn {
@@ -13648,16 +13673,16 @@ This will enable beautiful previews when sharing the portal link on social media
                             <p>${member.company || 'Miami Business Council'}</p>
                         </div>
                     </div>
-                    ${member.companyLogoUrl ? `
-                    <div style="display: flex; justify-content: center; margin: 1rem 0;">
-                        <img src="${member.companyLogoUrl}" alt="${member.company} logo" style="max-width: 100px; max-height: 50px; object-fit: contain; border-radius: 4px;">
-                    </div>
-                    ` : ''}
-                    <div class="member-details">
-                        ${member.industries && member.industries.length > 0
-                            ? member.industries.map(industry => `<span class="member-tag" style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3);">${industry}</span>`).join('')
-                            : ''
-                        }
+                    <div class="member-bottom-row">
+                        ${member.companyLogoUrl ? `
+                        <img src="${member.companyLogoUrl}" alt="${member.company} logo" class="member-company-logo">
+                        ` : '<div class="member-logo-placeholder"></div>'}
+                        <div class="member-details">
+                            ${member.industries && member.industries.length > 0
+                                ? member.industries.map(industry => `<span class="member-tag">${industry}</span>`).join('')
+                                : ''
+                            }
+                        </div>
                     </div>
                 </div>
                 `;

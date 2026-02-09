@@ -9135,6 +9135,20 @@
                     adminTotalMemberCountElement.textContent = totalMembers;
                 }
 
+                // Calculate "Active This Month" - members who joined or were active this month
+                const now = new Date();
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                const activeThisMonth = members.filter(m => {
+                    const createdAt = m.created_at ? new Date(m.created_at) : null;
+                    const updatedAt = m.updated_at ? new Date(m.updated_at) : null;
+                    return (createdAt && createdAt >= startOfMonth) || (updatedAt && updatedAt >= startOfMonth);
+                }).length;
+
+                const adminActiveThisMonthElement = document.getElementById('adminActiveThisMonth');
+                if (adminActiveThisMonthElement) {
+                    adminActiveThisMonthElement.textContent = activeThisMonth;
+                }
+
             } catch (error) {
                 console.error('Error in refreshMemberList:', error);
                 container.innerHTML = `

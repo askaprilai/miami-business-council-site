@@ -4462,7 +4462,7 @@
                         </div>
                         <p><strong>Next Breakfast:</strong> February 25th, 9:00 AM</p>
                         <p>Miami Design District</p>
-                        <button class="register-btn" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9em;">Register Now</button>
+                        <button class="register-btn" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9em;" onclick="window.open('https://lu.ma/8tp3t1g5', '_blank')">Register Now</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -5040,7 +5040,7 @@
                             FEB<br>25
                         </div>
                     </div>
-                    <button class="register-btn">Register Now</button>
+                    <button class="register-btn" onclick="window.open('https://lu.ma/8tp3t1g5', '_blank')">Register Now</button>
                 </div>
 
             </section>
@@ -8529,12 +8529,11 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        type: 'welcome',
+                        type: 'profile-reminder',
                         email: email,
                         firstName: memberName.split(' ')[0],
                         lastName: memberName.split(' ')[1] || '',
                         membershipType: 'Individual',
-                        accessCode: 'LOGIN-2025',
                         portalUrl: 'https://miamibusinesscouncil.com/member-login',
                         company: 'Member Company'
                     })
@@ -8550,27 +8549,28 @@
             }
         }
 
-        function resetMemberPassword(email) {
-            if (confirm(`Generate new access code for ${email}?`)) {
-                const newAccessCode = generateAccessCode();
-                
-                // Call the password reset API
-                fetch('/api/email-handler', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: 'password-reset',
-                        email: email
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(`✅ New access code generated: ${newAccessCode}\n\nPassword reset email sent to ${email}`);
-                })
-                .catch(error => {
-                    console.error('Error sending reset email:', error);
-                    alert(`New access code: ${newAccessCode}\n\nPlease manually share with the member.`);
-                });
+        async function resetMemberPassword(email) {
+            if (confirm(`Send magic link login email to ${email}?`)) {
+                try {
+                    // Send magic link via Supabase Auth
+                    const { data, error } = await supabase.auth.signInWithOtp({
+                        email: email,
+                        options: {
+                            emailRedirectTo: window.location.origin + '/portal'
+                        }
+                    });
+
+                    if (error) {
+                        console.error('Error sending magic link:', error);
+                        alert(`❌ Failed to send magic link: ${error.message}`);
+                        return;
+                    }
+
+                    alert(`✅ Magic link sent to ${email}!\n\nThey can click the link in the email to access the portal.`);
+                } catch (error) {
+                    console.error('Error sending magic link:', error);
+                    alert(`❌ Error: ${error.message}`);
+                }
             }
         }
 
@@ -12293,16 +12293,25 @@ https://miamibusinesscouncil.com`);
         }
 
         // Enhanced Smart Match Email Integration
-        function sendSmartIntro(memberId, memberName) {
-            // Get member data for smart intro
-            const members = [
-                { id: 'april', email: 'april@retailu.ca', company: 'Ask April AI Coaching' },
-                { id: 'joy', email: 'sabral@me.com', company: 'Owner Retail' }
-            ];
-            
-            const member = members.find(m => m.id === memberId);
-            if (member) {
-                sendMBCEmail(member.email, memberName, member.company);
+        async function sendSmartIntro(memberId, memberName) {
+            try {
+                // Fetch member data from database
+                const { data: member, error } = await supabase
+                    .from('members')
+                    .select('email, business_name')
+                    .eq('id', memberId)
+                    .single();
+
+                if (error || !member) {
+                    console.error('Could not find member:', error);
+                    alert('Unable to find member information. Please try again.');
+                    return;
+                }
+
+                sendMBCEmail(member.email, memberName, member.business_name || 'their business');
+            } catch (error) {
+                console.error('Error fetching member for intro:', error);
+                alert('Error sending introduction. Please try again.');
             }
         }
 
@@ -13341,11 +13350,11 @@ This will enable beautiful previews when sharing the portal link on social media
                     return result.data;
                 } else {
                     console.error('Failed to fetch matches from database');
-                    return generateMatches(); // Fallback to client-side matching
+                    return []; // Return empty array if API fails
                 }
             } catch (error) {
                 console.error('Error fetching matches:', error);
-                return generateMatches(); // Fallback to client-side matching
+                return []; // Return empty array on error
             }
         }
 

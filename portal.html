@@ -14823,8 +14823,12 @@ This will enable beautiful previews when sharing the portal link on social media
             }
 
             const needsHtml = needs.map(need => {
-                const memberName = `${need.member.first_name} ${need.member.last_name}`;
-                const initials = `${need.member.first_name[0]}${need.member.last_name[0]}`.toUpperCase();
+                // Defensive check for member data
+                const member = need.member || {};
+                const firstName = member.first_name || 'Unknown';
+                const lastName = member.last_name || 'Member';
+                const memberName = `${firstName} ${lastName}`;
+                const initials = `${firstName[0] || 'U'}${lastName[0] || 'M'}`.toUpperCase();
 
                 // Time ago
                 const createdDate = new Date(need.created_at);
@@ -14889,14 +14893,14 @@ This will enable beautiful previews when sharing the portal link on social media
 
                         <!-- Header with member info -->
                         <div class="needs-header">
-                            ${need.member.profile_photo_url
-                                ? `<img src="${need.member.profile_photo_url}" alt="${memberName}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">`
+                            ${member.profile_photo_url
+                                ? `<img src="${member.profile_photo_url}" alt="${memberName}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">`
                                 : `<div class="member-avatar" style="width: 50px; height: 50px; font-size: 1rem;">${initials}</div>`
                             }
                             <div style="flex: 1;">
                                 <h3 style="margin: 0; color: #e8eaed; font-size: 1.1rem;">${need.title}</h3>
                                 <p style="margin: 0.25rem 0 0 0; color: #999; font-size: 0.9rem;">
-                                    ${memberName} • ${need.member.company_name}
+                                    ${memberName} • ${member.company_name || 'Company'}
                                 </p>
                                 <p style="margin: 0.25rem 0 0 0; color: #666; font-size: 0.8rem;">${timeAgo}</p>
                             </div>
@@ -14937,7 +14941,7 @@ This will enable beautiful previews when sharing the portal link on social media
                                     ✏️ Edit
                                 </button>
                             ` : need.status === 'open' ? `
-                                <button class="register-btn" onclick="respondToNeed('${need.id}', '${need.member_id}', '${need.title.replace(/'/g, "\\'")}', '${memberName.replace(/'/g, "\\'")}', '${need.member.email}')" style="flex: 1;">
+                                <button class="register-btn" onclick="respondToNeed('${need.id}', '${need.member_id}', '${need.title.replace(/'/g, "\\'")}', '${memberName.replace(/'/g, "\\'")}', '${member.email || ''}')" style="flex: 1;">
                                     ✋ I Can Help
                                 </button>
                                 <button class="connect-btn" onclick="viewMemberProfile('${need.member_id}')" style="flex: 1;">

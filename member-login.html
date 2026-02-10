@@ -254,40 +254,25 @@
 </head>
 <body>
     <div class="login-container">
-        <div class="maintenance-banner">
-            <span class="icon">🔧</span>
-            <div>
-                <strong>Portal Update in Progress</strong>
-                <p>We're making improvements to the member portal. Please check back shortly.</p>
-            </div>
-        </div>
-
         <div class="logo-container">
             <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
             <div class="logo-text">Member Portal</div>
             <div class="subtitle">Access Your Member Dashboard</div>
         </div>
 
-        <div class="form-disabled">
-            <p>Login temporarily unavailable during update.</p>
-        </div>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
 
-        <!-- Login form hidden during maintenance -->
-        <div style="display: none;">
-            <div class="error-message" id="errorMessage"></div>
-            <div class="success-message" id="successMessage"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your member email" required>
+            </div>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your member email" required>
-                </div>
-
-                <button type="submit" class="btn-login" id="loginBtn">
-                    Send Magic Link to Email
-                </button>
-            </form>
-        </div>
+            <button type="submit" class="btn-login" id="loginBtn">
+                Send Magic Link to Email
+            </button>
+        </form>
 
         <div class="help-text">
             <p>We'll send a secure login link to your email.<br>

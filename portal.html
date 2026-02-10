@@ -14690,122 +14690,123 @@ This will enable beautiful previews when sharing the portal link on social media
 
         // Load member needs from database
         async function loadMemberNeeds() {
+            const needsGrid = document.getElementById('needsGrid');
+
+            // Prevent duplicate simultaneous loads
+            if (isLoadingCollabNeeds) {
+                console.log('⏸️ Already loading collaboration requests, skipping duplicate call');
+                return;
+            }
+
+            if (!needsGrid) {
+                console.log('❌ needsGrid element not found');
+                return;
+            }
+
+            isLoadingCollabNeeds = true;
+            console.log('🔄 Loading collaboration requests...');
+
+            // Show loading spinner
+            needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
+
+            let needs = [];
+
             try {
-                // Prevent duplicate simultaneous loads
-                if (isLoadingCollabNeeds) {
-                    console.log('⏸️ Already loading collaboration requests, skipping duplicate call');
-                    return;
-                }
-
-                isLoadingCollabNeeds = true;
-                console.log('🔄 Loading collaboration requests...');
-
-                const needsGrid = document.getElementById('needsGrid');
-                if (!needsGrid) {
-                    console.log('❌ needsGrid element not found');
-                    isLoadingCollabNeeds = false;
-                    return;
-                }
-
-                needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
-
                 // Query member needs using REST API (bypasses RLS issues)
                 console.log('📡 Querying member_needs table via REST API...');
 
                 // Add timeout to prevent infinite loading
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
-                let needs = [];
+                const needsResponse = await fetch(
+                    `${SUPABASE_URL}/rest/v1/member_needs?order=created_at.desc&limit=50`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Accept': 'application/json'
+                        },
+                        signal: controller.signal
+                    }
+                );
+                clearTimeout(timeoutId);
+
+                console.log('📡 API response status:', needsResponse.status);
+
+                if (needsResponse.ok) {
+                    needs = await needsResponse.json();
+                    console.log('📦 Needs data received:', needs?.length || 0, 'items');
+                } else {
+                    const errorText = await needsResponse.text();
+                    console.error('❌ API error:', needsResponse.status, errorText);
+                }
+
+            } catch (fetchError) {
+                if (fetchError.name === 'AbortError') {
+                    console.error('❌ Request timed out after 8 seconds');
+                } else {
+                    console.error('❌ Fetch error:', fetchError.message);
+                }
+            }
+
+            // If we have needs, fetch member data separately
+            if (needs && needs.length > 0) {
                 try {
-                    const needsResponse = await fetch(
-                        `${SUPABASE_URL}/rest/v1/member_needs?order=created_at.desc&limit=50`,
+                    const memberIds = [...new Set(needs.map(n => n.member_id))];
+                    const memberIdsParam = memberIds.map(id => `"${id}"`).join(',');
+
+                    const membersResponse = await fetch(
+                        `${SUPABASE_URL}/rest/v1/members?id=in.(${memberIdsParam})&select=id,first_name,last_name,company_name,profile_photo_url,email`,
                         {
                             headers: {
                                 'apikey': SUPABASE_ANON_KEY,
                                 'Accept': 'application/json'
-                            },
-                            signal: controller.signal
+                            }
                         }
                     );
-                    clearTimeout(timeoutId);
 
-                    if (!needsResponse.ok) {
-                        console.error('❌ API returned error:', needsResponse.status);
-                        // Show empty state instead of error for RLS/permission issues
-                        needs = [];
-                    } else {
-                        needs = await needsResponse.json();
-                    }
-                } catch (fetchError) {
-                    clearTimeout(timeoutId);
-                    if (fetchError.name === 'AbortError') {
-                        console.error('❌ Request timed out');
-                    } else {
-                        console.error('❌ Fetch error:', fetchError);
-                    }
-                    needs = []; // Show empty state on error
-                }
-                console.log('📦 Needs data:', needs);
-                console.log('✅ Total needs returned:', needs?.length);
-
-                // If we have needs, fetch member data separately via REST API
-                if (needs && needs.length > 0) {
-                    try {
-                        const memberIds = [...new Set(needs.map(n => n.member_id))];
-                        const memberIdsParam = memberIds.map(id => `"${id}"`).join(',');
-
-                        const membersResponse = await fetch(
-                            `${SUPABASE_URL}/rest/v1/members?id=in.(${memberIdsParam})&select=id,first_name,last_name,company_name,profile_photo_url,email`,
-                            {
-                                headers: {
-                                    'apikey': SUPABASE_ANON_KEY,
-                                    'Accept': 'application/json'
-                                }
-                            }
-                        );
-
-                        const members = membersResponse.ok ? await membersResponse.json() : [];
-
+                    if (membersResponse.ok) {
+                        const members = await membersResponse.json();
                         // Attach member data to each need
                         needs.forEach(need => {
                             need.member = members.find(m => m.id === need.member_id);
                         });
-                    } catch (memberFetchError) {
-                        console.error('❌ Error fetching member data:', memberFetchError);
-                        // Continue without member data
                     }
+                } catch (memberFetchError) {
+                    console.error('❌ Error fetching member data:', memberFetchError.message);
                 }
-
-                console.log(`✅ Found ${needs?.length || 0} collaboration requests`);
-
-                // Store all needs globally
-                allCollabNeeds = needs || [];
-
-                // Set default tab to 'open' on first load
-                if (!document.querySelector('.collab-tab.active')) {
-                    document.querySelector('[data-tab="open"]')?.classList.add('active');
-                }
-
-                // Filter and display based on current tab
-                filterAndDisplayNeeds();
-
-            } catch (error) {
-                console.error('❌ Exception in loadMemberNeeds:', error);
-                const needsGrid = document.getElementById('needsGrid');
-                if (needsGrid) {
-                    needsGrid.innerHTML = `<div style="text-align: center; padding: 2rem;">
-                        <div style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ An error occurred</div>
-                        <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;">${error.message || 'Unknown error'}</p>
-                        <button class="register-btn" onclick="loadMemberNeeds()" style="margin-top: 1rem;">
-                            🔄 Try Again
-                        </button>
-                    </div>`;
-                }
-            } finally {
-                // Always reset loading flag
-                isLoadingCollabNeeds = false;
             }
+
+            console.log(`✅ Found ${needs?.length || 0} collaboration requests`);
+
+            // Store all needs globally
+            allCollabNeeds = needs || [];
+
+            // Set default tab to 'open' on first load
+            if (!document.querySelector('.collab-tab.active')) {
+                document.querySelector('[data-tab="open"]')?.classList.add('active');
+            }
+
+            // ALWAYS display results (even if empty) - this clears the spinner
+            try {
+                filterAndDisplayNeeds();
+            } catch (displayError) {
+                console.error('❌ Error displaying needs:', displayError);
+                // Fallback: show empty state directly
+                needsGrid.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #ccc;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
+                        <h3 style="color: #e8eaed;">No collaboration requests yet</h3>
+                        <p>Be the first to post a collaboration request!</p>
+                        <button class="register-btn" onclick="showCreateNeedModal()" style="margin-top: 1rem;">
+                            Post a Request
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Always reset loading flag
+            isLoadingCollabNeeds = false;
         }
 
         // Display needs as cards

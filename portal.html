@@ -7174,16 +7174,53 @@
                 displaySmartMatches(smartMatches);
                 updateMatchStats(smartMatches);
             } catch (error) {
-                console.error('Error generating smart matches:', error);
-                const errorMessage = error.message || 'Unknown error';
-                matchResults.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: #ff6b6b;">
-                        <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
-                        <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
-                        <p style="color: #999;">${errorMessage}</p>
-                        <button class="register-btn" onclick="generateSmartMatches()" style="margin-top: 1rem;">🔄 Try Again</button>
-                    </div>
-                `;
+                console.error('Edge Function error, falling back to client-side matching:', error);
+
+                // Fallback to client-side matching
+                try {
+                    console.log('🔄 Using client-side matching algorithm...');
+                    matchResults.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: #C9A86A;">
+                            <div class="loading-spinner"></div>
+                            <div style="margin-top: 1rem;">Finding matches based on your profile...</div>
+                        </div>
+                    `;
+
+                    // Fetch all active members from database
+                    const { data: allMembers, error: membersError } = await supabase
+                        .from('members')
+                        .select('id, first_name, last_name, company_name, industry, industries, bio, linkedin_url, profile_photo_url, services_offered, looking_for, expertise, created_at')
+                        .eq('is_active', true)
+                        .neq('id', currentMember?.id || '')
+                        .limit(50);
+
+                    if (membersError) {
+                        throw new Error('Could not load members');
+                    }
+
+                    // Transform to expected format
+                    const membersForMatching = (allMembers || []).map(m => ({
+                        ...m,
+                        canOffer: m.services_offered || m.expertise || [],
+                        lookingFor: m.looking_for || []
+                    }));
+
+                    const smartMatches = calculateIntelligentMatches(membersForMatching);
+                    lastGeneratedMatches = smartMatches;
+                    displaySmartMatches(smartMatches);
+                    updateMatchStats(smartMatches);
+
+                } catch (fallbackError) {
+                    console.error('Fallback matching also failed:', fallbackError);
+                    matchResults.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #ff6b6b;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
+                            <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
+                            <p style="color: #999;">Please try again or contact support.</p>
+                            <button class="register-btn" onclick="generateSmartMatches()" style="margin-top: 1rem;">🔄 Try Again</button>
+                        </div>
+                    `;
+                }
             } finally {
                 // Reset button state
                 if (findMatchesBtn) {
@@ -7253,9 +7290,9 @@
 
             // Calculate match scores using intelligent algorithm
             const matches = membersWithProfiles.map(member => {
-                let score = 0;
+                let score = 30; // Base score - everyone starts as a potential network connection
                 let matchReasons = [];
-                let matchType = '';
+                let matchType = 'networking'; // Default type
 
                 // Industry alignment (30% weight)
                 if (currentUser.idealClient.industries.includes(member.industry)) {
@@ -7311,16 +7348,23 @@
                     matchReasons.push('Local Miami area');
                 }
 
+                // Add default reason if no specific reasons found
+                if (matchReasons.length === 0) {
+                    matchReasons.push('Fellow MBC member in Miami');
+                    matchReasons.push('Potential networking opportunity');
+                }
+
                 return {
                     ...member,
                     matchScore: Math.min(score, 98), // Cap at 98%
                     matchReasons: matchReasons.slice(0, 3), // Top 3 reasons
                     matchType: matchType || 'networking',
-                    priority: score > 80 ? 'high' : score > 60 ? 'medium' : 'low',
+                    priority: score > 70 ? 'high' : score > 50 ? 'medium' : 'low',
                     mutualBenefit: matchType === 'mutual'
                 };
-            }).filter(match => match.matchScore > 40) // Only show matches above 40%
-              .sort((a, b) => b.matchScore - a.matchScore);
+            }).filter(match => match.matchScore >= 30) // Show all members with base score
+              .sort((a, b) => b.matchScore - a.matchScore)
+              .slice(0, 20); // Limit to top 20 matches
 
             return matches;
         }

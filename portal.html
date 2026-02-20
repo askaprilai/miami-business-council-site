@@ -550,6 +550,52 @@
             transform: translateX(0);
         }
 
+        .info-toast {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: rgba(201, 168, 106, 0.95);
+            color: #000;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .info-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .warning-toast {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: rgba(255, 193, 7, 0.95);
+            color: #000;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .warning-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
         /* Admin Member List Styles */
         .member-list-table {
             width: 100%;
@@ -5995,6 +6041,37 @@
 
         var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        // Global Toast Notification System (replaces alert())
+        function showToast(message, type = 'info', duration = 4000) {
+            // Remove existing toasts
+            document.querySelectorAll('.error-toast, .success-toast, .info-toast, .warning-toast').forEach(t => t.remove());
+
+            const toast = document.createElement('div');
+            toast.className = `${type}-toast`;
+
+            // Clean up message (remove newlines for cleaner display)
+            const cleanMessage = message.replace(/\n\n/g, ' • ').replace(/\n/g, ' ');
+            toast.textContent = cleanMessage;
+
+            document.body.appendChild(toast);
+
+            // Show toast with animation
+            setTimeout(() => toast.classList.add('show'), 50);
+
+            // Auto-hide after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+
+            // Click to dismiss
+            toast.style.cursor = 'pointer';
+            toast.onclick = () => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            };
+        }
+
         // Global member data cache
         let currentMember = null;
 
@@ -6032,7 +6109,7 @@
                 if (memberError || !member) {
                     console.error('Member profile not found:', memberError);
                     // Profile doesn't exist - this email has auth but no member record
-                    alert('This email is not registered as a member.\n\nPlease contact info@miamibusinesscouncil.com to request access.');
+                    showToast('This email is not registered. Contact info@miamibusinesscouncil.com for access.', 'warning');
                     await supabase.auth.signOut();
                     window.location.href = '/member-login';
                     return false;
@@ -6966,9 +7043,9 @@
                     if (this.textContent.trim() === 'Register Now') {
                         window.open('https://luma.com/8tp3t1g5', '_blank');
                     } else if (this.textContent.trim() === 'Edit Profile') {
-                        alert('Profile editing feature coming soon!');
+                        showToast('Profile editing feature coming soon!', 'info');
                     } else if (this.textContent.trim() === 'Coming Soon') {
-                        alert('Event registration will open soon!');
+                        showToast('Event registration will open soon!', 'info');
                     }
                 });
             });
@@ -7162,7 +7239,7 @@
 
             } catch (error) {
                 console.error('Error saving matching profile:', error);
-                alert('Failed to save profile. Please try again.');
+                showToast('Failed to save profile. Please try again.', 'error');
 
                 // Reset button on error
                 if (saveBtn) {
@@ -7617,24 +7694,24 @@
             const introMessage = `Hi ${memberName}! I came across your profile through Miami Business Council's smart matching system. Based on our business profiles, it looks like we might have some interesting synergies to explore. Would you be open to a brief call to discuss potential collaboration opportunities?`;
             
             if (confirm(`Send this smart introduction to ${memberName}?\n\n"${introMessage}"`)) {
-                alert(`Smart introduction sent to ${memberName}! They'll receive a personalized message highlighting why you're a great match.`);
+                showToast(`Smart introduction sent to ${memberName}!`, 'success');
                 // In real implementation, this would send via the chat system or email
             }
         }
 
         function scheduleMeeting(memberId) {
-            alert('Meeting scheduling feature coming soon! For now, use the Smart Intro to connect and suggest a meeting time.');
+            showToast('Meeting scheduling coming soon! Use Smart Intro to connect.', 'info');
         }
 
         function viewMemberProfile(memberId) {
-            alert(`Detailed member profile viewer coming soon! This would show ${memberId}'s complete business profile and portfolio.`);
+            showToast('Detailed member profile viewer coming soon!', 'info');
         }
 
         function openSmartMatchProfile(matchId) {
             // Find the match data from the smart matches array
             const match = lastGeneratedMatches.find(m => m.id === matchId);
             if (!match) {
-                alert('Member profile not found. Please refresh the matches and try again.');
+                showToast('Member profile not found. Please refresh.', 'error');
                 return;
             }
 
@@ -7669,7 +7746,7 @@
 
         async function toggleWeeklyAlerts(enabled) {
             if (!currentMember) {
-                alert('Please log in to enable weekly alerts');
+                showToast('Please log in to enable weekly alerts', 'warning');
                 return;
             }
 
@@ -7678,7 +7755,7 @@
                 const { data: { user } } = await supabase.auth.getUser();
 
                 if (!user) {
-                    alert('Please log in to enable weekly alerts');
+                    showToast('Please log in to enable weekly alerts', 'warning');
                     document.getElementById('weeklyAlertsToggle').checked = !enabled;
                     return;
                 }
@@ -7691,7 +7768,7 @@
 
                 if (error) {
                     console.error('Error updating weekly alerts:', error);
-                    alert('Failed to update alert settings. Please try again.');
+                    showToast('Failed to update alert settings. Please try again.', 'error');
                     // Revert toggle
                     document.getElementById('weeklyAlertsToggle').checked = !enabled;
                     return;
@@ -7702,14 +7779,14 @@
 
                 // Show confirmation
                 if (enabled) {
-                    alert('🔔 Weekly Alerts Enabled!\n\nYou\'ll receive 3-5 curated matches every Sunday at 7pm.');
+                    showToast('Weekly Alerts Enabled! You\\'ll receive matches every Sunday.', 'success');
                 } else {
-                    alert('🔕 Weekly Alerts Disabled\n\nYou won\'t receive automatic match emails.');
+                    showToast('Weekly Alerts Disabled', 'info');
                 }
 
             } catch (error) {
                 console.error('Error toggling weekly alerts:', error);
-                alert('An error occurred. Please try again.');
+                showToast('An error occurred. Please try again.', 'error');
                 document.getElementById('weeklyAlertsToggle').checked = !enabled;
             }
         }
@@ -7916,7 +7993,7 @@
                 });
             } else {
                 navigator.clipboard.writeText(profileUrl).then(() => {
-                    alert('Profile link copied to clipboard!');
+                    showToast('Profile link copied to clipboard!', 'success');
                 });
             }
         }
@@ -7940,12 +8017,12 @@
             // Validate file
             const maxSize = 5 * 1024 * 1024; // 5MB
             if (file.size > maxSize) {
-                alert('Photo must be smaller than 5MB');
+                showToast('Photo must be smaller than 5MB', 'warning');
                 return;
             }
 
             if (!file.type.startsWith('image/')) {
-                alert('Please select an image file');
+                showToast('Please select an image file', 'warning');
                 return;
             }
 
@@ -7958,7 +8035,7 @@
                 // Get current user session
                 const { data: { session } } = await supabase.auth.getSession();
                 if (!session) {
-                    alert('Please log in to upload photos');
+                    showToast('Please log in to upload photos', 'warning');
                     return;
                 }
 
@@ -7970,7 +8047,7 @@
                     .single();
 
                 if (!member) {
-                    alert('Member profile not found');
+                    showToast('Member profile not found', 'error');
                     return;
                 }
 
@@ -7991,7 +8068,7 @@
 
                 if (uploadError) {
                     console.error('Upload error:', uploadError);
-                    alert('Failed to upload photo: ' + uploadError.message);
+                    showToast('Failed to upload photo: ' + uploadError.message, 'error');
                     return;
                 }
 
@@ -8014,7 +8091,7 @@
 
                     if (dbError) {
                         console.error('Database error:', dbError);
-                        alert('Failed to save photo URL to database');
+                        showToast('Failed to save photo URL', 'error');
                         return;
                     }
 
@@ -8027,7 +8104,7 @@
 
                     if (dbError) {
                         console.error('Database error:', dbError);
-                        alert('Failed to save logo URL to database');
+                        showToast('Failed to save logo URL', 'error');
                         return;
                     }
 
@@ -8042,7 +8119,7 @@
                     updateMemberDirectory(members);
                 });
 
-                alert('✅ Photo uploaded successfully!');
+                showToast('Photo uploaded successfully!', 'success');
 
                 // Update currentMember with new photo URL and recalculate onboarding + analytics
                 if (currentMember) {
@@ -8057,7 +8134,7 @@
 
             } catch (error) {
                 console.error('Error uploading photo:', error);
-                alert('Failed to upload photo. Please try again.');
+                showToast('Failed to upload photo. Please try again.', 'error');
             }
         }
 
@@ -8152,11 +8229,11 @@
                     });
                 }
 
-                alert('✅ Photo removed successfully');
+                showToast('Photo removed successfully', 'success');
 
             } catch (error) {
                 console.error('Error removing photo:', error);
-                alert('Failed to remove photo. Please try again.');
+                showToast('Failed to remove photo. Please try again.', 'error');
             }
         }
         
@@ -8420,7 +8497,7 @@
             if (linkedinUrlMatch && linkedinUrlMatch[1]) {
                 window.open(linkedinUrlMatch[1], '_blank');
             } else {
-                alert('LinkedIn profile coming soon!');
+                showToast('LinkedIn profile coming soon!', 'info');
             }
         }
 
@@ -8452,15 +8529,15 @@
                 if (error) {
                     // Check if already connected or request exists
                     if (error.code === '23505') { // Unique constraint violation
-                        alert('You already have a connection or pending request with this member.');
+                        showToast('You already have a connection or pending request with this member.', 'info');
                     } else {
                         console.error('Error sending connection request:', error);
-                        alert('Failed to send connection request. Please try again.');
+                        showToast('Failed to send connection request. Please try again.', 'error');
                     }
                     return;
                 }
 
-                alert(`✅ Connection request sent to ${memberName}!\n\nThey'll see it in their Connections tab and can accept or decline.`);
+                showToast(`Connection request sent to ${memberName}!`, 'success');
                 closeMemberProfile();
 
                 // Reload connections to update UI
@@ -8468,7 +8545,7 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                alert('Failed to send connection request. Please try again.');
+                showToast('Failed to send connection request. Please try again.', 'error');
             }
         }
 
@@ -8486,7 +8563,7 @@
                 }, 300);
                 
                 // Start chat automatically
-                alert(`✅ You're now connected with ${memberName}! You can now chat directly.`);
+                showToast(`You're now connected with ${memberName}!`, 'success');
                 
                 // Update badge count
                 updateConnectionBadge();
@@ -8504,7 +8581,7 @@
                     updateConnectionStats();
                 }, 300);
                 
-                alert(`Connection request from ${memberName} has been declined.`);
+                showToast(`Connection request from ${memberName} declined`, 'info');
                 
                 // Update badge count
                 updateConnectionBadge();
@@ -8550,14 +8627,14 @@
 
             // Validate required fields
             if (!firstName || !lastName || !email) {
-                alert('Please fill in all required fields (First Name, Last Name, Email)');
+                showToast('Please fill in all required fields', 'warning');
                 return;
             }
 
             // Validate email format
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address');
+                showToast('Please enter a valid email address', 'warning');
                 return;
             }
 
@@ -8570,7 +8647,7 @@
                     .maybeSingle();
 
                 if (existingMember) {
-                    alert(`❌ A member with email ${email} already exists in the system.`);
+                    showToast(`A member with email ${email} already exists`, 'error');
                     return;
                 }
 
@@ -8590,7 +8667,7 @@
 
                 if (insertError) {
                     console.error('❌ Error inserting member:', insertError);
-                    alert(`❌ Failed to add member: ${insertError.message}`);
+                    showToast(`Failed to add member: ${insertError.message}`, 'error');
                     return;
                 }
 
@@ -8615,7 +8692,7 @@
 
             } catch (error) {
                 console.error('❌ Error adding member:', error);
-                alert(`❌ Failed to add member: ${error.message}`);
+                showToast(`Failed to add member: ${error.message}`, 'error');
             }
         }
 
@@ -8671,11 +8748,11 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    alert(`✅ Profile completion reminder sent to ${memberName}!`);
+                    showToast(`Profile reminder sent to ${memberName}!`, 'success');
                 })
                 .catch(error => {
                     console.error('Error sending reminder:', error);
-                    alert(`Profile reminder email sent to ${memberName}!`);
+                    showToast(`Profile reminder sent to ${memberName}!`, 'success');
                 });
             }
         }
@@ -8693,14 +8770,14 @@
 
                     if (error) {
                         console.error('Error sending magic link:', error);
-                        alert(`❌ Failed to send magic link: ${error.message}`);
+                        showToast(`Failed to send magic link: ${error.message}`, 'error');
                         return;
                     }
 
-                    alert(`✅ Magic link sent to ${email}!\n\nThey can click the link in the email to access the portal.`);
+                    showToast(`Magic link sent to ${email}!`, 'success');
                 } catch (error) {
                     console.error('Error sending magic link:', error);
-                    alert(`❌ Error: ${error.message}`);
+                    showToast(`Error: ${error.message}`, 'error');
                 }
             }
         }
@@ -8715,7 +8792,7 @@
                     .single();
 
                 if (memberError || !member) {
-                    alert('❌ Error loading member activity. Please try again.');
+                    showToast('Error loading member activity. Please try again.', 'error');
                     return;
                 }
 
@@ -8835,7 +8912,7 @@
 
             } catch (error) {
                 console.error('Error loading member activity:', error);
-                alert('❌ Error loading member activity. Please try again.');
+                showToast('Error loading member activity. Please try again.', 'error');
             }
         }
 
@@ -8843,7 +8920,7 @@
             // Prevent deleting admin accounts
             const adminEmails = ['info@miamibusinesscouncil.com', 'sabral@me.com'];
             if (adminEmails.includes(email)) {
-                alert('❌ Cannot delete admin accounts');
+                showToast('Cannot delete admin accounts', 'error');
                 return;
             }
 
@@ -8870,7 +8947,7 @@
                     .single();
 
                 if (memberError || !member) {
-                    alert(`❌ Member not found: ${email}`);
+                    showToast(`Member not found: ${email}`, 'error');
                     return;
                 }
 
@@ -8929,7 +9006,7 @@
 
                 if (deleteMemberError) {
                     console.error('Error deleting member:', deleteMemberError);
-                    alert(`❌ Failed to delete member: ${deleteMemberError.message}`);
+                    showToast(`Failed to delete member: ${deleteMemberError.message}`, 'error');
                     return;
                 }
 
@@ -9915,7 +9992,7 @@
             // console.log('saveProfile called');
 
             if (!currentMember) {
-                alert('Session expired. Please log in again.');
+                showToast('Session expired. Please log in again.', 'warning');
                 window.location.href = '/member-login';
                 return;
             }
@@ -9935,19 +10012,19 @@
 
                 // Validate required fields
                 if (!fullName || !firstName) {
-                    alert('❌ Please enter your full name');
+                    showToast('Please enter your full name', 'warning');
                     return;
                 }
                 if (!document.getElementById('memberCompany')?.value) {
-                    alert('❌ Please enter your company name');
+                    showToast('Please enter your company name', 'warning');
                     return;
                 }
                 if (!document.getElementById('memberTitle')?.value) {
-                    alert('❌ Please enter your job title');
+                    showToast('Please enter your job title', 'warning');
                     return;
                 }
                 if (selectedIndustries.length === 0) {
-                    alert('❌ Please select at least one industry');
+                    showToast('Please select at least one industry', 'warning');
                     return;
                 }
 
@@ -10067,17 +10144,17 @@
                 await calculateProfileAnalytics(currentMember);
 
                 // Show success message
-                alert('✅ Profile saved successfully! Your information has been updated.');
+                showToast('Profile saved successfully!', 'success');
 
             } catch (error) {
                 console.error('Error saving profile:', error);
-                alert('❌ Error saving profile. Please try again.');
+                showToast('Error saving profile. Please try again.', 'error');
             }
         }
 
         async function saveBusinessPreferences() {
             if (!currentMember) {
-                alert('Session expired. Please log in again.');
+                showToast('Session expired. Please log in again.', 'warning');
                 window.location.href = '/member-login';
                 return;
             }
@@ -10140,7 +10217,7 @@
                 await calculateOnboardingProgress(currentMember);
 
                 // Show success and trigger new matches
-                alert('✅ Preferences saved! Finding new matches...');
+                showToast('Preferences saved! Finding new matches...', 'success');
                 await findMatches();
 
             } catch (error) {
@@ -10594,15 +10671,15 @@
 
                 if (error) {
                     console.error('Error accepting connection:', error);
-                    alert('Failed to accept connection request');
+                    showToast('Failed to accept connection request', 'error');
                     return;
                 }
 
-                alert('✅ Connection accepted!');
+                showToast('Connection accepted!', 'success');
                 loadConnections(); // Reload connections
             } catch (error) {
                 console.error('Error:', error);
-                alert('Failed to accept connection request');
+                showToast('Failed to accept connection request', 'error');
             }
         }
 
@@ -10620,7 +10697,7 @@
 
                 if (error) {
                     console.error('Error declining connection:', error);
-                    alert('Failed to decline connection request');
+                    showToast('Failed to decline connection request', 'error');
                     return;
                 }
 
@@ -10628,7 +10705,7 @@
                 loadConnections(); // Reload connections
             } catch (error) {
                 console.error('Error:', error);
-                alert('Failed to decline connection request');
+                showToast('Failed to decline connection request', 'error');
             }
         }
 
@@ -12149,7 +12226,7 @@
             await loadConversationList();
             // console.log('✅ Conversation list reloaded');
 
-            alert('✅ Messaging system reset complete! All messages cleared.');
+            showToast('Messaging system reset complete!', 'success');
         }
 
         // Member Directory Search Functionality
@@ -15274,17 +15351,17 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 if (error) {
                     console.error('Error posting need:', error);
-                    alert('Failed to post request. Please try again.');
+                    showToast('Failed to post request. Please try again.', 'error');
                     return;
                 }
 
-                alert('✅ Your collaboration request has been posted successfully!');
+                showToast('Your collaboration request has been posted!', 'success');
                 closeCreateNeedModal();
                 loadMemberNeeds(); // Reload grid
 
             } catch (error) {
                 console.error('Error in submitNeed:', error);
-                alert('An error occurred. Please try again.');
+                showToast('An error occurred. Please try again.', 'error');
             }
         }
 
@@ -15321,18 +15398,18 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 if (error) {
                     console.error('Error sending response:', error);
-                    alert('Failed to send message. Please try again.');
+                    showToast('Failed to send message. Please try again.', 'error');
                     return;
                 }
 
-                alert('✅ Your message has been sent! You can continue the conversation in Messages.');
+                showToast('Message sent! Check Messages to continue the conversation.', 'success');
 
                 // Optionally navigate to messages
                 showSection('messages');
 
             } catch (error) {
                 console.error('Error in respondToNeed:', error);
-                alert('An error occurred. Please try again.');
+                showToast('An error occurred. Please try again.', 'error');
             }
         }
 
@@ -15374,11 +15451,11 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 if (error) {
                     console.error('Error updating status:', error);
-                    alert('Failed to update status');
+                    showToast('Failed to update status', 'error');
                     return;
                 }
 
-                alert('✅ Status updated!');
+                showToast('Status updated!', 'success');
                 loadMemberNeeds(); // Reload
 
             } catch (error) {

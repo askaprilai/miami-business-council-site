@@ -797,7 +797,7 @@
         }
 
         .support-text {
-            color: #999;
+            color: #aaa;
             font-size: 0.8rem;
             margin-top: 0.5rem;
         }
@@ -1227,7 +1227,7 @@
         .conversation-meta {
             text-align: right;
             font-size: 0.7rem;
-            color: #999;
+            color: #aaa;
         }
 
         .conversation-unread {
@@ -1364,7 +1364,7 @@
         }
 
         .message-time {
-            color: #999;
+            color: #aaa;
             font-size: 0.7rem;
         }
 
@@ -1529,7 +1529,7 @@
 
         .conversation-time {
             font-size: 0.7rem;
-            color: #999;
+            color: #aaa;
         }
 
         .conversation-preview {
@@ -2079,7 +2079,7 @@
         }
 
         .conversation-preview {
-            color: #999;
+            color: #aaa;
             font-size: 0.85rem;
             white-space: nowrap;
             overflow: hidden;
@@ -2099,7 +2099,7 @@
         }
 
         .conversation-time {
-            color: #999;
+            color: #aaa;
             font-size: 0.75rem;
         }
 
@@ -2176,7 +2176,7 @@
         }
 
         .thread-member-info p {
-            color: #999;
+            color: #aaa;
             margin: 0;
             font-size: 0.85rem;
         }
@@ -2249,7 +2249,7 @@
         }
 
         .message-bubble.received .message-time {
-            color: #999;
+            color: #aaa;
         }
 
         .message-date-divider {
@@ -2262,7 +2262,7 @@
             background: rgba(255, 255, 255, 0.05);
             padding: 0.5rem 1rem;
             border-radius: 20px;
-            color: #999;
+            color: #aaa;
             font-size: 0.8rem;
         }
 
@@ -2361,12 +2361,14 @@
             font-size: 1.5rem;
             cursor: pointer;
             padding: 0;
-            width: 30px;
-            height: 30px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
+            border-radius: 8px;
             transition: all 0.3s ease;
         }
 
@@ -2481,7 +2483,7 @@
         }
 
         .member-search-info p {
-            color: #999;
+            color: #aaa;
             margin: 0;
             font-size: 0.8rem;
         }
@@ -2520,7 +2522,7 @@
         .loading-state {
             text-align: center;
             padding: 2rem;
-            color: #999;
+            color: #aaa;
         }
 
         .loading-spinner {
@@ -2541,7 +2543,7 @@
         .empty-conversations {
             text-align: center;
             padding: 2rem 1rem;
-            color: #999;
+            color: #aaa;
         }
 
         .empty-conversations p {
@@ -2638,10 +2640,12 @@
             background: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
             color: #e8eaed;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -3301,6 +3305,11 @@
             line-height: 1;
             opacity: 0.7;
             transition: opacity 0.3s ease;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .pwa-close-btn:hover {
@@ -3894,7 +3903,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             text-decoration: none;
-            color: #999;
+            color: #aaa;
             font-size: 0.7rem;
             font-weight: 500;
             min-width: 60px;
@@ -3969,12 +3978,62 @@
                 display: none !important;
             }
 
-            /* Hide desktop-only sections on mobile */
-            #dashboard,
-            #smart-matches,
-            #connections,
-            #admin {
-                display: none !important;
+            /* Mobile More Menu */
+            .mobile-more-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.9);
+                z-index: 10000;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+            }
+
+            .mobile-more-menu-content {
+                background: #1a1a1a;
+                border-radius: 20px 20px 0 0;
+                width: 100%;
+                max-height: 70vh;
+                padding: 1.5rem;
+                padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+            }
+
+            .mobile-more-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .mobile-more-header h3 {
+                color: #C9A86A;
+                margin: 0;
+                font-size: 1.2rem;
+            }
+
+            .mobile-more-items a {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+                color: #e8eaed;
+                text-decoration: none;
+                border-radius: 10px;
+                transition: background 0.2s;
+            }
+
+            .mobile-more-items a:hover,
+            .mobile-more-items a:active {
+                background: rgba(201, 168, 106, 0.1);
+            }
+
+            .mobile-more-items a span:first-child {
+                font-size: 1.3rem;
             }
 
             /* Make main content full width on mobile */
@@ -4379,27 +4438,32 @@
                         <div id="onboardingProgressBar" style="background: linear-gradient(90deg, #51cf66 0%, #37b24d 100%); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
                     </div>
 
-                    <!-- Checklist Items -->
+                    <!-- Checklist Items - Now Clickable! -->
                     <div style="display: grid; gap: 0.75rem;">
-                        <div id="checklistItem1" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                        <div id="checklistItem1" class="checklist-item" onclick="showSection('profile')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer;">
                             <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
                             <span style="color: #e8eaed;">Complete your profile information</span>
+                            <span style="margin-left: auto; color: #C9A86A; font-size: 0.9rem;">→</span>
                         </div>
-                        <div id="checklistItem2" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                        <div id="checklistItem2" class="checklist-item" onclick="showSection('profile'); setTimeout(() => document.getElementById('profilePhotoSection')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer;">
                             <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
                             <span style="color: #e8eaed;">Upload your profile photo</span>
+                            <span style="margin-left: auto; color: #C9A86A; font-size: 0.9rem;">→</span>
                         </div>
-                        <div id="checklistItem3" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                        <div id="checklistItem3" class="checklist-item" onclick="showSection('profile'); setTimeout(() => document.getElementById('companyLogoSection')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer;">
                             <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
                             <span style="color: #e8eaed;">Add your company logo</span>
+                            <span style="margin-left: auto; color: #C9A86A; font-size: 0.9rem;">→</span>
                         </div>
-                        <div id="checklistItem4" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                        <div id="checklistItem4" class="checklist-item" onclick="showSection('directory')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer;">
                             <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
                             <span style="color: #e8eaed;">Make your first connection</span>
+                            <span style="margin-left: auto; color: #C9A86A; font-size: 0.9rem;">→</span>
                         </div>
-                        <div id="checklistItem5" class="checklist-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease;">
+                        <div id="checklistItem5" class="checklist-item" onclick="showSection('profile'); setTimeout(() => document.getElementById('industriesSection')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer;">
                             <span class="checklist-icon" style="font-size: 1.5rem;">⬜</span>
                             <span style="color: #e8eaed;">Select your industries</span>
+                            <span style="margin-left: auto; color: #C9A86A; font-size: 0.9rem;">→</span>
                         </div>
                     </div>
 
@@ -4423,7 +4487,7 @@
                     <h3 style="color: #C9A86A; margin-bottom: 1rem;">📈 Today's Insights</h3>
                     <div id="insightsList" style="display: grid; gap: 0.75rem;">
                         <!-- Insights loaded dynamically from database -->
-                        <div style="text-align: center; padding: 2rem; color: #999;">
+                        <div style="text-align: center; padding: 2rem; color: #aaa;">
                             <div class="spinner-small"></div>
                             <p>Loading insights...</p>
                         </div>
@@ -4441,7 +4505,7 @@
 
                     <div id="activityFeedList" style="display: grid; gap: 1rem;">
                         <!-- Activity items will be dynamically loaded here -->
-                        <div style="text-align: center; padding: 2rem; color: #999;">
+                        <div style="text-align: center; padding: 2rem; color: #aaa;">
                             <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
                             <p>Loading community activity...</p>
                         </div>
@@ -4504,7 +4568,7 @@
                         <p><strong>Total Matches Found:</strong> <span id="totalMatches">0</span></p>
                         <p><strong>High-Priority Matches:</strong> <span id="highPriorityMatches">0</span></p>
                         <p><strong>New This Week:</strong> <span id="newMatches">0</span></p>
-                        <p style="font-size: 0.85em; color: #888; margin-top: 0.75rem; font-style: italic;">Click "Find My Matches" below to update your stats</p>
+                        <p style="font-size: 0.85em; color: #aaa; margin-top: 0.75rem; font-style: italic;">Click "Find My Matches" below to update your stats</p>
                     </div>
 
                     <div class="dashboard-card">
@@ -4515,7 +4579,7 @@
                         <p><strong>Average Match Score:</strong> <span id="avgMatchScore">—</span></p>
                         <p><strong>Mutual Interest Matches:</strong> <span id="mutualMatches">—</span></p>
                         <p><strong>Your Profile Completion:</strong> <span id="profileCompletion">0</span>%</p>
-                        <p style="font-size: 0.85em; color: #888; margin-top: 0.5rem; font-style: italic;">Complete your profile for better matches!</p>
+                        <p style="font-size: 0.85em; color: #aaa; margin-top: 0.5rem; font-style: italic;">Complete your profile for better matches!</p>
                         <button class="register-btn" onclick="showSection('profile')" style="margin-top: 0.75rem; padding: 0.5rem 1rem; font-size: 0.9em;">Complete Profile</button>
                     </div>
 
@@ -4530,7 +4594,7 @@
                         <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; margin-top: 1rem;">
                             <div style="flex: 1;">
                                 <div style="color: #e8eaed; font-weight: 600; margin-bottom: 0.25rem;">🔔 Weekly Match Alerts</div>
-                                <div style="color: #999; font-size: 0.85rem;">Get 3-5 curated matches every Sunday 7pm</div>
+                                <div style="color: #aaa; font-size: 0.85rem;">Get 3-5 curated matches every Sunday 7pm</div>
                             </div>
                             <label style="position: relative; display: inline-block; width: 50px; height: 26px; margin-left: 1rem;">
                                 <input type="checkbox" id="weeklyAlertsToggle" onchange="toggleWeeklyAlerts(this.checked)" style="opacity: 0; width: 0; height: 0;">
@@ -4680,7 +4744,7 @@
                     </div>
 
                     <div class="match-grid" id="matchResults">
-                        <div style="text-align: center; padding: 3rem; color: #999; grid-column: 1 / -1;">
+                        <div style="text-align: center; padding: 3rem; color: #aaa; grid-column: 1 / -1;">
                             <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
                             <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No matches yet</h4>
                             <p>Complete your profile and business preferences to get AI-powered match recommendations.</p>
@@ -4818,7 +4882,7 @@
                             <div style="text-align: center; padding: 4rem 2rem;">
                                 <div style="font-size: 4rem; margin-bottom: 1rem;">💬</div>
                                 <h3 style="color: #C9A86A; margin-bottom: 0.5rem;">Select a conversation</h3>
-                                <p style="color: #999;">Choose a conversation from the list or start a new one</p>
+                                <p style="color: #aaa;">Choose a conversation from the list or start a new one</p>
                                 <button onclick="showNewMessageModal()" style="margin-top: 2rem; background: linear-gradient(135deg, #C9A86A 0%, #f4f1e8 100%); color: #000; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">
                                     ✏️ New Message
                                 </button>
@@ -4953,7 +5017,7 @@
                     <h3 style="color: #C9A86A; margin-bottom: 1.5rem;">📩 Pending Connection Requests</h3>
 
                     <div id="connectionRequests">
-                        <div style="text-align: center; padding: 1.5rem; color: #999;">
+                        <div style="text-align: center; padding: 1.5rem; color: #aaa;">
                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">📭</div>
                             <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No pending requests</h4>
                             <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">You don't have any connection requests at the moment.</p>
@@ -4966,7 +5030,7 @@
                 <div class="dashboard-card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                         <h3 style="color: #C9A86A; margin: 0;">✅ Active Connections</h3>
-                        <span id="connectionsCount" style="color: #999; font-size: 0.9rem;">0 connections</span>
+                        <span id="connectionsCount" style="color: #aaa; font-size: 0.9rem;">0 connections</span>
                     </div>
 
                     <!-- Search and Filter Bar -->
@@ -5006,11 +5070,11 @@
                         </div>
 
                         <!-- Results count -->
-                        <div id="connectionsResultCount" style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;"></div>
+                        <div id="connectionsResultCount" style="color: #aaa; font-size: 0.9rem; margin-bottom: 1rem;"></div>
                     </div>
 
                     <div id="activeConnectionsList">
-                        <div style="text-align: center; padding: 1.5rem; color: #999;">
+                        <div style="text-align: center; padding: 1.5rem; color: #aaa;">
                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
                             <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No connections yet</h4>
                             <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Start building your network by connecting with members.</p>
@@ -5073,7 +5137,7 @@
                                         AI-Powered
                                     </span>
                                 </h3>
-                                <p style="color: #999; font-size: 0.9rem; margin: 0.5rem 0 0 0;">
+                                <p style="color: #aaa; font-size: 0.9rem; margin: 0.5rem 0 0 0;">
                                     Based on your expertise and profile
                                 </p>
                             </div>
@@ -5147,7 +5211,7 @@
 
                 <!-- Collaboration Grid -->
                 <div id="needsGrid" class="needs-grid">
-                    <div style="text-align: center; padding: 3rem; color: #999;">
+                    <div style="text-align: center; padding: 3rem; color: #aaa;">
                         <div class="loading-spinner"></div>
                         <p style="margin-top: 1rem;">Loading collaboration requests...</p>
                     </div>
@@ -5165,14 +5229,14 @@
                 <div class="dashboard-card" id="profileAnalyticsCompact" style="background: linear-gradient(135deg, rgba(116, 89, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); border: 1px solid rgba(116, 89, 255, 0.3); margin-bottom: 1.5rem; padding: 1.25rem;">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
                         <h3 style="color: #7459ff; font-size: 1.1rem; margin: 0;">📊 Profile Analytics</h3>
-                        <span style="color: #999; font-size: 0.8rem;">Last 30 days</span>
+                        <span style="color: #aaa; font-size: 0.8rem;">Last 30 days</span>
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
                         <!-- Profile Views -->
                         <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #7459ff;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.75rem;">Profile Views</span>
+                                <span style="color: #aaa; font-size: 0.75rem;">Profile Views</span>
                                 <span style="font-size: 1.25rem;">👁️</span>
                             </div>
                             <div style="font-size: 1.5rem; color: #7459ff; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsProfileViews">0</div>
@@ -5182,7 +5246,7 @@
                         <!-- Connection Rate -->
                         <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #51cf66;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.75rem;">Connection Rate</span>
+                                <span style="color: #aaa; font-size: 0.75rem;">Connection Rate</span>
                                 <span style="font-size: 1.25rem;">🤝</span>
                             </div>
                             <div style="font-size: 1.5rem; color: #51cf66; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsConnectionRate">0%</div>
@@ -5192,7 +5256,7 @@
                         <!-- Total Connections -->
                         <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #C9A86A;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.75rem;">Total Connections</span>
+                                <span style="color: #aaa; font-size: 0.75rem;">Total Connections</span>
                                 <span style="font-size: 1.25rem;">🌐</span>
                             </div>
                             <div style="font-size: 1.5rem; color: #C9A86A; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsTotalConnections">0</div>
@@ -5202,7 +5266,7 @@
                         <!-- Total Messages -->
                         <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #fab005;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: #999; font-size: 0.75rem;">Total Messages</span>
+                                <span style="color: #aaa; font-size: 0.75rem;">Total Messages</span>
                                 <span style="font-size: 1.25rem;">💬</span>
                             </div>
                             <div style="font-size: 1.5rem; color: #fab005; font-weight: 700; margin-bottom: 0.25rem;" id="analyticsMessagesSent">0</div>
@@ -5298,7 +5362,7 @@
                                 <input type="text" id="memberTitle" name="memberTitle" class="profile-input" placeholder="CEO, Founder, etc." required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
-                                <label style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Industries * <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Select all that apply)</span></label>
+                                <label style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Industries * <span style="font-size: 0.85rem; color: #aaa; font-weight: 400;">(Select all that apply)</span></label>
                                 <div id="memberIndustries" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
                                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e8eaed;">
                                         <input type="checkbox" name="industry" value="Technology" style="width: 18px; height: 18px; cursor: pointer;">
@@ -5362,18 +5426,18 @@
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                             <div class="form-group">
-                                <label for="memberPhone" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Phone Number * <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Required for profile completion)</span></label>
+                                <label for="memberPhone" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Phone Number * <span style="font-size: 0.85rem; color: #aaa; font-weight: 400;">(Required for profile completion)</span></label>
                                 <input type="tel" id="memberPhone" name="memberPhone" class="profile-input" placeholder="(305) 123-4567" required style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                             <div class="form-group">
-                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Optional)</span></label>
+                                <label for="memberLinkedIn" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">LinkedIn Profile URL <span style="font-size: 0.85rem; color: #aaa; font-weight: 400;">(Optional)</span></label>
                                 <input type="url" id="memberLinkedIn" name="memberLinkedIn" class="profile-input" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; font-size: 1rem;">
                             </div>
                         </div>
 
                         <!-- Social Media Links Section -->
                         <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                            <h4 style="color: #C9A86A; margin-bottom: 1rem; font-size: 1rem;">Social Media & Website <span style="font-size: 0.85rem; color: #999; font-weight: 400;">(Optional)</span></h4>
+                            <h4 style="color: #C9A86A; margin-bottom: 1rem; font-size: 1rem;">Social Media & Website <span style="font-size: 0.85rem; color: #aaa; font-weight: 400;">(Optional)</span></h4>
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                                 <div class="form-group">
                                     <label for="memberInstagram" style="display: block; color: #e8eaed; margin-bottom: 0.5rem; font-weight: 500;">Instagram</label>
@@ -5503,7 +5567,7 @@
                                 <button class="share-btn sms" onclick="shareViaSMS()">💬 SMS</button>
                                 <button class="share-btn generic" onclick="shareGeneric()">🔗 Share</button>
                             </div>
-                            <p style="color: #999; font-size: 0.85rem; margin-top: 0.75rem;">
+                            <p style="color: #aaa; font-size: 0.85rem; margin-top: 0.75rem;">
                                 💡 <strong style="color: #C9A86A;">Send Invite</strong> sends a personalized email with your referral
                             </p>
                         </div>
@@ -5586,7 +5650,7 @@
                         <div>
                             <h4 style="color: #e8eaed; margin-bottom: 1rem;">🎯 My Ideal Client Profile</h4>
                             <div class="profile-field">
-                                <label>Industry Focus: <span style="font-size: 0.85rem; color: #888;">(Select all that apply)</span></label>
+                                <label>Industry Focus: <span style="font-size: 0.85rem; color: #aaa;">(Select all that apply)</span></label>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; max-height: 200px; overflow-y: auto; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
                                     <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Technology"><span>Technology & Software</span></label>
                                     <label class="radio-option"><input type="checkbox" name="targetIndustry" value="Real Estate"><span>Real Estate & Construction</span></label>
@@ -5629,7 +5693,7 @@
                                 </select>
                             </div>
                             <div class="profile-field">
-                                <label>Geographic Focus: <span style="font-size: 0.85rem; color: #888;">(Select all that apply)</span></label>
+                                <label>Geographic Focus: <span style="font-size: 0.85rem; color: #aaa;">(Select all that apply)</span></label>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
                                     <label class="radio-option"><input type="checkbox" name="targetLocation" value="miami"><span>Miami-Dade County</span></label>
                                     <label class="radio-option"><input type="checkbox" name="targetLocation" value="south-florida"><span>South Florida Region</span></label>
@@ -5771,17 +5835,17 @@
                         <a href="admin-financial-forecast.html" style="flex: 1; min-width: 200px; padding: 1rem; background: rgba(201, 168, 106, 0.1); border: 1px solid var(--gold); border-radius: 8px; text-decoration: none; color: #e8eaed; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(201, 168, 106, 0.2)'" onmouseout="this.style.background='rgba(201, 168, 106, 0.1)'">
                             <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📊</div>
                             <div style="font-weight: 600; color: var(--gold);">Financial Forecast</div>
-                            <div style="font-size: 0.8rem; color: #999;">Budget projections & analysis</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">Budget projections & analysis</div>
                         </a>
                         <a href="asset-manager.html" style="flex: 1; min-width: 200px; padding: 1rem; background: rgba(201, 168, 106, 0.1); border: 1px solid var(--gold); border-radius: 8px; text-decoration: none; color: #e8eaed; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(201, 168, 106, 0.2)'" onmouseout="this.style.background='rgba(201, 168, 106, 0.1)'">
                             <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🖼️</div>
                             <div style="font-weight: 600; color: var(--gold);">Asset Manager</div>
-                            <div style="font-size: 0.8rem; color: #999;">Logos & brand assets</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">Logos & brand assets</div>
                         </a>
                         <a href="admin-invite-members.html" style="flex: 1; min-width: 200px; padding: 1rem; background: rgba(201, 168, 106, 0.1); border: 1px solid var(--gold); border-radius: 8px; text-decoration: none; color: #e8eaed; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(201, 168, 106, 0.2)'" onmouseout="this.style.background='rgba(201, 168, 106, 0.1)'">
                             <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📧</div>
                             <div style="font-weight: 600; color: var(--gold);">Bulk Invites</div>
-                            <div style="font-size: 0.8rem; color: #999;">Send multiple invitations</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">Send multiple invitations</div>
                         </a>
                     </div>
                 </div>
@@ -5819,7 +5883,7 @@
                     <div class="profile-field" style="margin-bottom: 1.5rem;">
                         <label>Email Address <span style="color: #ff6b6b;">*</span>:</label>
                         <input type="email" class="profile-input" id="newMemberEmail" placeholder="member@company.com" required>
-                        <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">They'll use this email to request a magic link and log in</div>
+                        <div style="font-size: 0.8rem; color: #aaa; margin-top: 0.5rem;">They'll use this email to request a magic link and log in</div>
                     </div>
 
                     <div style="display: flex; gap: 1rem;">
@@ -5827,7 +5891,7 @@
                             ✅ Add Member to Portal
                         </button>
                     </div>
-                    <div style="font-size: 0.85rem; color: #999; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    <div style="font-size: 0.85rem; color: #aaa; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
                         <strong>How it works:</strong><br>
                         1. Add member details above and click "Add Member to Portal"<br>
                         2. Share the login page with them: <a href="https://miamibusinesscouncil.com/member-login" style="color: #C9A86A;">miamibusinesscouncil.com/member-login</a><br>
@@ -6572,7 +6636,7 @@
                 // If still no insights, show friendly message
                 if (!insightsHtml) {
                     insightsHtml = `
-                        <div style="text-align: center; padding: 1.5rem; color: #999;">
+                        <div style="text-align: center; padding: 1.5rem; color: #aaa;">
                             <p style="margin: 0;">✨ You're all caught up! Check back soon for new activity.</p>
                         </div>
                     `;
@@ -6584,7 +6648,7 @@
                 console.error('Error loading insights:', error);
                 const insightsList = document.getElementById('insightsList');
                 if (insightsList) {
-                    insightsList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">Unable to load insights</div>';
+                    insightsList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #aaa;">Unable to load insights</div>';
                 }
             }
         }
@@ -6709,6 +6773,27 @@
             if (sectionId !== 'messages') {
                 const floatingInput = document.getElementById('floatingChatInput');
                 if (floatingInput) floatingInput.remove();
+            }
+        }
+
+        // Mobile More Menu Functions
+        function toggleMobileMoreMenu(event) {
+            event.preventDefault();
+            const menu = document.getElementById('mobileMoreMenu');
+            if (menu) {
+                menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+                // Show admin link if user is admin
+                const adminLink = document.getElementById('mobileAdminLink');
+                if (adminLink && currentMember && currentMember.is_admin) {
+                    adminLink.style.display = 'flex';
+                }
+            }
+        }
+
+        function closeMobileMoreMenu() {
+            const menu = document.getElementById('mobileMoreMenu');
+            if (menu) {
+                menu.style.display = 'none';
             }
         }
 
@@ -7216,7 +7301,7 @@
                         <div style="text-align: center; padding: 3rem; color: #ff6b6b;">
                             <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
                             <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
-                            <p style="color: #999;">Please try again or contact support.</p>
+                            <p style="color: #aaa;">Please try again or contact support.</p>
                             <button class="register-btn" onclick="generateSmartMatches()" style="margin-top: 1rem;">🔄 Try Again</button>
                         </div>
                     `;
@@ -7725,7 +7810,7 @@
                     <div style="text-align: center; padding: 3rem; color: #ff6b6b; grid-column: 1 / -1;">
                         <div style="font-size: 2rem; margin-bottom: 1rem;">❌</div>
                         <h3 style="color: #e8eaed; margin-bottom: 0.5rem;">Unable to load matches</h3>
-                        <p style="color: #999;">${errorMessage}</p>
+                        <p style="color: #aaa;">${errorMessage}</p>
                         <button class="register-btn" onclick="findMatches()" style="margin-top: 1rem;">🔄 Try Again</button>
                     </div>
                 `;
@@ -7741,7 +7826,7 @@
 
             if (matches.length === 0) {
                 matchResults.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: #999; grid-column: 1 / -1;">
+                    <div style="text-align: center; padding: 3rem; color: #aaa; grid-column: 1 / -1;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
                         <h4 style="color: #e8eaed; margin-bottom: 0.5rem;">No matches found</h4>
                         <p>Try updating your business information to find better matches.</p>
@@ -8697,41 +8782,41 @@
                                 <div style="background: rgba(212, 175, 55, 0.1); border-left: 3px solid #C9A86A; padding: 1rem; border-radius: 8px;">
                                     <div style="color: #C9A86A; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Profile Status</div>
                                     <div style="color: #e8eaed; font-size: 1.25rem; font-weight: 600;">${profileCompletion}% Complete</div>
-                                    <div style="color: #999; font-size: 0.85rem; margin-top: 0.25rem;">${completedFields} of ${profileFields} fields filled</div>
+                                    <div style="color: #aaa; font-size: 0.85rem; margin-top: 0.25rem;">${completedFields} of ${profileFields} fields filled</div>
                                 </div>
 
                                 <div style="background: rgba(66, 165, 245, 0.1); border-left: 3px solid #42a5f5; padding: 1rem; border-radius: 8px;">
                                     <div style="color: #42a5f5; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Messages</div>
                                     <div style="color: #e8eaed; font-size: 1.25rem; font-weight: 600;">${messageCount} Total</div>
-                                    <div style="color: #999; font-size: 0.85rem; margin-top: 0.25rem;">Sent and received</div>
+                                    <div style="color: #aaa; font-size: 0.85rem; margin-top: 0.25rem;">Sent and received</div>
                                 </div>
 
                                 <div style="background: rgba(102, 187, 106, 0.1); border-left: 3px solid #66bb6a; padding: 1rem; border-radius: 8px;">
                                     <div style="color: #66bb6a; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Connections</div>
                                     <div style="color: #e8eaed; font-size: 1.25rem; font-weight: 600;">${connectionCount} Active</div>
-                                    <div style="color: #999; font-size: 0.85rem; margin-top: 0.25rem;">Accepted connections</div>
+                                    <div style="color: #aaa; font-size: 0.85rem; margin-top: 0.25rem;">Accepted connections</div>
                                 </div>
 
                                 <div style="background: rgba(171, 71, 188, 0.1); border-left: 3px solid #ab47bc; padding: 1rem; border-radius: 8px;">
                                     <div style="color: #ab47bc; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Events</div>
                                     <div style="color: #e8eaed; font-size: 1.25rem; font-weight: 600;">${eventCount} Registered</div>
-                                    <div style="color: #999; font-size: 0.85rem; margin-top: 0.25rem;">Event registrations</div>
+                                    <div style="color: #aaa; font-size: 0.85rem; margin-top: 0.25rem;">Event registrations</div>
                                 </div>
 
                                 <div style="background: rgba(255, 167, 38, 0.1); border-left: 3px solid #ffa726; padding: 1rem; border-radius: 8px;">
                                     <div style="color: #ffa726; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Business Opportunities</div>
                                     <div style="color: #e8eaed; font-size: 1.25rem; font-weight: 600;">${opportunitiesCount} Listed</div>
-                                    <div style="color: #999; font-size: 0.85rem; margin-top: 0.25rem;">Opportunities posted</div>
+                                    <div style="color: #aaa; font-size: 0.85rem; margin-top: 0.25rem;">Opportunities posted</div>
                                 </div>
 
                                 <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; margin-top: 0.5rem;">
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.85rem;">
                                         <div>
-                                            <div style="color: #999;">Joined</div>
+                                            <div style="color: #aaa;">Joined</div>
                                             <div style="color: #e8eaed; font-weight: 600; margin-top: 0.25rem;">${joinedDate}</div>
                                         </div>
                                         <div>
-                                            <div style="color: #999;">Last Updated</div>
+                                            <div style="color: #aaa;">Last Updated</div>
                                             <div style="color: #e8eaed; font-weight: 600; margin-top: 0.25rem;">${lastUpdated}</div>
                                         </div>
                                     </div>
@@ -9076,7 +9161,7 @@
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
-                        <div style="color: #999; font-size: 0.9rem;">
+                        <div style="color: #aaa; font-size: 0.9rem;">
                             Showing ${startIndex + 1}-${endIndex} of ${totalMembers} members
                         </div>
                         <div style="display: flex; gap: 0.5rem;">
@@ -9096,7 +9181,7 @@
                         </div>
                     </div>
 
-                    <div style="color: #999; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: right;">
+                    <div style="color: #aaa; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: right;">
                         💡 Scroll right to see all columns →
                     </div>
 
@@ -9162,7 +9247,7 @@
                                 style="background: rgba(212, 175, 55, 0.2); color: #C9A86A; border: 1px solid rgba(212, 175, 55, 0.3); padding: 0.5rem 1rem; border-radius: 6px; cursor: ${adminCurrentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600; opacity: ${adminCurrentPage === 1 ? '0.5' : '1'};">
                             ← Previous
                         </button>
-                        <div style="color: #999; padding: 0.5rem 1rem;">
+                        <div style="color: #aaa; padding: 0.5rem 1rem;">
                             Page ${adminCurrentPage} of ${totalPages}
                         </div>
                         <button onclick="refreshMemberList(${adminCurrentPage + 1})"
@@ -10198,7 +10283,7 @@
 
             if (!requests || requests.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 1.5rem; color: #999;">
+                    <div style="text-align: center; padding: 1.5rem; color: #aaa;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📭</div>
                         <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No pending requests</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">You don't have any connection requests at the moment.</p>
@@ -10265,7 +10350,7 @@
             if (!connections || connections.length === 0) {
                 document.getElementById('connectionsSearchBar').style.display = 'none';
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 1.5rem; color: #999;">
+                    <div style="text-align: center; padding: 1.5rem; color: #aaa;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
                         <h4 style="color: #e8eaed; margin-bottom: 0.25rem; font-size: 1rem;">No connections yet</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Start building your network by connecting with members.</p>
@@ -10300,7 +10385,7 @@
 
             if (!connections || connections.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 1.5rem; color: #999;">
+                    <div style="text-align: center; padding: 1.5rem; color: #aaa;">
                         <p style="font-size: 0.9rem; margin: 0;">No connections match your search criteria.</p>
                     </div>
                 `;
@@ -10856,7 +10941,7 @@
 
             if (!messages || messages.length === 0) {
                 messagesArea.innerHTML = `
-                    <div style="text-align: center; color: #999; padding: 2rem;">
+                    <div style="text-align: center; color: #aaa; padding: 2rem;">
                         <p>No messages yet. Start the conversation!</p>
                     </div>
                 `;
@@ -11016,7 +11101,7 @@
                 }).slice(0, 10);
 
                 if (!members || members.length === 0) {
-                    resultsContainer.innerHTML = '<div style="padding: 1rem; text-align: center; color: #999;">No members found</div>';
+                    resultsContainer.innerHTML = '<div style="padding: 1rem; text-align: center; color: #aaa;">No members found</div>';
                     return;
                 }
 
@@ -11617,7 +11702,7 @@
 
                 if (error) {
                     console.error('❌ Error loading conversations:', error);
-                    conversationsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load conversations</div>';
+                    conversationsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;">Failed to load conversations</div>';
                     return;
                 }
 
@@ -11649,7 +11734,7 @@
 
                 if (conversationArray.length === 0) {
                     conversationsList.innerHTML = `
-                        <div style="text-align: center; padding: 3rem; color: #999;">
+                        <div style="text-align: center; padding: 3rem; color: #aaa;">
                             <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
                             <p>No conversations yet</p>
                             <p style="font-size: 0.9rem; margin-top: 0.5rem;">Start a conversation from the Member Directory!</p>
@@ -11681,7 +11766,7 @@
 
             } catch (error) {
                 console.error('❌ Error loading conversation list:', error);
-                conversationsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load conversations</div>';
+                conversationsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;">Failed to load conversations</div>';
             }
         }
 
@@ -11729,7 +11814,7 @@
             if (!messagesContainer || !currentMember) return;
 
             // Clear previous messages immediately to prevent showing wrong conversation
-            messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Loading messages...</div>';
+            messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;">Loading messages...</div>';
 
             try {
                 // console.log(`📥 Loading conversation history for member: ${memberId}`);
@@ -11743,7 +11828,7 @@
 
                 if (error) {
                     console.error('❌ Error loading messages:', error);
-                    messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load messages</div>';
+                    messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;">Failed to load messages</div>';
                     return;
                 }
 
@@ -11751,7 +11836,7 @@
 
                 if (messages.length === 0) {
                     messagesContainer.innerHTML = `
-                        <div style="text-align: center; padding: 3rem; color: #999;">
+                        <div style="text-align: center; padding: 3rem; color: #aaa;">
                             <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
                             <p>No messages yet. Start the conversation!</p>
                         </div>
@@ -11788,7 +11873,7 @@
 
             } catch (error) {
                 console.error('❌ Error loading conversation:', error);
-                messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Failed to load messages</div>';
+                messagesContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;">Failed to load messages</div>';
             }
         }
 
@@ -11897,7 +11982,7 @@
             // Set header
             document.getElementById('newChatHeader').innerHTML = `
                 <h2 style="color: #C9A86A; margin: 0;">Chat with ${newCurrentChatPartner.name}</h2>
-                <p style="color: #999; margin: 0.5rem 0 0 0;">${newCurrentChatPartner.company}</p>
+                <p style="color: #aaa; margin: 0.5rem 0 0 0;">${newCurrentChatPartner.company}</p>
             `;
 
             // Load messages
@@ -11908,7 +11993,7 @@
             const messagesDisplay = document.getElementById('newMessagesDisplay');
 
             if (!newCurrentChatPartner || !currentMember) {
-                messagesDisplay.innerHTML = '<p style="text-align: center; color: #999;">Error loading messages</p>';
+                messagesDisplay.innerHTML = '<p style="text-align: center; color: #aaa;">Error loading messages</p>';
                 return;
             }
 
@@ -11933,7 +12018,7 @@
                 // Show empty state if no messages
                 if (!messages || messages.length === 0) {
                     messagesDisplay.innerHTML = `
-                        <div style="text-align: center; padding: 3rem; color: #999;">
+                        <div style="text-align: center; padding: 3rem; color: #aaa;">
                             <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
                             <p>No messages yet. Start the conversation!</p>
                         </div>
@@ -11951,7 +12036,7 @@
                         <div style="margin-bottom: 1.5rem; display: flex; ${isOwn ? 'justify-content: flex-end' : 'justify-content: flex-start'};">
                             <div style="max-width: 70%; background: ${isOwn ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.1)'}; padding: 1rem; border-radius: 12px; border: 1px solid ${isOwn ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 255, 255, 0.1)'};">
                                 <div style="color: #fff; margin-bottom: 0.5rem;">${msg.message_text}</div>
-                                <div style="color: #999; font-size: 0.8rem; text-align: right;">${time}</div>
+                                <div style="color: #aaa; font-size: 0.8rem; text-align: right;">${time}</div>
                             </div>
                         </div>
                     `;
@@ -13893,7 +13978,7 @@ This will enable beautiful previews when sharing the portal link on social media
     }
 
     .contact-note {
-        color: #999;
+        color: #aaa;
         font-size: 0.8rem;
     }
 
@@ -13968,7 +14053,7 @@ This will enable beautiful previews when sharing the portal link on social media
     .modal-close {
         background: none;
         border: none;
-        color: #999;
+        color: #aaa;
         font-size: 1.5rem;
         cursor: pointer;
         padding: 0;
@@ -14027,7 +14112,7 @@ This will enable beautiful previews when sharing the portal link on social media
 
     .invite-form-field small {
         display: block;
-        color: #999;
+        color: #aaa;
         font-size: 0.8rem;
         margin-top: 0.25rem;
     }
@@ -14154,7 +14239,7 @@ This will enable beautiful previews when sharing the portal link on social media
             <div style="background: rgba(201, 168, 106, 0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; color: #C9A86A; font-weight: 600;">
                 Step <span id="tutorialStepNumber">1</span> of <span id="tutorialTotalSteps">7</span>
             </div>
-            <button onclick="skipTutorial()" style="background: none; border: none; color: #999; cursor: pointer; font-size: 1.25rem; padding: 0; pointer-events: auto;" title="Skip tutorial">&times;</button>
+            <button onclick="skipTutorial()" style="background: none; border: none; color: #aaa; cursor: pointer; font-size: 1.25rem; padding: 0; pointer-events: auto;" title="Skip tutorial">&times;</button>
         </div>
 
         <div id="tutorialIcon" style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">👋</div>
@@ -14164,7 +14249,7 @@ This will enable beautiful previews when sharing the portal link on social media
         <p id="tutorialDescription" style="color: #e8eaed; margin: 0 0 1.5rem 0; line-height: 1.6; font-size: 0.95rem;"></p>
 
         <div style="display: flex; gap: 1rem; justify-content: space-between; pointer-events: auto;">
-            <button id="tutorialPrevBtn" onclick="previousTutorialStep()" style="background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #999; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease; display: none;">
+            <button id="tutorialPrevBtn" onclick="previousTutorialStep()" style="background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #aaa; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease; display: none;">
                 ← Previous
             </button>
             <button id="tutorialNextBtn" onclick="nextTutorialStep()" style="background: linear-gradient(135deg, #C9A86A 0%, #DDB885 100%); border: none; color: #000; padding: 0.75rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; flex: 1; transition: transform 0.2s ease;">
@@ -14179,6 +14264,14 @@ This will enable beautiful previews when sharing the portal link on social media
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
         <div class="mobile-nav-items">
+            <a href="#" class="mobile-nav-item" data-section="dashboard" onclick="switchMobileSection(event, 'dashboard')">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="#" class="mobile-nav-item" data-section="smart-matches" onclick="switchMobileSection(event, 'smart-matches')">
+                <span class="nav-icon">✨</span>
+                <span class="nav-label">Matches</span>
+            </a>
             <a href="#" class="mobile-nav-item" data-section="messages" onclick="switchMobileSection(event, 'messages')">
                 <span class="nav-icon">💬</span>
                 <span class="nav-label">Messages</span>
@@ -14188,20 +14281,39 @@ This will enable beautiful previews when sharing the portal link on social media
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Members</span>
             </a>
-            <a href="#" class="mobile-nav-item" data-section="events" onclick="switchMobileSection(event, 'events')">
-                <span class="nav-icon">📅</span>
-                <span class="nav-label">Events</span>
-            </a>
-            <a href="#" class="mobile-nav-item" data-section="collaboration-hub" onclick="switchMobileSection(event, 'collaboration-hub')">
-                <span class="nav-icon">🤝</span>
-                <span class="nav-label">Collab</span>
-            </a>
-            <a href="#" class="mobile-nav-item" data-section="profile" onclick="switchMobileSection(event, 'profile')">
-                <span class="nav-icon">👤</span>
-                <span class="nav-label">Profile</span>
+            <a href="#" class="mobile-nav-item" data-section="more-menu" onclick="toggleMobileMoreMenu(event)">
+                <span class="nav-icon">☰</span>
+                <span class="nav-label">More</span>
             </a>
         </div>
     </nav>
+
+    <!-- Mobile More Menu Overlay -->
+    <div id="mobileMoreMenu" class="mobile-more-menu" style="display: none;">
+        <div class="mobile-more-menu-content">
+            <div class="mobile-more-header">
+                <h3>More Options</h3>
+                <button onclick="closeMobileMoreMenu()" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            <div class="mobile-more-items">
+                <a href="#" onclick="switchMobileSection(event, 'events'); closeMobileMoreMenu();">
+                    <span>📅</span> Events
+                </a>
+                <a href="#" onclick="switchMobileSection(event, 'collaboration-hub'); closeMobileMoreMenu();">
+                    <span>🤝</span> Collaboration Hub
+                </a>
+                <a href="#" onclick="switchMobileSection(event, 'connections'); closeMobileMoreMenu();">
+                    <span>🔗</span> Connections
+                </a>
+                <a href="#" onclick="switchMobileSection(event, 'profile'); closeMobileMoreMenu();">
+                    <span>👤</span> Profile
+                </a>
+                <a href="#" id="mobileAdminLink" onclick="switchMobileSection(event, 'admin'); closeMobileMoreMenu();" style="display: none;">
+                    <span>⚙️</span> Admin Panel
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Interactive Tutorial System
@@ -14406,7 +14518,7 @@ This will enable beautiful previews when sharing the portal link on social media
                 const activityList = document.getElementById('activityFeedList');
                 if (!activityList) return;
 
-                activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">Loading...</div>';
+                activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #aaa;">Loading...</div>';
 
                 // Get last 10 activities from last 30 days
                 const thirtyDaysAgo = new Date();
@@ -14427,12 +14539,12 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 if (error) {
                     console.error('Error loading activity:', error);
-                    activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">Unable to load activity</div>';
+                    activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #aaa;">Unable to load activity</div>';
                     return;
                 }
 
                 if (!activities || activities.length === 0) {
-                    activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #999;">No recent activity</div>';
+                    activityList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #aaa;">No recent activity</div>';
                     return;
                 }
 
@@ -14535,7 +14647,7 @@ This will enable beautiful previews when sharing the portal link on social media
 
                 // Show loading state
                 aiContainer.style.display = 'block';
-                aiGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;"><div class="loading-spinner"></div><p style="margin-top: 1rem;">AI is analyzing matches...</p></div>';
+                aiGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;"><div class="loading-spinner"></div><p style="margin-top: 1rem;">AI is analyzing matches...</p></div>';
 
                 // Call Supabase Edge Function
                 const { data, error } = await supabase.functions.invoke('smart-match-collaborations', {
@@ -14631,13 +14743,13 @@ This will enable beautiful previews when sharing the portal link on social media
                         <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
                             ${match.budget_range ? `
                                 <div style="flex: 1; min-width: 150px;">
-                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">💰 Budget</div>
+                                    <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 0.25rem;">💰 Budget</div>
                                     <div style="color: #C9A86A; font-weight: 500;">${budgetLabels[match.budget_range] || match.budget_range}</div>
                                 </div>
                             ` : ''}
                             ${match.timeline ? `
                                 <div style="flex: 1; min-width: 150px;">
-                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">⏱️ Timeline</div>
+                                    <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 0.25rem;">⏱️ Timeline</div>
                                     <div style="color: #C9A86A; font-weight: 500;">${match.timeline}</div>
                                 </div>
                             ` : ''}
@@ -14753,7 +14865,7 @@ This will enable beautiful previews when sharing the portal link on social media
             console.log('🔄 Loading collaboration requests...');
 
             // Show loading spinner
-            needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #999; margin-top: 1rem;">Loading collaboration requests...</p></div>';
+            needsGrid.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading-spinner"></div><p style="color: #aaa; margin-top: 1rem;">Loading collaboration requests...</p></div>';
 
             let needs = [];
 
@@ -14955,7 +15067,7 @@ This will enable beautiful previews when sharing the portal link on social media
                             }
                             <div style="flex: 1;">
                                 <h3 style="margin: 0; color: #e8eaed; font-size: 1.1rem;">${need.title}</h3>
-                                <p style="margin: 0.25rem 0 0 0; color: #999; font-size: 0.9rem;">
+                                <p style="margin: 0.25rem 0 0 0; color: #aaa; font-size: 0.9rem;">
                                     ${memberName} • ${member.company_name || 'Company'}
                                 </p>
                                 <p style="margin: 0.25rem 0 0 0; color: #666; font-size: 0.8rem;">${timeAgo}</p>
@@ -14975,13 +15087,13 @@ This will enable beautiful previews when sharing the portal link on social media
                         <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
                             ${need.budget_range ? `
                                 <div style="flex: 1; min-width: 150px;">
-                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">💰 Budget</div>
+                                    <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 0.25rem;">💰 Budget</div>
                                     <div style="color: #C9A86A; font-weight: 500;">${budgetLabels[need.budget_range]}</div>
                                 </div>
                             ` : ''}
                             ${need.timeline ? `
                                 <div style="flex: 1; min-width: 150px;">
-                                    <div style="color: #999; font-size: 0.8rem; margin-bottom: 0.25rem;">Timeline</div>
+                                    <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 0.25rem;">Timeline</div>
                                     <div style="color: #C9A86A; font-weight: 500;">${timelineLabels[need.timeline]}</div>
                                 </div>
                             ` : ''}
@@ -15016,7 +15128,7 @@ This will enable beautiful previews when sharing the portal link on social media
             // Add Load More button if there are more items
             const loadMoreButton = hasMore ? `
                 <div style="text-align: center; margin-top: 2rem; padding: 2rem;">
-                    <p style="color: #999; margin-bottom: 1rem;">
+                    <p style="color: #aaa; margin-bottom: 1rem;">
                         Showing ${needs.length} of ${totalCount} requests
                     </p>
                     <button class="connect-btn" onclick="loadMoreNeeds()" style="padding: 0.75rem 2rem;">
@@ -15040,7 +15152,7 @@ This will enable beautiful previews when sharing the portal link on social media
                             <input type="text" id="needTitle" class="profile-input"
                                    placeholder="Brief title (e.g., 'Need logo designer for startup')"
                                    maxlength="100">
-                            <small style="color: #999;">10-100 characters</small>
+                            <small style="color: #aaa;">10-100 characters</small>
                         </div>
 
                         <div class="profile-field">
@@ -15048,7 +15160,7 @@ This will enable beautiful previews when sharing the portal link on social media
                             <textarea id="needDescription" class="profile-input"
                                       placeholder="Describe what you need in detail..."
                                       rows="5"></textarea>
-                            <small style="color: #999;">At least 20 characters</small>
+                            <small style="color: #aaa;">At least 20 characters</small>
                         </div>
 
                         <div class="profile-field">

@@ -168,13 +168,17 @@
 
         .carousel-slide {
             min-width: 100%;
-            position: relative;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0b;
         }
 
         .carousel-slide img {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         .carousel-btn {
@@ -394,48 +398,14 @@
             </div>
         </section>
 
-        <!-- February 2026 Event -->
+        <!-- Breakfast Series -->
         <section class="event-section">
             <div class="container">
                 <div class="event-header">
-                    <h2>February Breakfast Series</h2>
-                    <span class="event-date">February 25, 2026</span>
+                    <h2>Breakfast Series</h2>
                 </div>
                 <p class="event-location">Global Furniture Showroom, Miami Design District</p>
-
-                <div class="carousel-container">
-                    <div class="carousel" id="carousel-feb">
-                        <div class="carousel-slide"><img src="Images/IMG_2400.jpeg" alt="February Event"></div>
-                        <div class="carousel-slide"><img src="Images/IMG_2402.jpeg" alt="February Event"></div>
-                        <div class="carousel-slide"><img src="Images/IMG_2417.jpeg" alt="February Event"></div>
-                        <div class="carousel-slide"><img src="Images/IMG_2420.jpeg" alt="February Event"></div>
-                        <div class="carousel-slide"><img src="Images/IMG_2427.jpeg" alt="February Event"></div>
-                        <div class="carousel-slide"><img src="Images/IMG_2430.jpeg" alt="February Event"></div>
-                    </div>
-                    <button class="carousel-btn prev" onclick="moveCarousel('carousel-feb', -1)">&#10094;</button>
-                    <button class="carousel-btn next" onclick="moveCarousel('carousel-feb', 1)">&#10095;</button>
-                </div>
-
-                <div class="thumbnail-strip" id="thumbnails-feb">
-                    <div class="thumbnail active" onclick="goToSlide('carousel-feb', 0)"><img src="Images/IMG_2400.jpeg" alt="Thumbnail"></div>
-                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 1)"><img src="Images/IMG_2402.jpeg" alt="Thumbnail"></div>
-                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 2)"><img src="Images/IMG_2417.jpeg" alt="Thumbnail"></div>
-                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 3)"><img src="Images/IMG_2420.jpeg" alt="Thumbnail"></div>
-                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 4)"><img src="Images/IMG_2427.jpeg" alt="Thumbnail"></div>
-                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 5)"><img src="Images/IMG_2430.jpeg" alt="Thumbnail"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- January 2026 Event -->
-        <section class="event-section">
-            <div class="container">
-                <div class="event-header">
-                    <h2>January Breakfast Series</h2>
-                    <span class="event-date">January 28, 2026</span>
-                </div>
-                <p class="event-location">Global Furniture Showroom, Miami Design District</p>
-                <p style="color: #aaa; margin-bottom: 1.5rem;">Photography by Violetta Markelou</p>
+                <p style="color: #aaa; margin-bottom: 1.5rem;">Photography by Violetta Markelou, Member at Miami Business Council</p>
 
                 <div class="carousel-container">
                     <div class="carousel" id="carousel-jan">
@@ -551,7 +521,6 @@
 
         // Initialize carousels
         document.addEventListener('DOMContentLoaded', () => {
-            initCarousel('carousel-feb');
             initCarousel('carousel-jan');
 
             // Auto-advance every 5 seconds

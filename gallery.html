@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Gallery | Miami Business Council</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="View photos and videos from Miami Business Council events. See highlights from our monthly breakfast networking series and exclusive member gatherings.">
+    <meta name="keywords" content="Miami Business Council, event gallery, breakfast series, networking events, Miami business events, photos, videos">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Event Gallery - Miami Business Council">
+    <meta property="og:description" content="Photos and videos from our exclusive networking events and breakfast series.">
+    <meta property="og:image" content="https://miamibusinesscouncil.com/Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+    <meta property="og:url" content="https://miamibusinesscouncil.com/gallery">
+
+    <link rel="icon" type="image/png" href="Images/MBC BLACK LOGO NONTRANSPARENT (1).png">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KZLJZ4SP');</script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #e8eaed;
+            background: #0a0a0b;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e8eaed;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1a 100%);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #d4af37;
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 300;
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Event Section */
+        .event-section {
+            padding: 4rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .event-header h2 {
+            color: #d4af37;
+            font-size: 2em;
+            font-weight: 300;
+        }
+
+        .event-date {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .event-location {
+            color: #aaa;
+            font-size: 1.1em;
+            margin-bottom: 2rem;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(212, 175, 55, 0.9);
+            color: #000;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: #d4af37;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem 0;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #d4af37;
+            transform: scale(1.2);
+        }
+
+        .carousel-dot:hover {
+            background: rgba(212, 175, 55, 0.6);
+        }
+
+        /* Thumbnail Strip */
+        .thumbnail-strip {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: #d4af37 #1a1a1a;
+        }
+
+        .thumbnail-strip::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .thumbnail-strip::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 3px;
+        }
+
+        .thumbnail-strip::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+
+        .thumbnail {
+            flex-shrink: 0;
+            width: 100px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .thumbnail:hover {
+            opacity: 1;
+        }
+
+        .thumbnail.active {
+            border-color: #d4af37;
+            opacity: 1;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%);
+        }
+
+        .cta-section h2 {
+            color: #d4af37;
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #ccc;
+            font-size: 1.2em;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            color: #666;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .carousel-slide img {
+                height: 300px;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+
+            .event-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZLJZ4SP"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html">
+                    <img src="Images/MBC BLACK LOGO NONTRANSPARENT (1).png" alt="Miami Business Council Logo" class="logo-image">
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="membership.html">Membership</a>
+                    <a href="member-login.html">Member Portal</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">EVENT GALLERY</div>
+                <h1>Breakfast Series & Events</h1>
+                <p>Explore moments from our exclusive networking events, monthly breakfast series, and member gatherings.</p>
+            </div>
+        </section>
+
+        <!-- February 2026 Event -->
+        <section class="event-section">
+            <div class="container">
+                <div class="event-header">
+                    <h2>February Breakfast Series</h2>
+                    <span class="event-date">February 25, 2026</span>
+                </div>
+                <p class="event-location">Global Furniture Showroom, Miami Design District</p>
+
+                <div class="carousel-container">
+                    <div class="carousel" id="carousel-feb">
+                        <div class="carousel-slide"><img src="Images/IMG_2400.jpeg" alt="February Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2402.jpeg" alt="February Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2417.jpeg" alt="February Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2420.jpeg" alt="February Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2427.jpeg" alt="February Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2430.jpeg" alt="February Event"></div>
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveCarousel('carousel-feb', -1)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveCarousel('carousel-feb', 1)">&#10095;</button>
+                </div>
+
+                <div class="thumbnail-strip" id="thumbnails-feb">
+                    <div class="thumbnail active" onclick="goToSlide('carousel-feb', 0)"><img src="Images/IMG_2400.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 1)"><img src="Images/IMG_2402.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 2)"><img src="Images/IMG_2417.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 3)"><img src="Images/IMG_2420.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 4)"><img src="Images/IMG_2427.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-feb', 5)"><img src="Images/IMG_2430.jpeg" alt="Thumbnail"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- January 2026 Event -->
+        <section class="event-section">
+            <div class="container">
+                <div class="event-header">
+                    <h2>January Breakfast Series</h2>
+                    <span class="event-date">January 28, 2026</span>
+                </div>
+                <p class="event-location">Global Furniture Showroom, Miami Design District</p>
+
+                <div class="carousel-container">
+                    <div class="carousel" id="carousel-jan">
+                        <div class="carousel-slide"><img src="Images/IMG_2436.jpeg" alt="January Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2445.jpeg" alt="January Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2447.jpeg" alt="January Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2450.jpeg" alt="January Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2452.jpeg" alt="January Event"></div>
+                        <div class="carousel-slide"><img src="Images/IMG_2469.jpeg" alt="January Event"></div>
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveCarousel('carousel-jan', -1)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveCarousel('carousel-jan', 1)">&#10095;</button>
+                </div>
+
+                <div class="thumbnail-strip" id="thumbnails-jan">
+                    <div class="thumbnail active" onclick="goToSlide('carousel-jan', 0)"><img src="Images/IMG_2436.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-jan', 1)"><img src="Images/IMG_2445.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-jan', 2)"><img src="Images/IMG_2447.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-jan', 3)"><img src="Images/IMG_2450.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-jan', 4)"><img src="Images/IMG_2452.jpeg" alt="Thumbnail"></div>
+                    <div class="thumbnail" onclick="goToSlide('carousel-jan', 5)"><img src="Images/IMG_2469.jpeg" alt="Thumbnail"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Join Our Next Event</h2>
+                <p>Experience the power of networking with Miami's top business leaders.</p>
+                <a href="membership.html" class="cta-btn">Become a Member</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Miami Business Council. All rights reserved. | Domestic Non-Profit Organization</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Track current slide for each carousel
+        const carouselState = {};
+
+        function initCarousel(carouselId) {
+            carouselState[carouselId] = 0;
+        }
+
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const totalSlides = slides.length;
+
+            if (!carouselState[carouselId]) carouselState[carouselId] = 0;
+
+            carouselState[carouselId] += direction;
+
+            if (carouselState[carouselId] < 0) carouselState[carouselId] = totalSlides - 1;
+            if (carouselState[carouselId] >= totalSlides) carouselState[carouselId] = 0;
+
+            updateCarousel(carouselId);
+        }
+
+        function goToSlide(carouselId, index) {
+            carouselState[carouselId] = index;
+            updateCarousel(carouselId);
+        }
+
+        function updateCarousel(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            const index = carouselState[carouselId];
+
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+
+            // Update thumbnails
+            const thumbnailsId = carouselId.replace('carousel', 'thumbnails');
+            const thumbnails = document.getElementById(thumbnailsId);
+            if (thumbnails) {
+                thumbnails.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                    thumb.classList.toggle('active', i === index);
+                });
+            }
+        }
+
+        // Auto-advance carousels
+        function autoAdvance() {
+            Object.keys(carouselState).forEach(carouselId => {
+                moveCarousel(carouselId, 1);
+            });
+        }
+
+        // Initialize carousels
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel('carousel-feb');
+            initCarousel('carousel-jan');
+
+            // Auto-advance every 5 seconds
+            setInterval(autoAdvance, 5000);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                Object.keys(carouselState).forEach(id => moveCarousel(id, -1));
+            }
+            if (e.key === 'ArrowRight') {
+                Object.keys(carouselState).forEach(id => moveCarousel(id, 1));
+            }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.querySelectorAll('.carousel-container').forEach(container => {
+            container.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            container.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                const carouselId = container.querySelector('.carousel').id;
+                if (touchStartX - touchEndX > 50) {
+                    moveCarousel(carouselId, 1);
+                } else if (touchEndX - touchStartX > 50) {
+                    moveCarousel(carouselId, -1);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

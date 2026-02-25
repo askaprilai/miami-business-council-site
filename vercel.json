@@ -3,6 +3,7 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/founding", "destination": "/founding.html" },
     { "source": "/about-us", "destination": "/about-us.html" },
     { "source": "/directory", "destination": "/directory.html" },
     { "source": "/member-login", "destination": "/member-login.html" },

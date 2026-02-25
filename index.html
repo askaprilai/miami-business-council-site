@@ -240,6 +240,47 @@
             color: #d4af37;
         }
 
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: #e8eaed;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+        }
+
         /* Mobile Menu */
         .mobile-menu-toggle {
             display: none;
@@ -1425,7 +1466,14 @@
                 <nav id="mainNav">
                     <ul>
                         <li><a href="#home" class="nav-link">Home</a></li>
-                        <li><a href="about-us.html" class="nav-link">About Us</a></li>
+                        <li class="nav-dropdown">
+                            <a href="about-us.html" class="nav-link">About Us</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="about-us.html">Our Team</a></li>
+                                <li><a href="founding">Founding Members</a></li>
+                                <li><a href="gallery">Gallery</a></li>
+                            </ul>
+                        </li>
                         <li><a href="membership.html" class="nav-link">Membership</a></li>
                         <li><a href="member-login.html" class="nav-link" style="color: #d4af37 !important; font-weight: 600;">Member Portal</a></li>
                         <li><a href="#events" class="nav-link">Events</a></li>
@@ -1774,7 +1822,7 @@
                 <div class="footer-section">
                     <h4>Get Involved</h4>
                     <p><a href="#email-signup">Join Mailing List</a></p>
-                    <p><a href="#email-signup">Volunteer</a></p>
+                    <p><a href="founding">Founding Members</a></p>
                     <p><a href="#email-signup">Partner with Us</a></p>
                     <p><a href="#email-signup">Sponsor Events</a></p>
                 </div>

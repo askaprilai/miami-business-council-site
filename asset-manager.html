@@ -325,7 +325,7 @@
             <div class="form-group">
                 <label>Asset Type</label>
                 <select id="uploadAssetType">
-                    <option value="mbc_brand">MBC Brand Asset</option>
+                    <option value="mbc_brand">Council Brand Asset</option>
                     <option value="sponsor_logo">Sponsor Logo</option>
                     <option value="marketing">Marketing Asset</option>
                 </select>
@@ -478,7 +478,7 @@
                 'marketing': 'Marketing'
             }[asset.asset_type];
 
-            const companyName = asset.members?.company_name || 'MBC';
+            const companyName = asset.members?.company_name || 'Miami Business Council';
             const fileSize = formatFileSize(asset.file_size);
             const uploadDate = new Date(asset.created_at).toLocaleDateString();
 

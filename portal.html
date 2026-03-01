@@ -6032,21 +6032,13 @@
 
     <script>
         // ✅ VERSION 2.0 - REAL DATABASE STATS + NO AUTO-RESPONSES
-        console.log('🚀 PORTAL SCRIPT STARTING');
-        console.log('📦 Supabase SDK:', typeof window.supabase);
 
         // Initialize Supabase client
         var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
         var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
-        var supabase;
-        try {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            window.supabaseDb = supabase;
-            console.log('✅ Supabase client created');
-        } catch(e) {
-            console.error('❌ Supabase init failed:', e);
-        }
+        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window.supabaseDb = supabase;
 
         // Define showSection for onclick handlers
         function showSection(sectionId) {
@@ -6975,14 +6967,10 @@
         window.addEventListener('resize', initializeMobileView);
 
         // Navigation functionality
-        console.log('🔧 Setting up navigation...', document.querySelectorAll('.nav-link').length, 'links found');
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                // Get section ID first for debugging
                 const sectionId = this.getAttribute('data-section');
-                console.log('🔍 Navigation clicked:', sectionId);
 
                 // Remove active class from all links and sections
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));

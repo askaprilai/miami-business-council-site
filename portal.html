@@ -57,8 +57,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="Images/MBC LOGO WHITE FINAL NONTRANSPARENT.PNG.png">
     <link rel="apple-touch-icon" sizes="167x167" href="Images/MBC LOGO WHITE FINAL NONTRANSPARENT.PNG.png">
 
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS Client - pinned to specific version -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 
     <style>
         * {
@@ -6032,21 +6032,27 @@
 
     <script>
         // ✅ VERSION 2.0 - REAL DATABASE STATS + NO AUTO-RESPONSES
-        // Deployed: Jan 23, 2026 10:20 PM
-        // console.log('🚀 Portal Version 2.0 Loaded - Real Stats, No Fake Messages');
+        console.log('🚀 Portal script starting...');
+        console.log('📦 window.supabase:', typeof window.supabase, window.supabase);
 
         // Initialize Supabase client
         var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
         var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
         // Store client on window to ensure it's accessible across all script blocks
+        var supabase;
         try {
-            window.supabaseDb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            var supabase = window.supabaseDb;
-            console.log('✅ Supabase client initialized');
+            if (window.supabase && window.supabase.createClient) {
+                window.supabaseDb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                supabase = window.supabaseDb;
+                console.log('✅ Supabase client initialized:', typeof supabase);
+            } else {
+                console.error('❌ window.supabase.createClient not available');
+                supabase = null;
+            }
         } catch (e) {
             console.error('❌ Failed to create Supabase client:', e);
-            var supabase = null;
+            supabase = null;
         }
 
         // Define showSection early so onclick handlers work

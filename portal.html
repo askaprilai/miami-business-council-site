@@ -6033,39 +6033,15 @@
     <script>
         // ✅ VERSION 2.0 - REAL DATABASE STATS + NO AUTO-RESPONSES
         // Deployed: Jan 23, 2026 10:20 PM
-        console.log('🚀 Portal Version 2.0 Loaded - Real Stats, No Fake Messages');
-
-        // Define showSection early so onclick handlers work even if Supabase fails
-        function showSection(sectionId) {
-            // Remove active class from all links and sections
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-
-            // Add active class to corresponding nav link
-            const navLink = document.querySelector(`[data-section="${sectionId}"]`);
-            if (navLink) navLink.classList.add('active');
-
-            // Show corresponding section
-            const section = document.getElementById(sectionId);
-            if (section) section.classList.add('active');
-        }
-
-        // Check if Supabase loaded
-        if (!window.supabase) {
-            console.error('❌ Supabase SDK failed to load from CDN');
-            alert('Connection error. Please refresh the page.');
-        } else {
-            console.log('✅ Supabase SDK loaded:', typeof window.supabase);
-        }
+        // console.log('🚀 Portal Version 2.0 Loaded - Real Stats, No Fake Messages');
 
         // Initialize Supabase client
         var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
         var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
-        // Create client and make it globally available
-        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        var supabase = window.supabaseClient; // Local reference
-        console.log('✅ Supabase client created:', typeof supabase, typeof supabase.from);
+        // Store client on window to ensure it's accessible across all script blocks
+        window.supabaseDb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var supabase = window.supabaseDb;
 
         // Global Toast Notification System (replaces alert())
         function showToast(message, type = 'info', duration = 4000) {
@@ -6123,10 +6099,9 @@
                     return false;
                 }
 
-                console.log('✅ Active session found for user:', session.user.email);
+                // console.log('Active session found for user:', session.user.email);
 
                 // Fetch member profile from database
-                console.log('📥 Fetching member profile...');
                 const { data: member, error: memberError } = await supabase
                     .from('members')
                     .select('*')
@@ -6134,7 +6109,7 @@
                     .single();
 
                 if (memberError || !member) {
-                    console.error('❌ Member profile not found:', memberError);
+                    console.error('Member profile not found:', memberError);
                     // Profile doesn't exist - this email has auth but no member record
                     showToast('This email is not registered. Contact info@miamibusinesscouncil.com for access.', 'warning');
                     await supabase.auth.signOut();
@@ -6144,7 +6119,7 @@
 
                 // Store member data globally
                 currentMember = member;
-                console.log('✅ Member profile loaded:', member.first_name, member.last_name);
+                // console.log('Member profile loaded:', member);
 
                 // Update UI with member info
                 const firstName = member.first_name || '';
@@ -6807,7 +6782,7 @@
             }
 
             // Now check authentication
-            console.log('🔍 Checking authentication status...');
+            // console.log('🔍 Checking authentication status...');
             const authenticated = await checkAuthentication();
             if (authenticated) {
                 // Clear ONLY old message data, NOT Supabase auth session
@@ -13435,19 +13410,13 @@ This will enable beautiful previews when sharing the portal link on social media
     </script>
 
     <script>
-        // Use the global supabase client from first script block
-        var supabase = window.supabaseClient;
-        console.log('📡 Second script block - Supabase client:', typeof supabase);
+        // Get supabase client from first script block
+        var supabase = window.supabaseDb;
 
         // Enhanced member data loading from Supabase
         async function loadMembersFromDatabase() {
             try {
                 console.log('🔍 Loading members from Supabase database...');
-
-                if (!supabase || typeof supabase.from !== 'function') {
-                    console.error('❌ Supabase client not properly initialized');
-                    return getHardcodedMembers();
-                }
 
                 const { data: members, error } = await supabase
                     .from('members')

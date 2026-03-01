@@ -6054,13 +6054,18 @@
         if (!window.supabase) {
             console.error('❌ Supabase SDK failed to load from CDN');
             alert('Connection error. Please refresh the page.');
+        } else {
+            console.log('✅ Supabase SDK loaded:', typeof window.supabase);
         }
 
         // Initialize Supabase client
         var SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
         var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbnZ0dWpra2tianB1dXd4dnlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzUyNDYsImV4cCI6MjA3MTIxMTI0Nn0.GwWKrl_6zlIBvIaJs8NngoheF24nNzAfBO5_j_d1ogA';
 
-        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Create client and make it globally available
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var supabase = window.supabaseClient; // Local reference
+        console.log('✅ Supabase client created:', typeof supabase, typeof supabase.from);
 
         // Global Toast Notification System (replaces alert())
         function showToast(message, type = 'info', duration = 4000) {
@@ -13430,10 +13435,19 @@ This will enable beautiful previews when sharing the portal link on social media
     </script>
 
     <script>
+        // Use the global supabase client from first script block
+        var supabase = window.supabaseClient;
+        console.log('📡 Second script block - Supabase client:', typeof supabase);
+
         // Enhanced member data loading from Supabase
         async function loadMembersFromDatabase() {
             try {
                 console.log('🔍 Loading members from Supabase database...');
+
+                if (!supabase || typeof supabase.from !== 'function') {
+                    console.error('❌ Supabase client not properly initialized');
+                    return getHardcodedMembers();
+                }
 
                 const { data: members, error } = await supabase
                     .from('members')

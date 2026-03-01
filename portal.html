@@ -6969,13 +6969,14 @@
         window.addEventListener('resize', initializeMobileView);
 
         // Navigation functionality
+        console.log('🔧 Setting up navigation...', document.querySelectorAll('.nav-link').length, 'links found');
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 // Get section ID first for debugging
                 const sectionId = this.getAttribute('data-section');
-                // console.log('🔍 Navigation clicked:', sectionId);
+                console.log('🔍 Navigation clicked:', sectionId);
 
                 // Remove active class from all links and sections
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));

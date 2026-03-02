@@ -12,7 +12,8 @@
     { "source": "/membership-signup", "destination": "/membership-signup.html" },
     { "source": "/membership", "destination": "/membership.html" },
     { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/contact", "destination": "/contact.html" }
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/trial", "destination": "/trial.html" }
   ],
   "redirects": [
     { "source": "/about-us.html", "destination": "/about-us", "permanent": true },
@@ -23,7 +24,8 @@
     { "source": "/portal.html", "destination": "/portal", "permanent": true },
     { "source": "/membership-signup.html", "destination": "/membership-signup", "permanent": true },
     { "source": "/membership.html", "destination": "/membership", "permanent": true },
-    { "source": "/blog.html", "destination": "/blog", "permanent": true }
+    { "source": "/blog.html", "destination": "/blog", "permanent": true },
+    { "source": "/trial.html", "destination": "/trial", "permanent": true }
   ],
   "headers": [
     {

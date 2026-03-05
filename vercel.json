@@ -14,6 +14,7 @@
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/discovery", "destination": "/discovery.html" },
+    { "source": "/discovery-success", "destination": "/discovery-success.html" },
     { "source": "/march10", "destination": "/march10.html" }
   ],
   "redirects": [
@@ -29,6 +30,7 @@
     { "source": "/trial", "destination": "/discovery", "permanent": true },
     { "source": "/trial.html", "destination": "/discovery", "permanent": true },
     { "source": "/discovery.html", "destination": "/discovery", "permanent": true },
+    { "source": "/discovery-success.html", "destination": "/discovery-success", "permanent": true },
     { "source": "/march10.html", "destination": "/march10", "permanent": true }
   ],
   "headers": [

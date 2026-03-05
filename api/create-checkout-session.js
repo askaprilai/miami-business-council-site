@@ -49,16 +49,27 @@ export default async function handler(req, res) {
       business: {
         monthly: 'price_1SvMItQhcUWOrFc9nVU3t9ee', // $45/month
         annual: 'price_1Sh9AcQhcUWOrFc9rE01LU0O'   // $450/year
+      },
+      discovery: {
+        onetime: process.env.STRIPE_DISCOVERY_PRICE_ID || 'price_DISCOVERY_PLACEHOLDER' // $100 one-time
       }
     };
 
-    const priceId = priceIds[membershipType]?.[billingFrequency];
+    // Handle discovery membership separately
+    let priceId;
+    let mode;
+
+    if (membershipType === 'discovery') {
+      priceId = priceIds.discovery.onetime;
+      mode = 'payment'; // One-time payment
+    } else {
+      priceId = priceIds[membershipType]?.[billingFrequency];
+      mode = billingFrequency === 'monthly' ? 'subscription' : 'payment';
+    }
+
     if (!priceId) {
       return res.status(400).json({ error: 'Invalid membership type or billing frequency' });
     }
-
-    // Determine session mode based on billing frequency
-    const mode = billingFrequency === 'monthly' ? 'subscription' : 'payment';
 
     // Create line item with Price ID
     const lineItems = [{
@@ -69,12 +80,21 @@ export default async function handler(req, res) {
     // Get domain for URLs
     const domain = process.env.DOMAIN || 'https://miamibusinesscouncil.com';
 
+    // Set URLs based on membership type
+    const successUrl = membershipType === 'discovery'
+      ? `${domain}/discovery-success.html?session_id={CHECKOUT_SESSION_ID}`
+      : `${domain}/membership-success.html?session_id={CHECKOUT_SESSION_ID}`;
+
+    const cancelUrl = membershipType === 'discovery'
+      ? `${domain}/discovery?canceled=true`
+      : `${domain}/membership-signup-monthly.html?canceled=true`;
+
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       mode: mode,
       line_items: lineItems,
-      success_url: `${domain}/membership-success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domain}/membership-signup-monthly.html?canceled=true`,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
       customer_email: email,
       metadata: {
         // Store all form data for webhook processing

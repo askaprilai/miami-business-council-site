@@ -337,8 +337,39 @@ async function sendWelcomeEmail(memberData, resendApiKey) {
     return;
   }
 
+  const isDiscovery = memberData.membershipType === 'discovery';
   const membershipLabel = memberData.membershipType.charAt(0).toUpperCase() + memberData.membershipType.slice(1);
-  const billingLabel = memberData.billingFrequency === 'monthly' ? 'Monthly' : 'Annual';
+  const billingLabel = isDiscovery ? '3-Month' : (memberData.billingFrequency === 'monthly' ? 'Monthly' : 'Annual');
+
+  // Discovery-specific content with March 10th invite
+  const discoveryContent = `
+        <div style="background: #fff8e6; border: 2px solid #d4af37; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+          <h3 style="color: #d4af37; margin: 0 0 15px 0;">🗓️ You're Invited: March 10th Roundtable</h3>
+          <p style="color: #555; margin: 0 0 10px 0; font-size: 16px;">
+            <strong>Date:</strong> March 10th, 2026<br>
+            <strong>Time:</strong> 6:00 PM - 7:30 PM<br>
+            <strong>Event:</strong> Exclusive Members-Only Roundtable
+          </p>
+          <p style="margin: 15px 0 0 0;">
+            <a href="https://lu.ma/i8x59bp0" style="background: #d4af37; color: #000; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Register for March 10th Event</a>
+          </p>
+        </div>
+
+        <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
+          <p style="color: #555; margin: 0; font-size: 14px;">
+            <strong>Remember:</strong> When you renew after 90 days, your $100 discovery payment is credited toward your annual membership (Individual $250, Non-Profit $350, or Enterprise $450).
+          </p>
+        </div>
+  `;
+
+  // Standard membership content
+  const standardContent = `
+        <div style="margin-bottom: 30px;">
+          <p style="color: #555; line-height: 1.6; font-size: 16px;">
+            Check your email for your member portal access within 48 hours.
+          </p>
+        </div>
+  `;
 
   const welcomeEmailHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
@@ -351,14 +382,23 @@ async function sendWelcomeEmail(memberData, resendApiKey) {
         <div style="background: #e8f5e8; border: 2px solid #51cf66; padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
           <h3 style="color: #2f9e44; margin: 0 0 10px 0;">✅ Payment Confirmed</h3>
           <p style="color: #2f9e44; margin: 0; font-size: 16px;">
-            <strong>${membershipLabel} Membership</strong> • ${billingLabel} Billing
+            <strong>${membershipLabel} Membership</strong> • ${billingLabel}
           </p>
         </div>
 
         <div style="margin-bottom: 30px;">
           <h2 style="color: #333; margin-bottom: 15px;">Welcome ${memberData.firstName}!</h2>
           <p style="color: #555; line-height: 1.6; font-size: 16px;">
-            You're now part of Miami's premier business community. Check your email for your member portal access within 48 hours.
+            You're now part of Miami's premier business community.
+          </p>
+        </div>
+
+        ${isDiscovery ? discoveryContent : standardContent}
+
+        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+          <h3 style="color: #d4af37; margin: 0 0 10px 0;">Access Your Member Portal</h3>
+          <p style="margin: 0;">
+            <a href="https://miamibusinesscouncil.com/portal" style="background: #d4af37; color: #000; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Go to Member Portal</a>
           </p>
         </div>
 

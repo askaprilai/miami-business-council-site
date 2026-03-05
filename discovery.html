@@ -515,7 +515,7 @@
             <div class="price-highlight">$100</div>
             <div class="price-period">3-Month Discovery Membership</div>
             <p>Experience everything THE COUNCIL has to offer. Full access to Council Connect, exclusive events, and AI-powered business matching. Nothing to lose, everything to gain.</p>
-            <a href="https://buy.stripe.com/cNi14pa5x8rwfj93Rxasg06" class="btn-primary" target="_blank">Get Your Discovery Membership - $100</a>
+            <button onclick="document.getElementById('discovery-form').scrollIntoView({behavior: 'smooth'})" class="btn-primary">Get Your Discovery Membership - $100</button>
         </div>
     </section>
 
@@ -620,16 +620,74 @@
         </div>
     </section>
 
-    <!-- Final CTA Section -->
-    <section class="cta-section">
+    <!-- Final CTA Section with Form -->
+    <section class="cta-section" id="discovery-form">
         <div class="container">
             <h2>Ready to Join Miami's Business Leaders?</h2>
             <div class="price-tag">$100</div>
             <p>3 months of full membership access. March 10th roundtable included.</p>
-            <a href="https://buy.stripe.com/cNi14pa5x8rwfj93Rxasg06" class="btn-primary" target="_blank">Start Your Discovery Today</a>
+
+            <form id="discoveryForm" style="max-width: 400px; margin: 2rem auto;">
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name" required
+                        style="width: 100%; padding: 1rem; border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" required
+                        style="width: 100%; padding: 1rem; border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="email" id="email" name="email" placeholder="Email Address" required
+                        style="width: 100%; padding: 1rem; border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem;">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;" id="submitBtn">
+                    Start Your Discovery Today
+                </button>
+            </form>
+
             <p class="guarantee">Questions? Contact us at <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a></p>
         </div>
     </section>
+
+    <script>
+        document.getElementById('discoveryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                membershipType: 'discovery',
+                billingFrequency: 'onetime'
+            };
+
+            try {
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('Something went wrong. Please try again or contact us.');
+                    submitBtn.textContent = 'Start Your Discovery Today';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                alert('Something went wrong. Please try again or contact us.');
+                submitBtn.textContent = 'Start Your Discovery Today';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 
     <!-- About Section -->
     <section style="padding: 4rem 0; background: #0a0a0b; border-top: 1px solid rgba(212, 175, 55, 0.2);">

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Admin | Miami Business Council</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0b;
+            color: #e8eaed;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #d4af37; font-weight: 300; margin-bottom: 2rem; }
+        h2 { color: #d4af37; font-weight: 300; margin: 2rem 0 1rem; font-size: 1.5em; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-number { font-size: 2.5em; color: #d4af37; font-weight: 700; }
+        .stat-label { color: #999; margin-top: 0.5rem; }
+
+        .section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #d4af37; font-weight: 600; }
+        tr:hover { background: rgba(255,255,255,0.05); }
+
+        .status-active { color: #51cf66; }
+        .status-unsubscribed { color: #ff6b6b; }
+
+        .btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%);
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+        }
+        .btn-secondary:hover { background: #d4af37; color: #000; }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #e8eaed;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        textarea { min-height: 200px; resize: vertical; }
+        textarea:focus, input:focus { outline: none; border-color: #d4af37; }
+
+        .campaign-list { margin-top: 1rem; }
+        .campaign-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .campaign-stats { display: flex; gap: 2rem; }
+        .campaign-stat { text-align: center; }
+        .campaign-stat-value { font-size: 1.3em; color: #d4af37; }
+        .campaign-stat-label { font-size: 0.8em; color: #999; }
+
+        .loading { text-align: center; padding: 2rem; color: #999; }
+        .error { color: #ff6b6b; padding: 1rem; background: rgba(255,0,0,0.1); border-radius: 8px; }
+        .success { color: #51cf66; padding: 1rem; background: rgba(0,255,0,0.1); border-radius: 8px; }
+
+        .back-link { color: #d4af37; text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/portal" class="back-link">← Back to Portal</a>
+        <h1>📧 Newsletter Admin</h1>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalSubscribers">-</div>
+                <div class="stat-label">Total Subscribers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeSubscribers">-</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCampaigns">-</div>
+                <div class="stat-label">Campaigns Sent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgOpenRate">-</div>
+                <div class="stat-label">Avg Open Rate</div>
+            </div>
+        </div>
+
+        <!-- Send Newsletter -->
+        <div class="section">
+            <h2>📝 Send Newsletter</h2>
+            <input type="text" id="campaignSubject" placeholder="Email Subject">
+            <textarea id="campaignContent" placeholder="Write your newsletter content here... (HTML supported)"></textarea>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn" onclick="sendNewsletter()">🚀 Send to All Subscribers</button>
+                <button class="btn btn-secondary" onclick="sendTestEmail()">📧 Send Test Email</button>
+            </div>
+            <div id="sendStatus" style="margin-top: 1rem;"></div>
+        </div>
+
+        <!-- Recent Campaigns -->
+        <div class="section">
+            <h2>📊 Recent Campaigns</h2>
+            <div id="campaignList" class="campaign-list">
+                <div class="loading">Loading campaigns...</div>
+            </div>
+        </div>
+
+        <!-- Subscriber List -->
+        <div class="section">
+            <h2>👥 Subscribers</h2>
+            <div style="margin-bottom: 1rem;">
+                <button class="btn btn-secondary" onclick="exportSubscribers()">📥 Export CSV</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Source</th>
+                        <th>Subscribed</th>
+                        <th>Opens</th>
+                        <th>Clicks</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="subscriberTable">
+                    <tr><td colspan="6" class="loading">Loading subscribers...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://vsnvtujkkkbjpuuwxvyd.supabase.co';
+        let supabaseKey = null;
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadSubscribers();
+            await loadCampaigns();
+            updateStats();
+        });
+
+        async function loadSubscribers() {
+            try {
+                const response = await fetch('/api/newsletter-admin?action=subscribers');
+                const data = await response.json();
+
+                if (data.subscribers) {
+                    renderSubscribers(data.subscribers);
+                }
+            } catch (error) {
+                document.getElementById('subscriberTable').innerHTML =
+                    '<tr><td colspan="6" class="error">Failed to load subscribers</td></tr>';
+            }
+        }
+
+        function renderSubscribers(subscribers) {
+            const tbody = document.getElementById('subscriberTable');
+
+            if (!subscribers || subscribers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">No subscribers yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = subscribers.map(sub => `
+                <tr>
+                    <td>${sub.email}</td>
+                    <td>${sub.source || 'blog'}</td>
+                    <td>${new Date(sub.subscribed_at).toLocaleDateString()}</td>
+                    <td>${sub.total_opens || 0}</td>
+                    <td>${sub.total_clicks || 0}</td>
+                    <td class="status-${sub.status}">${sub.status}</td>
+                </tr>
+            `).join('');
+
+            // Update stats
+            document.getElementById('totalSubscribers').textContent = subscribers.length;
+            document.getElementById('activeSubscribers').textContent =
+                subscribers.filter(s => s.status === 'active').length;
+        }
+
+        async function loadCampaigns() {
+            try {
+                const response = await fetch('/api/newsletter-admin?action=campaigns');
+                const data = await response.json();
+
+                if (data.campaigns) {
+                    renderCampaigns(data.campaigns);
+                }
+            } catch (error) {
+                document.getElementById('campaignList').innerHTML =
+                    '<div class="error">Failed to load campaigns</div>';
+            }
+        }
+
+        function renderCampaigns(campaigns) {
+            const container = document.getElementById('campaignList');
+
+            if (!campaigns || campaigns.length === 0) {
+                container.innerHTML = '<div style="color: #999;">No campaigns sent yet</div>';
+                document.getElementById('totalCampaigns').textContent = '0';
+                document.getElementById('avgOpenRate').textContent = '0%';
+                return;
+            }
+
+            container.innerHTML = campaigns.map(camp => {
+                const openRate = camp.sent_count > 0
+                    ? Math.round((camp.open_count / camp.sent_count) * 100)
+                    : 0;
+                const clickRate = camp.sent_count > 0
+                    ? Math.round((camp.click_count / camp.sent_count) * 100)
+                    : 0;
+
+                return `
+                    <div class="campaign-item">
+                        <div>
+                            <strong>${camp.subject}</strong><br>
+                            <small style="color: #999;">${new Date(camp.sent_at).toLocaleString()}</small>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="campaign-stat">
+                                <div class="campaign-stat-value">${camp.sent_count}</div>
+                                <div class="campaign-stat-label">Sent</div>
+                            </div>
+                            <div class="campaign-stat">
+                                <div class="campaign-stat-value">${openRate}%</div>
+                                <div class="campaign-stat-label">Opened</div>
+                            </div>
+                            <div class="campaign-stat">
+                                <div class="campaign-stat-value">${clickRate}%</div>
+                                <div class="campaign-stat-label">Clicked</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('totalCampaigns').textContent = campaigns.length;
+
+            // Calculate average open rate
+            const totalOpens = campaigns.reduce((sum, c) => sum + (c.open_count || 0), 0);
+            const totalSent = campaigns.reduce((sum, c) => sum + (c.sent_count || 0), 0);
+            const avgOpen = totalSent > 0 ? Math.round((totalOpens / totalSent) * 100) : 0;
+            document.getElementById('avgOpenRate').textContent = avgOpen + '%';
+        }
+
+        function updateStats() {
+            // Stats are updated when data loads
+        }
+
+        async function sendNewsletter() {
+            const subject = document.getElementById('campaignSubject').value.trim();
+            const content = document.getElementById('campaignContent').value.trim();
+            const statusDiv = document.getElementById('sendStatus');
+
+            if (!subject || !content) {
+                statusDiv.innerHTML = '<div class="error">Please fill in subject and content</div>';
+                return;
+            }
+
+            if (!confirm('Send newsletter to ALL active subscribers?')) return;
+
+            statusDiv.innerHTML = '<div class="loading">Sending newsletter...</div>';
+
+            try {
+                const response = await fetch('/api/newsletter-send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subject, content })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.innerHTML = `<div class="success">✓ Newsletter sent to ${data.sentCount} subscribers!</div>`;
+                    document.getElementById('campaignSubject').value = '';
+                    document.getElementById('campaignContent').value = '';
+                    loadCampaigns();
+                } else {
+                    statusDiv.innerHTML = `<div class="error">${data.error}</div>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="error">Failed to send newsletter</div>';
+            }
+        }
+
+        async function sendTestEmail() {
+            const subject = document.getElementById('campaignSubject').value.trim();
+            const content = document.getElementById('campaignContent').value.trim();
+            const testEmail = prompt('Enter test email address:');
+
+            if (!testEmail) return;
+            if (!subject || !content) {
+                alert('Please fill in subject and content first');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/newsletter-send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subject, content, testEmail })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Test email sent to ' + testEmail);
+                } else {
+                    alert('Failed: ' + data.error);
+                }
+            } catch (error) {
+                alert('Failed to send test email');
+            }
+        }
+
+        function exportSubscribers() {
+            fetch('/api/newsletter-admin?action=export')
+                .then(res => res.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'newsletter-subscribers.csv';
+                    a.click();
+                })
+                .catch(() => alert('Failed to export'));
+        }
+    </script>
+</body>
+</html>

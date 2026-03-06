@@ -102,5 +102,14 @@
 
         <p style="margin-top: 1.5rem; font-size: 0.95em;">Questions? Contact us at <a href="mailto:info@miamibusinesscouncil.com" style="color: #d4af37;">info@miamibusinesscouncil.com</a></p>
     </div>
+
+    <script>
+        // Notify admin of new signup (only once per session)
+        if (!sessionStorage.getItem('signupNotified')) {
+            fetch('/api/notify-signup', { method: 'POST' })
+                .then(() => sessionStorage.setItem('signupNotified', 'true'))
+                .catch(() => {});
+        }
+    </script>
 </body>
 </html>

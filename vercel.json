@@ -15,7 +15,8 @@
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/discovery", "destination": "/discovery.html" },
     { "source": "/discovery-success", "destination": "/discovery-success.html" },
-    { "source": "/march10", "destination": "/march10.html" }
+    { "source": "/march10", "destination": "/march10.html" },
+    { "source": "/connecting-the-dots-miami-business", "destination": "/connecting-the-dots-miami-business.html" }
   ],
   "redirects": [
     { "source": "/about-us.html", "destination": "/about-us", "permanent": true },

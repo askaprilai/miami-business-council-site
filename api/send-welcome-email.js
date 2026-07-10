@@ -115,7 +115,7 @@ export default async function handler(req, res) {
             <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 15px;">📅 You're Invited: March 10th Roundtable</h3>
             <p style="color: #666; margin: 0 0 15px 0; line-height: 1.5;">
               <strong>Date:</strong> March 10th, 2026<br>
-              <strong>Time:</strong> 6:00 PM - 7:30 PM<br>
+              <strong>Time:</strong> 5:00 PM - 6:30 PM<br>
               <strong>Event:</strong> Exclusive Members-Only Roundtable
             </p>
             <div style="text-align: center;">

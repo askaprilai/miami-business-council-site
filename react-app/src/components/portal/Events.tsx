@@ -19,7 +19,7 @@ const upcomingEvents: Event[] = [
     id: '1',
     title: 'Monthly Networking Mixer',
     date: 'February 25, 2026',
-    time: '6:00 PM - 8:00 PM',
+    time: '5:00 PM - 6:30 PM',
     location: 'Miami Beach Convention Center',
     type: 'networking',
     description: 'Join fellow members for an evening of networking, drinks, and meaningful connections.',

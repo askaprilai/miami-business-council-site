@@ -117,7 +117,7 @@ function getEmailHtml(name) {
 
         <div style="background: linear-gradient(135deg, #d4af37 0%, #f4f1e8 100%); padding: 25px; border-radius: 10px; margin-bottom: 25px; text-align: center;">
           <h3 style="color: #000; margin: 0 0 15px 0; font-size: 20px;">March 10th, 2026</h3>
-          <p style="color: #000; margin: 0 0 5px 0; font-size: 18px; font-weight: 600;">6:00 PM - 7:30 PM</p>
+          <p style="color: #000; margin: 0 0 5px 0; font-size: 18px; font-weight: 600;">5:00 PM - 6:30 PM</p>
           <p style="color: #333; margin: 0; font-size: 16px;">Design District, Miami</p>
         </div>
 
